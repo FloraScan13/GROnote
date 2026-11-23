@@ -4758,7 +4758,16 @@ textarea {
                 let session = storedSession;
                 if (session) {
                     const refreshed = await supabaseClient.auth.refreshSession();
-                    if (!refreshed.error && refreshed.data.session) session = refreshed.data.session;
+                    if (refreshed.error || !refreshed.data.session?.user) {
+                        // Never continue with a cached JWT after Supabase has rejected its
+                        // refresh token or the Auth user no longer exists. Clear only this
+                        // browser's session; account-scoped device data is left untouched.
+                        console.warn('Stored GROnote session is no longer valid; signing out locally.', refreshed.error);
+                        await supabaseClient.auth.signOut({ scope: 'local' }).catch(() => {});
+                        session = null;
+                    } else {
+                        session = refreshed.data.session;
+                    }
                 }
                 if (restoreGeneration !== floraAuthRestoreGeneration) return;
                 if (isFloraInviteFlow) {
@@ -5366,15 +5375,29 @@ textarea {
         }
 
         async function handleSupabaseSignOut() {
-            if (supabaseClient) {
-                // Read this before signing out; the preference controls whether the email is retained.
-                const rememberMe = document.getElementById('auth-remember-me')?.checked !== false;
-                await supabaseClient.auth.signOut();
+            if (!supabaseClient) return;
+            // Read this before signing out; the preference controls whether the email is retained.
+            const rememberMe = document.getElementById('auth-remember-me')?.checked !== false;
+
+            // Invalidate in-flight cloud loads immediately so they cannot show another
+            // growing-locations error while the user is trying to leave the session.
+            ++floraAuthRestoreGeneration;
+            currentUser = null;
+            if (plantLocationsRealtimeChannel) {
+                try { supabaseClient.removeChannel(plantLocationsRealtimeChannel); } catch (_) {}
+                plantLocationsRealtimeChannel = null;
+            }
+
+            // Use local scope: a broken/deleted Auth user can make remote sign-out fail,
+            // but that must never prevent the browser session from being cleared.
+            try {
+                await supabaseClient.auth.signOut({ scope: 'local' });
+            } catch (signOutError) {
+                console.warn('Local GROnote sign-out cleanup completed despite an auth error:', signOutError);
+            } finally {
                 const emailInput = document.getElementById('auth-email');
                 const passwordInput = document.getElementById('auth-password');
                 const passwordVisibility = document.getElementById('auth-password-visibility');
-                // Retain both login details only when Remember me is enabled.
-                // Keep the password masked after logout even when its value is retained.
                 if (passwordInput) {
                     if (!rememberMe) passwordInput.value = '';
                     passwordInput.type = 'password';
@@ -5385,15 +5408,13 @@ textarea {
                     const visibilityLabel = passwordVisibility.querySelector('span');
                     if (visibilityLabel) visibilityLabel.textContent = 'Show';
                 }
-                // With Remember me disabled, clear the email as well as the password.
                 if (!rememberMe && emailInput) emailInput.value = '';
-                currentUser = null;
                 resetFloraAccountStateForSignedOut();
                 renderPlants();
                 updateAuthUI(false);
                 updateSyncBadge('cloud', 'Supabase Ready (Sign In)');
-                alert("Signed Out.");
             }
+            alert('Signed out on this device.');
         }
 
         function saveSupabaseCredentials() {
