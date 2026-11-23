@@ -1,13 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
   <defs>
     <filter id="green-mark" color-interpolation-filters="sRGB">
-      <feColorMatrix type="matrix" values="
-        0 0 0 0 0.122
-        0 0 0 0 0.302
-        0 0 0 0 0.176
-        -0.2126 -0.7152 -0.0722 0 1"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.122 0 0 0 0 0.302 0 0 0 0 0.176 -0.2126 -0.7152 -0.0722 0 1"/>
     </filter>
   </defs>
   <image x="0" y="0" width="512" height="512" preserveAspectRatio="xMidYMid meet"
-    xlink:href="./Leaf%20Stamp%20Logo.png" filter="url(#green-mark)"/>
+    xlink:href="data:image/png;base64," filter="url(#green-mark)"/>
 </svg>
