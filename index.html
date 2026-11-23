@@ -5351,30 +5351,45 @@ textarea {
         }
         async function handleSupabaseSignUp() {
             if (!supabaseClient) { alert("Please connect your Supabase credentials first!"); return; }
-            const email = document.getElementById('auth-email').value;
-            const password = document.getElementById('auth-password').value;
-            if (!email || !password) { alert("Please enter email and password."); return; }
+            const emailInput = document.getElementById('auth-email');
+            const email = emailInput?.value?.trim();
+            if (!email) {
+                alert("Please enter your email address.");
+                emailInput?.focus();
+                return;
+            }
+            if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+                alert("Please enter a valid email address.");
+                emailInput?.focus();
+                return;
+            }
+
+            // Sign-up only asks for an email. Supabase requires an initial password,
+            // so create an unpredictable temporary one; the user sets their own
+            // password on the standalone page after following the confirmation link.
+            const temporaryPassword = 'GRO-' + crypto.randomUUID() + '-aA1!';
+            const passwordArea = document.getElementById('auth-password')?.parentElement?.parentElement;
+            if (passwordArea) passwordArea.hidden = true;
 
             // Return email confirmation to the exact deployed app URL (including
             // the GitHub Pages repository path), not Supabase's default Site URL.
             const emailRedirectTo = new URL(window.location.href);
             emailRedirectTo.search = '';
             emailRedirectTo.hash = '';
-            // Email confirmation must return to the standalone account-setup screen.
-            // The user confirms their email first, then chooses and confirms the
-            // password that will be used to sign in before the garden is accessible.
             emailRedirectTo.searchParams.set('invite', '1');
             const { data, error } = await supabaseClient.auth.signUp({
                 email,
-                password,
+                password: temporaryPassword,
                 options: { emailRedirectTo: emailRedirectTo.toString() }
             });
             if (error) {
+                if (passwordArea) passwordArea.hidden = false;
                 alert("Sign Up Failed: " + error.message);
             } else if (data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+                if (passwordArea) passwordArea.hidden = false;
                 alert("This email may already be registered. Please log in instead, or use Forgot password if you cannot remember your password.");
             } else {
-                alert("Account registered. Please check your email for a confirmation link before logging in.");
+                alert("Account registered. Please check your email for a confirmation link. You'll create your password after confirming your email.");
             }
         }
 
