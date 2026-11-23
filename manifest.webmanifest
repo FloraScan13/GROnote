@@ -1,7 +1,7 @@
 {
-  "name": "FloraScan - Plant Journal",
-  "short_name": "FloraScan",
-  "description": "Track your plants and growing journals with FloraScan.",
+  "name": "GROnote - Plant Journal",
+  "short_name": "GROnote",
+  "description": "Track your plants and growing journals with GROnote.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
