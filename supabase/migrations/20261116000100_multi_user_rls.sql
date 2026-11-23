@@ -1,4 +1,4 @@
--- FloraScan multi-account row-level security hardening.
+-- GROnote multi-account row-level security hardening.
 -- Each authenticated gardener can only read or modify their own garden records.
 -- Admin privileges are deliberately NOT included in these data policies.
 
