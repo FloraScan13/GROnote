@@ -5401,7 +5401,7 @@ textarea {
                 emailInput?.focus();
                 return;
             }
-            if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 alert("Please enter a valid email address.");
                 emailInput?.focus();
                 return;
