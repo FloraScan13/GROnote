@@ -45,6 +45,33 @@
             console.warn('Could not identify GROnote account setup navigation:', error);
         }
     </script>
+
+        /* Once signup succeeds and its confirmation alert is dismissed, show only the GROnote logo. */
+        html.flora-signup-confirmation-complete,
+        html.flora-signup-confirmation-complete body {
+            min-height: 100%;
+            background: #f7f6f0 !important;
+        }
+        html.flora-signup-confirmation-complete body > *:not(#flora-signup-confirmation-screen) {
+            display: none !important;
+        }
+        html.flora-signup-confirmation-complete #flora-signup-confirmation-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 2147483647;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px;
+            background: #f7f6f0;
+        }
+        html.flora-signup-confirmation-complete #flora-signup-confirmation-screen img {
+            display: block;
+            width: min(220px, 70vw);
+            max-height: 180px;
+            object-fit: contain;
+        }
+
     <style id="flora-auth-pending-first-paint">
         /* Keep both the garden and login panel out of view until session restoration
            chooses the correct signed-in or signed-out screen. */
@@ -5428,6 +5455,18 @@ textarea {
                 alert("This email may already be registered. Please log in instead, or use Forgot password if you cannot remember your password.");
             } else {
                 alert("Account registered. Please check your email for a confirmation link. You'll create your password after confirming your email.");
+                // After the user dismisses the successful-signup confirmation,
+                // leave a quiet logo-only screen while they check their email.
+                document.documentElement.classList.add('flora-signup-confirmation-complete');
+                let confirmationScreen = document.getElementById('flora-signup-confirmation-screen');
+                if (!confirmationScreen) {
+                    confirmationScreen = document.createElement('div');
+                    confirmationScreen.id = 'flora-signup-confirmation-screen';
+                    confirmationScreen.setAttribute('role', 'status');
+                    confirmationScreen.setAttribute('aria-label', 'GROnote');
+                    confirmationScreen.innerHTML = '<img src="./GROnote%20Leaf%20Stamp%20Logo.png" alt="GROnote">';
+                    document.body.appendChild(confirmationScreen);
+                }
             }
         }
 
