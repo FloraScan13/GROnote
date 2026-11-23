@@ -5364,7 +5364,7 @@ textarea {
         function showSupabaseSignUpView() {
             const loginView = document.getElementById('auth-logged-out');
             if (!loginView) return;
-            loginView.querySelectorAll(':scope > div').forEach(section => {
+            loginView.querySelectorAll(':scope > div:not(#auth-signup-view)').forEach(section => {
                 section.hidden = true;
             });
             const signupView = document.getElementById('auth-signup-view');
@@ -5375,7 +5375,7 @@ textarea {
         function showSupabaseLoginView() {
             const loginView = document.getElementById('auth-logged-out');
             if (!loginView) return;
-            loginView.querySelectorAll(':scope > div').forEach(section => {
+            loginView.querySelectorAll(':scope > div:not(#auth-signup-view)').forEach(section => {
                 section.hidden = false;
             });
             const signupView = document.getElementById('auth-signup-view');
