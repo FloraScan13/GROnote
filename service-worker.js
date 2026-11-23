@@ -1,9 +1,10 @@
-const CACHE_NAME = 'sugar-bush-shell-v44';;;;;;;;;;;;;;;;
+const CACHE_NAME = 'florascan-shell-v45';
 const APP_SHELL = [
     './',
     './index.html',
     './manifest.webmanifest',
-    './Leaf%20Stamp%20Logo.png',
+    './leaf-icon-v2.svg',
+    './Leaf-Stamp-Logo-Dark-Green.png',
     'https://cdn.tailwindcss.com',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2',
@@ -35,7 +36,7 @@ self.addEventListener('activate', event => {
     event.waitUntil((async () => {
         const keys = await caches.keys();
         await Promise.all(keys
-            .filter(key => key.startsWith('sugar-bush-shell-') && key !== CACHE_NAME)
+            .filter(key => (key.startsWith('sugar-bush-shell-') || key.startsWith('florascan-shell-')) && key !== CACHE_NAME)
             .map(key => caches.delete(key)));
         await self.clients.claim();
     })());
