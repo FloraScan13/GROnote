@@ -42,7 +42,7 @@
             }
         } catch (error) {
             document.documentElement.classList.add('flora-auth-pending');
-            console.warn('Could not identify Flora Scan account setup navigation:', error);
+            console.warn('Could not identify GROnote account setup navigation:', error);
         }
     </script>
     <style id="flora-auth-pending-first-paint">
@@ -85,7 +85,7 @@
             console.warn('Could not identify page navigation type:', error);
         }
     </script>
-    <title>Flora Scan - Plant Tag & Growth Journal</title>
+    <title>GROnote - Plant Tag & Growth Journal</title>
     <link rel="icon" type="image/svg+xml" href="./leaf-icon-v2.svg">
     <link rel="apple-touch-icon" href="./leaf-icon-v2.svg">
     <link rel="manifest" href="./manifest.webmanifest">
@@ -94,14 +94,14 @@
         if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
             navigator.serviceWorker.register('./service-worker.js')
                 .then(registration => registration.update())
-                .catch(error => console.warn('Flora Scan offline preparation could not start:', error));
+                .catch(error => console.warn('GROnote offline preparation could not start:', error));
         }
     </script>
     <meta name="theme-color" content="#294b34">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Flora Scan">
+    <meta name="apple-mobile-web-app-title" content="GROnote">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -423,7 +423,7 @@
 
 
         
-/* Flora Scan mobile usability improvements */
+/* GROnote mobile usability improvements */
 button,
 input,
 select,
@@ -481,7 +481,7 @@ textarea {
 
 
         #plants-empty button:hover { background-color: #A63D65 !important; }
-        /* Flora Scan editorial redesign: calm Garden Organic-inspired palette, no decorative leaf background. */
+        /* GROnote editorial redesign: calm Garden Organic-inspired palette, no decorative leaf background. */
         :root { color-scheme: light; }
         body {
             background: #f7f6f0 !important;
@@ -871,7 +871,7 @@ textarea {
         }
 
 
-        /* Extend the Flora Scan visual system across cards, scanner, journal, add-plant and settings. */
+        /* Extend the GROnote visual system across cards, scanner, journal, add-plant and settings. */
         #main-navigation-tabs button {
             color: #526653 !important;
             background: transparent !important;
@@ -898,7 +898,7 @@ textarea {
             font-weight: 500 !important;
         }
 
-        /* Desktop active navigation uses the Flora Scan pink brand treatment. */
+        /* Desktop active navigation uses the GROnote pink brand treatment. */
         @media (min-width: 769px) {
             #main-navigation-tabs button[aria-current="page"] {
                 background: #c6537b !important;
@@ -1117,7 +1117,7 @@ textarea {
         #journal-modal #nutrient-library-section input[type="checkbox"] {
             accent-color: #c6537b !important;
         }
-        /* Highlight selected nutrient products in the Flora Scan pink palette. */
+        /* Highlight selected nutrient products in the GROnote pink palette. */
         #journal-modal #nutrient-product-list label:has(input[type="checkbox"]:checked) {
             background-color: #fff0f4 !important;
             border-radius: 6px;
@@ -1175,7 +1175,7 @@ textarea {
         #journal-modal #nutrient-library-section .text-emerald-800 {
             color: #a63d65 !important;
         }
-        /* Growth Journal: replace the blue/slate watering section and icon accents with Flora Scan pink. */
+        /* Growth Journal: replace the blue/slate watering section and icon accents with GROnote pink. */
         #journal-modal #tank-volume-section {
             background: #fff0f4 !important;
             border-color: #e8a7bd !important;
@@ -1213,7 +1213,7 @@ textarea {
         #journal-modal #journal-location-setup-details {
             color: #81334f !important;
         }
-        /* Setup Details popup: soft rose surfaces with Flora Scan pink actions. */
+        /* Setup Details popup: soft rose surfaces with GROnote pink actions. */
         #view-scanner h2 .fa-camera {
             color: #426b47 !important;
         }
@@ -1375,7 +1375,7 @@ textarea {
             box-shadow: none !important;
         }
         /* Garden Organic-inspired pink accent for the plant journal's location setup details. */
-        /* Match Growth Journal entry icon and photo file picker to the Flora Scan sage/forest palette. */
+        /* Match Growth Journal entry icon and photo file picker to the GROnote sage/forest palette. */
         /* Give the New growing medium panel the same sage fill used by selected navigation controls. */
         #journal-modal #growth-medium-section {
             background: #e4eadf !important;
@@ -1411,7 +1411,7 @@ textarea {
             font-weight: 600 !important;
             cursor: pointer !important;
         }
-        /* Harmonize the complete Add Plant form with Flora Scan's cream, sage and forest-green theme. */
+        /* Harmonize the complete Add Plant form with GROnote's cream, sage and forest-green theme. */
         #plant-modal > div {
             background: #fffef9 !important;
             border-color: #e1e1d5 !important;
@@ -2362,7 +2362,7 @@ textarea {
     }
 </style>
 <style id="feedback-pink-theme">
-    /* Feedback launcher and modal use the Flora Scan rose palette. */
+    /* Feedback launcher and modal use the GROnote rose palette. */
     #app-feedback-footer > button {
         background: #c6537b !important;
         border-color: #c6537b !important;
@@ -2780,7 +2780,7 @@ textarea {
         <div class="w-full max-w-md rounded-2xl border border-emerald-200 bg-white p-6 shadow-xl space-y-4">
             <div class="text-center">
                 <div class="mx-auto mb-3 flex h-14 w-14 items-center justify-center bg-transparent"><img src="./leaf-mark.svg" alt="" aria-hidden="true" class="h-12 w-12 object-contain"></div>
-                <h1 class="text-xl font-bold text-emerald-900">Complete your Flora Scan registration</h1>
+                <h1 class="text-xl font-bold text-emerald-900">Complete your GROnote registration</h1>
                 <p class="mt-2 text-sm text-slate-600">Your invitation has been verified. Choose a password to finish setting up your personal gardener account.</p>
                 <p id="flora-invite-email" class="mt-3 text-sm font-semibold text-slate-700"></p>
             </div>
@@ -2835,14 +2835,14 @@ textarea {
         <div>
             <div class="welcome-mark"><i class="fa-solid fa-leaf" aria-hidden="true"></i></div>
             <p id="mobile-welcome-greeting" class="welcome-greeting">Welcome!</p>
-            <h1 class="welcome-title">Welcome to Flora Scan</h1>
+            <h1 class="welcome-title">Welcome to GROnote</h1>
             <p class="welcome-caption">Your growing journal</p>
         </div>
     </div>
     <div id="mobile-refresh-screen" class="is-hidden" role="status" aria-live="polite">
         <div>
             <div class="refresh-mark"><i class="fa-solid fa-leaf" aria-hidden="true"></i></div>
-            <h1 class="refresh-title">Flora Scan</h1>
+            <h1 class="refresh-title">GROnote</h1>
             <p class="refresh-caption">Refreshing your journal</p>
             <div class="refresh-spinner" aria-hidden="true"></div>
         </div>
@@ -2854,7 +2854,7 @@ textarea {
             <div class="flex items-center space-x-3">
 
                 <div>
-                    <h1 class="text-lg font-bold leading-tight">Flora Scan</h1>
+                    <h1 class="text-lg font-bold leading-tight">GROnote</h1>
                 </div>
             </div>
             <div class="flex items-center gap-2 flex-shrink-0">
@@ -2910,7 +2910,7 @@ textarea {
                                 <span>Login</span>
                             </button>
                             <a href="#" onclick="event.preventDefault(); handleSupabaseSignUp();" class="block w-full pt-1 text-center text-emerald-900 text-xs font-normal hover:text-emerald-800" style="font-weight: 400;">
-                                <span style="font-weight: 400;">New to FloraScan?</span> <span class="underline" style="font-weight: 400;">Create an account.</span>
+                                <span style="font-weight: 400;">New to GROnote?</span> <span class="underline" style="font-weight: 400;">Create an account.</span>
                             </a>
                         </div>
                     </div>
@@ -3014,7 +3014,7 @@ textarea {
         <div id="qr-scan-overlay" class="hidden fixed inset-0 z-[3000] flex items-center justify-center p-4" style="background:rgba(247,246,240,.98)" role="dialog" aria-modal="true" aria-labelledby="qr-scan-title">
             <div class="w-full max-w-md text-center">
                 <h2 id="qr-scan-title" class="text-2xl font-bold mb-3" style="color:#294b34">Scan QR code</h2>
-                <p class="text-sm mb-5" style="color:#526653">Allow camera access, then point it at a Flora Scan plant QR code.</p>
+                <p class="text-sm mb-5" style="color:#526653">Allow camera access, then point it at a GROnote plant QR code.</p>
                 <div class="overflow-hidden rounded-2xl bg-black border-2" style="border-color:#e8a7bd">
                     <video id="qr-scan-video" class="w-full" style="max-height:55vh;object-fit:cover" playsinline muted></video>
                 </div>
@@ -3030,7 +3030,7 @@ textarea {
                     <span class="nfc-wave nfc-wave-one"></span>
                     <span class="nfc-wave nfc-wave-two"></span>
                     <span class="nfc-wave nfc-wave-three"></span>
-                    <div class="nfc-tap-icon" role="img" aria-label="Flora Scan logo"><i class="fa-solid fa-leaf" aria-hidden="true"></i></div>
+                    <div class="nfc-tap-icon" role="img" aria-label="GROnote logo"><i class="fa-solid fa-leaf" aria-hidden="true"></i></div>
                 </div>
                 <h2 id="nfc-overlay-title">Ready to scan</h2>
                 <p class="nfc-overlay-instruction">Hold the back of your phone close to the plant’s NFC tag.</p>
@@ -3216,17 +3216,17 @@ textarea {
                 </summary>
                 <div class="space-y-5 pt-5">
 
-                <!-- Supabase is configured centrally for every Flora Scan visitor. -->
+                <!-- Supabase is configured centrally for every GROnote visitor. -->
                 <div class="space-y-2 bg-slate-50 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
                     <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Automatic Cloud Connection</h4>
-                    <p class="text-xs text-slate-600 dark:text-slate-300">Flora Scan connects to its cloud service automatically. Once you sign in, your garden syncs across devices using your own account. You do not need project URLs, API keys, server details, or administrator access.</p>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">GROnote connects to its cloud service automatically. Once you sign in, your garden syncs across devices using your own account. You do not need project URLs, API keys, server details, or administrator access.</p>
                     <p class="text-[11px] text-slate-400">Your access is limited to the permissions assigned to your account.</p>
                 </div>
 
 
 
                 <div id="flora-admin-panel" class="mt-4 rounded-xl border border-[#d8c5ce] bg-[#fff9fb] p-4 space-y-3">
-                    <h4 class="text-sm font-bold text-[#8e3458]">FloraScan Administration</h4>
+                    <h4 class="text-sm font-bold text-[#8e3458]">GROnote Administration</h4>
                     <p id="flora-admin-access-note" class="text-xs text-slate-500">Connect to Supabase and sign in with the administrator account to unlock account management.</p>
                     <div id="flora-admin-tools" class="hidden space-y-3">
                     <div class="flex items-center justify-between gap-2">
@@ -4955,7 +4955,7 @@ textarea {
 
         async function sendFloraInviteRecoveryEmail() {
             if (!supabaseClient) {
-                showFloraInviteStatus('Flora Scan could not connect to the account service. Refresh and try again.', true);
+                showFloraInviteStatus('GROnote could not connect to the account service. Refresh and try again.', true);
                 return;
             }
             const emailInput = document.getElementById('flora-invite-recovery-email');
@@ -5033,7 +5033,7 @@ textarea {
         }
 
         async function completeFloraInviteRegistration() {
-            if (!supabaseClient) { showFloraInviteStatus('Flora Scan could not connect to the account service. Refresh and try again.', true); return; }
+            if (!supabaseClient) { showFloraInviteStatus('GROnote could not connect to the account service. Refresh and try again.', true); return; }
             const password = document.getElementById('flora-invite-password')?.value || '';
             const confirmation = document.getElementById('flora-invite-password-confirm')?.value || '';
             if (!updateFloraInvitePasswordStrength()) { showFloraInviteStatus('Please meet all five password requirements before creating your account.', true); return; }
@@ -5064,7 +5064,7 @@ textarea {
                 });
                 if (transferError) throw transferError;
                 await supabaseClient.auth.signOut();
-                alert('Your Flora Scan account has been created. Welcome!');
+                alert('Your GROnote account has been created. Welcome!');
                 window.location.replace(window.location.pathname);
                 return;
             } catch (error) {
@@ -5133,7 +5133,7 @@ textarea {
             const password = passwordInput?.value || '';
 
             if (!supabaseClient) {
-                alert('Flora Scan is still connecting to the sign-in service. Please wait a moment and try again. If this continues, refresh the page.');
+                alert('GROnote is still connecting to the sign-in service. Please wait a moment and try again. If this continues, refresh the page.');
                 return;
             }
             if (!email || !password) {
@@ -5164,7 +5164,7 @@ textarea {
                 // reload would replay startup and briefly show intermediate screens.
                 return;
             } catch (error) {
-                console.error('Flora Scan sign-in failed:', error);
+                console.error('GROnote sign-in failed:', error);
                 alert('Sign in failed: ' + (error?.message || 'An unexpected error occurred. Please try again.'));
             } finally {
                 if (loginButton) {
@@ -5589,7 +5589,7 @@ textarea {
                 updateSyncBadge('cloud', 'Cloud Synced');
                 return true;
             } catch (error) {
-                console.error('Flora Scan sync is still pending:', error);
+                console.error('GROnote sync is still pending:', error);
                 queue = getFloraSyncQueue();
                 queue.dirty = true;
                 queue.userId = currentUser.id;
@@ -5927,7 +5927,7 @@ textarea {
         };
 
         function applyAppearance() {
-            // Flora Scan uses its standard light Garden Fresh appearance.
+            // GROnote uses its standard light Garden Fresh appearance.
             appSettings.theme = 'light';
             appSettings.accentColor = 'green';
             appSettings.appearancePreset = 'garden';
@@ -5943,7 +5943,7 @@ textarea {
             const usernameInput = document.getElementById('setting-username');
             if (usernameInput) usernameInput.value = appSettings.username;
 
-            // Keep the built-in Flora Scan leaf logo; custom logo uploads/URLs are not offered in Settings.
+            // Keep the built-in GROnote leaf logo; custom logo uploads/URLs are not offered in Settings.
             const logoImg = document.getElementById('header-logo-img');
             const logoIcon = document.getElementById('header-logo-icon');
             if (logoImg) {
@@ -5980,7 +5980,7 @@ textarea {
             updateMobileWelcomeGreeting();
             alert(savedToCloud
                 ? 'Profile preferences saved and synced across your devices.'
-                : 'Profile preferences saved on this device. Sign in to your Flora Scan account to sync them across devices.');
+                : 'Profile preferences saved on this device. Sign in to your GROnote account to sync them across devices.');
         }
 
         function renderIconPickerGrid(selectedKey = 'cucumber') {
@@ -7987,7 +7987,7 @@ textarea {
             const panel = document.getElementById('govee-inline-readings');
             if (!panel) return;
             if (!force && goveeReadingCache && Date.now() - goveeReadingFetchedAt < 3 * 60 * 1000) { showGoveeReading(goveeReadingCache); return; }
-            if (!supabaseClient || !currentUser) { panel.innerHTML = '<p class="text-xs text-slate-500">Sign in to your Flora Scan cloud account to view live Govee readings.</p>'; return; }
+            if (!supabaseClient || !currentUser) { panel.innerHTML = '<p class="text-xs text-slate-500">Sign in to your GROnote cloud account to view live Govee readings.</p>'; return; }
             if (goveeReadingRequest) return goveeReadingRequest;
             panel.innerHTML = '<p class="text-xs text-slate-500"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Connecting to Govee…</p>';
             goveeReadingRequest = (async () => {
@@ -8347,7 +8347,7 @@ textarea {
                 const reader = new NDEFReader();
                 await reader.scan({ signal: controller.signal });
                 showNfcTapOverlay();
-                setNfcStatus('Ready — hold your phone close to a Flora Scan NFC plant tag.');
+                setNfcStatus('Ready — hold your phone close to a GROnote NFC plant tag.');
                 reader.onreadingerror = () => setNfcStatus('Could not read this tag. Hold the phone closer and try again.', true);
                 reader.onreading = async event => {
                     if (controller.signal.aborted) return;
@@ -8357,7 +8357,7 @@ textarea {
                         if (value) break;
                     }
                     if (!openScannedPlantCode(value, 'NFC tag')) {
-                        if (!value) setNfcStatus('Could not read a Flora Scan plant ID from this NFC tag.', true);
+                        if (!value) setNfcStatus('Could not read a GROnote plant ID from this NFC tag.', true);
                         return;
                     }
 
@@ -8386,7 +8386,7 @@ textarea {
                     if (status) status.textContent = 'This plant already has an NFC tag. Remove its NFC tag assignment before adding a QR code.';
                     return false;
                 }
-                const floraMatch = rawValue.match(/^FLORASCAN:([A-Za-z0-9_-]+)$/);
+                const floraMatch = rawValue.match(/^GROnote:([A-Za-z0-9_-]+)$/);
                 const alreadyLinkedPlant = floraMatch
                     ? plants.find(item => String(item.id) === floraMatch[1] && String(item.id) !== String(journalPlant.id))
                     : plants.find(item => String(item.qrCodeValue || '') === rawValue && String(item.id) !== String(journalPlant.id));
@@ -8414,7 +8414,7 @@ textarea {
             }
 
             if (qrScanPurpose === 'link') {
-                const floraMatch = rawValue.match(/^FLORASCAN:([A-Za-z0-9_-]+)$/);
+                const floraMatch = rawValue.match(/^GROnote:([A-Za-z0-9_-]+)$/);
                 const existingPlant = floraMatch
                     ? plants.find(p => String(p.id) === floraMatch[1])
                     : plants.find(p => String(p.qrCodeValue || '') === rawValue);
@@ -8426,7 +8426,7 @@ textarea {
                 const pendingValue = document.getElementById('plant-qr-pending-value');
                 if (!pendingValue) return false;
                 pendingValue.value = rawValue;
-                // Preserve existing Flora Scan tag IDs as the plant ID; other QR payloads
+                // Preserve existing GROnote tag IDs as the plant ID; other QR payloads
                 // are stored separately so the new plant receives its own internal ID.
                 const pendingId = document.getElementById('plant-nfc-pending-id');
                 if (pendingId) pendingId.value = floraMatch ? floraMatch[1] : '';
@@ -8439,7 +8439,7 @@ textarea {
                 return true;
             }
 
-            const floraMatch = rawValue.match(/^FLORASCAN:([A-Za-z0-9_-]+)$/);
+            const floraMatch = rawValue.match(/^GROnote:([A-Za-z0-9_-]+)$/);
             const plant = floraMatch
                 ? plants.find(p => String(p.id) === floraMatch[1])
                 : plants.find(p => String(p.qrCodeValue || '') === rawValue);
@@ -8563,7 +8563,7 @@ textarea {
             if (unsupported) { setNfcStatus(unsupported, true); return; }
             try {
                 const writer = new NDEFReader();
-                const tagText = 'FLORASCAN:' + plantId;
+                const tagText = 'GROnote:' + plantId;
                 await writer.write({ records: [{ recordType: 'text', data: tagText }] });
                 if (!editId) pendingIdField.value = plantId;
                 setNfcStatus('NFC tag written successfully for ' + (existingPlant ? existingPlant.name : plantName) + '. ' + (editId ? '' : 'Now select Save Plant to finish adding it.'));
@@ -8908,7 +8908,7 @@ textarea {
             }
             if (!supabaseClient || !currentUser) {
                 if (date) {
-                    alert('Sign in to your Flora Scan account to schedule email reminders.');
+                    alert('Sign in to your GROnote account to schedule email reminders.');
                     return false;
                 }
                 return true;
@@ -9536,7 +9536,7 @@ textarea {
             setStatus('Ready — hold a writable NFC tag close to your phone.', false);
             try {
                 const writer = new NDEFReader();
-                await writer.write({ records: [{ recordType: 'text', data: 'FLORASCAN:' + plant.id }] });
+                await writer.write({ records: [{ recordType: 'text', data: 'GROnote:' + plant.id }] });
                 plant.nfcTagLinked = true;
                 saveLocalPlantsForCurrentUser(plants);
                 markFloraSyncPending();
@@ -9708,7 +9708,7 @@ textarea {
                 plant.notes ? 'My notes: ' + plant.notes : ''
             ].filter(Boolean);
             const prompt = [
-                'Create a practical, personalised growing guide for the plant in my Flora Scan journal.',
+                'Create a practical, personalised growing guide for the plant in my GROnote journal.',
                 '',
                 'PLANT',
                 'Name: ' + String(plant.name || 'Unknown plant'),
@@ -10047,7 +10047,7 @@ textarea {
             }).join('') : '<p class="empty-state">No journal entries have been recorded yet.</p>';
 
             const printWindow = window.open('', '_blank');
-            if (!printWindow) { alert('Your browser blocked the PDF window. Please allow pop-ups for Flora Scan and try again.'); return; }
+            if (!printWindow) { alert('Your browser blocked the PDF window. Please allow pop-ups for GROnote and try again.'); return; }
             const multisow = plant.multisow ? Number(plant.multisowPots || 0) + ' ' + (plant.multisowContainerType === 'plugs' ? 'Plugs' : 'Pots') + ' · ' + Number(plant.seedsPerPot || 0) + ' seeds per ' + (plant.multisowContainerType === 'plugs' ? 'Plug' : 'Pot') : '';
             const setupValue = setup.length ? esc(setup.join(' · ')) : '';
             const summary = [
@@ -10091,7 +10091,7 @@ textarea {
                   '</section>'
                 : '';
             const photo = coverImage ? '<img class="cover-photo" src="' + coverImage + '" alt="' + title + '">' : '';
-            const html = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + title + ' — Flora Scan Plant Journal</title>' +
+            const html = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + title + ' — GROnote Plant Journal</title>' +
             '<style>' +
             '@page{size:A4;margin:16mm 17mm 18mm}*{box-sizing:border-box}body{margin:0;padding:24px 0;color:#263b2d;background:#edf0ec;font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:10pt;line-height:1.55}.page-preview{width:min(210mm,calc(100% - 32px));min-height:297mm;margin:0 auto;padding:16mm 17mm 18mm;background:#fff;border:1px solid #cbd5c8;box-shadow:0 5px 22px rgba(31,55,37,.14)}' +
             '.masthead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid #dce4d8;color:#526b56;font-size:8pt;letter-spacing:1.5px;text-transform:uppercase;font-weight:700}.masthead-mark{color:#2d5938;letter-spacing:2px}.masthead-title{color:#526052;font-size:8pt;font-weight:600;letter-spacing:1px}' +
@@ -10116,12 +10116,12 @@ textarea {
             '.empty-state{padding:5px 0;background:transparent;border-radius:0}.footer{margin-top:18px;padding-top:6px;border-top:1px solid #aeb9ad}' +
             '@media print{.entry,.equipment-group{break-inside:avoid-page}.details,.cover,.location-description{-webkit-print-color-adjust:economy;print-color-adjust:economy}}' +
             '</style></head><body><main class="page-preview">' +
-            '<div class="masthead"><span class="masthead-mark">FLORA SCAN</span><span class="masthead-title">Plant journal · ' + pdfUsername + '</span></div>' +
+            '<div class="masthead"><span class="masthead-mark">GROnote</span><span class="masthead-title">Plant journal · ' + pdfUsername + '</span></div>' +
             '<header class="cover"><div><h1>' + title + '</h1><p class="variety">' + variety + '</p></div>' + photo + '</header>' +
             '<section><div class="section-heading"><h2>Plant profile</h2><span class="section-kicker">Growing details</span></div><div class="details">' + summary + '</div></section>' +
             locationSetupHTML +
             '<section><div class="section-heading"><h2>Growth journal</h2><span class="section-kicker">' + logs.length + ' ' + (logs.length === 1 ? 'entry' : 'entries') + '</span></div>' + entriesHTML + '</section>' +
-            '<footer class="footer"><span>Flora Scan · ' + title + '</span><span>Generated ' + esc(generated) + '</span></footer></main>' +
+            '<footer class="footer"><span>GROnote · ' + title + '</span><span>Generated ' + esc(generated) + '</span></footer></main>' +
             '<div class="print-actions"><button onclick="window.print()">Print / Save as PDF</button><button class="secondary" onclick="window.close()">Close</button><p style="color:#849184;font-size:9pt">Choose “Save as PDF” in your browser’s print destination to save a copy.</p></div>' +
             '<script>window.addEventListener("load",()=>setTimeout(()=>window.print(),500));<\/script></body></html>';
             printWindow.document.open();
@@ -10425,7 +10425,7 @@ textarea {
             const addedAtSortDate = getGrowthLogSortDate(p.addedAt || p.createdAt || p.date);
             const timelineLogs = p.logs
                 .map((log, originalIndex) => ({ log, originalIndex, sortDate: getGrowthLogSortDate(log.date) }))
-                // Hide journal entries dated before this plant was added to FloraScan.
+                // Hide journal entries dated before this plant was added to GROnote.
                 .filter(({ sortDate }) => addedAtSortDate === null || sortDate === null || sortDate >= addedAtSortDate)
                 .sort((a, b) => {
                     const stageOrder = ['Cutting', 'Seedling', 'Vegetative', 'Flowering'];
@@ -11267,7 +11267,7 @@ textarea {
                     // Keep compressed data URLs locally; syncPendingFloraChanges uploads them after reconnect.
                     markFloraSyncPending();
                 } else if (photos.length) {
-                    alert('These photos will be saved on this device only. Sign in to your Flora Scan account to sync them across devices.');
+                    alert('These photos will be saved on this device only. Sign in to your GROnote account to sync them across devices.');
                 }
             } catch (error) {
                 console.error('Journal photo upload failed; retaining local photo data for retry:', error);
@@ -12564,7 +12564,7 @@ html body > details.plant-growing-picker-portal[open] > .plant-picker-panel > .p
 </style>
 
 <style id="journal-plant-photo-pink-zoom-slider">
-/* Match the plant photo zoom/crop control to Flora Scan's rose-pink accent. */
+/* Match the plant photo zoom/crop control to GROnote's rose-pink accent. */
 #journal-plant-icon-modal #journal-icon-zoom {
     -webkit-appearance: none !important;
     appearance: none !important;
