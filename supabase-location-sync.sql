@@ -1,5 +1,5 @@
--- FloraScan location sync prerequisites
--- Run this in Supabase SQL Editor for the project used by FloraScan.
+-- GROnote location sync prerequisites
+-- Run this in the Supabase SQL Editor for the GROnote project.
 -- Plant assignments are stored on each plant row.
 alter table public.plants add column if not exists location text not null default '';
 
