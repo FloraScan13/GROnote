@@ -439,31 +439,40 @@
             border-radius: 0 !important;
         }
 
-        /* Match the Plant Journal icon border to the light Download PDF button border. */
+        /* The Plant Journal placeholder shows only the Leaf Stamp logo:
+           no surrounding button border or white tile. */
         #journal-icon-container {
-            border: 1px solid #e2e8f0 !important;
+            border: 0 !important;
+            background: transparent !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
             overflow: hidden !important;
         }
 
-        /* Keep the complete Leaf Stamp image, including its black outer border,
-           comfortably inside the Plant Journal's square photo placeholder. */
         #journal-icon-container > div {
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             width: 100% !important;
             height: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: transparent !important;
             overflow: hidden !important;
         }
         #journal-icon-container > div > img {
             display: block !important;
-            width: 94% !important;
-            height: 94% !important;
-            max-width: 94% !important;
-            max-height: 94% !important;
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
             object-fit: contain !important;
-            flex: 0 0 94% !important;
+            flex: 0 0 100% !important;
+            border: 0 !important;
             border-radius: 0 !important;
+            background: transparent !important;
         }
 
 
