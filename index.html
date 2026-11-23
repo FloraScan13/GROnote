@@ -594,18 +594,22 @@ textarea {
         }
         #app-header > div { max-width: 1200px !important; padding-top: 16px !important; padding-bottom: 16px !important; }
         #header-logo-container { background: rgba(255,255,255,.12) !important; border: 1px solid rgba(244,180,201,.75) !important; border-radius: 14px !important; box-sizing: border-box; }
-        /* Desktop header branding is static: no rollover animation, tint, fade or movement. */
+        /* Keep the desktop header logo visible and completely inert on pointer rollover.
+           Disable pointer targeting on the image so hover rules cannot hide or restyle it. */
         @media (min-width: 769px) {
             #app-header img[alt="GROnote"],
             #app-header img[alt="GROnote"]:hover,
-            #app-header .flex.items-center:hover img[alt="GROnote"] {
+            #app-header:hover img[alt="GROnote"],
+            #app-header img[alt="GROnote"]:focus,
+            #app-header img[alt="GROnote"]:active {
+                display: block !important;
+                visibility: visible !important;
                 opacity: 1 !important;
                 transform: none !important;
                 transition: none !important;
-                filter: brightness(0) invert(1) !important;
-            }
-            #app-header img[alt="GROnote"] {
                 animation: none !important;
+                filter: brightness(0) invert(1) !important;
+                pointer-events: none !important;
             }
         }
         /* Pink cloud-sync status badge to complement the journal's rose accent. */
