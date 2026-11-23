@@ -772,6 +772,14 @@ textarea {
         }
         #plantViewToggle { background: #e8eade !important; border-radius: 13px !important; }
         #plantViewToggle button { border-radius: 10px !important; min-height: 40px !important; }
+        #plantViewToggle button[aria-pressed="true"],
+        #plantViewToggle button.is-active,
+        #plantViewToggle button.active {
+            background: #294b34 !important;
+            border-color: #294b34 !important;
+            color: #ffffff !important;
+            box-shadow: none !important;
+        }
         #plants-grid { gap: 20px !important; }
         .location-view-toggle { background: transparent; border: 0; padding: 0; }
         .location-view-button {
@@ -783,13 +791,13 @@ textarea {
         }
         .location-view-button:hover { background: #f8fafc; }
         .location-view-button.is-active {
-            background: #C4557C; border-color: #C4557C;
-            color: #fff; box-shadow: 0 1px 4px rgba(166,61,101,.2);
+            background: #294b34 !important; border-color: #294b34 !important;
+            color: #fff !important; box-shadow: none !important;
         }
         .location-view-button:focus-visible { outline: 2px solid #C4557C; outline-offset: 2px; }
         .dark .location-view-button { border-color: #475569; color: #e2e8f0; }
         .dark .location-view-button:hover { background: #1e293b; }
-        .dark .location-view-button.is-active { background: #C4557C; border-color: #C4557C; color: #fff; }
+        .dark .location-view-button.is-active { background: #294b34 !important; border-color: #294b34 !important; color: #fff !important; }
         /* Restore the original compact horizontal plant-row appearance in each location's list view. */
         .location-group-plants.is-list-view { grid-template-columns: minmax(0,1fr) !important; gap: .5rem !important; }
         .location-group-plants.is-list-view .plant-card {
