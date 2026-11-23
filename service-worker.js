@@ -1,4 +1,4 @@
-const CACHE_NAME = 'florascan-shell-v45';
+const CACHE_NAME = 'gronote-shell-v46';
 const APP_SHELL = [
     './',
     './index.html',
@@ -36,7 +36,7 @@ self.addEventListener('activate', event => {
     event.waitUntil((async () => {
         const keys = await caches.keys();
         await Promise.all(keys
-            .filter(key => (key.startsWith('sugar-bush-shell-') || key.startsWith('florascan-shell-')) && key !== CACHE_NAME)
+            .filter(key => (key.startsWith('sugar-bush-shell-') || key.startsWith('florascan-shell-') || key.startsWith('gronote-shell-')) && key !== CACHE_NAME)
             .map(key => caches.delete(key)));
         await self.clients.claim();
     })());
