@@ -422,19 +422,25 @@
             overflow: hidden !important;
         }
 
-        /* Enlarge the Leaf Stamp mark within the Plant Journal's square photo placeholder. */
+        /* Keep the complete Leaf Stamp image, including its black outer border,
+           comfortably inside the Plant Journal's square photo placeholder. */
         #journal-icon-container > div {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
             width: 100% !important;
             height: 100% !important;
             overflow: hidden !important;
         }
         #journal-icon-container > div > img {
-            width: 140% !important;
-            height: 140% !important;
-            max-width: none !important;
-            max-height: none !important;
+            display: block !important;
+            width: 94% !important;
+            height: 94% !important;
+            max-width: 94% !important;
+            max-height: 94% !important;
             object-fit: contain !important;
-            flex: 0 0 140% !important;
+            flex: 0 0 94% !important;
+            border-radius: 0 !important;
         }
 
 
