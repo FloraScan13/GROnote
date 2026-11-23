@@ -6,6 +6,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <style id="flora-invite-registration-viewport">
+        /* Keep the complete registration card inside the visible viewport, with safe
+           breathing room above and below on phones and desktop. Small screens can scroll. */
+        #flora-invite-registration {
+            box-sizing: border-box;
+            height: 100vh;
+            height: 100dvh;
+            min-height: 0;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            padding-top: max(24px, env(safe-area-inset-top));
+            padding-bottom: max(24px, env(safe-area-inset-bottom));
+        }
+        #flora-invite-registration > div {
+            flex: 0 0 auto;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+        @media (max-height: 760px) {
+            #flora-invite-registration { padding-top: max(16px, env(safe-area-inset-top)); padding-bottom: max(16px, env(safe-area-inset-bottom)); }
+            #flora-invite-registration > div { padding: 18px; gap: 12px; }
+            #flora-invite-registration > div .h-14 { height: 42px; width: 42px; margin-bottom: 8px; }
+            #flora-invite-registration > div .h-12 { height: 36px; width: 36px; }
+        }
+    </style>
+
     <style id="flora-auth-setup-first-paint">
         /* On invite/recovery URLs, show only the setup panel from the very first paint. */
         html.flora-auth-setup-navigation body > *:not(#flora-invite-registration) {
@@ -2919,7 +2945,7 @@ textarea {
 </head>
 <body class="h-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
     <!-- Standalone invitation registration screen, outside Settings and collapsed accordions. -->
-    <div id="flora-invite-registration" class="hidden fixed inset-0 z-[10000] min-h-screen flex items-center justify-center bg-[#f7f6f0] px-5 py-10">
+    <div id="flora-invite-registration" class="hidden fixed inset-0 z-[10000] flex items-center justify-center bg-[#f7f6f0] px-5">
         <div class="w-full max-w-md rounded-2xl border border-emerald-200 bg-white p-6 shadow-xl space-y-4">
             <div class="text-center">
                 <div class="mx-auto mb-3 flex h-14 w-14 items-center justify-center bg-transparent"><img src="./Leaf-Stamp-Logo-Dark-Green.png" alt="" aria-hidden="true" class="h-12 w-12 object-contain"></div>
