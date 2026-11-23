@@ -409,15 +409,18 @@
             overflow-y: auto;
             z-index: 60;
         }
-        /* White Background with Crisp Black Border for Vegetable Icon Badges */
+        /* Plant card placeholders show only the Leaf Stamp logo,
+           matching the clean, frameless Plant Journal image placeholder. */
         .crop-badge-container {
-            background-color: #ffffff !important;
-            border: 2px solid #000000 !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+            border: 0 !important;
+            background: transparent !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+            overflow: hidden !important;
         }
 
-        /* Fit the full Leaf Stamp logo inside the default plant-card icon boxes.
-           The inner image is reduced slightly so its complete black outline remains visible. */
         #plants-grid .plant-card .crop-badge-container > div {
             display: flex !important;
             align-items: center !important;
@@ -426,18 +429,23 @@
             height: 100% !important;
             min-width: 0 !important;
             min-height: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: transparent !important;
             overflow: hidden !important;
         }
         #plants-grid .plant-card .crop-badge-container > div > img {
             mix-blend-mode: multiply !important;
             display: block !important;
-            width: 88% !important;
-            height: 88% !important;
-            max-width: 88% !important;
-            max-height: 88% !important;
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
             object-fit: contain !important;
-            flex: 0 0 88% !important;
+            flex: 0 0 100% !important;
+            border: 0 !important;
             border-radius: 0 !important;
+            background: transparent !important;
         }
 
         /* The Plant Journal placeholder shows only the Leaf Stamp logo:
