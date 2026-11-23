@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gronote-shell-v43';;;;;;;;;;;;;;;;
+const CACHE_NAME = 'sugar-bush-shell-v43';;;;;;;;;;;;;;;;
 const APP_SHELL = [
     './',
     './index.html',
