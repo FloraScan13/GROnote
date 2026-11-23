@@ -434,7 +434,19 @@
             background: transparent !important;
             overflow: hidden !important;
         }
-        #plants-grid .plant-card .crop-badge-container > div > img {
+        #plants-grid .plant-card .crop-badge-container > div,
+        #plants-grid .plant-card .crop-badge-container > div > div {
+            width: 64px !important;
+            height: 64px !important;
+            min-width: 64px !important;
+            min-height: 64px !important;
+            max-width: 64px !important;
+            max-height: 64px !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            flex: 0 0 64px !important;
+        }
+        #plants-grid .plant-card .crop-badge-container img {
             mix-blend-mode: multiply !important;
             display: block !important;
             width: 64px !important;
