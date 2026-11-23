@@ -612,14 +612,19 @@ textarea {
                 pointer-events: none !important;
             }
         }
-        /* Pink cloud-sync status badge to complement the journal's rose accent. */
+        /* Keep every part of the header cloud-status pill white. */
         #cloud-sync-badge {
-            background: rgba(198, 83, 123, .22) !important;
-            color: #ffe8f0 !important;
-            border-color: rgba(255, 207, 224, .58) !important;
+            background: rgba(255, 255, 255, .16) !important;
+            color: #ffffff !important;
+            border-color: rgba(255, 255, 255, .8) !important;
         }
-        #cloud-sync-icon {
-            color: #f3a9c3 !important;
+        #cloud-sync-badge #header-scanner-mode-icon,
+        #cloud-sync-badge #cloud-sync-icon,
+        #cloud-sync-badge #cloud-sync-text {
+            color: #ffffff !important;
+        }
+        #cloud-sync-badge #header-scanner-mode-icon img {
+            filter: brightness(0) invert(1) !important;
         }
         #app-header h1 { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important; font-size: 1.55rem !important; letter-spacing: -.025em; }
         #app-subtitle-display {
