@@ -419,6 +419,22 @@
         /* Match the Plant Journal icon border to the light Download PDF button border. */
         #journal-icon-container {
             border: 1px solid #e2e8f0 !important;
+            overflow: hidden !important;
+        }
+
+        /* Enlarge the Leaf Stamp mark within the Plant Journal's square photo placeholder. */
+        #journal-icon-container > div {
+            width: 100% !important;
+            height: 100% !important;
+            overflow: hidden !important;
+        }
+        #journal-icon-container > div > img {
+            width: 140% !important;
+            height: 140% !important;
+            max-width: none !important;
+            max-height: none !important;
+            object-fit: contain !important;
+            flex: 0 0 140% !important;
         }
 
 
