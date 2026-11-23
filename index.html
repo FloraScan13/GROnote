@@ -5360,6 +5360,10 @@ textarea {
             const emailRedirectTo = new URL(window.location.href);
             emailRedirectTo.search = '';
             emailRedirectTo.hash = '';
+            // Email confirmation must return to the standalone account-setup screen.
+            // The user confirms their email first, then chooses and confirms the
+            // password that will be used to sign in before the garden is accessible.
+            emailRedirectTo.searchParams.set('invite', '1');
             const { data, error } = await supabaseClient.auth.signUp({
                 email,
                 password,
