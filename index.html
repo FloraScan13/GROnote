@@ -990,11 +990,22 @@ textarea {
             color: #294b34 !important;
         }
         #main-navigation-tabs button[aria-current="page"] {
-            background: #e4eadf !important;
-            color: #294b34 !important;
-            border-color: #d7dfd0 !important;
-            box-shadow: 0 1px 3px rgba(40,65,43,.08) !important;
+            background: #294b34 !important;
+            color: #ffffff !important;
+            border-color: #294b34 !important;
+            box-shadow: none !important;
             font-weight: 600 !important;
+        }
+        #main-navigation-tabs button[aria-current="page"] i,
+        #main-navigation-tabs button[aria-current="page"] img {
+            color: #ffffff !important;
+            filter: brightness(0) invert(1) !important;
+        }
+        #main-navigation-tabs button[aria-current="page"]:hover,
+        #main-navigation-tabs button[aria-current="page"]:active {
+            background: #294b34 !important;
+            border-color: #294b34 !important;
+            color: #ffffff !important;
         }
         #main-navigation-tabs button[aria-current="false"] {
             background: transparent !important;
@@ -1004,27 +1015,7 @@ textarea {
             font-weight: 500 !important;
         }
 
-        /* Desktop active navigation uses the GROnote pink brand treatment. */
-        @media (min-width: 769px) {
-            #main-navigation-tabs button[aria-current="page"] {
-                background: #c6537b !important;
-                color: #fff !important;
-                border-color: #c6537b !important;
-                box-shadow: 0 2px 7px rgba(198, 83, 123, .22) !important;
-                font-weight: 600 !important;
-            }
-            #main-navigation-tabs button[aria-current="page"] i {
-                color: #fff !important;
-            }
-            #main-navigation-tabs button[aria-current="page"] img {
-                filter: brightness(0) invert(1) !important;
-            }
-            #main-navigation-tabs button[aria-current="page"]:hover {
-                background: #a63d65 !important;
-                border-color: #a63d65 !important;
-                color: #fff !important;
-            }
-        }
+        /* Active navigation stays dark green on desktop and mobile. */
 
         /* Plant cards: fully carry through the warm, botanical card treatment. */
         #plants-grid .location-group {
