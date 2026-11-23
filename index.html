@@ -5364,11 +5364,17 @@ textarea {
         function showSupabaseSignUpView() {
             const loginView = document.getElementById('auth-logged-out');
             if (!loginView) return;
+            // Use Tailwind's .hidden utility rather than the HTML hidden attribute:
+            // utility classes such as .flex can override the browser's [hidden] rule.
             loginView.querySelectorAll(':scope > div:not(#auth-signup-view)').forEach(section => {
+                section.classList.add('hidden');
                 section.hidden = true;
             });
             const signupView = document.getElementById('auth-signup-view');
-            if (signupView) signupView.classList.remove('hidden');
+            if (signupView) {
+                signupView.hidden = false;
+                signupView.classList.remove('hidden');
+            }
             document.getElementById('auth-signup-email')?.focus();
         }
 
@@ -5377,9 +5383,13 @@ textarea {
             if (!loginView) return;
             loginView.querySelectorAll(':scope > div:not(#auth-signup-view)').forEach(section => {
                 section.hidden = false;
+                section.classList.remove('hidden');
             });
             const signupView = document.getElementById('auth-signup-view');
-            if (signupView) signupView.classList.add('hidden');
+            if (signupView) {
+                signupView.hidden = true;
+                signupView.classList.add('hidden');
+            }
         }
 
         async function handleSupabaseSignUp() {
