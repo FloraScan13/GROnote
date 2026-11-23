@@ -1,4 +1,4 @@
--- FloraScan journal photo sync setup
+-- GROnote journal photo sync setup
 -- Run this once in the Supabase SQL Editor for your project.
 -- Journal photos are private; each signed-in user can access only their own folder.
 
