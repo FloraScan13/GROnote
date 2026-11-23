@@ -1,9 +1,9 @@
-const CACHE_NAME = 'sugar-bush-shell-v42';;;;;;;;;;;;;;;;
+const CACHE_NAME = 'gronote-shell-v43';;;;;;;;;;;;;;;;
 const APP_SHELL = [
     './',
     './index.html',
     './manifest.webmanifest',
-    './leaf-icon-v2.svg',
+    './gronote-leaf-mark.png',
     'https://cdn.tailwindcss.com',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2',
