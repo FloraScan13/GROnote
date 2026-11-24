@@ -8654,6 +8654,8 @@ textarea {
         function openEditPlantModal(id) {
             const p = plants.find(item => item.id === id);
             if (!p) return;
+            const archiveActionLabel = document.getElementById('journal-archive-action-label');
+            if (archiveActionLabel) archiveActionLabel.textContent = p.archivedAt ? 'Restore plant' : 'Archive plant';
             setActiveNavigationTab('plants');
             document.getElementById('modal-title').textContent = 'Edit Plant Profile';
             document.getElementById('edit-plant-id').value = p.id;
