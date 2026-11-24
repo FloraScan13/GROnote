@@ -9,15 +9,15 @@
   "theme_color": "#294b34",
   "icons": [
     {
-      "src": "./leaf-icon-v2.svg",
+      "src": "./Leaf%20Stamp%20Logo.png",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./leaf-icon-v2.svg",
+      "src": "./Leaf%20Stamp%20Logo.png",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "maskable"
     }
   ]
