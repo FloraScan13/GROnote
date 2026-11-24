@@ -5339,10 +5339,7 @@ textarea {
                     password,
                     data: { username }
                 });
-                if (error) {
-                    await supabaseClient.rpc('gronote_release_username');
-                    throw error;
-                }
+                if (error) throw error;
 
                 // Sign in with the newly chosen password, then send the personalised welcome
                 // email using the verified account identity and transfer the session.
