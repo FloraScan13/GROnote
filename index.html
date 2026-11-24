@@ -8204,8 +8204,11 @@ textarea {
                 const compostYears = [...new Set([
                     String(new Date().getFullYear()),
                     ...plants.filter(plant => plant.archivedAt).map(plant => {
-                        const date = new Date(plant.archivedAt);
-                        return Number.isNaN(date.getTime()) ? 'Unknown year' : String(date.getFullYear());
+                        const sowingDate = String(plant.date || '');
+                        const yearMatch = sowingDate.match(/^(\\d{4})/);
+                        if (yearMatch) return yearMatch[1];
+                        const date = new Date(sowingDate);
+                        return sowingDate && !Number.isNaN(date.getTime()) ? String(date.getFullYear()) : 'Unknown year';
                     })
                 ])].sort((a, b) => a === 'Unknown year' ? 1 : b === 'Unknown year' ? -1 : Number(b) - Number(a));
                 const selectedYear = window.groSelectedCompostYear || '';
@@ -8241,9 +8244,11 @@ textarea {
             const filtered = plants.filter(p => {
                 if ((archiveView === 'archived') !== Boolean(p.archivedAt)) return false;
                 if (archiveView === 'archived' && window.groSelectedCompostYear) {
-                    const archivedDate = p.archivedAt ? new Date(p.archivedAt) : null;
-                    const archivedYear = archivedDate && !Number.isNaN(archivedDate.getTime()) ? String(archivedDate.getFullYear()) : 'Unknown year';
-                    if (archivedYear !== window.groSelectedCompostYear) return false;
+                    const sowingDate = String(p.date || '');
+                    const yearMatch = sowingDate.match(/^(\\d{4})/);
+                    const sowingDateParsed = sowingDate ? new Date(sowingDate) : null;
+                    const sowingYear = yearMatch ? yearMatch[1] : sowingDateParsed && !Number.isNaN(sowingDateParsed.getTime()) ? String(sowingDateParsed.getFullYear()) : 'Unknown year';
+                    if (sowingYear !== window.groSelectedCompostYear) return false;
                 }
                 if (archiveView === 'active' && selectedLocation && (p.location || '') !== selectedLocation) return false;
                 return p.name.toLowerCase().includes(query) ||
@@ -8376,13 +8381,15 @@ textarea {
                     </div>`;
             };
 
-            // The Compost bin is grouped by the year each plant was composted, newest year first.
+            // The Compost bin is grouped by each plant's sowing year, newest year first.
             if (archiveView === 'archived') {
                 const yearGroups = new Map();
                 filtered.forEach(plant => {
-                    const archivedDate = plant.archivedAt ? new Date(plant.archivedAt) : null;
-                    const year = archivedDate && !Number.isNaN(archivedDate.getTime())
-                        ? String(archivedDate.getFullYear())
+                    const sowingDate = String(plant.date || '');
+                    const yearMatch = sowingDate.match(/^(\\d{4})/);
+                    const parsedSowingDate = sowingDate ? new Date(sowingDate) : null;
+                    const year = yearMatch ? yearMatch[1] : parsedSowingDate && !Number.isNaN(parsedSowingDate.getTime())
+                        ? String(parsedSowingDate.getFullYear())
                         : 'Unknown year';
                     if (!yearGroups.has(year)) yearGroups.set(year, []);
                     yearGroups.get(year).push(plant);
