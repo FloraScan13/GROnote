@@ -5531,12 +5531,34 @@ textarea {
         async function handleSupabasePasswordReset() {
             if (!supabaseClient) { alert('Please connect your Supabase credentials first.'); return; }
             const emailInput = document.getElementById('auth-email');
-            const email = emailInput ? emailInput.value.trim() : '';
-            if (!email) { alert('Enter your account email address first.'); if (emailInput) emailInput.focus(); return; }
+            const identifier = emailInput ? emailInput.value.trim() : '';
+            if (!identifier) { alert('Enter your account email address or username first.'); if (emailInput) emailInput.focus(); return; }
             const redirectTo = window.location.origin + window.location.pathname + '?password-recovery=1';
-            const { error } = await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo });
-            if (error) { console.error('Password reset request failed:', error); alert('Could not send the reset email: ' + error.message + '. Check Supabase Auth URL Configuration and email settings.'); return; }
-            alert('If an account exists for that email, Supabase will send a password-reset link. Check your inbox and spam folder.');
+            try {
+                if (identifier.includes('@')) {
+                    const { error } = await supabaseClient.auth.resetPasswordForEmail(identifier, { redirectTo });
+                    if (error) throw error;
+                } else {
+                    const { data, error } = await supabaseClient.functions.invoke('username-password-reset', {
+                        body: { username: identifier, redirectTo }
+                    });
+                    if (error) {
+                        let detail = '';
+                        try {
+                            if (error.context && typeof error.context.json === 'function') {
+                                const body = await error.context.json();
+                                detail = body?.error || body?.message || '';
+                            }
+                        } catch (_) {}
+                        throw new Error(detail || error.message || 'Password reset request failed.');
+                    }
+                    if (data?.error) throw new Error(data.error);
+                }
+                alert('If an account exists for those details, Supabase will send a password-reset link. Check your inbox and spam folder.');
+            } catch (error) {
+                console.error('Password reset request failed:', error);
+                alert('Could not send the reset email: ' + (error.message || 'Please try again.') + '. Check your Supabase Auth email settings.');
+            }
         }
 
         async function completeSupabasePasswordRecovery() {
