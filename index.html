@@ -3083,8 +3083,8 @@ textarea {
                     <div id="auth-logged-out" class="space-y-3">
                         <div class="grid grid-cols-1 gap-3">
                             <div>
-                                <label class="block text-xs font-semibold mb-1 text-slate-600 dark:text-slate-400">Email Address</label>
-                                <input type="email" id="auth-email" placeholder="gardener@example.com" class="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm">
+                                <label for="auth-email" class="block text-xs font-semibold mb-1 text-slate-600 dark:text-slate-400">Email address or username</label>
+                                <input type="text" id="auth-email" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Email address or username" class="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm">
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold mb-1 text-slate-600 dark:text-slate-400">Password</label>
@@ -5448,8 +5448,30 @@ textarea {
             }
 
             try {
-                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-                if (error) throw error;
+                let data;
+                if (email.includes('@')) {
+                    // Preserve the existing direct email-and-password sign-in path.
+                    const result = await supabaseClient.auth.signInWithPassword({ email, password });
+                    if (result.error) throw result.error;
+                    data = result.data;
+                } else {
+                    // Username lookup and password verification happen server-side;
+                    // the matched email address is never exposed to the browser.
+                    const result = await supabaseClient.functions.invoke('username-login', {
+                        body: { username: email, password }
+                    });
+                    if (result.error) throw new Error(result.error.message || 'Invalid username or password.');
+                    const tokens = result.data || {};
+                    if (!tokens.access_token || !tokens.refresh_token) {
+                        throw new Error(tokens.error || 'Invalid username or password.');
+                    }
+                    const sessionResult = await supabaseClient.auth.setSession({
+                        access_token: tokens.access_token,
+                        refresh_token: tokens.refresh_token
+                    });
+                    if (sessionResult.error) throw sessionResult.error;
+                    data = sessionResult.data;
+                }
                 if (!data?.session || !data?.user) {
                     throw new Error('The sign-in service did not return an active session. Please try again.');
                 }
