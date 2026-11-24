@@ -6383,6 +6383,17 @@ textarea {
             applyBranding();
             let savedToCloud = false;
             if (supabaseClient && currentUser) {
+                if (!/^[A-Za-z0-9._-]{3,24}$/.test(appSettings.username)) {
+                    alert('Please choose a username between 3 and 24 characters using letters, numbers, dots, underscores or hyphens.');
+                    return;
+                }
+                const { error: usernameError } = await supabaseClient.rpc('gronote_claim_username', {
+                    p_username: appSettings.username
+                });
+                if (usernameError) {
+                    alert(usernameError.message || 'This username is already taken. Please choose another.');
+                    return;
+                }
                 const { error } = await supabaseClient.auth.updateUser({
                     data: { username: appSettings.username, notification_email: appSettings.notificationEmail || '' }
                 });
