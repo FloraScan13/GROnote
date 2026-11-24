@@ -5485,6 +5485,14 @@ textarea {
             }
 
             try {
+                // Choose Plants before Supabase emits any sign-in or token events.
+                // This prevents a later auth event from briefly restoring the previously
+                // selected Settings tab during a fresh login.
+                try {
+                    if (window.matchMedia('(min-width: 768px)').matches) {
+                        localStorage.setItem('gronote_desktop_last_tab', 'plants');
+                    }
+                } catch (_) {}
                 let data;
                 if (email.includes('@')) {
                     // Preserve the existing direct email-and-password sign-in path.
