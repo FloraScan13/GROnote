@@ -4901,7 +4901,7 @@ textarea {
                     renderPlants();
                     updateAuthUI(true, currentUser.email);
                     updateSyncBadge('local', getFloraSyncQueue().dirty ? 'Syncing Offline Changes…' : 'Loading Cloud Updates…');
-                    switchTab('plants');
+                    switchTab(getDesktopStartupTab());
                 }
 
                 if (session) {
@@ -4983,9 +4983,8 @@ textarea {
                     applyScannerPreference();
                         subscribeToPlantLocationChanges();
                             updateAuthUI(true, currentUser.email);
-                        // Reveal the authenticated app directly on Plants while the
-                        // account's plant data finishes loading in the background.
-                        switchTab('plants');
+                        // Restore the last selected desktop view; new sessions default to Plants.
+                        switchTab(getDesktopStartupTab());
                         updateSyncBadge('cloud', 'Cloud Connected');
                         await loadBrandingSettingsFromCloud();
                         if (restoreGeneration !== floraAuthRestoreGeneration || currentUser?.id !== restoringUserId) return;
@@ -4996,8 +4995,8 @@ textarea {
                         localStorage.setItem('flora_last_user_id', currentUser.id);
                         renderPlantLocationControls();
                         renderPlants();
-                        // Always return to the Plants screen after an account signs in.
-                        switchTab('plants');
+                        // Keep the restored desktop view after cloud data has finished loading.
+                        switchTab(getDesktopStartupTab());
                         await syncPendingFloraChanges();
                     } else {
                         currentUser = null;
@@ -6937,7 +6936,25 @@ textarea {
             ).join('');
         }
 
+        function getDesktopStartupTab() {
+            // Keep the Settings view selected across desktop browser refreshes.
+            try {
+                return window.matchMedia('(min-width: 768px)').matches &&
+                    localStorage.getItem('gronote_desktop_last_tab') === 'settings'
+                    ? 'settings'
+                    : 'plants';
+            } catch (_) {
+                return 'plants';
+            }
+        }
+
         function switchTab(tabId) {
+            // Remember the selected desktop tab so a browser refresh restores it.
+            try {
+                if (window.matchMedia('(min-width: 768px)').matches) {
+                    localStorage.setItem('gronote_desktop_last_tab', tabId === 'settings' ? 'settings' : 'plants');
+                }
+            } catch (_) {}
             // A root-level guard prevents Settings flashing even before Tailwind loads.
             document.documentElement.classList.toggle('flora-settings-inactive', tabId !== 'settings');
             if (tabId === 'settings') renderMyPlantLibrary();
