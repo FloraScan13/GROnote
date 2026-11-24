@@ -5200,8 +5200,12 @@ textarea {
         if (floraInitialParams.get('password-recovery') === '1') {
             const heading = document.getElementById('flora-invite-heading');
             const description = document.getElementById('flora-invite-description');
+            const usernameField = document.getElementById('flora-invite-username')?.closest('.mb-3');
+            const submitButton = document.getElementById('flora-invite-complete-button');
             if (heading) heading.textContent = 'Reset your GROnote password';
             if (description) description.textContent = 'Your password reset link has been verified. Choose a new password to regain access to your GROnote account.';
+            if (usernameField) usernameField.classList.add('hidden');
+            if (submitButton) submitButton.textContent = 'Reset password';
         }
 
         function showFloraInviteStatus(message, isError = false) {
@@ -5316,22 +5320,33 @@ textarea {
 
         async function completeFloraInviteRegistration() {
             if (!supabaseClient) { showFloraInviteStatus('GROnote could not connect to the account service. Refresh and try again.', true); return; }
+            const isPasswordRecovery = floraInitialParams.get('password-recovery') === '1';
             const usernameInput = document.getElementById('flora-invite-username');
             const username = usernameInput?.value?.trim() || '';
             const password = document.getElementById('flora-invite-password')?.value || '';
             const confirmation = document.getElementById('flora-invite-password-confirm')?.value || '';
-            if (!/^[A-Za-z0-9._-]{3,24}$/.test(username)) {
+            if (!isPasswordRecovery && !/^[A-Za-z0-9._-]{3,24}$/.test(username)) {
                 showFloraInviteStatus('Please choose a username between 3 and 24 characters using letters, numbers, dots, underscores or hyphens.', true);
                 usernameInput?.focus();
                 return;
             }
-            if (!updateFloraInvitePasswordStrength()) { showFloraInviteStatus('Please meet all five password requirements before creating your account.', true); return; }
+            if (!updateFloraInvitePasswordStrength()) { showFloraInviteStatus('Please meet all five password requirements before continuing.', true); return; }
             if (password !== confirmation) { showFloraInviteStatus('The passwords do not match. Please try again.', true); return; }
             const button = document.getElementById('flora-invite-complete-button');
-            if (button) { button.disabled = true; button.textContent = 'Creating account…'; }
+            if (button) { button.disabled = true; button.textContent = isPasswordRecovery ? 'Updating password…' : 'Creating account…'; }
             try {
                 const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
-                if (sessionError || !session?.user) throw new Error('Your invitation session has expired. Ask the administrator for a new invitation.');
+                if (sessionError || !session?.user) throw new Error(isPasswordRecovery ? 'Your password reset link has expired. Please request a new one.' : 'Your invitation session has expired. Ask the administrator for a new invitation.');
+
+                if (isPasswordRecovery) {
+                    const { error } = await supabaseClient.auth.updateUser({ password });
+                    if (error) throw error;
+                    await supabaseClient.auth.signOut();
+                    alert('Your GROnote password has been reset. You can now sign in with your new password.');
+                    window.location.replace(window.location.pathname);
+                    return;
+                }
+
                 // Atomically reserve the username in the database. The unique,
                 // case-insensitive constraint prevents simultaneous duplicate signups.
                 const { error: usernameError } = await supabaseClient.rpc('gronote_claim_username', {
@@ -5362,8 +5377,7 @@ textarea {
                     console.error('GROnote welcome email could not be sent:', welcomeEmailError);
                 }
 
-                // Transfer only this invited user's
-                // session into the normal app storage namespace before opening the garden.
+                // Transfer only this invited user's session into the normal app storage namespace.
                 const appUrl = FLORA_SUPABASE_CONFIG.url || appSettings.supabaseUrl || '';
                 const appKey = FLORA_SUPABASE_CONFIG.publishableKey || appSettings.supabaseKey || '';
                 const appClient = window.supabase.createClient(appUrl, appKey);
@@ -5377,12 +5391,11 @@ textarea {
                 window.location.replace(window.location.pathname);
                 return;
             } catch (error) {
-                showFloraInviteStatus(error.message || 'Could not complete registration. Please try again.', true);
+                showFloraInviteStatus(error.message || (isPasswordRecovery ? 'Could not reset your password. Please try again.' : 'Could not complete registration. Please try again.'), true);
             } finally {
-                if (button) { button.disabled = false; button.textContent = 'Create my account'; }
+                if (button) { button.disabled = false; button.textContent = isPasswordRecovery ? 'Reset password' : 'Create my account'; }
             }
         }
-
         async function leaveFloraInviteScreen() {
             if (supabaseClient) await supabaseClient.auth.signOut();
             isFloraInviteFlow = false;
