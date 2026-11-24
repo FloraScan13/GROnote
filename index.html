@@ -14447,14 +14447,39 @@ html body > details#plant-setup-dropdown.plant-growing-picker-portal[open] > #pl
 </style>
 
 <style id="gronote-medium-setup-checkbox-dark-green">
-/* Checked options in the Growing Medium and Growing Setup pickers use GROnote dark green. */
+/* Explicitly draw checked picker boxes in GROnote dark green, independent of browser accent rendering. */
 #plant-medium-dropdown #plant-medium-options input[type="checkbox"],
 #plant-setup-dropdown #plant-setup-options input[type="checkbox"] {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    box-sizing: border-box !important;
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    margin: 0 !important;
+    border: 1.5px solid #94a3b8 !important;
+    border-radius: 4px !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
     accent-color: #294b34 !important;
+    cursor: pointer !important;
 }
 #plant-medium-dropdown #plant-medium-options input[type="checkbox"]:checked,
 #plant-setup-dropdown #plant-setup-options input[type="checkbox"]:checked {
-    accent-color: #294b34 !important;
+    border-color: #294b34 !important;
+    background-color: #294b34 !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m3.2 8.2 3.1 3.1 6.5-6.6' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: 13px 13px !important;
+}
+#plant-medium-dropdown #plant-medium-options input[type="checkbox"]:focus,
+#plant-setup-dropdown #plant-setup-options input[type="checkbox"]:focus,
+#plant-medium-dropdown #plant-medium-options input[type="checkbox"]:focus-visible,
+#plant-setup-dropdown #plant-setup-options input[type="checkbox"]:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
 }
 </style>
 </body>
