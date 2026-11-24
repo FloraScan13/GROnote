@@ -4546,6 +4546,20 @@ textarea {
         let activeFormStream = null;
         let activeMatchStream = null;
 
+        async function waitForFloraStartup(task, timeoutMs = 15000) {
+            let timeoutId;
+            try {
+                return await Promise.race([
+                    task,
+                    new Promise((_, reject) => {
+                        timeoutId = window.setTimeout(() => reject(new Error('GROnote account service took too long to respond.')), timeoutMs);
+                    })
+                ]);
+            } finally {
+                if (timeoutId) window.clearTimeout(timeoutId);
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', async () => {
             try {
             const navigationEntry = performance.getEntriesByType('navigation')[0];
@@ -4572,7 +4586,16 @@ textarea {
             renderPlantLocationControls();
             const weatherToggle = document.getElementById('setting-location-header-weather');
             if (weatherToggle) weatherToggle.checked = locationHeaderWeatherVisible;
-            await initSupabaseClient();
+            try {
+                await waitForFloraStartup(initSupabaseClient(), 15000);
+            } catch (authStartupError) {
+                console.error('GROnote account service startup timed out or failed:', authStartupError);
+                // Let the app render rather than keeping desktop blank or mobile
+                // trapped on the refresh overlay. The user can retry sign-in later.
+                currentUser = null;
+                updateAuthUI(false);
+                updateSyncBadge('local', 'Account service unavailable');
+            }
             // Without a configured Supabase client, restore the account-scoped local library.
             // When Supabase is configured, checkSupabaseSession already restores the signed-in
             // account and its plants before resolving.
