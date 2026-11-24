@@ -10352,6 +10352,8 @@ textarea {
         function openJournalModal(id) {
             const p = plants.find(item => item.id === id);
             if (!p) return;
+            const archiveActionLabel = document.getElementById('journal-archive-action-label');
+            if (archiveActionLabel) archiveActionLabel.textContent = p.archivedAt ? 'Restore plant' : 'Compost plant';
             setActiveNavigationTab('plants');
 
             document.getElementById('log-plant-id').value = p.id;
