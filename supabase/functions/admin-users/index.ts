@@ -16,8 +16,12 @@ Deno.serve(async (req: Request) => {
   const anon = Deno.env.get("SUPABASE_ANON_KEY")!;
   const service = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!service) return reply({ error: "Server admin configuration is missing" }, 500);
+
   const authHeader = req.headers.get("Authorization") || "";
-  const token = authHeader.replace(/^Bearer\s+/i, "");
+  const trimmedHeader = authHeader.trim();
+  const token = trimmedHeader.toLowerCase().startsWith("bearer ")
+    ? trimmedHeader.slice(7).trim()
+    : trimmedHeader;
   if (!token) return reply({ error: "Authentication required" }, 401);
 
   const caller = createClient(url, anon, { global: { headers: { Authorization: `Bearer ${token}` } } });
@@ -29,21 +33,38 @@ Deno.serve(async (req: Request) => {
   try {
     const body = await req.json();
     const action = body?.action;
+
     if (action === "list") {
-      const { data, error } = await admin.auth.admin.listUsers({ page: 1, perPage: 200 });
-      if (error) throw error;
-      return reply({ users: data.users.map(u => ({
-        id: u.id, email: u.email, created_at: u.created_at,
-        last_sign_in_at: u.last_sign_in_at, email_confirmed_at: u.email_confirmed_at,
+      const allUsers = [];
+      let page = 1;
+      while (true) {
+        const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 200 });
+        if (error) throw error;
+        allUsers.push(...data.users);
+        if (data.users.length < 200) break;
+        page += 1;
+      }
+      return reply({ users: allUsers.map(u => ({
+        id: u.id,
+        email: u.email,
+        username: u.user_metadata?.username || "",
+        created_at: u.created_at,
+        last_sign_in_at: u.last_sign_in_at,
+        email_confirmed_at: u.email_confirmed_at,
+        registration_pending: !u.email_confirmed_at || !String(u.user_metadata?.username || "").trim(),
         disabled: !!u.banned_until && new Date(u.banned_until) > new Date(),
         role: u.app_metadata?.role === "admin" ? "admin" : "user"
       })) });
     }
+
     if (action === "invite") {
       const email = String(body.email || "").trim().toLowerCase();
-      const name = String(body.name || "").trim().replace(/\s+/g, " ");
+      const name = String(body.name || "").trim().split(" ").filter(Boolean).join(" ");
       if (!name || name.length > 80) return reply({ error: "Enter the gardener's name (up to 80 characters)" }, 400);
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return reply({ error: "Enter a valid email address" }, 400);
+      const at = email.indexOf("@");
+      if (at < 1 || at !== email.lastIndexOf("@") || email.indexOf(".", at) < at + 2 || email.endsWith(".")) {
+        return reply({ error: "Enter a valid email address" }, 400);
+      }
       const requestOrigin = req.headers.get("origin");
       const requestedRedirect = String(body.redirectTo || "");
       if (!requestOrigin || !requestedRedirect) return reply({ error: "The app invitation return address is missing" }, 400);
@@ -65,6 +86,7 @@ Deno.serve(async (req: Request) => {
       if (error) throw error;
       return reply({ invited: true, user: { id: data.user.id, email: data.user.email } });
     }
+
     if (action === "disable" || action === "enable") {
       const id = String(body.user_id || "");
       if (!id || id === user.id) return reply({ error: "You cannot change your own account status" }, 400);
@@ -77,6 +99,7 @@ Deno.serve(async (req: Request) => {
       if (error) throw error;
       return reply({ updated: true });
     }
+
     return reply({ error: "Unknown action" }, 400);
   } catch (error) {
     return reply({ error: error instanceof Error ? error.message : "Request failed" }, 400);
