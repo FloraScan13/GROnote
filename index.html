@@ -112,6 +112,32 @@
             visibility: hidden !important;
         }
     </style>
+    <style id="flora-startup-emergency-fallback">
+        /* Emergency escape hatch if an early startup script or auth request stalls. */
+        html.flora-startup-emergency body {
+            visibility: visible !important;
+        }
+        html.flora-startup-emergency #mobile-refresh-screen,
+        html.flora-startup-emergency #mobile-welcome-screen {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+    </style>
+    <script id="flora-startup-emergency-fallback">
+        // Do not let the first-paint guard or mobile refresh interstitial trap the
+        // user indefinitely if the main application startup cannot finish.
+        window.setTimeout(() => {
+            if (document.documentElement.classList.contains('flora-auth-pending')) {
+                console.error('GROnote emergency startup fallback activated.');
+                document.documentElement.classList.remove('flora-auth-pending', 'flora-refresh-navigation');
+                document.documentElement.classList.add('flora-startup-emergency');
+                document.getElementById('mobile-refresh-screen')?.classList.add('is-hidden');
+                document.getElementById('mobile-welcome-screen')?.classList.add('is-hidden');
+            }
+        }, 20000);
+    </script>
     <style id="flora-authenticated-no-interstitials">
         /* Once authentication succeeds, never let mobile welcome/refresh overlays
            cover the garden during the transition into the Plants tab. */
