@@ -41,6 +41,8 @@ Deno.serve(async (req: Request) => {
     }
     if (action === "invite") {
       const email = String(body.email || "").trim().toLowerCase();
+      const name = String(body.name || "").trim().replace(/\s+/g, " ");
+      if (!name || name.length > 80) return reply({ error: "Enter the gardener's name (up to 80 characters)" }, 400);
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return reply({ error: "Enter a valid email address" }, 400);
       const requestOrigin = req.headers.get("origin");
       const requestedRedirect = String(body.redirectTo || "");
@@ -56,7 +58,10 @@ Deno.serve(async (req: Request) => {
       } catch {
         return reply({ error: "Invalid invitation return address" }, 400);
       }
-      const { data, error } = await admin.auth.admin.inviteUserByEmail(email, { redirectTo });
+      const { data, error } = await admin.auth.admin.inviteUserByEmail(email, {
+        redirectTo,
+        data: { name, full_name: name }
+      });
       if (error) throw error;
       return reply({ invited: true, user: { id: data.user.id, email: data.user.email } });
     }
