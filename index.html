@@ -8169,10 +8169,15 @@ textarea {
                 if (locationControl) locationControl.classList.remove('hidden');
                 if (locationTabsLabel) locationTabsLabel.textContent = 'Filter composted plants by year';
                 if (locationSelect) locationSelect.classList.add('hidden');
-                const compostYears = [...new Set(plants.filter(plant => plant.archivedAt).map(plant => {
-                    const date = new Date(plant.archivedAt);
-                    return Number.isNaN(date.getTime()) ? 'Unknown year' : String(date.getFullYear());
-                }))].sort((a, b) => a === 'Unknown year' ? 1 : b === 'Unknown year' ? -1 : Number(b) - Number(a));
+                // Always include the current calendar year so its filter button is ready
+                // as soon as a new year begins, even before the first plant is composted.
+                const compostYears = [...new Set([
+                    String(new Date().getFullYear()),
+                    ...plants.filter(plant => plant.archivedAt).map(plant => {
+                        const date = new Date(plant.archivedAt);
+                        return Number.isNaN(date.getTime()) ? 'Unknown year' : String(date.getFullYear());
+                    })
+                ])].sort((a, b) => a === 'Unknown year' ? 1 : b === 'Unknown year' ? -1 : Number(b) - Number(a));
                 const selectedYear = window.groSelectedCompostYear || '';
                 if (locationTabs) {
                     const tabClass = 'location-filter-tab inline-flex flex-shrink-0 items-center rounded-full px-4 py-2 text-sm font-semibold transition-colors';
