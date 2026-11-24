@@ -4176,19 +4176,19 @@ textarea {
 
     <!-- MODAL: DELETE PLANT CONFIRMATION -->
     <div id="delete-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="max-w-sm w-full rounded-2xl shadow-xl overflow-hidden p-6 space-y-4 text-center border" style="background:#fff8fa;border-color:#e8a7bd;">
-            <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto text-xl" style="background:#f9dce6;color:#a63d65;">
+        <div class="max-w-sm w-full rounded-2xl shadow-xl overflow-hidden p-6 space-y-4 text-center border" style="background:#F7F6F0;border-color:#d1d5db;">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto text-xl" style="background:#f4f5ee;color:#294b34;">
                 <i class="fa-solid fa-trash-can"></i>
             </div>
-            <h3 class="text-base font-bold" style="color:#81334f;">Delete Plant Record?</h3>
-            <p class="text-xs" style="color:#986b7b;">This will permanently remove <span id="delete-plant-name" class="font-bold" style="color:#a63d65;"></span> and all associated growth logs.</p>
+            <h3 class="text-base font-bold" style="color:#294b34;">Delete Plant Record?</h3>
+            <p class="text-xs" style="color:#294b34;">This will permanently remove <span id="delete-plant-name" class="font-bold" style="color:#294b34;"></span> and all associated growth logs.</p>
             <div class="space-y-2 text-left">
-                <label for="delete-confirmation-input" class="block text-xs font-semibold" style="color:#81334f;">Type <span class="font-bold">delete</span> to confirm</label>
-                <input id="delete-confirmation-input" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Type delete" oninput="updateDeleteConfirmation()" class="w-full rounded-xl border px-3 py-2 text-sm outline-none focus:ring-2" style="background:#fff;border-color:#e8a7bd;color:#81334f;--tw-ring-color:#c6537b;">
+                <label for="delete-confirmation-input" class="block text-xs font-semibold" style="color:#294b34;">Type <span class="font-bold">delete</span> to confirm</label>
+                <input id="delete-confirmation-input" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Type delete" oninput="updateDeleteConfirmation()" class="w-full rounded-xl border px-3 py-2 text-sm outline-none focus:ring-2" style="background:#fff;border-color:#d1d5db;color:#294b34;--tw-ring-color:#294b34;">
             </div>
             <div class="flex justify-center space-x-3 pt-2">
-                <button onclick="closeDeleteModal()" class="px-4 py-2 rounded-xl text-xs font-semibold transition border" style="background:#fff0f4;border-color:#e8a7bd;color:#81334f;">Cancel</button>
-                <button id="confirm-delete-btn" disabled class="px-4 py-2 rounded-xl text-xs font-semibold shadow transition opacity-50 cursor-not-allowed" style="background:#c6537b;border:1px solid #c6537b;color:#fff8fa;">Delete Permanently</button>
+                <button onclick="closeDeleteModal()" class="px-4 py-2 rounded-xl text-xs font-semibold transition border" style="background:#f4f5ee;border-color:#d1d5db;color:#294b34;">Cancel</button>
+                <button id="confirm-delete-btn" disabled class="px-4 py-2 rounded-xl text-xs font-semibold shadow transition opacity-50 cursor-not-allowed" style="background:#294b34;border:1px solid #294b34;color:#ffffff;">Delete Permanently</button>
             </div>
         </div>
     </div>
