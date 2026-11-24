@@ -4991,8 +4991,10 @@ textarea {
                     applyScannerPreference();
                         subscribeToPlantLocationChanges();
                             updateAuthUI(true, currentUser.email);
-                        // Restore the last selected desktop view; new sessions default to Plants.
-                        switchTab(getDesktopStartupTab());
+                        // A fresh sign-in must always open Plants. Restoring a previously
+                        // selected Settings tab here can briefly expose Settings during login.
+                        // The saved desktop tab is only restored during an ordinary page refresh.
+                        switchTab(event === 'SIGNED_IN' ? 'plants' : getDesktopStartupTab());
                         updateSyncBadge('cloud', 'Cloud Connected');
                         await loadBrandingSettingsFromCloud();
                         if (restoreGeneration !== floraAuthRestoreGeneration || currentUser?.id !== restoringUserId) return;
@@ -5003,8 +5005,9 @@ textarea {
                         localStorage.setItem('flora_last_user_id', currentUser.id);
                         renderPlantLocationControls();
                         renderPlants();
-                        // Keep the restored desktop view after cloud data has finished loading.
-                        switchTab(getDesktopStartupTab());
+                        // Keep fresh sign-ins on Plants after cloud data has finished loading;
+                        // ordinary session refreshes may restore the previously selected tab.
+                        switchTab(event === 'SIGNED_IN' ? 'plants' : getDesktopStartupTab());
                         await syncPendingFloraChanges();
                     } else {
                         currentUser = null;
