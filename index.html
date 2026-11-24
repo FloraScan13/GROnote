@@ -5809,9 +5809,10 @@ textarea {
                 const deletedLogs = Array.isArray(queue.deletedLogIds) ? queue.deletedLogIds : [];
                 const deletedPlants = Array.isArray(queue.deletedPlantIds) ? queue.deletedPlantIds : [];
 
-                // Upload current plant records and journal entries. Data-URL photos are uploaded first.
-                for (const plant of localPlants) {
-                    if (deletedPlants.includes(plant.id)) continue;
+                // Upload independent plants in parallel. Each plant is saved before its
+                // journal entries, while independent photos/logs can upload together.
+                await Promise.all(localPlants.map(async plant => {
+                    if (deletedPlants.includes(plant.id)) return;
                     if (plant.customIconUrl && plant.customIconUrl.startsWith('data:') && !plant.customIconPath) {
                         plant.customIconPath = await uploadJournalPhoto(plant.customIconUrl, plant.id, 'plant-icon', 0);
                     }
@@ -5821,10 +5822,10 @@ textarea {
                         quantity_type: ['plants', 'seeds', 'cuttings'].includes(plant.quantityType) ? plant.quantityType : 'plants',
                         remaining_seeds: Math.max(0, Number(plant.remainingSeeds) || 0),
                         remaining_cuttings: Math.max(0, Number(plant.remainingCuttings) || (plant.quantityType === 'cuttings' ? Number(plant.quantity) || 0 : 0)),
-                    multisow: !!plant.multisow,
-                    multisow_pots: plant.multisow ? Math.max(0, Number(plant.multisowPots) || 0) : 0,
-                    multisow_container_type: plant.multisow ? (plant.multisowContainerType === 'plugs' ? 'plugs' : 'pots') : '',
-                    seeds_per_pot: plant.multisow ? Math.max(0, Number(plant.seedsPerPot) || 0) : 0,
+                        multisow: !!plant.multisow,
+                        multisow_pots: plant.multisow ? Math.max(0, Number(plant.multisowPots) || 0) : 0,
+                        multisow_container_type: plant.multisow ? (plant.multisowContainerType === 'plugs' ? 'plugs' : 'pots') : '',
+                        seeds_per_pot: plant.multisow ? Math.max(0, Number(plant.seedsPerPot) || 0) : 0,
                         icon_key: plant.iconKey, custom_icon_path: plant.customIconPath || null, hex: plant.hex, date: plant.date, medium: plant.medium,
                         setup: Array.isArray(plant.setup) ? plant.setup : (plant.setup ? [plant.setup] : []),
                         heated_propagator_temperature_c: plant.heatedPropagatorTemperatureC ?? null,
@@ -5834,16 +5835,15 @@ textarea {
                     if (plantError) throw plantError;
                     if (plant.customIconPath) plant.customIconUrl = await createJournalPhotoUrl(plant.customIconPath);
 
-                    for (const log of (plant.logs || [])) {
-                        if (deletedLogs.includes(log.id)) continue;
+                    await Promise.all((plant.logs || []).map(async log => {
+                        if (deletedLogs.includes(log.id)) return;
                         let photoPaths = Array.isArray(log.photoPaths) ? [...log.photoPaths] : [];
                         const photos = Array.isArray(log.photos) ? log.photos : [];
-                        for (let index = 0; index < photos.length; index++) {
-                            const photo = photos[index];
+                        await Promise.all(photos.map(async (photo, index) => {
                             if (typeof photo === 'string' && photo.startsWith('data:')) {
                                 photoPaths[index] = await uploadJournalPhoto(photo, plant.id, log.id, index);
                             }
-                        }
+                        }));
                         const { error: logError } = await supabaseClient.from('plant_logs').upsert({
                             id: log.id, plant_id: plant.id, user_id: currentUser.id,
                             date: log.date, type: log.type, text: serializeJournalLogText(log), photos: photoPaths, feed_reminder_date: log.feedReminderDate || null,
@@ -5852,11 +5852,10 @@ textarea {
                         if (logError) throw logError;
                         log.photoPaths = photoPaths;
                         if (photoPaths.length) {
-                            log.photos = await Promise.all(photoPaths.map(createJournalPhotoUrl));
-                            log.photos = log.photos.filter(Boolean);
+                            log.photos = (await Promise.all(photoPaths.map(createJournalPhotoUrl))).filter(Boolean);
                         }
-                    }
-                }
+                    }));
+                }));
 
                 // Replay tombstones after upserts so removed records are not recreated.
                 for (const logId of deletedLogs) {
