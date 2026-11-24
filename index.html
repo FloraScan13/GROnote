@@ -3466,6 +3466,15 @@ textarea {
     </main>
 
     <!-- MODAL: FEEDBACK & COMMENTS -->
+    <div id="scanner-preference-saved-modal" class="fixed inset-0 z-[10050] hidden items-center justify-center bg-black/60 p-4" role="dialog" aria-modal="true" aria-labelledby="scanner-preference-saved-title">
+        <div class="w-full max-w-sm rounded-2xl bg-[#FFFEF9] p-6 text-center shadow-xl" style="border:1px solid #294b34;">
+            <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full" style="background:#e8efe8;color:#294b34;"><i class="fa-solid fa-check text-xl"></i></div>
+            <h2 id="scanner-preference-saved-title" class="text-lg font-bold" style="color:#294b34;">Scanner preference saved</h2>
+            <p id="scanner-preference-saved-message" class="mt-2 text-sm" style="color:#526653;">Your scanner preference has been updated.</p>
+            <button type="button" onclick="closeScannerPreferenceSavedModal()" class="mt-5 w-full rounded-xl px-5 py-2.5 text-sm font-semibold text-white" style="background:#294b34;">Okay</button>
+        </div>
+    </div>
+
     <div id="feedback-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto" onclick="if(event.target===this) closeFeedbackModal()">
         <div class="relative bg-white max-w-lg w-full max-h-[90dvh] rounded-2xl shadow-xl overflow-y-auto my-auto">
             <div class="absolute top-3 right-3 z-10">
@@ -8928,6 +8937,14 @@ textarea {
             if (scannerTabLabel) scannerTabLabel.textContent = preference === 'nfc' ? 'NFC Scan' : preference === 'qr' ? 'QR Scan' : '';
         }
 
+        function closeScannerPreferenceSavedModal() {
+            const modal = document.getElementById('scanner-preference-saved-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
         function scannerPreferenceChanged() {
             const status = document.getElementById('setting-scanner-preference-status');
             if (status) status.textContent = 'You have an unsaved change. Select Save preference to apply it.';
@@ -8946,6 +8963,13 @@ textarea {
             const savedPreference = appSettings.scannerPreference;
             const status = document.getElementById('setting-scanner-preference-status');
             if (status) status.textContent = '✓ Launch default saved. ' + (savedPreference === 'nfc' ? 'NFC controls are now shown.' : savedPreference === 'qr' ? 'QR controls are now shown.' : 'Scanner controls are now hidden.') + (appSettings.rememberScannerPreference ? ' This choice will be used every time the app opens.' : ' NFC will be selected next time the app opens.');
+            const savedModal = document.getElementById('scanner-preference-saved-modal');
+            const savedMessage = document.getElementById('scanner-preference-saved-message');
+            if (savedMessage) savedMessage.textContent = (savedPreference === 'nfc' ? 'NFC scanning is now selected.' : savedPreference === 'qr' ? 'QR code scanning is now selected.' : 'Scanner controls are now turned off.') + (appSettings.rememberScannerPreference ? ' This will be your default each time GROnote opens.' : ' This setting applies for this session; NFC will be selected next time GROnote opens.');
+            if (savedModal) {
+                savedModal.classList.remove('hidden');
+                savedModal.classList.add('flex');
+            }
             if (preference === 'none') {
                 closeScanOptions();
                 stopQrScan();
