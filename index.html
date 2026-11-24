@@ -2067,6 +2067,7 @@ textarea {
 
 
         /* Hide plant creation and scanner actions on every screen size while viewing Compost. */
+        #main-navigation-tabs[data-compost-view="true"] #tab-plants,
         #main-navigation-tabs[data-compost-view="true"] #tab-add-plant,
         #main-navigation-tabs[data-compost-view="true"] #tab-scanner {
             display: none !important;
@@ -8171,7 +8172,7 @@ textarea {
             // inline display styles cannot reveal these actions in the Compost bin.
             const mainNavigationTabs = document.getElementById('main-navigation-tabs');
             if (mainNavigationTabs) mainNavigationTabs.dataset.compostView = archiveView === 'archived' ? 'true' : 'false';
-            ['tab-add-plant', 'tab-scanner'].forEach(id => {
+            ['tab-plants', 'tab-add-plant', 'tab-scanner'].forEach(id => {
                 const tab = document.getElementById(id);
                 if (tab) tab.classList.toggle('hidden', archiveView === 'archived');
             });
