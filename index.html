@@ -8307,7 +8307,39 @@ textarea {
                     </div>`;
             };
 
-            // Keep each location together, with a full-width heading above its plant cards.
+            // The Compost bin is grouped by the year each plant was composted, newest year first.
+            if (archiveView === 'archived') {
+                const yearGroups = new Map();
+                filtered.forEach(plant => {
+                    const archivedDate = plant.archivedAt ? new Date(plant.archivedAt) : null;
+                    const year = archivedDate && !Number.isNaN(archivedDate.getTime())
+                        ? String(archivedDate.getFullYear())
+                        : 'Unknown year';
+                    if (!yearGroups.has(year)) yearGroups.set(year, []);
+                    yearGroups.get(year).push(plant);
+                });
+                const orderedYears = [...yearGroups.keys()].sort((a, b) => {
+                    if (a === 'Unknown year') return 1;
+                    if (b === 'Unknown year') return -1;
+                    return Number(b) - Number(a);
+                });
+                container.innerHTML = orderedYears.map(year => {
+                    const cards = yearGroups.get(year).sort((a, b) =>
+                        String(b.archivedAt || '').localeCompare(String(a.archivedAt || ''))
+                    );
+                    return `
+                        <section class="col-span-full min-w-0 mb-3 p-3 sm:p-4" style="background:transparent;border:0;box-shadow:none;">
+                            <div class="flex items-center gap-2 mb-3">
+                                <h3 class="text-base sm:text-lg font-bold text-[#294b34]">${escapeHtml(year)}</h3>
+                                <span class="text-xs text-slate-500">(${cards.length} ${cards.length === 1 ? 'plant' : 'plants'})</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">${cards.map(plant => cardMarkup(plant, (plant.location || '').trim())).join('')}</div>
+                        </section>`;
+                }).join('');
+                return;
+            }
+
+            // Keep active plants grouped by growing location.
             const groups = new Map();
             filtered.forEach(p => {
                 const location = (p.location || '').trim() || 'No location assigned';
