@@ -13,12 +13,6 @@
       "sizes": "any",
       "type": "image/png",
       "purpose": "any"
-    },
-    {
-      "src": "./GROnote%20Leaf%20Stamp%20Logo%20white.png",
-      "sizes": "any",
-      "type": "image/png",
-      "purpose": "maskable"
     }
   ]
 }
