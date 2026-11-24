@@ -5023,10 +5023,10 @@ textarea {
                     applyScannerPreference();
                         subscribeToPlantLocationChanges();
                             updateAuthUI(true, currentUser.email);
-                        // A fresh sign-in must always open Plants. Restoring a previously
-                        // selected Settings tab here can briefly expose Settings during login.
-                        // The saved desktop tab is only restored during an ordinary page refresh.
-                        switchTab(event === 'SIGNED_IN' ? 'plants' : getDesktopStartupTab());
+                        // Only an explicit new sign-in should choose the initial Plants page.
+                        // Token refreshes and other background auth events must leave the
+                        // currently selected app section exactly as the user left it.
+                        if (event === 'SIGNED_IN') switchTab('plants');
                         updateSyncBadge('cloud', 'Cloud Connected');
                         await loadBrandingSettingsFromCloud();
                         if (restoreGeneration !== floraAuthRestoreGeneration || currentUser?.id !== restoringUserId) return;
@@ -5037,9 +5037,9 @@ textarea {
                         localStorage.setItem('flora_last_user_id', currentUser.id);
                         renderPlantLocationControls();
                         renderPlants();
-                        // Keep fresh sign-ins on Plants after cloud data has finished loading;
-                        // ordinary session refreshes may restore the previously selected tab.
-                        switchTab(event === 'SIGNED_IN' ? 'plants' : getDesktopStartupTab());
+                        // Cloud data loading after a background auth event must not
+                        // trigger navigation. A fresh sign-in remains on Plants.
+                        if (event === 'SIGNED_IN') switchTab('plants');
                         await syncPendingFloraChanges();
                     } else {
                         currentUser = null;
