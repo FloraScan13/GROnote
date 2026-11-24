@@ -10467,27 +10467,9 @@ textarea {
             '<section><div class="section-heading"><h2>Growth journal</h2><span class="section-kicker">' + logs.length + ' ' + (logs.length === 1 ? 'entry' : 'entries') + '</span></div>' + entriesHTML + '</section>' +
             '<footer class="footer"><span>GROnote · ' + title + '</span><span>Generated ' + esc(generated) + '</span></footer></main>' +
             '<div class="print-actions"><button onclick="window.print()">Print / Save as PDF</button><button class="secondary" onclick="window.close()">Close</button><p style="color:#849184;font-size:9pt">Choose “Save as PDF” in your browser’s print destination to save a copy.</p></div>' +
-            '<script>window.addEventListener("load",()=>setTimeout(()=>window.print(),500));<\/script>
-<style id="mobile-active-navigation-dark-green">
-    @media (max-width: 768px) {
-        #main-navigation-tabs > button[aria-current="page"],
-        #main-navigation-tabs > button[aria-current="page"]:hover,
-        #main-navigation-tabs > button[aria-current="page"]:active {
-            background: #294b34 !important;
-            background-color: #294b34 !important;
-            border-color: #294b34 !important;
-            color: #ffffff !important;
-            box-shadow: none !important;
-        }
-        #main-navigation-tabs > button[aria-current="page"] i,
-        #main-navigation-tabs > button[aria-current="page"] img {
-            color: #ffffff !important;
-            filter: brightness(0) invert(1) !important;
-        }
-    }
-</style>
+            '<script>window.addEventListener("load",()=>setTimeout(()=>window.print(),500));<\/script>' +
 
-</body></html>';
+            '</body></html>';
             printWindow.document.open();
             printWindow.document.write(html);
             printWindow.document.close();
@@ -11924,6 +11906,24 @@ textarea {
 
         
     </script>
+    <style id="mobile-active-navigation-dark-green">
+        @media (max-width: 768px) {
+            #main-navigation-tabs > button[aria-current="page"],
+            #main-navigation-tabs > button[aria-current="page"]:hover,
+            #main-navigation-tabs > button[aria-current="page"]:active {
+                background: #294b34 !important;
+                background-color: #294b34 !important;
+                border-color: #294b34 !important;
+                color: #ffffff !important;
+                box-shadow: none !important;
+            }
+            #main-navigation-tabs > button[aria-current="page"] i,
+            #main-navigation-tabs > button[aria-current="page"] img {
+                color: #ffffff !important;
+                filter: brightness(0) invert(1) !important;
+            }
+        }
+    </style>
 
 
 
