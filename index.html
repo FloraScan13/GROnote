@@ -5023,10 +5023,9 @@ textarea {
                     applyScannerPreference();
                         subscribeToPlantLocationChanges();
                             updateAuthUI(true, currentUser.email);
-                        // Only an explicit new sign-in should choose the initial Plants page.
-                        // Token refreshes and other background auth events must leave the
-                        // currently selected app section exactly as the user left it.
-                        if (event === 'SIGNED_IN') switchTab('plants');
+                        // Navigation is handled by the explicit login flow. Auth events can
+                        // also fire when a browser tab regains focus, so they must never
+                        // change the section the gardener is currently viewing.
                         updateSyncBadge('cloud', 'Cloud Connected');
                         await loadBrandingSettingsFromCloud();
                         if (restoreGeneration !== floraAuthRestoreGeneration || currentUser?.id !== restoringUserId) return;
@@ -5037,9 +5036,8 @@ textarea {
                         localStorage.setItem('flora_last_user_id', currentUser.id);
                         renderPlantLocationControls();
                         renderPlants();
-                        // Cloud data loading after a background auth event must not
-                        // trigger navigation. A fresh sign-in remains on Plants.
-                        if (event === 'SIGNED_IN') switchTab('plants');
+                        // Keep background auth restoration independent of app navigation.
+                        // The login handler already selects Plants for a fresh login.
                         await syncPendingFloraChanges();
                     } else {
                         currentUser = null;
