@@ -8265,13 +8265,13 @@ textarea {
             }
         }
 
-            const cardMarkup = (p, groupLocation) => {
+            const cardMarkup = (p, groupLocation, forceListView = false) => {
                 const svgMarkup = p.customIconUrl
                     ? '<img src="' + escapeHtml(p.customIconUrl) + '" data-plant-id="' + escapeHtml(p.id) + '" onerror="refreshPlantCardPhoto(this)" alt="' + escapeHtml(p.name) + ' plant photo" style="display:block;width:100%;height:100%;object-fit:cover;border:0;box-shadow:none;" class="rounded-xl">'
                     : '<div class="w-full h-full flex items-center justify-center text-slate-300"><img src="./Leaf-Stamp-Logo-Dark-Green.png" alt="" aria-hidden="true" class="w-full h-full object-contain" /></div>';
                 // Use the actual rendered group heading as the key, so every card in a group gets the same details.
                 const plantLocation = (groupLocation || p.location || '').trim();
-                const isListView = getLocationPlantView(plantLocation) === 'list';
+                const isListView = forceListView || getLocationPlantView(plantLocation) === 'list';
                 const listOnlyStyle = isListView ? ' style="display:none !important;"' : '';
                 const setupItems = (Array.isArray(p.setup) ? p.setup : (p.setup ? [p.setup] : []))
                     .map(value => String(value).trim())
@@ -8367,7 +8367,7 @@ textarea {
                                 <h3 class="text-base sm:text-lg font-bold text-[#294b34]">${escapeHtml(year)}</h3>
                                 <span class="text-xs text-slate-500">(${cards.length} ${cards.length === 1 ? 'plant' : 'plants'})</span>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">${cards.map(plant => cardMarkup(plant, (plant.location || '').trim())).join('')}</div>
+                            <div class="location-group-plants is-list-view grid grid-cols-1 gap-2">${cards.map(plant => cardMarkup(plant, (plant.location || '').trim(), true)).join('')}</div>
                         </section>`;
                 }).join('');
                 return;
