@@ -12080,14 +12080,17 @@ textarea {
         function togglePlantArchive(id) {
             const plant = plants.find(item => String(item.id) === String(id));
             if (!plant) return;
-            if (plant.archivedAt) {
-                delete plant.archivedAt;
-            } else {
+            const isBeingComposted = !plant.archivedAt;
+            if (isBeingComposted) {
                 plant.archivedAt = new Date().toISOString();
+            } else {
+                delete plant.archivedAt;
             }
             saveLocalPlantsForCurrentUser(plants);
             markFloraSyncPending('plant-update', id);
             if (typeof syncPendingFloraChanges === 'function' && navigator.onLine) syncPendingFloraChanges();
+            // Take the user straight to the matching list so the move is visible.
+            window.groPlantArchiveView = isBeingComposted ? 'archived' : 'active';
             renderPlants();
             closeJournalModal();
         }
