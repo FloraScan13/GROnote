@@ -3852,21 +3852,21 @@ textarea {
                                     <div class="w-full"><strong class="text-slate-800 dark:text-slate-200">Setup:</strong> <span id="journal-setup">Not specified</span></div>
                                     <div id="journal-tag-type-row" class="hidden"><strong class="text-slate-800 dark:text-slate-200">Tag type:</strong> <span id="journal-tag-type"></span></div>
                                 </div>
-                                <div id="journal-amount-editor" class="hidden mt-2 rounded-xl border border-pink-200 bg-pink-50/70 p-3">
+                                <div id="journal-amount-editor" class="hidden mt-2 rounded-xl border border-[#d1d5db] bg-[#f4f5ee] p-3">
                                     <div class="space-y-2">
-                                        <div class="text-xs font-semibold" style="color:#963D5D;"><i class="fa-solid fa-sliders mr-1"></i>Amount in this journal</div>
+                                        <div class="text-xs font-semibold text-[#294b34]"><i class="fa-solid fa-sliders mr-1" style="color:#294b34!important"></i>Amount in this journal</div>
                                         <div class="flex flex-wrap items-center gap-2">
-                                            <input id="journal-quantity" type="number" min="1" step="1" inputmode="numeric" aria-label="Plant or seed quantity" class="w-24 px-3 py-2 rounded-lg border border-pink-200 bg-white text-sm" />
-                                            <select id="journal-quantity-type" aria-label="Quantity type" class="flex-1 min-w-[110px] px-3 py-2 rounded-lg border border-pink-200 bg-white text-sm">
+                                            <input id="journal-quantity" type="number" min="1" step="1" inputmode="numeric" aria-label="Plant or seed quantity" class="w-24 px-3 py-2 rounded-lg border border-[#d1d5db] bg-white text-sm text-[#294b34]" />
+                                            <select id="journal-quantity-type" aria-label="Quantity type" class="flex-1 min-w-[110px] px-3 py-2 rounded-lg border border-[#d1d5db] bg-white text-sm text-[#294b34]">
                                                 <option value="plants">Plants</option>
                                                 <option value="seeds">Seeds</option>
                                                 <option value="cuttings">Cuttings</option>
                                             </select>
-                                            <button type="button" onclick="saveJournalPlantQuantity()" class="px-3 py-2 rounded-lg text-xs font-semibold text-white" style="background:#C4557C;">Save amount</button>
-                                            <button type="button" onclick="document.getElementById('journal-amount-editor').classList.add('hidden')" class="px-3 py-2 rounded-lg text-xs font-semibold border border-pink-200 bg-white text-slate-700 ">Cancel</button>
+                                            <button type="button" onclick="saveJournalPlantQuantity()" class="px-3 py-2 rounded-lg text-xs font-semibold text-white" style="background:#294b34!important;">Save amount</button>
+                                            <button type="button" onclick="document.getElementById('journal-amount-editor').classList.add('hidden')" class="px-3 py-2 rounded-lg text-xs font-semibold border border-[#d1d5db] bg-white text-[#294b34]">Cancel</button>
                                         </div>
-                                        <p id="journal-multisow-summary" class="hidden text-[11px]" style="color:#9b6478;"></p>
-                                        <p class="text-[11px]" style="color:#9b6478;">Update how many plants, seeds, or cuttings this journal tracks. Multisown seed totals are calculated from Pots / Plugs × seeds per Pot / Plug.</p>
+                                        <p id="journal-multisow-summary" class="hidden text-[11px] text-[#294b34]"></p>
+                                        <p class="text-[11px] text-[#55705c]">Update how many plants, seeds, or cuttings this journal tracks. Multisown seed totals are calculated from Pots / Plugs × seeds per Pot / Plug.</p>
                                     </div>
                                 </div>
                                 <div id="journal-plant-details-editor" class="hidden mt-3 space-y-2">
