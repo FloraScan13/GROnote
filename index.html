@@ -8161,6 +8161,35 @@ textarea {
                 : (locationFilter ? locationFilter.value : '');
 
             const archiveView = window.groPlantArchiveView === 'archived' ? 'archived' : 'active';
+            const locationControl = document.getElementById('plants-location-control');
+            const locationTabs = document.getElementById('plant-location-tabs');
+            const locationTabsLabel = document.getElementById('plant-location-tabs-label');
+            const locationSelect = document.getElementById('plant-location-filter');
+            if (archiveView === 'archived') {
+                if (locationControl) locationControl.classList.remove('hidden');
+                if (locationTabsLabel) locationTabsLabel.textContent = 'Filter composted plants by year';
+                if (locationSelect) locationSelect.classList.add('hidden');
+                const compostYears = [...new Set(plants.filter(plant => plant.archivedAt).map(plant => {
+                    const date = new Date(plant.archivedAt);
+                    return Number.isNaN(date.getTime()) ? 'Unknown year' : String(date.getFullYear());
+                }))].sort((a, b) => a === 'Unknown year' ? 1 : b === 'Unknown year' ? -1 : Number(b) - Number(a));
+                const selectedYear = window.groSelectedCompostYear || '';
+                if (locationTabs) {
+                    const tabClass = 'location-filter-tab inline-flex flex-shrink-0 items-center rounded-full px-4 py-2 text-sm font-semibold transition-colors';
+                    locationTabs.innerHTML = [{value:'',label:'All years'}, ...compostYears.map(year => ({value:year,label:year}))].map(item => {
+                        const active = item.value === selectedYear;
+                        return '<button type="button" class="' + tabClass + (active ? ' is-active' : '') +
+                            '" aria-pressed="' + (active ? 'true' : 'false') +
+                            '" onclick="setPlantArchiveYear(this.dataset.year)" data-year="' + escapeHtml(item.value) + '">' +
+                            escapeHtml(item.label) + '</button>';
+                    }).join('');
+                }
+            } else {
+                if (locationControl) locationControl.classList.remove('hidden');
+                if (locationTabsLabel) locationTabsLabel.textContent = 'Filter plants by location';
+                if (locationSelect) locationSelect.classList.remove('hidden');
+                renderPlantLocationControls();
+            }
             const activeTab = document.getElementById('active-plants-tab');
             const archivedTab = document.getElementById('archived-plants-tab');
             if (archivedTab) {
@@ -8176,7 +8205,12 @@ textarea {
             }
             const filtered = plants.filter(p => {
                 if ((archiveView === 'archived') !== Boolean(p.archivedAt)) return false;
-                if (selectedLocation && (p.location || '') !== selectedLocation) return false;
+                if (archiveView === 'archived' && window.groSelectedCompostYear) {
+                    const archivedDate = p.archivedAt ? new Date(p.archivedAt) : null;
+                    const archivedYear = archivedDate && !Number.isNaN(archivedDate.getTime()) ? String(archivedDate.getFullYear()) : 'Unknown year';
+                    if (archivedYear !== window.groSelectedCompostYear) return false;
+                }
+                if (archiveView === 'active' && selectedLocation && (p.location || '') !== selectedLocation) return false;
                 return p.name.toLowerCase().includes(query) ||
                        (p.variety && p.variety.toLowerCase().includes(query)) ||
                        (p.notes && p.notes.toLowerCase().includes(query));
@@ -12127,6 +12161,12 @@ textarea {
 
         function setPlantArchiveView(view) {
             window.groPlantArchiveView = view === 'archived' ? 'archived' : 'active';
+            if (window.groPlantArchiveView === 'active') window.groSelectedCompostYear = '';
+            renderPlants();
+        }
+
+        function setPlantArchiveYear(year) {
+            window.groSelectedCompostYear = String(year || '');
             renderPlants();
         }
 
