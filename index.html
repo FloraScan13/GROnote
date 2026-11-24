@@ -5328,11 +5328,21 @@ textarea {
             try {
                 const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
                 if (sessionError || !session?.user) throw new Error('Your invitation session has expired. Ask the administrator for a new invitation.');
+                // Atomically reserve the username in the database. The unique,
+                // case-insensitive constraint prevents simultaneous duplicate signups.
+                const { error: usernameError } = await supabaseClient.rpc('gronote_claim_username', {
+                    p_username: username
+                });
+                if (usernameError) throw usernameError;
+
                 const { error } = await supabaseClient.auth.updateUser({
                     password,
                     data: { username }
                 });
-                if (error) throw error;
+                if (error) {
+                    await supabaseClient.rpc('gronote_release_username');
+                    throw error;
+                }
 
                 // Sign in with the newly chosen password, then send the personalised welcome
                 // email using the verified account identity and transfer the session.
