@@ -6277,13 +6277,17 @@ textarea {
                 markFloraSyncPending();
                 return false;
             }
+            // Pin every write to the account that initiated it. Authentication can
+            // change while a photo upload or other network request is in flight.
+            const requestedUserId = currentUser.id;
             try {
                 if (plant.customIconUrl && plant.customIconUrl.startsWith('data:') && !plant.customIconPath) {
                     plant.customIconPath = await uploadJournalPhoto(plant.customIconUrl, plant.id, 'plant-icon', 0);
                 }
+                if (!currentUser || currentUser.id !== requestedUserId) return false;
                 const { error } = await supabaseClient.from('plants').upsert({
                     id: plant.id,
-                    user_id: currentUser.id,
+                    user_id: requestedUserId,
                     name: plant.name,
                     variety: plant.variety,
                     quantity: Math.max(1, Number(plant.quantity) || 1),
@@ -6307,6 +6311,7 @@ textarea {
                     nfc_tag_linked: !!plant.nfcTagLinked,
                     qr_code_value: plant.qrCodeValue || null
                 });
+                if (!currentUser || currentUser.id !== requestedUserId) return false;
                 if (error) {
                     console.error("Failed to sync plant to cloud:", error);
                     updateSyncBadge('local', 'Cloud Save Failed');
@@ -6316,15 +6321,18 @@ textarea {
                 }
                 if (plant.customIconPath) {
                     plant.customIconUrl = await createJournalPhotoUrl(plant.customIconPath);
+                    if (!currentUser || currentUser.id !== requestedUserId) return false;
                     saveLocalPlantsForCurrentUser(plants);
                 }
                 updateSyncBadge('cloud', 'Cloud Synced');
                 return true;
             } catch (err) {
                 console.error("Failed to sync plant to cloud:", err);
-                updateSyncBadge('local', 'Cloud Save Failed');
-                markFloraSyncPending();
-                alert("Your plant was saved on this device, but cloud sync failed. Check your connection and Supabase database settings.");
+                if (currentUser && currentUser.id === requestedUserId) {
+                    updateSyncBadge('local', 'Cloud Save Failed');
+                    markFloraSyncPending();
+                    alert("Your plant was saved on this device, but cloud sync failed. Check your connection and Supabase database settings.");
+                }
                 return false;
             }
         }
@@ -6393,11 +6401,12 @@ textarea {
                 markFloraSyncPending();
                 return false;
             }
+            const requestedUserId = currentUser.id;
             try {
                 const { error } = await supabaseClient.from('plant_logs').upsert({
                     id: log.id,
                     plant_id: plantId,
-                    user_id: currentUser.id,
+                    user_id: requestedUserId,
                     date: log.date,
                     type: log.type,
                     text: serializeJournalLogText(log),
@@ -6410,10 +6419,10 @@ textarea {
                 if (error) throw error;
             } catch (err) {
                 console.error("Failed to sync log to cloud:", err);
-                markFloraSyncPending();
+                if (currentUser && currentUser.id === requestedUserId) markFloraSyncPending();
                 return false;
             }
-            return true;
+            return !!currentUser && currentUser.id === requestedUserId;
         }
 
         async function deleteLogFromCloud(logId) {
