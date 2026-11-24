@@ -4505,7 +4505,11 @@ textarea {
             plantLocations = JSON.parse(localStorage.getItem(floraAccountStorageKey('flora_plant_locations', userId)) || defaults.flora_plant_locations);
             locationTypes = JSON.parse(localStorage.getItem(floraAccountStorageKey('flora_plant_location_types', userId)) || defaults.flora_plant_location_types);
             locationDetails = JSON.parse(localStorage.getItem(floraAccountStorageKey('flora_plant_location_details', userId)) || '{}');
-            locationDetailsVisibility = Object.fromEntries((plantLocations || []).map(location => [location, false]));
+            locationDetailsVisibility = JSON.parse(localStorage.getItem(floraAccountStorageKey('flora_plant_location_details_visibility', userId)) || '{}') || {};
+            (plantLocations || []).forEach(location => {
+                if (typeof locationDetailsVisibility[location] !== 'boolean') locationDetailsVisibility[location] = false;
+            });
+            setFloraAccountItem('flora_plant_location_details_visibility', JSON.stringify(locationDetailsVisibility));
             locationHeaderWeatherVisible = localStorage.getItem(floraAccountStorageKey('flora_location_header_weather_visible', userId)) !== 'false';
             const weatherToggle = document.getElementById('setting-location-header-weather');
             if (weatherToggle) weatherToggle.checked = locationHeaderWeatherVisible;
@@ -4574,8 +4578,10 @@ textarea {
         let locationDetails = JSON.parse(getFloraAccountItem('flora_plant_location_details') || '{}') || {};
         let locationDetailsVisibility = JSON.parse(getFloraAccountItem('flora_plant_location_details_visibility') || '{}') || {};
         let locationHeaderWeatherVisible = getFloraAccountItem('flora_location_header_weather_visible') !== 'false';
-        // Always start with every location's details collapsed on a fresh app load.
-        locationDetailsVisibility = Object.fromEntries(plantLocations.map(location => [location, false]));
+        // Restore each location's saved expanded/collapsed state for this account.
+        plantLocations.forEach(location => {
+            if (typeof locationDetailsVisibility[location] !== 'boolean') locationDetailsVisibility[location] = false;
+        });
         setFloraAccountItem('flora_plant_location_details_visibility', JSON.stringify(locationDetailsVisibility));
         let locationSetups = JSON.parse(getFloraAccountItem('flora_plant_location_setups') || '{}') || {};
         let locationPostcodes = JSON.parse(getFloraAccountItem('flora_plant_location_postcodes') || '{}') || {};
@@ -4655,11 +4661,6 @@ textarea {
             // Re-apply the saved scanner choice after app data has loaded. If no
             // valid choice exists, NFC has already been persisted as the default.
             applyScannerPreference();
-
-            // Reset the Plants screen presentation after local and cloud data have loaded.
-            // Keep saved location details and equipment; only collapse their display.
-            locationDetailsVisibility = Object.fromEntries(plantLocations.map(location => [location, false]));
-            setFloraAccountItem('flora_plant_location_details_visibility', JSON.stringify(locationDetailsVisibility));
 
             // Start every growing location in List view on each refresh.
             plantLocations.forEach(location => { plantLocationViewModes[location] = 'list'; });
@@ -4799,7 +4800,15 @@ textarea {
             // Remember the visible app section so rendering refreshed plant data
             // cannot unexpectedly take them away from Settings.
             const settingsView = document.getElementById('view-settings');
-            const settingsWasActive = !!settingsView && !settingsView.classList.contains('hidden');
+            let selectedTabBeforeRefresh = 'plants';
+            try {
+                selectedTabBeforeRefresh = localStorage.getItem('gronote_desktop_last_tab') === 'settings'
+                    ? 'settings'
+                    : (settingsView && !settingsView.classList.contains('hidden') ? 'settings' : 'plants');
+            } catch (_) {
+                selectedTabBeforeRefresh = settingsView && !settingsView.classList.contains('hidden') ? 'settings' : 'plants';
+            }
+            const visibilityBeforeRefresh = { ...locationDetailsVisibility };
             const pending = getFloraSyncQueue();
             if (pending.dirty || pending.profileDirty || pending.locationsDirty) return;
             if (backgroundGardenRefreshPromise) return backgroundGardenRefreshPromise;
@@ -4814,8 +4823,15 @@ textarea {
                     await fetchPlantLocationsFromCloudOrLocal();
                     localStorage.setItem('flora_last_user_id', currentUser.id);
                     renderPlantLocationControls();
+                    // Reapply the locally saved location visibility state after the
+                    // cloud data refresh, then render the Plants screen from that state.
+                    locationDetailsVisibility = { ...visibilityBeforeRefresh };
+                    plantLocations.forEach(location => {
+                        if (typeof locationDetailsVisibility[location] !== 'boolean') locationDetailsVisibility[location] = false;
+                    });
+                    setFloraAccountItem('flora_plant_location_details_visibility', JSON.stringify(locationDetailsVisibility));
                     renderPlants();
-                    if (settingsWasActive) switchTab('settings');
+                    switchTab(selectedTabBeforeRefresh);
                 } finally {
                     if (showScreen) screen.classList.add('is-hidden');
                     backgroundGardenRefreshPromise = null;
@@ -7060,10 +7076,9 @@ textarea {
         }
 
         function getDesktopStartupTab() {
-            // Keep the Settings view selected across desktop browser refreshes.
+            // Restore the last selected main app page on every screen size.
             try {
-                return window.matchMedia('(min-width: 768px)').matches &&
-                    localStorage.getItem('gronote_desktop_last_tab') === 'settings'
+                return localStorage.getItem('gronote_desktop_last_tab') === 'settings'
                     ? 'settings'
                     : 'plants';
             } catch (_) {
@@ -7072,10 +7087,11 @@ textarea {
         }
 
         function switchTab(tabId) {
-            // Remember the selected desktop tab so a browser refresh restores it.
+            // Remember the selected page so returning to the browser tab or refreshing
+            // the app restores the same main section on desktop and mobile.
             try {
-                if (window.matchMedia('(min-width: 768px)').matches) {
-                    localStorage.setItem('gronote_desktop_last_tab', tabId === 'settings' ? 'settings' : 'plants');
+                if (tabId === 'settings' || tabId === 'plants') {
+                    localStorage.setItem('gronote_desktop_last_tab', tabId);
                 }
             } catch (_) {}
             // A root-level guard prevents Settings flashing even before Tailwind loads.
