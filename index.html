@@ -4710,9 +4710,9 @@ textarea {
                 document.documentElement.classList.remove('flora-refresh-navigation');
                 return;
             }
-            // Keep the refresh screen visible long enough to be noticed, even
-            // when cached garden data restores almost instantly.
-            const minimumDisplayMs = 2500;
+            // Hide the refresh overlay as soon as the app is ready; do not
+            // impose an artificial delay on a warm, cached launch.
+            const minimumDisplayMs = 0;
             const remaining = Math.max(0, minimumDisplayMs - (Date.now() - mobileRefreshShownAt));
             if (mobileRefreshHideTimer) window.clearTimeout(mobileRefreshHideTimer);
             mobileRefreshHideTimer = window.setTimeout(() => {
@@ -4887,6 +4887,25 @@ textarea {
                 const restoreGeneration = ++floraAuthRestoreGeneration;
                 const { data: { session: storedSession } } = await supabaseClient.auth.getSession();
                 let session = storedSession;
+
+                // Paint the signed-in gardener's own device cache immediately.
+                // Network refresh, cloud reconciliation and offline uploads continue afterwards.
+                if (session?.user && !isFloraInviteFlow) {
+                    currentUser = session.user;
+                    activateFloraAccountStorage(currentUser.id);
+                    try {
+                        plants = JSON.parse(localStorage.getItem(floraUserStorageKey('flora_plants_user', currentUser.id)) || '[]');
+                        if (!Array.isArray(plants)) plants = [];
+                    } catch (_) { plants = []; }
+                    applyScannerPreference();
+                    subscribeToPlantLocationChanges();
+                    renderPlantLocationControls();
+                    renderPlants();
+                    updateAuthUI(true, currentUser.email);
+                    updateSyncBadge('local', getFloraSyncQueue().dirty ? 'Syncing Offline Changes…' : 'Loading Cloud Updates…');
+                    switchTab('plants');
+                }
+
                 if (session) {
                     const refreshed = await supabaseClient.auth.refreshSession();
                     if (refreshed.error || !refreshed.data.session?.user) {
