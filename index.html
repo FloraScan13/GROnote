@@ -10932,16 +10932,16 @@ textarea {
             const rainfall = getJournalCumulativeRainfall(p);
             const usageSummary = `
                 <div class="grid grid-cols-2 gap-2 mb-3">
-                    <div class="rounded-xl border border-[#e8a7bd] dark:border-rose-900 bg-[#fff0f4] dark:bg-rose-950/30 p-3">
-                        <div class="text-[10px] uppercase tracking-wide font-bold text-rose-700 dark:text-rose-300">Total water used</div>
-                        <div class="text-lg font-bold text-rose-900 dark:text-rose-100">${formatJournalVolume(usage.waterMl)}</div>
-                        ${rainfall ? '<div class="mt-2 pt-2 border-t border-rose-200 dark:border-rose-900"><div class="text-[10px] uppercase tracking-wide font-bold text-rose-700 dark:text-rose-300">Cumulative rainfall</div><div class="text-sm font-bold text-rose-900 dark:text-rose-100">' + rainfall.mm.toFixed(1) + ' mm (' + (rainfall.mm / 25.4).toFixed(2) + ' in)</div><div class="text-[10px] text-rose-700 dark:text-rose-300">Since ' + escapeHtml(rainfall.since) + '</div></div>' : ''}
+                    <div class="rounded-xl border border-[#294b34] bg-[#f4f5ee] p-3">
+                        <div class="text-[10px] uppercase tracking-wide font-bold text-[#294b34]">Total water used</div>
+                        <div class="text-lg font-bold text-[#294b34]">${formatJournalVolume(usage.waterMl)}</div>
+                        ${rainfall ? '<div class="mt-2 pt-2 border-t border-[#9aaa9b]"><div class="text-[10px] uppercase tracking-wide font-bold text-[#294b34]">Cumulative rainfall</div><div class="text-sm font-bold text-[#294b34]">' + rainfall.mm.toFixed(1) + ' mm (' + (rainfall.mm / 25.4).toFixed(2) + ' in)</div><div class="text-[10px] text-[#294b34]">Since ' + escapeHtml(rainfall.since) + '</div></div>' : ''}
                     </div>
-                    <div class="rounded-xl border border-[#e8a7bd] dark:border-rose-900 bg-[#fff0f4] dark:bg-rose-950/30 p-3">
-                        <div class="text-[10px] uppercase tracking-wide font-bold text-rose-700 dark:text-rose-300 mb-1">Nutrients used</div>
+                    <div class="rounded-xl border border-[#294b34] bg-[#f4f5ee] p-3">
+                        <div class="text-[10px] uppercase tracking-wide font-bold text-[#294b34] mb-1">Nutrients used</div>
                         ${Object.keys(usage.nutrientTotals).length
-                            ? '<div class="space-y-1">' + Object.entries(usage.nutrientTotals).sort((a, b) => a[0].localeCompare(b[0])).map(([name, amount]) => '<div class="flex justify-between items-start gap-2 text-xs"><span class="text-rose-900 dark:text-rose-100 min-w-0">' + escapeHtml(name) + '</span><strong class="text-rose-900 dark:text-rose-100 whitespace-nowrap">' + formatJournalNutrientVolume(amount) + '</strong></div>').join('') + '</div>'
-                            : '<div class="text-xs text-rose-800 dark:text-rose-200">No nutrient use recorded</div>'}
+                            ? '<div class="space-y-1">' + Object.entries(usage.nutrientTotals).sort((a, b) => a[0].localeCompare(b[0])).map(([name, amount]) => '<div class="flex justify-between items-start gap-2 text-xs"><span class="text-[#294b34] min-w-0">' + escapeHtml(name) + '</span><strong class="text-[#294b34] whitespace-nowrap">' + formatJournalNutrientVolume(amount) + '</strong></div>').join('') + '</div>'
+                            : '<div class="text-xs text-[#55705c]">No nutrient use recorded</div>'}
                     </div>
                 </div>`;
             if (!p.logs || p.logs.length === 0) {
