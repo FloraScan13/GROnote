@@ -109,6 +109,11 @@
             background: #f7f6f0 !important;
         }
         html.flora-auth-pending body {
+            /* Suppress the entire app shell during session restoration. A later
+               desktop header-logo rule explicitly sets its image to visible,
+               which can otherwise leak the white logo through inherited
+               visibility:hidden and flash it at the top-left on refresh. */
+            display: none !important;
             visibility: hidden !important;
         }
     </style>
