@@ -4795,6 +4795,11 @@ textarea {
 
         async function refreshPlantLocationsFromCloud() {
             if (!supabaseClient || !currentUser || !navigator.onLine) return;
+            // A background refresh runs when the user returns to this browser tab.
+            // Remember the visible app section so rendering refreshed plant data
+            // cannot unexpectedly take them away from Settings.
+            const settingsView = document.getElementById('view-settings');
+            const settingsWasActive = !!settingsView && !settingsView.classList.contains('hidden');
             const pending = getFloraSyncQueue();
             if (pending.dirty || pending.profileDirty || pending.locationsDirty) return;
             if (backgroundGardenRefreshPromise) return backgroundGardenRefreshPromise;
@@ -4810,6 +4815,7 @@ textarea {
                     localStorage.setItem('flora_last_user_id', currentUser.id);
                     renderPlantLocationControls();
                     renderPlants();
+                    if (settingsWasActive) switchTab('settings');
                 } finally {
                     if (showScreen) screen.classList.add('is-hidden');
                     backgroundGardenRefreshPromise = null;
