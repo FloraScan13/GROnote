@@ -10352,10 +10352,12 @@ textarea {
         }
 
         function openJournalModal(id) {
-            const p = plants.find(item => item.id === id);
+            const p = plants.find(item => String(item.id) === String(id));
             if (!p) return;
             const archiveActionLabel = document.getElementById('journal-archive-action-label');
             if (archiveActionLabel) archiveActionLabel.textContent = p.archivedAt ? 'Restore plant' : 'Compost plant';
+            const deletePlantAction = document.getElementById('journal-delete-plant-action');
+            if (deletePlantAction) deletePlantAction.classList.toggle('hidden', !p.archivedAt);
             setActiveNavigationTab('plants');
 
             document.getElementById('log-plant-id').value = p.id;
