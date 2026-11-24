@@ -49,14 +49,3 @@ $$;
 revoke all on function public.gronote_claim_username(text) from public, anon;
 grant execute on function public.gronote_claim_username(text) to authenticated;
 
-create or replace function public.gronote_release_username()
-returns void
-language sql
-security definer
-set search_path = ''
-as $$
-  delete from public.gronote_usernames where user_id = auth.uid();
-$$;
-
-revoke all on function public.gronote_release_username() from public, anon;
-grant execute on function public.gronote_release_username() to authenticated;
