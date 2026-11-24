@@ -4209,9 +4209,13 @@ textarea {
             </div>
             <h3 class="text-base font-bold" style="color:#81334f;">Delete Plant Record?</h3>
             <p class="text-xs" style="color:#986b7b;">This will permanently remove <span id="delete-plant-name" class="font-bold" style="color:#a63d65;"></span> and all associated growth logs.</p>
+            <div class="space-y-2 text-left">
+                <label for="delete-confirmation-input" class="block text-xs font-semibold" style="color:#81334f;">Type <span class="font-bold">delete</span> to confirm</label>
+                <input id="delete-confirmation-input" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Type delete" oninput="updateDeleteConfirmation()" class="w-full rounded-xl border px-3 py-2 text-sm outline-none focus:ring-2" style="background:#fff;border-color:#e8a7bd;color:#81334f;--tw-ring-color:#c6537b;">
+            </div>
             <div class="flex justify-center space-x-3 pt-2">
                 <button onclick="closeDeleteModal()" class="px-4 py-2 rounded-xl text-xs font-semibold transition border" style="background:#fff0f4;border-color:#e8a7bd;color:#81334f;">Cancel</button>
-                <button id="confirm-delete-btn" class="px-4 py-2 rounded-xl text-xs font-semibold shadow transition" style="background:#c6537b;border:1px solid #c6537b;color:#fff8fa;">Delete Permanently</button>
+                <button id="confirm-delete-btn" disabled class="px-4 py-2 rounded-xl text-xs font-semibold shadow transition opacity-50 cursor-not-allowed" style="background:#c6537b;border:1px solid #c6537b;color:#fff8fa;">Delete Permanently</button>
             </div>
         </div>
     </div>
@@ -12036,22 +12040,41 @@ textarea {
             renderPlants();
         }
 
+        function updateDeleteConfirmation() {
+            const input = document.getElementById('delete-confirmation-input');
+            const button = document.getElementById('confirm-delete-btn');
+            if (!input || !button) return;
+            const confirmed = input.value.trim().toLowerCase() === 'delete';
+            button.disabled = !confirmed;
+            button.classList.toggle('opacity-50', !confirmed);
+            button.classList.toggle('cursor-not-allowed', !confirmed);
+            button.classList.toggle('cursor-pointer', confirmed);
+        }
+
         function promptDeletePlant(id) {
             const p = plants.find(item => item.id === id);
             if (!p) return;
             pendingDeleteId = id;
             document.getElementById('delete-plant-name').textContent = p.name + (p.variety ? ` (${p.variety})` : '');
-            document.getElementById('confirm-delete-btn').onclick = confirmDeletePlant;
+            const input = document.getElementById('delete-confirmation-input');
+            if (input) input.value = '';
+            const button = document.getElementById('confirm-delete-btn');
+            button.onclick = confirmDeletePlant;
+            updateDeleteConfirmation();
             document.getElementById('delete-modal').classList.remove('hidden');
+            setTimeout(() => input?.focus(), 0);
         }
 
         function closeDeleteModal() {
             pendingDeleteId = null;
+            const input = document.getElementById('delete-confirmation-input');
+            if (input) input.value = '';
+            updateDeleteConfirmation();
             document.getElementById('delete-modal').classList.add('hidden');
         }
 
         async function confirmDeletePlant() {
-            if (!pendingDeleteId) return;
+            if (!pendingDeleteId || document.getElementById('delete-confirmation-input')?.value.trim().toLowerCase() !== 'delete') return;
             const delId = pendingDeleteId;
             plants = plants.filter(p => p.id !== delId);
             saveLocalPlantsForCurrentUser(plants);
