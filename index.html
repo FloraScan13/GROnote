@@ -7351,10 +7351,9 @@ textarea {
                         locationSetups = data.locations.setups;
                         setFloraAccountItem('flora_plant_location_setups', JSON.stringify(locationSetups));
                     }
-                    // Do not restore expanded/collapsed UI state from the cloud.
-                    // Every app load and cloud refresh starts with all location details hidden.
-                    locationDetailsVisibility = Object.fromEntries(plantLocations.map(location => [location, false]));
-                    setFloraAccountItem('flora_plant_location_details_visibility', JSON.stringify(locationDetailsVisibility));
+                    // Keep the current on-screen expanded/collapsed state during background
+                    // cloud refreshes. The visibility map is account-scoped locally and is
+                    // changed only by the location details toggle.
                     if (!Array.isArray(data.locations) && data.locations.postcodes && typeof data.locations.postcodes === 'object') {
                         locationPostcodes = data.locations.postcodes;
                         setFloraAccountItem('flora_plant_location_postcodes', JSON.stringify(locationPostcodes));
