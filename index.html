@@ -8161,6 +8161,12 @@ textarea {
                 : (locationFilter ? locationFilter.value : '');
 
             const archiveView = window.groPlantArchiveView === 'archived' ? 'archived' : 'active';
+            // The Compost bin is a read-only archive view: hide Add Plant and Scan
+            // navigation actions while it is open, then restore them in Plants.
+            ['tab-add-plant', 'tab-scanner'].forEach(id => {
+                const tab = document.getElementById(id);
+                if (tab) tab.classList.toggle('hidden', archiveView === 'archived');
+            });
             const locationControl = document.getElementById('plants-location-control');
             const locationTabs = document.getElementById('plant-location-tabs');
             const locationTabsLabel = document.getElementById('plant-location-tabs-label');
