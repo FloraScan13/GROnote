@@ -8179,9 +8179,18 @@ textarea {
             const archiveView = window.groPlantArchiveView === 'archived' ? 'archived' : 'active';
             const activeTab = document.getElementById('active-plants-tab');
             const archivedTab = document.getElementById('archived-plants-tab');
-            if (activeTab && archivedTab) {
-                activeTab.className = archiveView === 'active' ? 'px-3 py-2 rounded-lg text-xs font-semibold bg-[#294b34] text-white' : 'px-3 py-2 rounded-lg text-xs font-semibold border border-[#294b34]/30 text-[#294b34] bg-white';
-                archivedTab.className = archiveView === 'archived' ? 'px-3 py-2 rounded-lg text-xs font-semibold bg-[#294b34] text-white' : 'px-3 py-2 rounded-lg text-xs font-semibold border border-[#294b34]/30 text-[#294b34] bg-white';
+            if (archivedTab) {
+                archivedTab.textContent = archiveView === 'archived' ? 'Back to Plants' : 'Archived';
+                archivedTab.setAttribute('aria-label', archiveView === 'archived' ? 'Return to Plants' : 'View archived plants');
+                archivedTab.className = archiveView === 'archived'
+                    ? 'px-3 py-2 rounded-lg text-xs font-semibold bg-[#294b34] text-white'
+                    : 'px-3 py-2 rounded-lg text-xs font-semibold border border-[#294b34]/30 text-[#294b34] bg-white';
+                archivedTab.onclick = () => setPlantArchiveView(archiveView === 'archived' ? 'active' : 'archived');
+            }
+            if (activeTab) {
+                activeTab.className = archiveView === 'active'
+                    ? 'px-3 py-2 rounded-lg text-xs font-semibold bg-[#294b34] text-white'
+                    : 'px-3 py-2 rounded-lg text-xs font-semibold border border-[#294b34]/30 text-[#294b34] bg-white';
             }
             const filtered = plants.filter(p => {
                 if ((archiveView === 'archived') !== Boolean(p.archivedAt)) return false;
