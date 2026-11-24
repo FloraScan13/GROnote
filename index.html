@@ -3823,7 +3823,7 @@ textarea {
                         <div class="absolute right-0 mt-1 w-56 rounded-xl border border-slate-200 bg-white p-1.5 shadow-xl dark:border-slate-600 dark:bg-slate-800">
                             <button type="button" onclick="toggleJournalPlantDetailsEdit(); this.closest('details').open=false;" class="w-full rounded-lg px-3 py-2 text-left text-xs font-semibold text-slate-700 dark:text-slate-200"><i class="fa-solid fa-pen-to-square mr-2 text-[#294b34]" style="color:#294b34!important"></i>Edit plant name / variety</button>
                             <button type="button" onclick="document.getElementById('journal-amount-editor').classList.toggle('hidden'); this.closest('details').open=false;" class="w-full rounded-lg px-3 py-2 text-left text-xs font-semibold text-slate-700 dark:text-slate-200"><i class="fa-solid fa-sliders mr-2 text-[#294b34]" style="color:#294b34!important"></i>Amount in this journal</button>
-                            <button type="button" onclick="this.closest('details').open=false; const plantId=document.getElementById('log-plant-id').value; if(plantId) togglePlantArchive(plantId);" class="w-full rounded-lg px-3 py-2 text-left text-xs font-semibold text-slate-900 dark:text-slate-100"><i class="fa-solid fa-box-archive mr-2 text-[#294b34]" style="color:#294b34!important"></i><span id="journal-archive-action-label">Archive plant</span></button>
+                            <button type="button" onclick="this.closest('details').open=false; const plantId=document.getElementById('log-plant-id').value; if(plantId) togglePlantArchive(plantId);" class="w-full rounded-lg px-3 py-2 text-left text-xs font-semibold text-slate-900 dark:text-slate-100"><i class="fa-solid fa-box-archive mr-2 text-[#294b34]" style="color:#294b34!important"></i><span id="journal-archive-action-label">Compost plant</span></button>
                             <button type="button" onclick="this.closest('details').open=false; const plantId=document.getElementById('log-plant-id').value; if(plantId) promptDeletePlant(plantId);" class="w-full rounded-lg px-3 py-2 text-left text-xs font-semibold text-slate-900 dark:text-slate-100"><i class="fa-solid fa-trash-can mr-2 text-[#294b34]" style="color:#294b34!important"></i>Delete plant</button>
                         </div>
                     </details>
@@ -8649,7 +8649,7 @@ textarea {
             const p = plants.find(item => item.id === id);
             if (!p) return;
             const archiveActionLabel = document.getElementById('journal-archive-action-label');
-            if (archiveActionLabel) archiveActionLabel.textContent = p.archivedAt ? 'Restore plant' : 'Archive plant';
+            if (archiveActionLabel) archiveActionLabel.textContent = p.archivedAt ? 'Restore plant' : 'Compost plant';
             setActiveNavigationTab('plants');
             document.getElementById('modal-title').textContent = 'Edit Plant Profile';
             document.getElementById('edit-plant-id').value = p.id;
