@@ -3408,7 +3408,7 @@ textarea {
             </script>
 
             <!-- Supabase Cloud Connection & Authentication -->
-            <details class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm group">
+            <details id="supabase-cloud-admin-settings" class="hidden bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm group">
                 <summary class="list-none cursor-pointer flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-3 [&::-webkit-details-marker]:hidden">
                     <div class="flex items-center justify-between flex-1 gap-3">
                     <div>
@@ -5394,6 +5394,7 @@ textarea {
             const profileEmail = document.getElementById('setting-profile-email');
             const adminTools = document.getElementById('flora-admin-tools');
             const adminNote = document.getElementById('flora-admin-access-note');
+            const cloudAdminSettings = document.getElementById('supabase-cloud-admin-settings');
             const accountSession = document.getElementById('settings-account-session');
             const cloudAuthScreen = document.getElementById('cloud-auth-screen');
             // Session restoration has now made the authoritative signed-in/out decision.
@@ -5405,6 +5406,8 @@ textarea {
             if (accountSession) accountSession.classList.toggle('hidden', !isLoggedIn);
             if (accountEmail) accountEmail.textContent = isLoggedIn ? (email || currentUser?.email || 'Signed in') : 'Not signed in';
             const isAdmin = !!(isLoggedIn && currentUser && currentUser.app_metadata && currentUser.app_metadata.role === 'admin');
+            // Cloud connection details and account administration are admin-only settings.
+            if (cloudAdminSettings) cloudAdminSettings.classList.toggle('hidden', !isAdmin);
             if (adminTools) adminTools.classList.toggle('hidden', !isAdmin);
             if (adminNote) adminNote.textContent = isAdmin ? 'Administrator access confirmed. You can manage gardener accounts below.' : (isLoggedIn ? 'This account does not have administrator permissions.' : 'Connect to Supabase and sign in with the administrator account to unlock account management.');
             if (isAdmin) setTimeout(() => refreshFloraAdminUsers(), 0);
