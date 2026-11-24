@@ -1285,174 +1285,89 @@ textarea {
         #view-scanner #match-result-content .text-slate-500 {
             color: #81334f !important;
         }
-        /* Growth Journal nutrients section: match the same soft rose palette as watering. */
-        #journal-modal #nutrient-library-section {
-            background: #fff0f4 !important;
-            border-color: #e8a7bd !important;
-            color: #81334f !important;
-        }
-        #journal-modal #nutrient-library-section label,
-        #journal-modal #nutrient-library-section label i,
-        #journal-modal #nutrient-library-section span {
-            color: #a63d65 !important;
-        }
-        #journal-modal #nutrient-library-section .rounded-lg {
-            background: #fff8fa !important;
-            border-color: #f0cad8 !important;
-        }
-        #journal-modal #nutrient-library-section input:not([type="checkbox"]),
-        #journal-modal #nutrient-library-section select,
-        #journal-modal #nutrient-library-section textarea {
-            background: #fff8fa !important;
-            border-color: #e8a7bd !important;
-            color: #81334f !important;
-        }
-        #journal-modal #nutrient-library-section input:focus,
-        #journal-modal #nutrient-library-section select:focus,
-        #journal-modal #nutrient-library-section textarea:focus {
-            border-color: #c6537b !important;
-            box-shadow: 0 0 0 3px rgba(198,83,123,.14) !important;
-        }
-        #journal-modal #nutrient-library-section input[type="checkbox"] {
-            accent-color: #c6537b !important;
-        }
-        /* Highlight selected nutrient products in the GROnote pink palette. */
-        #journal-modal #nutrient-product-list label:has(input[type="checkbox"]:checked) {
-            background-color: #fff0f4 !important;
-            border-radius: 6px;
-        }
-        #journal-modal #nutrient-product-list label:has(input[type="checkbox"]:checked) > div {
-            color: #81334f !important;
-        }
-        #journal-modal #nutrient-product-list label:has(input[type="checkbox"]:checked) .font-semibold {
-            color: #a63d65 !important;
-        }
-        #journal-modal #nutrient-product-list > div:has(input[type="checkbox"]:checked) {
-            background-color: #fff0f4 !important;
-            border-color: #e8a7bd !important;
-        }
-        #journal-modal #add-selected-nutrients-button,
-        #journal-modal #add-selected-nutrients-button span,
-        #journal-modal #add-selected-nutrients-button i {
-            color: #ffffff !important;
-        }
-        #journal-modal #nutrient-library-section button {
-            background-color: #c6537b !important;
-            border-color: #c6537b !important;
-            color: #fff8fa !important;
-        }
-        #journal-modal #nutrient-library-section button:hover {
-            background-color: #a63d65 !important;
-        }
-        #journal-modal #nutrient-library-section button:active,
-        #journal-modal #nutrient-library-section button:focus {
-            background-color: #c6537b !important;
-            border-color: #c6537b !important;
-            color: #fff8fa !important;
-            outline: none !important;
-            box-shadow: none !important;
-        }
-        /* Keep the primary nutrient action solid pink; the .rounded-lg rule below is more specific than a plain button selector. */
-        #journal-modal #nutrient-library-section button.bg-emerald-700 {
-            background-color: #c6537b !important;
-            border-color: #c6537b !important;
-            color: #fff8fa !important;
-        }
-        #journal-modal #nutrient-library-section button.bg-emerald-700:hover {
-            background-color: #a63d65 !important;
-            border-color: #a63d65 !important;
-        }
-        #journal-modal #nutrient-library-section button.bg-emerald-700:active,
-        #journal-modal #nutrient-library-section button.bg-emerald-700:focus {
-            background-color: #c6537b !important;
-            border-color: #c6537b !important;
-            color: #fff8fa !important;
-            box-shadow: none !important;
-        }
-        #journal-modal #nutrient-library-section .text-emerald-600,
-        #journal-modal #nutrient-library-section .text-emerald-700,
-        #journal-modal #nutrient-library-section .text-emerald-800 {
-            color: #a63d65 !important;
-        }
-        /* Growth Journal Nutrient Brand Library uses GROnote's forest-green palette. */
-        #journal-modal #nutrient-library-section {
+        /* Growth Journal watering and nutrient controls share one consistent forest-green palette. */
+        #journal-modal #nutrient-library-section,
+        #journal-modal #tank-volume-section {
             background: #F4F5EE !important;
             border-color: #cbd8c5 !important;
             color: #294333 !important;
         }
         #journal-modal #nutrient-library-section label,
         #journal-modal #nutrient-library-section label span,
-        #journal-modal #nutrient-library-section .text-emerald-600,
-        #journal-modal #nutrient-library-section .text-emerald-700,
-        #journal-modal #nutrient-library-section .text-emerald-800 {
-            color: #14532d !important;
-        }
-        #journal-modal #nutrient-library-section > span,
-        #journal-modal #nutrient-library-section p {
-            color: #526653 !important;
-        }
-        #journal-modal #nutrient-library-section > div,
-        #journal-modal #nutrient-library-section #nutrient-watering-can-option,
-        #journal-modal #nutrient-library-section #nutrient-product-list > div {
-            background: #fffef9 !important;
-            border-color: #cbd8c5 !important;
-            color: #294333 !important;
-        }
-        #journal-modal #nutrient-library-section input:not([type="checkbox"]),
-        #journal-modal #nutrient-library-section select {
-            background: #fffef9 !important;
-            border-color: #cbd8c5 !important;
-            color: #294333 !important;
-        }
-        #journal-modal #nutrient-library-section input:focus,
-        #journal-modal #nutrient-library-section select:focus {
-            border-color: #14532d !important;
-            box-shadow: 0 0 0 3px rgba(20,83,45,.14) !important;
-        }
-        #journal-modal #nutrient-library-section input[type="checkbox"] {
-            accent-color: #14532d !important;
-        }
-        #journal-modal #nutrient-library-section button {
-            background-color: #14532d !important;
-            border-color: #14532d !important;
-            color: #fffef9 !important;
-        }
-        #journal-modal #nutrient-library-section button:hover {
-            background-color: #24462e !important;
-            border-color: #24462e !important;
-        }
-        #journal-modal #nutrient-library-section button:active,
-        #journal-modal #nutrient-library-section button:focus {
-            background-color: #14532d !important;
-            border-color: #14532d !important;
-            color: #fffef9 !important;
-            box-shadow: none !important;
-        }
-        /* Growth Journal watering fill volume uses GROnote's forest-green palette. */
-        #journal-modal #tank-volume-section {
-            background: #F4F5EE !important;
-            border-color: #cbd8c5 !important;
-            color: #294333 !important;
-        }
+        #journal-modal #nutrient-library-section label i,
+        #journal-modal #nutrient-library-section > div > label,
         #journal-modal #tank-volume-section label,
         #journal-modal #tank-volume-section label i {
             color: #14532d !important;
         }
+        #journal-modal #nutrient-library-section > div,
+        #journal-modal #nutrient-watering-can-option,
+        #journal-modal #nutrient-product-list > div,
+        #journal-modal #nutrient-product-list label,
+        #journal-modal #tank-volume-section > div {
+            background: #F4F5EE !important;
+            border-color: #cbd8c5 !important;
+            color: #294333 !important;
+        }
+        #journal-modal #nutrient-library-section p,
+        #journal-modal #nutrient-library-section > span {
+            color: #526653 !important;
+        }
+        #journal-modal #nutrient-library-section input:not([type="checkbox"]),
+        #journal-modal #nutrient-library-section select,
+        #journal-modal #nutrient-library-section textarea,
         #journal-modal #tank-volume-section input,
         #journal-modal #tank-volume-section select {
             background: #fffef9 !important;
             border-color: #cbd8c5 !important;
             color: #294333 !important;
         }
+        #journal-modal #nutrient-library-section input:focus,
+        #journal-modal #nutrient-library-section select:focus,
+        #journal-modal #nutrient-library-section textarea:focus,
         #journal-modal #tank-volume-section input:focus,
         #journal-modal #tank-volume-section select:focus {
             border-color: #14532d !important;
             box-shadow: 0 0 0 3px rgba(20,83,45,.14) !important;
         }
+        #journal-modal #nutrient-library-section input[type="checkbox"] {
+            accent-color: #14532d !important;
+        }
+        #journal-modal #nutrient-product-list label:has(input[type="checkbox"]:checked),
+        #journal-modal #nutrient-product-list > div:has(input[type="checkbox"]:checked) {
+            background: #e8eee5 !important;
+            border-color: #9caf98 !important;
+        }
+        #journal-modal #nutrient-product-list label:has(input[type="checkbox"]:checked) *,
+        #journal-modal #nutrient-product-list > div:has(input[type="checkbox"]:checked) * {
+            color: #14532d !important;
+        }
+        #journal-modal #nutrient-library-section button {
+            background: #14532d !important;
+            border-color: #14532d !important;
+            color: #fffef9 !important;
+        }
+        #journal-modal #nutrient-library-section button:hover {
+            background: #24462e !important;
+            border-color: #24462e !important;
+        }
+        #journal-modal #nutrient-library-section button:active,
+        #journal-modal #nutrient-library-section button:focus {
+            background: #14532d !important;
+            border-color: #14532d !important;
+            color: #fffef9 !important;
+            box-shadow: none !important;
+        }
+        #journal-modal #nutrient-library-section #add-selected-nutrients-button,
+        #journal-modal #nutrient-library-section #add-selected-nutrients-button span,
+        #journal-modal #nutrient-library-section #add-selected-nutrients-button i {
+            color: #fffef9 !important;
+        }
         #journal-modal #nutrient-watering-can-enabled + i,
-        #journal-modal .fa-droplet,
-        #journal-modal .fa-jug-detergent {
-            color: #c6537b !important;
+        #journal-modal #nutrient-library-section .fa-flask,
+        #journal-modal #tank-volume-section .fa-droplet,
+        #journal-modal #nutrient-library-section .fa-jug-detergent {
+            color: #14532d !important;
         }
         /* Growth Journal location setup details use the app's soft rose palette. */
         #journal-modal #journal-location-setup {
