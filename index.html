@@ -6420,7 +6420,7 @@ textarea {
                 usernameInput?.focus();
                 return;
             }
-            if (notificationEmail && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(notificationEmail)) {
+            if (notificationEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(notificationEmail)) {
                 alert('Please enter a valid notification email address.');
                 return;
             }
