@@ -3298,8 +3298,9 @@ textarea {
                         <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Notifications will be sent to this address. This does not change your sign-in email.</p>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold mb-1 text-slate-600 dark:text-slate-400">Username</label>
-                        <input type="text" id="setting-username" name="nickname" autocomplete="nickname" autocapitalize="none" spellcheck="false" value="@kitchengardener" placeholder="e.g. @kitchengardener" class="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm">
+                        <label for="setting-username" class="block text-xs font-semibold mb-1 text-slate-600 dark:text-slate-400">Username</label>
+                        <input type="text" id="setting-username" name="nickname" autocomplete="nickname" autocapitalize="none" spellcheck="false" minlength="3" maxlength="24" pattern="[A-Za-z0-9._-]+" placeholder="Choose a username" aria-describedby="setting-username-help" class="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm">
+                        <p id="setting-username-help" class="mt-1 text-[11px] text-slate-500 dark:text-slate-400">This is your GROnote sign-in username. Use 3–24 letters, numbers, dots, underscores or hyphens. Do not include @.</p>
                     </div>
                 </div>
                 <div class="flex justify-end pt-2">
@@ -6410,44 +6411,62 @@ textarea {
         }
 
         async function saveBrandingSettings() {
-            appSettings.username = document.getElementById('setting-username').value.trim() || '@kitchengardener';
+            const usernameInput = document.getElementById('setting-username');
+            const requestedUsername = (usernameInput?.value || '').trim().replace(/^@/, '');
             const notificationEmail = document.getElementById('setting-profile-email').value.trim();
-            if (notificationEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(notificationEmail)) {
+
+            if (!/^[A-Za-z0-9._-]{3,24}$/.test(requestedUsername)) {
+                alert('Please choose a username between 3 and 24 characters using letters, numbers, dots, underscores or hyphens. Do not include @.');
+                usernameInput?.focus();
+                return;
+            }
+            if (notificationEmail && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(notificationEmail)) {
                 alert('Please enter a valid notification email address.');
                 return;
             }
+
+            const previousUsername = String(currentUser?.user_metadata?.username || appSettings.username || '').trim().replace(/^@/, '');
+            if (supabaseClient && currentUser) {
+                try {
+                    // Reserve the new username first. The database enforces uniqueness
+                    // and permits the signed-in user to update their own username.
+                    const { error: usernameError } = await supabaseClient.rpc('gronote_claim_username', {
+                        p_username: requestedUsername
+                    });
+                    if (usernameError) throw usernameError;
+
+                    const { error } = await supabaseClient.auth.updateUser({
+                        data: { username: requestedUsername, notification_email: notificationEmail || '' }
+                    });
+                    if (error) {
+                        // Restore the previous username reservation if Auth metadata
+                        // could not be updated, so the two account records stay aligned.
+                        if (/^[A-Za-z0-9._-]{3,24}$/.test(previousUsername)) {
+                            const { error: rollbackError } = await supabaseClient.rpc('gronote_claim_username', {
+                                p_username: previousUsername
+                            });
+                            if (rollbackError) console.error('Could not restore the previous username reservation:', rollbackError);
+                        }
+                        throw error;
+                    }
+                    currentUser = (await supabaseClient.auth.getUser()).data.user || currentUser;
+                } catch (error) {
+                    console.error('Could not update GROnote profile:', error);
+                    alert(error.message || 'Your username could not be updated. Please try another username.');
+                    return;
+                }
+            } else {
+                alert('Please sign in to your GROnote account before changing your username.');
+                return;
+            }
+
+            appSettings.username = requestedUsername;
             appSettings.notificationEmail = notificationEmail;
             setFloraAccountItem('flora_settings', JSON.stringify(appSettings));
             markFloraSyncPending('profile');
             applyBranding();
-            let savedToCloud = false;
-            if (supabaseClient && currentUser) {
-                if (!/^[A-Za-z0-9._-]{3,24}$/.test(appSettings.username)) {
-                    alert('Please choose a username between 3 and 24 characters using letters, numbers, dots, underscores or hyphens.');
-                    return;
-                }
-                const { error: usernameError } = await supabaseClient.rpc('gronote_claim_username', {
-                    p_username: appSettings.username
-                });
-                if (usernameError) {
-                    alert(usernameError.message || 'This username is already taken. Please choose another.');
-                    return;
-                }
-                const { error } = await supabaseClient.auth.updateUser({
-                    data: { username: appSettings.username, notification_email: appSettings.notificationEmail || '' }
-                });
-                if (error) {
-                    console.error('Could not sync username to cloud:', error);
-                    alert('Your profile preferences were saved on this device, but could not be synced across devices: ' + error.message);
-                    return;
-                }
-                currentUser = (await supabaseClient.auth.getUser()).data.user || currentUser;
-                savedToCloud = true;
-            }
             updateMobileWelcomeGreeting();
-            alert(savedToCloud
-                ? 'Profile preferences saved and synced across your devices.'
-                : 'Profile preferences saved on this device. Sign in to your GROnote account to sync them across devices.');
+            alert('Your username and profile preferences have been saved and synced across your devices.');
         }
 
         function renderIconPickerGrid(selectedKey = 'cucumber') {
