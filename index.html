@@ -8206,6 +8206,13 @@ textarea {
                 const emptyTitle = emptyEl.querySelector('h3');
                 const emptyText = emptyEl.querySelector('p');
                 const emptyAction = emptyEl.querySelector('button');
+                const emptyIcon = emptyEl.querySelector('img');
+                if (emptyIcon) {
+                    emptyIcon.src = archiveView === 'archived'
+                        ? './Leaf%20Stamp%20Logo%20green.png'
+                        : './Leaf%20Icon%20Dark%20Green.svg';
+                    emptyIcon.className = 'w-[60px] h-[60px] object-contain';
+                }
                 if (emptyTitle) emptyTitle.textContent = archiveView === 'archived' ? 'No plants here yet.' : 'No plants added yet';
                 if (emptyText) emptyText.textContent = archiveView === 'archived' ? 'Plants you have finished with can be stored here and kept for future reference.' : 'This location is ready to grow. Add your first plant here to start tracking its progress.';
                 if (emptyAction) emptyAction.style.display = archiveView === 'archived' ? 'none' : '';
