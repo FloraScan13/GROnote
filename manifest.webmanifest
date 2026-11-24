@@ -9,13 +9,13 @@
   "theme_color": "#294b34",
   "icons": [
     {
-      "src": "./Leaf%20Stamp%20Logo.png",
+      "src": "./GROnote%20Leaf%20Stamp%20Logo%20white.png",
       "sizes": "any",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./Leaf%20Stamp%20Logo.png",
+      "src": "./GROnote%20Leaf%20Stamp%20Logo%20white.png",
       "sizes": "any",
       "type": "image/png",
       "purpose": "maskable"
