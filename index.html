@@ -4547,6 +4547,7 @@ textarea {
         let activeMatchStream = null;
 
         window.addEventListener('DOMContentLoaded', async () => {
+            try {
             const navigationEntry = performance.getEntriesByType('navigation')[0];
             const isPageRefresh = navigationEntry && navigationEntry.type === 'reload';
             const isMobileLayout = window.matchMedia('(max-width: 768px)').matches;
@@ -4604,6 +4605,22 @@ textarea {
                 hideMobileRefreshScreen();
             } else {
                 hideMobileWelcomeScreen();
+            }
+            } catch (startupError) {
+                console.error('GROnote startup failed:', startupError);
+                // If any non-auth startup step fails, do not leave the whole app
+                // hidden behind the first-paint guard or mobile refresh overlay.
+                try {
+                    plantsInitialLoadComplete = true;
+                    updateAuthUI(!!currentUser, currentUser?.email || '');
+                } catch (recoveryError) {
+                    console.error('GROnote startup recovery failed:', recoveryError);
+                    document.documentElement.classList.remove('flora-auth-pending');
+                    document.body.style.visibility = 'visible';
+                }
+                document.getElementById('mobile-refresh-screen')?.classList.add('is-hidden');
+                document.documentElement.classList.remove('flora-refresh-navigation');
+                document.getElementById('mobile-welcome-screen')?.classList.add('is-hidden');
             }
         });
 
