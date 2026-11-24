@@ -5939,6 +5939,7 @@ textarea {
                         icon_key: plant.iconKey, custom_icon_path: plant.customIconPath || null, hex: plant.hex, date: plant.date, medium: plant.medium,
                         setup: Array.isArray(plant.setup) ? plant.setup : (plant.setup ? [plant.setup] : []),
                         heated_propagator_temperature_c: plant.heatedPropagatorTemperatureC ?? null,
+                        archived_at: plant.archivedAt || null,
                         notes: plant.notes, location: plant.location || '',
                         nfc_tag_linked: !!plant.nfcTagLinked, qr_code_value: plant.qrCodeValue || null
                     });
@@ -6139,6 +6140,7 @@ textarea {
                         medium: p.medium,
                         setup: Array.isArray(p.setup) ? p.setup : (p.setup ? [p.setup] : []),
                         heatedPropagatorTemperatureC: p.heated_propagator_temperature_c ?? null,
+                        archivedAt: p.archived_at || '',
                         location: p.location || (localPlants.find(localPlant => localPlant.id === p.id) || {}).location || '',
                         notes: p.notes,
                         nfcTagLinked: !!p.nfc_tag_linked,
@@ -6233,6 +6235,7 @@ textarea {
                     medium: plant.medium,
                     setup: Array.isArray(plant.setup) ? plant.setup : (plant.setup ? [plant.setup] : []),
                     heated_propagator_temperature_c: plant.heatedPropagatorTemperatureC ?? null,
+                    archived_at: plant.archivedAt || null,
                     notes: plant.notes,
                     location: plant.location || '',
                     nfc_tag_linked: !!plant.nfcTagLinked,
