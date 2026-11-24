@@ -7189,9 +7189,14 @@ textarea {
         }
 
         function setPlantLocationFilter(location) {
+            const selected = String(location || '');
+            const availableLocations = [...new Set([
+                ...(Array.isArray(plantLocations) ? plantLocations : []),
+                ...plants.map(plant => plant.location).filter(Boolean)
+            ])];
+            window.groSelectedPlantLocation = selected && availableLocations.includes(selected) ? selected : '';
             const filterSelect = document.getElementById('plant-location-filter');
-            if (!filterSelect) return;
-            filterSelect.value = plantLocations.includes(location) ? location : '';
+            if (filterSelect) filterSelect.value = window.groSelectedPlantLocation;
             renderPlantLocationControls();
             renderPlants();
         }
@@ -7200,7 +7205,9 @@ textarea {
             const plantSelect = document.getElementById('plant-location');
             const filterSelect = document.getElementById('plant-location-filter');
             const settingsList = document.getElementById('setting-plant-locations-list');
-            const currentFilter = filterSelect ? filterSelect.value : '';
+            const currentFilter = window.groSelectedPlantLocation !== undefined
+                ? window.groSelectedPlantLocation
+                : (filterSelect ? filterSelect.value : '');
             if (plantSelect) {
                 const selected = selectedLocation || plantSelect.value || '';
                 plantSelect.innerHTML = '<option value="">Choose a location</option>' + plantLocations.map(location =>
@@ -7212,11 +7219,16 @@ textarea {
                 filterSelect.innerHTML = '<option value="">All locations</option>' + plantLocations.map(location =>
                     '<option value="' + escapeHtml(location) + '">' + escapeHtml(location) + '</option>'
                 ).join('');
-                filterSelect.value = plantLocations.includes(currentFilter) ? currentFilter : '';
+                const availableLocations = [...new Set([
+                    ...(Array.isArray(plantLocations) ? plantLocations : []),
+                    ...plants.map(plant => plant.location).filter(Boolean)
+                ])];
+                filterSelect.value = availableLocations.includes(currentFilter) ? currentFilter : '';
+                window.groSelectedPlantLocation = filterSelect.value;
             }
             const locationTabs = document.getElementById('plant-location-tabs');
             if (locationTabs) {
-                const activeLocation = filterSelect ? filterSelect.value : '';
+                const activeLocation = window.groSelectedPlantLocation || (filterSelect ? filterSelect.value : '');
                 const tabClass = 'location-filter-tab inline-flex flex-shrink-0 items-center rounded-full px-4 py-2 text-sm font-semibold transition-colors';
                 locationTabs.innerHTML = [
                     { value: '', label: 'All' },
@@ -8160,7 +8172,9 @@ textarea {
                 return;
             }
             const locationFilter = document.getElementById('plant-location-filter');
-            const selectedLocation = locationFilter ? locationFilter.value : '';
+            const selectedLocation = window.groSelectedPlantLocation !== undefined
+                ? window.groSelectedPlantLocation
+                : (locationFilter ? locationFilter.value : '');
 
             const archiveView = window.groPlantArchiveView === 'archived' ? 'archived' : 'active';
             const activeTab = document.getElementById('active-plants-tab');
