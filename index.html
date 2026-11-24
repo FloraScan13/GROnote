@@ -4796,18 +4796,9 @@ textarea {
 
         async function refreshPlantLocationsFromCloud() {
             if (!supabaseClient || !currentUser || !navigator.onLine) return;
-            // A background refresh runs when the user returns to this browser tab.
-            // Remember the visible app section so rendering refreshed plant data
-            // cannot unexpectedly take them away from Settings.
-            const settingsView = document.getElementById('view-settings');
-            let selectedTabBeforeRefresh = 'plants';
-            try {
-                selectedTabBeforeRefresh = localStorage.getItem('gronote_desktop_last_tab') === 'settings'
-                    ? 'settings'
-                    : (settingsView && !settingsView.classList.contains('hidden') ? 'settings' : 'plants');
-            } catch (_) {
-                selectedTabBeforeRefresh = settingsView && !settingsView.classList.contains('hidden') ? 'settings' : 'plants';
-            }
+            // Returning to the browser tab triggers a background data refresh.
+            // This refresh must never navigate between app sections: the user may
+            // currently be reading Settings, so leave the active view untouched.
             const visibilityBeforeRefresh = { ...locationDetailsVisibility };
             const pending = getFloraSyncQueue();
             if (pending.dirty || pending.profileDirty || pending.locationsDirty) return;
@@ -4831,7 +4822,9 @@ textarea {
                     });
                     setFloraAccountItem('flora_plant_location_details_visibility', JSON.stringify(locationDetailsVisibility));
                     renderPlants();
-                    switchTab(selectedTabBeforeRefresh);
+                    // Do not call switchTab() here. Re-rendering plant data is independent
+                    // of navigation, and forcing a tab after an async refresh can send
+                    // the user from Settings back to Plants when browser focus returns.
                 } finally {
                     if (showScreen) screen.classList.add('is-hidden');
                     backgroundGardenRefreshPromise = null;
