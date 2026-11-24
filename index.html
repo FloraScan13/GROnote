@@ -3466,6 +3466,15 @@ textarea {
     </main>
 
     <!-- MODAL: FEEDBACK & COMMENTS -->
+    <div id="profile-preferences-saved-modal" class="fixed inset-0 z-[10050] hidden items-center justify-center bg-black/60 p-4" role="dialog" aria-modal="true" aria-labelledby="profile-preferences-saved-title">
+        <div class="w-full max-w-sm rounded-2xl bg-[#FFFEF9] p-6 text-center shadow-xl" style="border:1px solid #294b34;">
+            <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full" style="background:#e8efe8;color:#294b34;"><i class="fa-solid fa-check text-xl"></i></div>
+            <h2 id="profile-preferences-saved-title" class="text-lg font-bold" style="color:#294b34;">Profile preferences saved</h2>
+            <p class="mt-2 text-sm" style="color:#526653;">Your username and profile preferences have been saved and synced across your devices.</p>
+            <button type="button" onclick="closeProfilePreferencesSavedModal()" class="mt-5 w-full rounded-xl px-5 py-2.5 text-sm font-semibold text-white" style="background:#294b34;">Okay</button>
+        </div>
+    </div>
+
     <div id="scanner-preference-saved-modal" class="fixed inset-0 z-[10050] hidden items-center justify-center bg-black/60 p-4" role="dialog" aria-modal="true" aria-labelledby="scanner-preference-saved-title">
         <div class="w-full max-w-sm rounded-2xl bg-[#FFFEF9] p-6 text-center shadow-xl" style="border:1px solid #294b34;">
             <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full" style="background:#e8efe8;color:#294b34;"><i class="fa-solid fa-check text-xl"></i></div>
@@ -6506,7 +6515,11 @@ textarea {
             markFloraSyncPending('profile');
             applyBranding();
             updateMobileWelcomeGreeting();
-            alert('Your username and profile preferences have been saved and synced across your devices.');
+            const profileSavedModal = document.getElementById('profile-preferences-saved-modal');
+            if (profileSavedModal) {
+                profileSavedModal.classList.remove('hidden');
+                profileSavedModal.classList.add('flex');
+            }
         }
 
         function renderIconPickerGrid(selectedKey = 'cucumber') {
@@ -8939,6 +8952,14 @@ textarea {
 
         function closeScannerPreferenceSavedModal() {
             const modal = document.getElementById('scanner-preference-saved-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function closeProfilePreferencesSavedModal() {
+            const modal = document.getElementById('profile-preferences-saved-modal');
             if (modal) {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
