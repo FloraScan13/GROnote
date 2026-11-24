@@ -2066,6 +2066,12 @@ textarea {
         }
 
 
+        /* Hide plant creation and scanner actions on every screen size while viewing Compost. */
+        #main-navigation-tabs[data-compost-view="true"] #tab-add-plant,
+        #main-navigation-tabs[data-compost-view="true"] #tab-scanner {
+            display: none !important;
+        }
+
         /* NFC tag linking is available on desktop and mobile. */
 
         /* Desktop: hide scanning interfaces, but keep scanner preferences available in Settings. */
@@ -8161,8 +8167,10 @@ textarea {
                 : (locationFilter ? locationFilter.value : '');
 
             const archiveView = window.groPlantArchiveView === 'archived' ? 'archived' : 'active';
-            // The Compost bin is a read-only archive view: hide Add Plant and Scan
-            // navigation actions while it is open, then restore them in Plants.
+            // Apply a navigation-level state so mobile scanner preference logic or
+            // inline display styles cannot reveal these actions in the Compost bin.
+            const mainNavigationTabs = document.getElementById('main-navigation-tabs');
+            if (mainNavigationTabs) mainNavigationTabs.dataset.compostView = archiveView === 'archived' ? 'true' : 'false';
             ['tab-add-plant', 'tab-scanner'].forEach(id => {
                 const tab = document.getElementById(id);
                 if (tab) tab.classList.toggle('hidden', archiveView === 'archived');
