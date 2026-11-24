@@ -6140,7 +6140,7 @@ textarea {
                         medium: p.medium,
                         setup: Array.isArray(p.setup) ? p.setup : (p.setup ? [p.setup] : []),
                         heatedPropagatorTemperatureC: p.heated_propagator_temperature_c ?? null,
-                        archivedAt: p.archived_at || '',
+                        archivedAt: p.archived_at || (localPlantsById.get(String(p.id)) || {}).archivedAt || '',
                         location: p.location || (localPlants.find(localPlant => localPlant.id === p.id) || {}).location || '',
                         notes: p.notes,
                         nfcTagLinked: !!p.nfc_tag_linked,
@@ -6163,6 +6163,18 @@ textarea {
                     }
                     plants = mergedPlants.filter(plant => !deletedPlantIds.has(String(plant.id)));
                     saveLocalPlantsForCurrentUser(plants);
+
+                    // If an earlier app version saved the compost status locally only,
+                    // preserve it and upload it now that archived_at is available in the cloud.
+                    const localCompostNeedsCloudSync = loadedPlants.some(plant => {
+                        const localPlant = localPlantsById.get(String(plant.id));
+                        const cloudRow = (dbPlants || []).find(row => String(row.id) === String(plant.id));
+                        return !!localPlant?.archivedAt && !cloudRow?.archived_at;
+                    });
+                    if (localCompostNeedsCloudSync) {
+                        markFloraSyncPending('plant-update');
+                        void syncPendingFloraChanges();
+                    }
 
                     // Enrich journal entries and private photo URLs in the background.
                     // Failure here leaves the already-rendered plant cards intact.
