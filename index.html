@@ -2979,6 +2979,11 @@ textarea {
                 <p class="mt-2 text-sm text-slate-600">Your invitation has been verified. Choose a password to finish setting up your personal gardener account.</p>
                 <p id="flora-invite-email" class="mt-3 text-sm font-semibold text-slate-700"></p>
             </div>
+            <div class="mb-3">
+                <label for="flora-invite-username" class="block text-sm font-semibold mb-1 text-slate-700">Choose a username</label>
+                <input id="flora-invite-username" type="text" autocomplete="username" minlength="3" maxlength="24" pattern="[A-Za-z0-9._-]+" placeholder="e.g. GreenFingered" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-base">
+                <p class="mt-1 text-xs text-slate-500">3–24 characters. Use letters, numbers, dots, underscores or hyphens.</p>
+            </div>
             <div id="flora-invite-password-fields" class="space-y-3">
                 <div>
                     <label for="flora-invite-password" class="block text-sm font-semibold mb-1 text-slate-700">Create password</label>
@@ -5307,8 +5312,15 @@ textarea {
 
         async function completeFloraInviteRegistration() {
             if (!supabaseClient) { showFloraInviteStatus('GROnote could not connect to the account service. Refresh and try again.', true); return; }
+            const usernameInput = document.getElementById('flora-invite-username');
+            const username = usernameInput?.value?.trim() || '';
             const password = document.getElementById('flora-invite-password')?.value || '';
             const confirmation = document.getElementById('flora-invite-password-confirm')?.value || '';
+            if (!/^[A-Za-z0-9._-]{3,24}$/.test(username)) {
+                showFloraInviteStatus('Please choose a username between 3 and 24 characters using letters, numbers, dots, underscores or hyphens.', true);
+                usernameInput?.focus();
+                return;
+            }
             if (!updateFloraInvitePasswordStrength()) { showFloraInviteStatus('Please meet all five password requirements before creating your account.', true); return; }
             if (password !== confirmation) { showFloraInviteStatus('The passwords do not match. Please try again.', true); return; }
             const button = document.getElementById('flora-invite-complete-button');
@@ -5316,18 +5328,31 @@ textarea {
             try {
                 const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
                 if (sessionError || !session?.user) throw new Error('Your invitation session has expired. Ask the administrator for a new invitation.');
-                const { error } = await supabaseClient.auth.updateUser({ password });
+                const { error } = await supabaseClient.auth.updateUser({
+                    password,
+                    data: { username }
+                });
                 if (error) throw error;
 
-                // Sign in with the newly chosen password, then transfer only this invited user's
-                // session into the normal app storage namespace before opening the garden.
+                // Sign in with the newly chosen password, then send the personalised welcome
+                // email using the verified account identity and transfer the session.
+                // Email failure must not undo a password that Supabase has already saved.
                 const { data: signedIn, error: signInError } = await supabaseClient.auth.signInWithPassword({
                     email: session.user.email,
                     password
                 });
                 if (signInError || !signedIn?.session) {
-                    throw new Error('Your password has been saved. Please return to the sign-in page and sign in with your new password.');
+                    throw new Error('Your password and username have been saved. Please return to the sign-in page and sign in with your new password.');
                 }
+                const { error: welcomeEmailError } = await supabaseClient.functions.invoke('send-welcome-email', {
+                    body: {}
+                });
+                if (welcomeEmailError) {
+                    console.error('GROnote welcome email could not be sent:', welcomeEmailError);
+                }
+
+                // Transfer only this invited user's
+                // session into the normal app storage namespace before opening the garden.
                 const appUrl = FLORA_SUPABASE_CONFIG.url || appSettings.supabaseUrl || '';
                 const appKey = FLORA_SUPABASE_CONFIG.publishableKey || appSettings.supabaseKey || '';
                 const appClient = window.supabase.createClient(appUrl, appKey);
