@@ -9,10 +9,10 @@
   "theme_color": "#294b34",
   "icons": [
     {
-      "src": "./gronote-app-icon.svg?v=6",
+      "src": "./GROnote%20Leaf%20Stamp%20Logo%20white.png?v=7",
       "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
