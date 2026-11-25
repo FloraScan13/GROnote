@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gronote-shell-v62';
+const CACHE_NAME = 'gronote-shell-v63';
 const APP_SHELL = [
     './',
     './index.html',
@@ -6,10 +6,10 @@ const APP_SHELL = [
     './app.css',
     './manifest.webmanifest',
     './leaf-icon-v2.svg',
-    './gronote-app-icon.svg?v=7',
+    './GROnote%20Leaf%20Stamp%20Logo%20white.png?v=8',
     './Leaf-Stamp-Logo-Dark-Green.png',
     './Leaf%20Stamp%20Logo%20green.png?v=2',
-    './GROnote%20Leaf%20Stamp%20Logo%20white.png?v=7',
+    './GROnote%20Leaf%20Stamp%20Logo%20white.png?v=8',
     'https://cdn.tailwindcss.com',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2',
