@@ -948,6 +948,46 @@
         }
     </style>
 
+
+    <style id="gronote-login-input-colours-final">
+        /* Apply independently of the sign-in state class, which may be added after first paint. */
+        #cloud-auth-screen input#auth-email,
+        #cloud-auth-screen input#auth-password,
+        #cloud-auth-screen input#auth-signup-email {
+            color-scheme: light !important;
+            -webkit-appearance: none !important;
+            appearance: none !important;
+            background: #fffef9 !important;
+            background-color: #fffef9 !important;
+            background-image: none !important;
+            color: #294b34 !important;
+            -webkit-text-fill-color: #294b34 !important;
+            border: 1px solid #cbd5cc !important;
+            opacity: 1 !important;
+            box-shadow: inset 0 0 0 1000px #fffef9 !important;
+        }
+        #cloud-auth-screen input#auth-email::placeholder,
+        #cloud-auth-screen input#auth-password::placeholder,
+        #cloud-auth-screen input#auth-signup-email::placeholder {
+            color: #788579 !important;
+            -webkit-text-fill-color: #788579 !important;
+            opacity: 1 !important;
+        }
+        #cloud-auth-screen input#auth-email:focus,
+        #cloud-auth-screen input#auth-password:focus,
+        #cloud-auth-screen input#auth-signup-email:focus {
+            outline: none !important;
+            border-color: #294b34 !important;
+            box-shadow: inset 0 0 0 1000px #fffef9, 0 0 0 2px rgba(41,75,52,.14) !important;
+        }
+        #cloud-auth-screen input#auth-email:-webkit-autofill,
+        #cloud-auth-screen input#auth-password:-webkit-autofill,
+        #cloud-auth-screen input#auth-signup-email:-webkit-autofill {
+            -webkit-box-shadow: inset 0 0 0 1000px #fffef9 !important;
+            -webkit-text-fill-color: #294b34 !important;
+            caret-color: #294b34 !important;
+        }
+    </style>
 </head>
 <body class="h-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
     <!-- Standalone invitation registration screen, outside Settings and collapsed accordions. -->
