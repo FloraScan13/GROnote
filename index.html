@@ -179,7 +179,6 @@
         // Start offline preparation immediately; the service worker caches the app shell in the background.
         if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
             navigator.serviceWorker.register('./service-worker.js')
-                .then(registration => registration.update())
                 .catch(error => console.warn('GROnote offline preparation could not start:', error));
         }
     </script>
@@ -4786,10 +4785,8 @@ textarea {
         function hideMobileWelcomeScreen() {
             const screen = document.getElementById('mobile-welcome-screen');
             if (!screen) return;
-            // Keep the welcome visible long enough to be noticed even when cached data loads instantly.
-            const minimumDisplayMs = 2500;
-            const remaining = Math.max(0, minimumDisplayMs - (Date.now() - mobileWelcomeShownAt));
-            window.setTimeout(() => screen.classList.add('is-hidden'), remaining);
+            // Do not add an artificial delay after the app is ready.
+            screen.classList.add('is-hidden');
         }
 
         // Keep growing-location settings live across every signed-in device.
@@ -4945,19 +4942,9 @@ textarea {
                     switchTab(getDesktopStartupTab());
                 }
 
-                if (session) {
-                    const refreshed = await supabaseClient.auth.refreshSession();
-                    if (refreshed.error || !refreshed.data.session?.user) {
-                        // Never continue with a cached JWT after Supabase has rejected its
-                        // refresh token or the Auth user no longer exists. Clear only this
-                        // browser's session; account-scoped device data is left untouched.
-                        console.warn('Stored GROnote session is no longer valid; signing out locally.', refreshed.error);
-                        await supabaseClient.auth.signOut({ scope: 'local' }).catch(() => {});
-                        session = null;
-                    } else {
-                        session = refreshed.data.session;
-                    }
-                }
+                // Avoid forcing a second auth network round-trip on every launch.
+                // The profile task below calls getUser() to validate the restored session;
+                // Supabase also refreshes expiring access tokens automatically.
                 if (restoreGeneration !== floraAuthRestoreGeneration) return;
                 if (isFloraInviteFlow) {
                     // This client uses invite-only storage, so any session here belongs to the invite link.
@@ -4976,16 +4963,22 @@ textarea {
                     subscribeToPlantLocationChanges();
                     updateAuthUI(true, currentUser.email);
                     updateSyncBadge('cloud', 'Cloud Connected');
-                    await loadBrandingSettingsFromCloud();
-                    if (restoreGeneration !== floraAuthRestoreGeneration) return;
-                    await fetchPlantsFromCloudOrLocal();
-                    if (restoreGeneration !== floraAuthRestoreGeneration) return;
-                    await fetchPlantLocationsFromCloudOrLocal();
+                    // Profile, plants and locations are independent requests. Start them
+                    // together instead of serialising three network round-trips.
+                    const profileTask = loadBrandingSettingsFromCloud().catch(error => {
+                        console.warn('GROnote profile refresh failed:', error);
+                    });
+                    const plantsTask = fetchPlantsFromCloudOrLocal();
+                    const locationsTask = fetchPlantLocationsFromCloudOrLocal();
+                    await Promise.all([plantsTask, locationsTask]);
                     if (restoreGeneration !== floraAuthRestoreGeneration) return;
                     localStorage.setItem('flora_last_user_id', currentUser.id);
                     renderPlantLocationControls();
                     renderPlants();
-                    await syncPendingFloraChanges();
+                    // Profile enrichment and pending uploads must not hold up the first
+                    // usable Plants screen.
+                    void profileTask;
+                    void syncPendingFloraChanges().catch(error => console.warn('GROnote background sync failed:', error));
                 } else {
                     currentUser = null;
                     resetFloraAccountStateForSignedOut();
@@ -5028,18 +5021,19 @@ textarea {
                         // also fire when a browser tab regains focus, so they must never
                         // change the section the gardener is currently viewing.
                         updateSyncBadge('cloud', 'Cloud Connected');
-                        await loadBrandingSettingsFromCloud();
-                        if (restoreGeneration !== floraAuthRestoreGeneration || currentUser?.id !== restoringUserId) return;
-                        await fetchPlantsFromCloudOrLocal();
-                        if (restoreGeneration !== floraAuthRestoreGeneration || currentUser?.id !== restoringUserId) return;
-                        await fetchPlantLocationsFromCloudOrLocal();
+                        const profileTask = loadBrandingSettingsFromCloud().catch(error => {
+                            console.warn('GROnote profile refresh failed:', error);
+                        });
+                        const plantsTask = fetchPlantsFromCloudOrLocal();
+                        const locationsTask = fetchPlantLocationsFromCloudOrLocal();
+                        await Promise.all([plantsTask, locationsTask]);
                         if (restoreGeneration !== floraAuthRestoreGeneration || currentUser?.id !== restoringUserId) return;
                         localStorage.setItem('flora_last_user_id', currentUser.id);
                         renderPlantLocationControls();
                         renderPlants();
-                        // Keep background auth restoration independent of app navigation.
-                        // The login handler already selects Plants for a fresh login.
-                        await syncPendingFloraChanges();
+                        // Keep profile enrichment and offline uploads out of the navigation path.
+                        void profileTask;
+                        void syncPendingFloraChanges().catch(error => console.warn('GROnote background sync failed:', error));
                     } else {
                         currentUser = null;
                         resetFloraAccountStateForSignedOut();
