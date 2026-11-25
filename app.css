@@ -28,6 +28,17 @@
                 visibility: hidden;
                 pointer-events: none;
             }
+            #mobile-refresh-screen .refresh-mark img {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                width: 100% !important;
+                height: 100% !important;
+                max-width: 100% !important;
+                max-height: 100% !important;
+                object-fit: contain !important;
+                filter: brightness(0) invert(1) !important;
+            }
             #mobile-refresh-screen .refresh-mark {
                 display: flex;
                 width: 112px;
