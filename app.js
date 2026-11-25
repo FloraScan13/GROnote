@@ -1,0 +1,8146 @@
+
+        // High-contrast, Monochrome / Black & White Vegetable Vector SVG Artwork
+        // Clean, consistent Garden Fresh line-art icons.
+        // Real crop photographs served from Wikimedia Commons. Individual file licences and attribution are available on each linked Commons file page.
+        const MONOCHROME_VEG_SVGS = {
+            cucumber: `<img src="./assets/assets%3Aplants%3Acucumber.svg" alt="" class="w-full h-full object-contain" aria-hidden="true" />`,
+            tomato: `<img src="./assets/assets%3Aplants%3Atomato.svg" alt="" class="w-full h-full object-contain" aria-hidden="true" />`,
+            pepper: `<img src="./assets/assets%3Aplants%3Apepper.svg" alt="" class="w-full h-full object-contain" aria-hidden="true" />`,
+            carrot: `<img src="./assets/assets%3Aplants%3Acarrot.svg" alt="" class="w-full h-full object-contain" aria-hidden="true" />`,
+            greens: `<img src="./assets/assets%3Aplants%3Agreens.svg" alt="" class="w-full h-full object-contain" aria-hidden="true" />`,
+            onion: `<img src="./assets/assets%3Aplants%3Aonion.svg" alt="" class="w-full h-full object-contain" aria-hidden="true" />`,
+            fig: `<img src="./assets/assets%3Aplants%3Afruit.svg" alt="" class="w-full h-full object-contain" aria-hidden="true" />`,
+            berries: `<img src="./assets/assets%3Aplants%3Aberries.svg" alt="" class="w-full h-full object-contain" aria-hidden="true" />`,
+            eggplant: `<img src="./assets/assets%3Aplants%3Aeggplant.svg" alt="" class="w-full h-full object-contain" aria-hidden="true" />`,
+            corn: `<img src="./assets/assets%3Aplants%3Acorn.svg" alt="" class="w-full h-full object-contain" aria-hidden="true" />`,
+            beans: `<img src="./assets/assets%3Aplants%3Abeans.svg" alt="" class="w-full h-full object-contain" aria-hidden="true" />`,
+            sprouts: `<img src="./assets/assets%3Aplants%3Asprouts.svg" alt="" class="w-full h-full object-contain" aria-hidden="true" />`
+        };;
+
+        const CROP_ICON_LIBRARY = [
+            { key: "cucumber", label: "Cucumber / Gherkin" },
+            { key: "tomato", label: "Tomato / Nightshade" },
+            { key: "pepper", label: "Peppers / Chillies" },
+            { key: "carrot", label: "Carrots / Radish / Turnips" },
+            { key: "greens", label: "Leafy Greens / Salad / Spinach" },
+            { key: "onion", label: "Alliums / Onion / Garlic / Leeks" },
+            { key: "fig", label: "Fig / Tree Fruit / Apples / Pears" },
+            { key: "berries", label: "Berries / Strawberries / Raspberries" },
+            { key: "eggplant", label: "Aubergine / Eggplant" },
+            { key: "corn", label: "Sweetcorn / Maize" },
+            { key: "beans", label: "Beans / Peas / Legumes" },
+            { key: "sprouts", label: "Sprouts / Seedlings / Herbs / Microgreens" }
+        ];
+
+        const COLOR_NAME_PALETTE = [
+            { name: "Ruby Red", hex: "#dc2626" },
+            { name: "Crimson", hex: "#991b1b" },
+            { name: "Coral Pink", hex: "#f43f5e" },
+            { name: "Amber Gold", hex: "#d97706" },
+            { name: "Bright Orange", hex: "#ea580c" },
+            { name: "Sunshine Yellow", hex: "#eab308" },
+            { name: "Emerald Green", hex: "#16a34a" },
+            { name: "Forest Green", hex: "#15803d" },
+            { name: "Lime Green", hex: "#65a30d" },
+            { name: "Mint Green", hex: "#10b981" },
+            { name: "Cobalt Blue", hex: "#2563eb" },
+            { name: "Navy Blue", hex: "#1e3a8a" },
+            { name: "Royal Purple", hex: "#9333ea" },
+            { name: "Violet / Plum", hex: "#7e22ce" },
+            { name: "Chocolate Brown", hex: "#78350f" },
+            { name: "Pure White", hex: "#ffffff" },
+            { name: "Charcoal Grey", hex: "#4b5563" },
+            { name: "Jet Black", hex: "#000000" }
+        ];
+
+        function rgbToHex(r, g, b) {
+            return '#' + [r, g, b].map(x => {
+                const hex = x.toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }).join('');
+        }
+
+        function colorDistance(hex1, hex2) {
+            const r1 = parseInt(hex1.substring(1, 3), 16) || 0;
+            const g1 = parseInt(hex1.substring(3, 5), 16) || 0;
+            const b1 = parseInt(hex1.substring(5, 7), 16) || 0;
+
+            const r2 = parseInt(hex2.substring(1, 3), 16) || 0;
+            const g2 = parseInt(hex2.substring(3, 5), 16) || 0;
+            const b2 = parseInt(hex2.substring(5, 7), 16) || 0;
+
+            return Math.sqrt(
+                Math.pow(r1 - r2, 2) +
+                Math.pow(g1 - g2, 2) +
+                Math.pow(b1 - b2, 2)
+            );
+        }
+
+        function getCommonColorName(hex) {
+            if (!hex) return "Custom Tag Color";
+            let closestName = "Custom Tag Color";
+            let minDiff = Infinity;
+            COLOR_NAME_PALETTE.forEach(c => {
+                const diff = colorDistance(hex, c.hex);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    closestName = c.name;
+                }
+            });
+            return closestName;
+        }
+
+        const NUTRIENT_BRANDS_LIBRARY = [
+            {
+                brand: "Growth Technology - Clonex Series",
+                products: [
+                    { name: "Clonex Rooting Gel", dosage: "Direct Dip", note: "Iconic high-performance hormone rooting gel that seals cut tissue, provides root-promoting hormone (IBA), and delivers trace nutrients for initial cell division." },
+                    { name: "Clonex Pro Start", dosage: "4 ml/L", note: "Multi-purpose liquid nutrient blend designed specifically for delicate young plants, seeds, and newly rooted cuttings in soil, coco, or media plugs." },
+                    { name: "Clonex Clone Solution / Plant Nutrient", dosage: "5 ml/L", note: "Specialized nutrient formulation specifically engineered for young rooted clones and cuttings to accelerate lateral root branching and early foliage development." },
+                    { name: "Clonex Mist / Mist Concentrate", dosage: "Foliar Spray (RTU or 1:3 ratio)", note: "Foliar spray for mother plants 2-3 days before taking cuttings, and directly onto fresh cuttings to enhance rooting speed and vigor." },
+                    { name: "Clonex Root Riot Organic Propagation Cubes", dosage: "Moisten as needed", note: "Pre-moistened organic peat propagation cubes infused with micro-nutrients and beneficial biology optimized for rooting with Clonex Gel." }
+                ]
+            },
+            {
+                brand: "Moonshine Global",
+                products: [
+                    { name: "Moonshine Nutrient Enhancer", dosage: "1 ml/L", note: "100% natural biodegradable bio-stimulant. Boosts cation exchange, root stamina, and cell wall strength without raising EC." },
+                    { name: "Moonshine Bio RTU Spray", dosage: "Ready-to-use foliar spray", note: "Biostimulant foliar mist for immediate leaf uptake, strengthening plant defense and foliage vigor." },
+                    { name: "Moonshine Bio Concentrate", dosage: "1-2 ml/L", note: "Concentrated natural bio-extract formula to improve metabolism and resistance against stress." },
+                    { name: "Moonshine Sunshine Concentrate", dosage: "1-2 ml/L", note: "Light utilization bio-booster to optimize photosynthetic performance under artificial or indoor lighting." },
+                    { name: "Moonshine Sunshine RTU Spray", dosage: "Ready-to-use foliar spray", note: "Ready-to-use foliage spray engineered to increase chlorophyll productivity and photosynthetic speed." },
+                    { name: "Moonshine Root Builder", dosage: "1 ml/L", note: "Bio-active root zone amendment to encourage beneficial microbial activity and feeder root branching." }
+                ]
+            },
+            {
+                brand: "Growth Technology Focus Series",
+                products: [
+                    { name: "GT Vegetable Focus", dosage: "5-10 ml/L", note: "Complete nutrient tailored for vegetables, tomatoes, and cucumbers in containers or soil beds." },
+                    { name: "GT Fruit Focus", dosage: "5 ml/L", note: "Specialized formulation for potted fruit trees, strawberries, cane fruit, and bush crops." },
+                    { name: "GT Chilli Focus", dosage: "5 ml/L", note: "Specifically balanced for sweet peppers, chillies, and capsicums from growth to harvest." },
+                    { name: "GT Foliage Focus", dosage: "3-5 ml/L", note: "pH buffered formula with all 12 essential minerals for tropical house plants and leafy greens." },
+                    { name: "GT Tomato Focus", dosage: "5-10 ml/L", note: "Rich in calcium and trace elements to prevent blossom end rot and maximize fruit yield." },
+                    { name: "GT Orchid Focus Grow", dosage: "5 ml/L", note: "Pure mineral nutrition tailored for orchid vegetative development without urea nitrogen." },
+                    { name: "GT Orchid Focus Bloom", dosage: "5 ml/L", note: "Targeted phosphorus and potassium balance to encourage long-lasting blooms." },
+                    { name: "GT Citrus Focus", dosage: "5-10 ml/L", note: "Balanced feeding for lemons, limes, and oranges to prevent leaf yellowing." },
+                    { name: "GT Cactus & Succulent Focus", dosage: "5 ml/L", note: "Low-nitrogen formula to prevent soft weak growth in succulents and cacti." },
+                    { name: "GT Organic Garden Focus", dosage: "5 ml/L", note: "Multipurpose organic balanced nutrient for organic vegetable and herb gardening." },
+                    { name: "GT Formulex", dosage: "5 ml/L", note: "Universal single-pack pH buffered solution for seedlings, cuttings, and delicate plants." },
+                    { name: "GT CCS Clone Cutting Solution", dosage: "5 ml/L", note: "Proprietary blend of nutrients and trace elements to accelerate root initiation on fresh cuttings." },
+                    { name: "GT Clonex Mist", dosage: "Foliar Spray", note: "Foliar spray to preserve stem tissue hydration and speed up rooting response." },
+                    { name: "GT Orchid Myst", dosage: "Foliar spray", note: "Ready-to-use nutrient, conditioning agent, and bug deterrent spray for orchids." },
+                    { name: "GT Air Plant Myst", dosage: "Foliar spray", note: "Delicate nutrient misting solution for Tillandsias and epiphyte air plants." }
+                ]
+            },
+            {
+                brand: "Shogun Fertilizers",
+                products: [
+                    { name: "Samurai Coco A & B", dosage: "2-4 ml/L", note: "Smart-Zen yield-maximizing base feed for coco coir media." },
+                    { name: "Samurai Hydro A & B", dosage: "1-4 ml/L", note: "Hydroponic & NFT complete two-part base solution." },
+                    { name: "Samurai Terra Grow", dosage: "2-4 ml/L", note: "Premium soil vegetative nutrient with Smart-Zen technology." },
+                    { name: "Samurai Terra Bloom", dosage: "2-4 ml/L", note: "Refined bloom nutrient formulated for soil-grown crops." },
+                    { name: "Shogun Start", dosage: "4 ml/L", note: "Gentle early-stage feed for seedlings and cuttings; supports germination, root initiation and establishment in soil, coco or hydro." },
+                    { name: "Katana Roots", dosage: "0.2-5 ml/L", note: "Root growth stimulant for explosive root development." },
+                    { name: "Silicon", dosage: "1 ml/L", note: "Concentrated potassium silicate for structural strength and pest resilience." },
+                    { name: "CalMag", dosage: "1-2 ml/L", note: "Calcium and Magnesium booster to prevent deficiency in soft water/coco." },
+                    { name: "Geisha Foliar", dosage: "Ready to use", note: "Foliar spray for enhanced flowering pathways and leaf growth." },
+                    { name: "Sumo Active Boost", dosage: "1-2 ml/L", note: "Heavy-weight plant booster formulated for active hydroponic systems." },
+                    { name: "Sumo Boost (Organic)", dosage: "1-2 ml/L", note: "Natural liquid emulsion for boosting flower weight, aroma, and essential oils." },
+                    { name: "PK Warrior 9/18", dosage: "0.5-1 ml/L", note: "Targeted phosphorus and potassium bloom expansion additive." },
+                    { name: "Dragon Force", dosage: "4 ml/L", note: "Late-stage flowering accelerator used in the final pre-harvest weeks." },
+                    { name: "Zenzym", dosage: "2.5 ml/L", note: "Biocatalyst enzyme solution for breaking down dead root matter." },
+                    { name: "Fertigation Cleaner", dosage: "1-2 ml/L", note: "Drip line cleaner to prevent mineral build-up and blockages." }
+                ]
+            },
+            {
+                brand: "Canna",
+                products: [
+                    { name: "Canna Coco A & B", dosage: "2-4 ml/L", note: "Dual part Coco coir formula for vegetative & flowering stages" },
+                    { name: "Canna Terra Vega", dosage: "3-5 ml/L", note: "One-part growth formula rich in nitrogen for soil" },
+                    { name: "Canna Terra Flores", dosage: "5 ml/L", note: "Bloom formula for fruiting & flowering in soil" },
+                    { name: "Canna PK 13/14", dosage: "1.5 ml/L", note: "High-grade phosphorus and potassium bloom booster" },
+                    { name: "Cannazym", dosage: "2.5 ml/L", note: "Enzyme product that breaks down dead roots" }
+                ]
+            },
+            {
+                brand: "BioBizz",
+                products: [
+                    { name: "Bio-Grow", dosage: "1-4 ml/L", note: "Liquid organic growth fertilizer for soil" },
+                    { name: "Bio-Bloom", dosage: "1-4 ml/L", note: "Organic flowering fertilizer containing natural minerals and amino acids" },
+                    { name: "Top-Max", dosage: "1-4 ml/L", note: "Organic bloom stimulant for flower production and fruit size" },
+                    { name: "Root-Juice", dosage: "1-4 ml/L", note: "Root booster made from humic acid and seaweed extract" },
+                    { name: "Calmag", dosage: "0.5-1 ml/L", note: "Calcium and magnesium supplement for soft water" }
+                ]
+            },
+            {
+                brand: "FoxFarm",
+                products: [
+                    { name: "Grow Big", dosage: "2-3 tsp/gal (2.5-4 ml/L)", note: "Comprehensive vegetative growth liquid formula" },
+                    { name: "Tiger Bloom", dosage: "2-3 tsp/gal (2.5-4 ml/L)", note: "Ultra potent bloom formula with micro-nutrients" },
+                    { name: "Big Bloom", dosage: "1-2 tbsp/gal (15 ml/L)", note: "Microbrew organic concentrate derived from earthworm castings" },
+                    { name: "Cal-Mag", dosage: "1 tsp/gal (1.3 ml/L)", note: "Prevents blossom end rot and calcium deficiency" }
+                ]
+            },
+            {
+                brand: "General Hydroponics / Terra Aquatica",
+                products: [
+                    { name: "FloraMicro", dosage: "1-2.5 ml/L", note: "Provides nitrogen, calcium and essential trace elements" },
+                    { name: "FloraGro", dosage: "0.5-2.5 ml/L", note: "Stimulates structural and foliar growth" },
+                    { name: "FloraBloom", dosage: "0.5-2.5 ml/L", note: "Provides phosphorus and potassium for root development and fruiting" },
+                    { name: "CALiMAGic", dosage: "1 ml/L", note: "Concentrated blend of readily available calcium and magnesium" }
+                ]
+            },
+            {
+                brand: "Advanced Nutrients",
+                products: [
+                    { name: "pH Perfect Grow", dosage: "1-4 ml/L", note: "3-Part base nutrient with automatic pH technology" },
+                    { name: "pH Perfect Bloom", dosage: "1-4 ml/L", note: "Bloom nutrients with chelates for maximum absorption" },
+                    { name: "pH Perfect Micro", dosage: "1-4 ml/L", note: "Micro-nutrient base component" },
+                    { name: "Big Bud", dosage: "2 ml/L", note: "Liquid bloom booster for increased crop yield" },
+                    { name: "Voodoo Juice", dosage: "2 ml/L", note: "Beneficial microbes for root mass expansion" }
+                ]
+            },
+            {
+                brand: "Miracle-Gro",
+                products: [
+                    { name: "All Purpose Plant Food", dosage: "1 scoop / 4.5 L water", note: "Soluble plant food for vegetable beds and potted plants" },
+                    { name: "Pour & Feed Ready To Use", dosage: "1 capful per pot", note: "Pre-mixed direct feed liquid fertilizer" },
+                    { name: "Fruit & Veg Concentrated Liquid", dosage: "1 capful per 4.5 L", note: "Feeds tomatoes, herbs, and container vegetables" }
+                ]
+            },
+            {
+                brand: "Espoma Organic",
+                products: [
+                    { name: "Tomato-tone", dosage: "1-2 tbsp per plant", note: "Organic granular plant food formulated for tomatoes & peppers" },
+                    { name: "Garden-tone", dosage: "1/3 cup per plant", note: "All natural organic fertilizer for cool and warm season vegetables" },
+                    { name: "Bio-tone Starter Plus", dosage: "2 tbsp per plant", note: "Rich in mycorrhizae for root establishment at planting" }
+                ]
+            },
+            {
+                brand: "Maxicrop / Seaweed Extracts",
+                products: [
+                    { name: "Maxicrop Original Seaweed Extract", dosage: "0-0-1", note: "Natural biostimulant for stress recovery and root vigor" },
+                    { name: "Maxicrop Complete Garden Feed", dosage: "30 ml / 9 L", note: "Seaweed extract combined with balanced NPK" }
+                ]
+            }
+        ];
+
+        // --- Application State & Supabase Integration ---
+        // Public app-wide Supabase configuration. Publishable keys are designed
+        // for browser use; never place a Supabase secret/service_role key here.
+        const FLORA_SUPABASE_CONFIG = Object.freeze({
+            url: 'https://symklyxbcztdsmktvhgj.supabase.co',
+            publishableKey: 'sb_publishable_PKEQJvNbnKkpINoB-CckuA_OjPVU1O1'
+        });
+        let currentUser = null;
+        let floraAuthRestoreGeneration = 0;
+        function floraAccountStorageKey(key, userId = currentUser?.id) { return userId ? key + '_' + userId : key; }
+        function getFloraAccountItem(key) { return localStorage.getItem(floraAccountStorageKey(key)); }
+        function setFloraAccountItem(key, value) {
+            localStorage.setItem(floraAccountStorageKey(key), value);
+            if (!currentUser?.id) localStorage.setItem(key, value);
+        }
+        function activateFloraAccountStorage(userId) {
+            if (!userId) return;
+            const previousUserId = localStorage.getItem('flora_last_user_id');
+            // Only migrate unscoped legacy data when this device already records the
+                        // same account as its owner. A missing marker is ambiguous: the
+                        // legacy keys may belong to another account on a shared device.
+                        // In that case, start this account with its own defaults instead.
+                        const mayAdoptLegacy = previousUserId === userId;
+            const defaults = {
+                flora_settings: JSON.stringify({ username: '@kitchengardener', logoUrl: '', supabaseUrl: '', supabaseKey: '', theme: 'light', accentColor: 'green', appearancePreset: 'garden', scannerPreference: 'nfc', rememberScannerPreference: true }),
+                flora_plant_locations: '[]',
+                flora_plant_location_types: JSON.stringify({ ...DEFAULT_LOCATION_TYPES }),
+                flora_plant_location_details: '{}', flora_plant_location_details_visibility: '{}',
+                flora_location_header_weather_visible: 'true', flora_plant_location_setups: '{}',
+                flora_plant_location_postcodes: '{}', flora_plant_location_coordinates: '{}',
+                flora_plant_location_postcode_locks: '{}', flora_location_view_modes: '{}',
+                flora_location_inside_options: '{}', flora_location_equipment_names: '{}',
+                flora_personal_plant_library: '[]'
+            };
+            for (const key of ["flora_settings","flora_plant_locations","flora_plant_location_types","flora_plant_location_details","flora_plant_location_details_visibility","flora_location_header_weather_visible","flora_plant_location_setups","flora_plant_location_postcodes","flora_plant_location_coordinates","flora_plant_location_postcode_locks","flora_location_view_modes","flora_location_inside_options","flora_location_equipment_names","flora_personal_plant_library"]) {
+                const scopedKey = floraAccountStorageKey(key, userId);
+                if (localStorage.getItem(scopedKey) === null) {
+                    const legacy = mayAdoptLegacy ? localStorage.getItem(key) : null;
+                    localStorage.setItem(scopedKey, legacy !== null ? legacy : defaults[key]);
+                }
+            }
+            appSettings = JSON.parse(localStorage.getItem(floraAccountStorageKey('flora_settings', userId)) || defaults.flora_settings);
+            plantLocations = JSON.parse(localStorage.getItem(floraAccountStorageKey('flora_plant_locations', userId)) || defaults.flora_plant_locations);
+            locationTypes = JSON.parse(localStorage.getItem(floraAccountStorageKey('flora_plant_location_types', userId)) || defaults.flora_plant_location_types);
+            locationDetails = JSON.parse(localStorage.getItem(floraAccountStorageKey('flora_plant_location_details', userId)) || '{}');
+            locationDetailsVisibility = JSON.parse(localStorage.getItem(floraAccountStorageKey('flora_plant_location_details_visibility', userId)) || '{}') || {};
+            (plantLocations || []).forEach(location => {
+                if (typeof locationDetailsVisibility[location] !== 'boolean') locationDetailsVisibility[location] = false;
+            });
+            setFloraAccountItem('flora_plant_location_details_visibility', JSON.stringify(locationDetailsVisibility));
+            locationHeaderWeatherVisible = localStorage.getItem(floraAccountStorageKey('flora_location_header_weather_visible', userId)) !== 'false';
+            const weatherToggle = document.getElementById('setting-location-header-weather');
+            if (weatherToggle) weatherToggle.checked = locationHeaderWeatherVisible;
+            locationSetups = JSON.parse(localStorage.getItem(floraAccountStorageKey('flora_plant_location_setups', userId)) || '{}');
+            locationPostcodes = JSON.parse(localStorage.getItem(floraAccountStorageKey('flora_plant_location_postcodes', userId)) || '{}');
+            locationCoordinates = JSON.parse(localStorage.getItem(floraAccountStorageKey('flora_plant_location_coordinates', userId)) || '{}');
+            locationPostcodeLocks = JSON.parse(localStorage.getItem(floraAccountStorageKey('flora_plant_location_postcode_locks', userId)) || '{}');
+            for (const key of Object.keys(plantLocationViewModes)) delete plantLocationViewModes[key];
+            Object.assign(plantLocationViewModes, JSON.parse(localStorage.getItem(floraAccountStorageKey('flora_location_view_modes', userId)) || '{}'));
+            applyBranding();
+            // The welcome screen is shown before Supabase restores the signed-in account.
+            // Refresh it as soon as this account's local profile has been activated.
+            updateMobileWelcomeGreeting();
+        }
+
+        function resetFloraAccountStateForSignedOut() {
+            plants = [];
+            plantLocations = [];
+            locationTypes = { ...DEFAULT_LOCATION_TYPES };
+            locationDetails = {};
+            locationSetups = {};
+            locationPostcodes = {};
+            locationCoordinates = {};
+            locationPostcodeLocks = {};
+            locationDetailsVisibility = {};
+            for (const key of Object.keys(plantLocationViewModes)) delete plantLocationViewModes[key];
+            appSettings = { username: '@kitchengardener', logoUrl: '', theme: 'light', accentColor: 'green', appearancePreset: 'garden', scannerPreference: 'nfc', rememberScannerPreference: true };
+            localStorage.setItem('flora_settings', JSON.stringify(appSettings));
+            localStorage.setItem('flora_plant_locations', JSON.stringify(plantLocations));
+            localStorage.setItem('flora_plant_location_types', JSON.stringify(locationTypes));
+            localStorage.setItem('flora_plant_location_details', '{}');
+            localStorage.setItem('flora_plant_location_setups', '{}');
+            localStorage.setItem('flora_plant_location_postcodes', '{}');
+            localStorage.setItem('flora_plant_location_coordinates', '{}');
+            localStorage.setItem('flora_plant_location_postcode_locks', '{}');
+            localStorage.setItem('flora_location_view_modes', '{}');
+            localStorage.setItem('flora_personal_plant_library', '[]');
+            localStorage.setItem('flora_plants', '[]');
+            applyBranding();
+            renderPlants();
+            renderMyPlantLibrary();
+        }
+
+        let appSettings = JSON.parse(getFloraAccountItem('flora_settings')) || {
+            username: '@kitchengardener',
+            logoUrl: '',
+            supabaseUrl: '',
+            supabaseKey: '',
+            theme: 'light',
+            accentColor: 'green',
+            appearancePreset: 'garden',
+            scannerPreference: 'nfc',
+            rememberScannerPreference: true
+        };
+
+        // Remember the selected scanner across launches when the user enables
+        // that option. Otherwise, fall back to NFC as the launch default.
+        if (!['nfc', 'qr', 'none'].includes(appSettings.scannerPreference)) appSettings.scannerPreference = 'nfc';
+        if (typeof appSettings.rememberScannerPreference !== 'boolean') appSettings.rememberScannerPreference = true;
+        if (!appSettings.rememberScannerPreference) appSettings.scannerPreference = 'nfc';
+        setFloraAccountItem('flora_settings', JSON.stringify(appSettings));
+
+        let plantLocations = JSON.parse(getFloraAccountItem('flora_plant_locations') || 'null') || [];
+        const DEFAULT_LOCATION_TYPES = { 'Grow Tent': 'indoor', 'Front Garden': 'outdoor', 'Back Garden': 'outdoor', 'Greenhouse': 'indoor', 'Windowsill': 'indoor' };
+        let locationTypes = JSON.parse(getFloraAccountItem('flora_plant_location_types') || 'null') || { ...DEFAULT_LOCATION_TYPES };
+        let locationDetails = JSON.parse(getFloraAccountItem('flora_plant_location_details') || '{}') || {};
+        let locationDetailsVisibility = JSON.parse(getFloraAccountItem('flora_plant_location_details_visibility') || '{}') || {};
+        let locationHeaderWeatherVisible = getFloraAccountItem('flora_location_header_weather_visible') !== 'false';
+        // Restore each location's saved expanded/collapsed state for this account.
+        plantLocations.forEach(location => {
+            if (typeof locationDetailsVisibility[location] !== 'boolean') locationDetailsVisibility[location] = false;
+        });
+        setFloraAccountItem('flora_plant_location_details_visibility', JSON.stringify(locationDetailsVisibility));
+        let locationSetups = JSON.parse(getFloraAccountItem('flora_plant_location_setups') || '{}') || {};
+        let locationPostcodes = JSON.parse(getFloraAccountItem('flora_plant_location_postcodes') || '{}') || {};
+        let locationCoordinates = JSON.parse(getFloraAccountItem('flora_plant_location_coordinates') || '{}') || {};
+        let locationPostcodeLocks = JSON.parse(getFloraAccountItem('flora_plant_location_postcode_locks') || '{}') || {};
+
+        let supabaseClient = null;
+        let plantLocationsRealtimeChannel = null;
+        let plantLocationsRefreshListenersInstalled = false;
+
+        // Never hydrate the app from the legacy shared plant cache before auth resolves.
+        let plantsInitialLoadComplete = false;
+        let plants = [];
+        let pendingDeleteId = null;
+        let activeFormStream = null;
+        let activeMatchStream = null;
+
+        async function waitForFloraStartup(task, timeoutMs = 15000) {
+            let timeoutId;
+            try {
+                return await Promise.race([
+                    task,
+                    new Promise((_, reject) => {
+                        timeoutId = window.setTimeout(() => reject(new Error('GROnote account service took too long to respond.')), timeoutMs);
+                    })
+                ]);
+            } finally {
+                if (timeoutId) window.clearTimeout(timeoutId);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+            const navigationEntry = performance.getEntriesByType('navigation')[0];
+            const isPageRefresh = navigationEntry && navigationEntry.type === 'reload';
+            const isMobileLayout = window.matchMedia('(max-width: 768px)').matches;
+            const isLoginNavigation = document.documentElement.classList.contains('flora-login-navigation');
+            if (isLoginNavigation) {
+                // Do not display welcome/refresh screens during the post-login handoff.
+                document.getElementById('mobile-welcome-screen')?.classList.add('is-hidden');
+                document.getElementById('mobile-refresh-screen')?.classList.add('is-hidden');
+            } else if (isPageRefresh && isMobileLayout) {
+                // On mobile reload, replace the welcome overlay with the refresh screen.
+                const welcomeScreen = document.getElementById('mobile-welcome-screen');
+                if (welcomeScreen) welcomeScreen.classList.add('is-hidden');
+                showMobileRefreshScreen();
+            } else if (isMobileLayout) {
+                // Keep the welcome overlay on mobile only.
+                showMobileWelcomeScreen();
+            }
+            applyAppearance();
+            applyScannerPreference();
+            applyBranding();
+            renderIconPickerGrid();
+            renderPlantLocationControls();
+            const weatherToggle = document.getElementById('setting-location-header-weather');
+            if (weatherToggle) weatherToggle.checked = locationHeaderWeatherVisible;
+            try {
+                await waitForFloraStartup(initSupabaseClient(), 15000);
+            } catch (authStartupError) {
+                console.error('GROnote account service startup timed out or failed:', authStartupError);
+                // Let the app render rather than keeping desktop blank or mobile
+                // trapped on the refresh overlay. The user can retry sign-in later.
+                currentUser = null;
+                updateAuthUI(false);
+                updateSyncBadge('local', 'Account service unavailable');
+            }
+            // Without a configured Supabase client, restore the account-scoped local library.
+            // When Supabase is configured, checkSupabaseSession already restores the signed-in
+            // account and its plants before resolving.
+            if (!supabaseClient && !isFloraInviteFlow) {
+                await fetchPlantsFromCloudOrLocal();
+                await fetchPlantLocationsFromCloudOrLocal();
+            }
+            plantsInitialLoadComplete = true;
+            renderPlantLocationControls();
+            // Re-apply the saved scanner choice after app data has loaded. If no
+            // valid choice exists, NFC has already been persisted as the default.
+            applyScannerPreference();
+
+            // Start every growing location in List view on each refresh.
+            plantLocations.forEach(location => { plantLocationViewModes[location] = 'list'; });
+            setFloraAccountItem('flora_location_view_modes', JSON.stringify(plantLocationViewModes));
+
+            renderPlants();
+            showOverdueFeedReminderPopup();
+            renderMyPlantLibrary();
+            setupAutocomplete();
+            const logDateInput = document.getElementById('log-date');
+            if (logDateInput) logDateInput.valueAsDate = new Date();
+            if (isPageRefresh) {
+                hideMobileRefreshScreen();
+            } else {
+                hideMobileWelcomeScreen();
+            }
+            } catch (startupError) {
+                console.error('GROnote startup failed:', startupError);
+                // If any non-auth startup step fails, do not leave the whole app
+                // hidden behind the first-paint guard or mobile refresh overlay.
+                try {
+                    plantsInitialLoadComplete = true;
+                    updateAuthUI(!!currentUser, currentUser?.email || '');
+                } catch (recoveryError) {
+                    console.error('GROnote startup recovery failed:', recoveryError);
+                    document.documentElement.classList.remove('flora-auth-pending');
+                    document.body.style.visibility = 'visible';
+                }
+                document.getElementById('mobile-refresh-screen')?.classList.add('is-hidden');
+                document.documentElement.classList.remove('flora-refresh-navigation');
+                document.getElementById('mobile-welcome-screen')?.classList.add('is-hidden');
+            }
+        });
+
+        let mobileWelcomeShownAt = 0;
+
+        function updateMobileWelcomeGreeting() {
+            const hour = new Date().getHours();
+            const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+            const greetingDisplay = document.getElementById('mobile-welcome-greeting');
+            const username = typeof appSettings.username === 'string' ? appSettings.username.trim() : '';
+            const displayUsername = username && username.toLowerCase() !== '@kitchengardener' ? username : '';
+            if (greetingDisplay) greetingDisplay.textContent = displayUsername ? greeting + ', ' + displayUsername + '!' : greeting + '!';
+        }
+
+        function showMobileWelcomeScreen() {
+            const screen = document.getElementById('mobile-welcome-screen');
+            if (!screen) return;
+            updateMobileWelcomeGreeting();
+            mobileWelcomeShownAt = Date.now();
+            screen.classList.remove('is-hidden');
+        }
+
+        let mobileRefreshShownAt = 0;
+        let mobileRefreshHideTimer = null;
+
+        function showMobileRefreshScreen() {
+            const screen = document.getElementById('mobile-refresh-screen');
+            if (!screen || window.matchMedia('(min-width: 769px)').matches) return;
+            if (mobileRefreshHideTimer) {
+                window.clearTimeout(mobileRefreshHideTimer);
+                mobileRefreshHideTimer = null;
+            }
+            mobileRefreshShownAt = Date.now();
+            screen.classList.remove('is-hidden');
+        }
+
+        function hideMobileRefreshScreen() {
+            const screen = document.getElementById('mobile-refresh-screen');
+            if (!screen) {
+                document.documentElement.classList.remove('flora-refresh-navigation');
+                return;
+            }
+            // Hide the refresh overlay as soon as the app is ready; do not
+            // impose an artificial delay on a warm, cached launch.
+            const minimumDisplayMs = 0;
+            const remaining = Math.max(0, minimumDisplayMs - (Date.now() - mobileRefreshShownAt));
+            if (mobileRefreshHideTimer) window.clearTimeout(mobileRefreshHideTimer);
+            mobileRefreshHideTimer = window.setTimeout(() => {
+                mobileRefreshHideTimer = null;
+                document.documentElement.classList.remove('flora-refresh-navigation');
+                screen.classList.add('is-hidden');
+            }, remaining);
+        }
+
+        async function loadBrandingSettingsFromCloud() {
+            if (!supabaseClient || !currentUser) return null;
+            const requestedUserId = currentUser.id;
+            const pending = getFloraSyncQueue();
+            const { data, error } = await supabaseClient.auth.getUser();
+            if (error) { console.error('Could not load cloud profile:', error); return false; }
+            if (!currentUser || currentUser.id !== requestedUserId) return null;
+            currentUser = data.user || currentUser;
+            const metadata = currentUser.user_metadata || {};
+            if (!pending.profileDirty) {
+                // Missing metadata is not an instruction to erase this account's local profile.
+                appSettings.username = typeof metadata.username === 'string' && metadata.username.trim() ? metadata.username.trim() : (appSettings.username || '@kitchengardener');
+                appSettings.notificationEmail = typeof metadata.notification_email === 'string' ? metadata.notification_email : (appSettings.notificationEmail || '');
+                setFloraAccountItem('flora_settings', JSON.stringify(appSettings));
+                const usernameInput = document.getElementById('setting-username');
+                const emailInput = document.getElementById('setting-profile-email');
+                if (usernameInput) usernameInput.value = appSettings.username;
+                if (emailInput) emailInput.value = appSettings.notificationEmail;
+                applyBranding();
+                updateMobileWelcomeGreeting();
+            }
+            if (!pending.plantLibraryDirty) {
+                let library = Array.isArray(metadata.personal_plant_library) ? metadata.personal_plant_library : null;
+                if (!library) {
+                    try { library = JSON.parse(getFloraAccountItem('flora_personal_plant_library') || '[]'); }
+                    catch (_) { library = []; }
+                    const { error: librarySaveError } = await supabaseClient.auth.updateUser({ data: { personal_plant_library: library } });
+                    if (!currentUser || currentUser.id !== requestedUserId) return null;
+                    if (librarySaveError) console.error('Could not initialise personal plant library:', librarySaveError);
+                }
+                setFloraAccountItem('flora_personal_plant_library', JSON.stringify(library));
+                renderMyPlantLibrary();
+                if (typeof setupAutocomplete === 'function') setupAutocomplete();
+            }
+            return true;
+        }
+
+        function handleInvalidRestoredSession(userId) {
+            if (!currentUser || currentUser.id !== userId) return;
+            console.warn('The restored GROnote session could not be verified; signing out locally.');
+            void supabaseClient?.auth.signOut({ scope: 'local' }).catch(() => {});
+            currentUser = null;
+            resetFloraAccountStateForSignedOut();
+            plants = [];
+            renderPlants();
+            updateAuthUI(false);
+            updateSyncBadge('local', 'Sign-in service unavailable');
+        }
+
+        function hideMobileWelcomeScreen() {
+            const screen = document.getElementById('mobile-welcome-screen');
+            if (!screen) return;
+            // Do not add an artificial delay after the app is ready.
+            screen.classList.add('is-hidden');
+        }
+
+        // Keep growing-location settings live across every signed-in device.
+        let backgroundGardenRefreshPromise = null;
+
+        async function refreshPlantLocationsFromCloud() {
+            if (!supabaseClient || !currentUser || !navigator.onLine) return;
+            // Returning to the browser tab triggers a background data refresh.
+            // This refresh must never navigate between app sections: the user may
+            // currently be reading Settings, so leave the active view untouched.
+            const visibilityBeforeRefresh = { ...locationDetailsVisibility };
+            const pending = getFloraSyncQueue();
+            if (pending.dirty || pending.profileDirty || pending.locationsDirty) return;
+            if (backgroundGardenRefreshPromise) return backgroundGardenRefreshPromise;
+
+            const screen = document.getElementById('mobile-refresh-screen');
+            const showScreen = screen && !window.matchMedia('(min-width: 769px)').matches;
+            if (showScreen) screen.classList.remove('is-hidden');
+
+            backgroundGardenRefreshPromise = (async () => {
+                try {
+                    await fetchPlantsFromCloudOrLocal();
+                    await fetchPlantLocationsFromCloudOrLocal();
+                    localStorage.setItem('flora_last_user_id', currentUser.id);
+                    renderPlantLocationControls();
+                    // Reapply the locally saved location visibility state after the
+                    // cloud data refresh, then render the Plants screen from that state.
+                    locationDetailsVisibility = { ...visibilityBeforeRefresh };
+                    plantLocations.forEach(location => {
+                        if (typeof locationDetailsVisibility[location] !== 'boolean') locationDetailsVisibility[location] = false;
+                    });
+                    setFloraAccountItem('flora_plant_location_details_visibility', JSON.stringify(locationDetailsVisibility));
+                    renderPlants();
+                    // Do not call switchTab() here. Re-rendering plant data is independent
+                    // of navigation, and forcing a tab after an async refresh can send
+                    // the user from Settings back to Plants when browser focus returns.
+                } finally {
+                    if (showScreen) screen.classList.add('is-hidden');
+                    backgroundGardenRefreshPromise = null;
+                }
+            })();
+
+            return backgroundGardenRefreshPromise;
+        }
+
+        function subscribeToPlantLocationChanges() {
+            if (!supabaseClient || !currentUser) return;
+            if (plantLocationsRealtimeChannel) {
+                supabaseClient.removeChannel(plantLocationsRealtimeChannel);
+                plantLocationsRealtimeChannel = null;
+            }
+            const subscribedUserId = currentUser.id;
+            plantLocationsRealtimeChannel = supabaseClient
+                .channel('plant-locations-' + subscribedUserId)
+                .on('postgres_changes', {
+                    event: '*',
+                    schema: 'public',
+                    table: 'user_plant_locations',
+                    filter: 'user_id=eq.' + subscribedUserId
+                }, async () => {
+                    if (!currentUser || currentUser.id !== subscribedUserId) return;
+                    await refreshPlantLocationsFromCloud();
+                })
+                .subscribe((status) => {
+                    if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+                        console.warn('Growing-location live sync connection:', status);
+                    }
+                });
+
+            if (!plantLocationsRefreshListenersInstalled) {
+                plantLocationsRefreshListenersInstalled = true;
+                window.addEventListener('focus', refreshPlantLocationsFromCloud);
+                document.addEventListener('visibilitychange', () => {
+                    if (document.visibilityState === 'visible') refreshPlantLocationsFromCloud();
+                });
+                window.addEventListener('online', refreshPlantLocationsFromCloud);
+            }
+        }
+
+        // Initialize Supabase Client using the shared app configuration.
+        // Visitors do not need to enter or save project credentials themselves.
+        async function initSupabaseClient() {
+            const url = FLORA_SUPABASE_CONFIG.url || appSettings.supabaseUrl || '';
+            const key = FLORA_SUPABASE_CONFIG.publishableKey || appSettings.supabaseKey || '';
+
+            if (url && key && window.supabase) {
+                try {
+                    // Use a separate auth storage namespace for invitation/recovery links.
+                    // This prevents an already signed-in administrator session on this browser from
+                    // being reused while a gardener is completing their own account setup.
+                    // Restore the Remember me choice before Supabase reads its stored session.
+                    // Without this, an unchecked choice reverted to the HTML default (checked)
+                    // after reload, so Supabase looked in localStorage instead of sessionStorage.
+                    const rememberMeInput = document.getElementById('auth-remember-me');
+                    const savedRememberChoice = window.sessionStorage.getItem('flora_remember_me');
+                    if (rememberMeInput && savedRememberChoice !== null) {
+                        rememberMeInput.checked = savedRememberChoice !== 'false';
+                    }
+                    if (rememberMeInput && !rememberMeInput.dataset.storageChoiceBound) {
+                        rememberMeInput.addEventListener('change', () => {
+                            window.sessionStorage.setItem('flora_remember_me', rememberMeInput.checked ? 'true' : 'false');
+                        });
+                        rememberMeInput.dataset.storageChoiceBound = 'true';
+                    }
+
+                    // Keep ordinary sign-in sessions in local storage when "Remember me" is checked,
+                    // or in session storage so they end when the browser session closes when unchecked.
+                    const floraLoginStorage = {
+                        getItem: (key) => (rememberMeInput?.checked === false ? window.sessionStorage : window.localStorage).getItem(key),
+                        setItem: (key, value) => (rememberMeInput?.checked === false ? window.sessionStorage : window.localStorage).setItem(key, value),
+                        removeItem: (key) => {
+                            window.localStorage.removeItem(key);
+                            window.sessionStorage.removeItem(key);
+                        }
+                    };
+                    supabaseClient = window.supabase.createClient(url, key, isFloraInviteFlow
+                        ? { auth: { storageKey: 'flora-invite-auth-token' } }
+                        : { auth: { storage: floraLoginStorage } });
+                    await checkSupabaseSession();
+                } catch (e) {
+                    console.error('Failed to init Supabase:', e);
+                    updateSyncBadge('local', 'Invalid Supabase Config');
+                    updateAuthUI(false);
+                }
+            } else {
+                updateSyncBadge('local', 'Local Storage');
+                updateAuthUI(false);
+            }
+        }
+
+        async function checkSupabaseSession() {
+            if (!supabaseClient) return;
+            try {
+                const restoreGeneration = ++floraAuthRestoreGeneration;
+                const { data: { session: storedSession } } = await supabaseClient.auth.getSession();
+                let session = storedSession;
+
+                // Paint the signed-in gardener's own device cache immediately.
+                // Network refresh, cloud reconciliation and offline uploads continue afterwards.
+                if (session?.user && !isFloraInviteFlow) {
+                    currentUser = session.user;
+                    activateFloraAccountStorage(currentUser.id);
+                    try {
+                        plants = JSON.parse(localStorage.getItem(floraUserStorageKey('flora_plants_user', currentUser.id)) || '[]');
+                        if (!Array.isArray(plants)) plants = [];
+                    } catch (_) { plants = []; }
+                    applyScannerPreference();
+                    subscribeToPlantLocationChanges();
+                    renderPlantLocationControls();
+                    renderPlants();
+                    updateAuthUI(true, currentUser.email);
+                    updateSyncBadge('local', getFloraSyncQueue().dirty ? 'Syncing Offline Changes…' : 'Loading Cloud Updates…');
+                    switchTab(getDesktopStartupTab());
+                }
+
+                // Avoid forcing a second auth network round-trip on every launch.
+                // The profile task below calls getUser() to validate the restored session;
+                // Supabase also refreshes expiring access tokens automatically.
+                if (restoreGeneration !== floraAuthRestoreGeneration) return;
+                if (isFloraInviteFlow) {
+                    // This client uses invite-only storage, so any session here belongs to the invite link.
+                    currentUser = session?.user || null;
+                    plants = [];
+                    renderPlants();
+                    updateAuthUI(false);
+                    showFloraInviteSessionState(session);
+                } else if (session && session.user) {
+                    currentUser = session.user;
+                    activateFloraAccountStorage(currentUser.id);
+                    // Account activation replaces appSettings with this user's saved preferences.
+                    // Reapply scanner UI so the header pill and controls match that account.
+                    applyScannerPreference();
+                    if (isFloraInviteFlow) showFloraInviteSessionState(session);
+                    subscribeToPlantLocationChanges();
+                    updateAuthUI(true, currentUser.email);
+                    updateSyncBadge('cloud', 'Cloud Connected');
+                    // Profile, plants and locations are independent requests. Start them
+                    // together instead of serialising three network round-trips.
+                    const restoredUserId = currentUser.id;
+                    const profileTask = loadBrandingSettingsFromCloud().then(isValid => {
+                        if (isValid === false) handleInvalidRestoredSession(restoredUserId);
+                    }).catch(error => {
+                        console.warn('GROnote profile refresh failed:', error);
+                    });
+                    const plantsTask = fetchPlantsFromCloudOrLocal();
+                    const locationsTask = fetchPlantLocationsFromCloudOrLocal();
+                    await plantsTask;
+                    if (restoreGeneration !== floraAuthRestoreGeneration) return;
+                    localStorage.setItem('flora_last_user_id', currentUser.id);
+                    // Show the garden as soon as its plant query completes. Growing
+                    // locations, profile enrichment and uploads can finish afterwards.
+                    renderPlants();
+                    void profileTask;
+                    void locationsTask.then(() => {
+                        if (restoreGeneration !== floraAuthRestoreGeneration) return;
+                        renderPlantLocationControls();
+                        renderPlants();
+                        return syncPendingFloraChanges();
+                    }).catch(error => console.warn('GROnote background location refresh failed:', error));
+                } else {
+                    currentUser = null;
+                    resetFloraAccountStateForSignedOut();
+                    // A signed-out visitor must not see the last account's cached garden.
+                    plants = [];
+                    localStorage.setItem('flora_plants', '[]');
+                    renderPlants();
+                    updateAuthUI(false);
+                    if (isFloraInviteFlow) showFloraInviteSessionState(null);
+                    updateSyncBadge('cloud', 'Supabase Ready (Sign In)');
+                }
+
+                // Listen for auth state changes
+                supabaseClient.auth.onAuthStateChange(async (event, session) => {
+                    // checkSupabaseSession() has already read and restored the authoritative
+                    // session before this listener is registered. Ignore INITIAL_SESSION
+                    // unconditionally: the SDK's queued initial event can be stale (for
+                    // example, signed-out) if a user signs in while startup is finishing.
+                    // Processing that stale event would immediately hide the signed-in app.
+                    if (event === 'INITIAL_SESSION') return;
+                    const restoreGeneration = ++floraAuthRestoreGeneration;
+                    const restoringUserId = session?.user?.id || null;
+                    if (event === 'PASSWORD_RECOVERY' && !isFloraInviteFlow) setTimeout(() => completeSupabasePasswordRecovery(), 0);
+                    if (isFloraInviteFlow) {
+                        // Invite-only auth storage means this session can only belong to the invited user.
+                        // Never load gardener data until registration has completed and the normal app opens.
+                        currentUser = session?.user || null;
+                        showFloraInviteSessionState(session);
+                        return;
+                    }
+                    if (session && session.user) {
+                        currentUser = session.user;
+                        activateFloraAccountStorage(currentUser.id);
+                    // Account activation replaces appSettings with this user's saved preferences.
+                    // Reapply scanner UI so the header pill and controls match that account.
+                    applyScannerPreference();
+                        subscribeToPlantLocationChanges();
+                            updateAuthUI(true, currentUser.email);
+                        // Navigation is handled by the explicit login flow. Auth events can
+                        // also fire when a browser tab regains focus, so they must never
+                        // change the section the gardener is currently viewing.
+                        updateSyncBadge('cloud', 'Cloud Connected');
+                        const profileTask = loadBrandingSettingsFromCloud().then(isValid => {
+                            if (isValid === false) handleInvalidRestoredSession(restoringUserId);
+                        }).catch(error => {
+                            console.warn('GROnote profile refresh failed:', error);
+                        });
+                        const plantsTask = fetchPlantsFromCloudOrLocal();
+                        const locationsTask = fetchPlantLocationsFromCloudOrLocal();
+                        await plantsTask;
+                        if (restoreGeneration !== floraAuthRestoreGeneration || currentUser?.id !== restoringUserId) return;
+                        localStorage.setItem('flora_last_user_id', currentUser.id);
+                        renderPlants();
+                        // Keep location reconciliation, profile enrichment and offline uploads
+                        // out of the first-render and navigation paths.
+                        void profileTask;
+                        void locationsTask.then(() => {
+                            if (restoreGeneration !== floraAuthRestoreGeneration || currentUser?.id !== restoringUserId) return;
+                            renderPlantLocationControls();
+                            renderPlants();
+                            return syncPendingFloraChanges();
+                        }).catch(error => console.warn('GROnote background location refresh failed:', error));
+                    } else {
+                        currentUser = null;
+                        resetFloraAccountStateForSignedOut();
+                        if (plantLocationsRealtimeChannel) {
+                            supabaseClient.removeChannel(plantLocationsRealtimeChannel);
+                            plantLocationsRealtimeChannel = null;
+                        }
+                        // Do not leave the previous gardener's plants visible after sign-out.
+                        plants = [];
+                        localStorage.setItem('flora_plants', '[]');
+                        renderPlants();
+                        updateAuthUI(false);
+                        updateSyncBadge('cloud', 'Supabase Ready (Sign In)');
+                    }
+                });
+            } catch (err) {
+                console.error("Session check error:", err);
+                // Do not leave the page-wide signed-out visibility guard in a
+                // half-initialized state if session restoration fails. Keep the
+                // login panel available and restore the normal page controls.
+                currentUser = null;
+                updateAuthUI(false);
+                updateSyncBadge('local', 'Sign-in service unavailable');
+            }
+        }
+
+        function updateSyncBadge(mode, text) {
+            const badge = document.getElementById('cloud-sync-badge');
+            const icon = document.getElementById('cloud-sync-icon');
+            const label = document.getElementById('cloud-sync-text');
+            const connStatus = document.getElementById('supabase-connection-status');
+
+            if (!badge || !icon || !label) return;
+
+            // Never show a cloud-success state when the browser reports no network.
+            if (!navigator.onLine) {
+                mode = 'local';
+                text = 'Offline · Local Only';
+            }
+
+            label.textContent = text;
+            if (mode === 'cloud') {
+                badge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-500/30 text-emerald-100 border border-emerald-300/40 flex items-center space-x-1";
+                icon.className = "fa-solid fa-cloud";
+                if (connStatus) {
+                    connStatus.textContent = currentUser ? "Cloud Connected" : "Supabase Configured";
+                    connStatus.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300";
+                }
+            } else {
+                badge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold bg-amber-500/30 text-amber-100 border border-amber-300/40 flex items-center space-x-1";
+                icon.className = "fa-solid fa-hard-drive";
+                if (connStatus) {
+                    connStatus.textContent = "Offline / Local Mode";
+                    connStatus.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300";
+                }
+            }
+        }
+
+        window.addEventListener('offline', () => {
+            updateSyncBadge('local', 'Offline · Local Only');
+        });
+
+        window.addEventListener('online', () => {
+            updateSyncBadge('local', 'Online · Checking Connection');
+        });
+
+        function setFloraAdminStatus(message, isError = false) {
+            const el = document.getElementById('flora-admin-status');
+            if (el) { el.textContent = message || ''; el.className = 'text-xs ' + (isError ? 'text-red-600' : 'text-slate-500'); }
+        }
+
+        async function callFloraAdmin(action, payload = {}) {
+            if (!supabaseClient) throw new Error('Connect to Supabase and sign in first.');
+            const { data, error } = await supabaseClient.functions.invoke('admin-users', { body: { action, ...payload } });
+            if (error) {
+                let detail = '';
+                try {
+                    if (error.context && typeof error.context.json === 'function') {
+                        const body = await error.context.json();
+                        detail = body?.error || body?.message || '';
+                    }
+                } catch (_) {}
+                throw new Error(detail || error.message || 'The administrator request failed.');
+            }
+            if (data && data.error) throw new Error(data.error);
+            return data || {};
+        }
+
+        function escapeFloraAdminText(value) {
+            return String(value ?? '').replace(/[&<>\"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', "'": '&#39;' }[ch]));
+        }
+
+        async function refreshFloraAdminUsers() {
+            const list = document.getElementById('flora-admin-users');
+            if (!currentUser || currentUser.app_metadata?.role !== 'admin') return;
+            if (list) list.innerHTML = '<p class="text-xs text-slate-500">Loading accounts…</p>';
+            setFloraAdminStatus('Loading accounts…');
+            try {
+                const result = await callFloraAdmin('list');
+                const users = result.users || [];
+                if (!list) return;
+                if (!users.length) list.innerHTML = '<p class="text-xs text-slate-500">No accounts found.</p>';
+                else list.innerHTML = users.map(user => {
+                    const id = escapeFloraAdminText(user.id);
+                    const email = escapeFloraAdminText(user.email || '(no email)');
+                    const username = escapeFloraAdminText(user.username || 'Not set');
+                    const status = user.disabled ? 'Disabled' : (user.registration_pending ? 'Registration not completed' : 'Active');
+                    const statusClass = user.disabled ? 'text-slate-500' : (user.registration_pending ? 'text-amber-700' : 'text-[#31583b]');
+                    const action = user.disabled ? 'enable' : 'disable';
+                    const button = user.role === 'admin' ? '' : `<div class="flex flex-wrap gap-2"><button type="button" onclick="setFloraAdminUserStatus('${id}','${action}')" class="rounded-lg border border-[#d9ddcf] bg-[#e4eadf] px-3 py-1.5 text-xs font-semibold text-[#294b34]">${user.disabled ? 'Re-enable' : 'Disable'}</button><button type="button" onclick="deleteFloraAdminUser('${id}','${email}')" class="rounded-lg border border-[#d9ddcf] bg-[#fffef9] px-3 py-1.5 text-xs font-semibold text-[#81334f]">Delete account</button></div>`;
+                    return `<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-lg border border-[#d9ddcf] bg-[#fffef9] p-3"><div class="min-w-0"><p class="break-all text-xs font-semibold text-[#294b34]">${email}</p><p class="text-[11px] text-[#526653]">Username: <span class="font-semibold text-slate-700">${username}</span></p><p class="text-[11px] text-slate-500">${user.role === 'admin' ? 'Administrator' : 'Gardener'}</p><p class="text-[11px] font-semibold ${statusClass}">${status}</p></div>${button}</div>`;
+                }).join('');
+                setFloraAdminStatus(`${users.length} account(s) loaded.`);
+            } catch (error) {
+                if (list) list.innerHTML = '';
+                setFloraAdminStatus(error.message || 'Could not load accounts.', true);
+            }
+        }
+
+        async function inviteFloraAdminUser(event) {
+            if (event) event.preventDefault();
+            const nameInput = document.getElementById('flora-admin-invite-name');
+            const emailInput = document.getElementById('flora-admin-invite-email');
+            const name = nameInput ? nameInput.value.trim() : '';
+            const email = emailInput ? emailInput.value.trim() : '';
+            if (!name || !email) return;
+            const submit = document.querySelector('#flora-admin-invite-form button[type="submit"]');
+            if (submit) submit.disabled = true;
+            setFloraAdminStatus('Sending invitation…');
+            try {
+                const redirectTo = new URL(window.location.href);
+                redirectTo.search = '';
+                redirectTo.hash = '';
+                redirectTo.searchParams.set('invite', '1');
+                await callFloraAdmin('invite', { name, email, redirectTo: redirectTo.toString() });
+                if (nameInput) nameInput.value = '';
+                if (emailInput) emailInput.value = '';
+                setFloraAdminStatus(`Invitation sent to ${name} (${email}).`);
+                await refreshFloraAdminUsers();
+            } catch (error) {
+                setFloraAdminStatus(error.message || 'Invitation failed.', true);
+            } finally { if (submit) submit.disabled = false; }
+        }
+
+        async function deleteFloraAdminTestAccount() {
+            const email = 'k1tchengardener.mail@gmail.com';
+            if (!currentUser || currentUser.app_metadata?.role !== 'admin') {
+                setFloraAdminStatus('Administrator access required.', true);
+                return;
+            }
+            if (!confirm(`Permanently delete the test account ${email}? This cannot be undone. The admin account will not be affected.`)) return;
+            setFloraAdminStatus('Deleting test account…');
+            try {
+                const result = await callFloraAdmin('delete-email', { email });
+                if (result.deleted) {
+                    setFloraAdminStatus(`Deleted ${email}. You can now send a fresh invitation.`);
+                } else {
+                    setFloraAdminStatus(result.message || 'No matching account was found.', true);
+                }
+                await refreshFloraAdminUsers();
+            } catch (error) {
+                setFloraAdminStatus(error.message || 'Could not delete the test account.', true);
+            }
+        }
+
+        async function deleteFloraAdminUser(userId, email) {
+            if (!currentUser || currentUser.app_metadata?.role !== 'admin') {
+                setFloraAdminStatus('Administrator access required.', true);
+                return;
+            }
+            if (!userId) return;
+            if (!confirm(`Permanently delete the account ${email || userId}? All linked plants, journal entries, reminders, saved locations and uploaded journal photos will be removed. This cannot be undone.`)) return;
+            setFloraAdminStatus('Removing account data and uploaded photos…');
+            try {
+                const result = await callFloraAdmin('delete-user', { user_id: userId });
+                if (result.deleted) {
+                    setFloraAdminStatus(`Account deleted. ${Number(result.removed_photos) || 0} uploaded photo(s) removed.`);
+                } else {
+                    setFloraAdminStatus(result.message || 'No matching account was found.', true);
+                }
+                await refreshFloraAdminUsers();
+            } catch (error) {
+                setFloraAdminStatus(error.message || 'Could not delete the account. No account deletion was completed.', true);
+            }
+        }
+
+        async function setFloraAdminUserStatus(userId, action) {
+            const verb = action === 'disable' ? 'disable' : 're-enable';
+            if (!confirm(`Are you sure you want to ${verb} this account?`)) return;
+            setFloraAdminStatus('Updating account…');
+            try {
+                await callFloraAdmin(action, { user_id: userId });
+                setFloraAdminStatus('Account updated.');
+                await refreshFloraAdminUsers();
+            } catch (error) { setFloraAdminStatus(error.message || 'Account update failed.', true); }
+        }
+        const floraInitialParams = new URLSearchParams(window.location.search);
+        let isFloraInviteFlow = floraInitialParams.get('invite') === '1' || floraInitialParams.get('password-recovery') === '1';
+        if (floraInitialParams.get('password-recovery') === '1') {
+            const heading = document.getElementById('flora-invite-heading');
+            const description = document.getElementById('flora-invite-description');
+            const usernameField = document.getElementById('flora-invite-username')?.closest('.mb-3');
+            const submitButton = document.getElementById('flora-invite-complete-button');
+            if (heading) heading.textContent = 'Reset your GROnote password';
+            if (description) description.textContent = 'Your password reset link has been verified. Choose a new password to regain access to your GROnote account.';
+            if (usernameField) usernameField.classList.add('hidden');
+            if (submitButton) submitButton.textContent = 'Reset password';
+        }
+
+        function showFloraInviteStatus(message, isError = false) {
+            const status = document.getElementById('flora-invite-status');
+            if (status) {
+                status.textContent = message;
+                status.className = isError ? 'text-xs text-rose-700 dark:text-rose-300' : 'text-xs text-slate-600 dark:text-slate-300';
+            }
+        }
+
+        function showFloraInviteSessionState(session) {
+            if (!isFloraInviteFlow) return;
+            const fields = document.getElementById('flora-invite-password-fields');
+            const recovery = document.getElementById('flora-invite-recovery');
+            const recoveryEmail = document.getElementById('flora-invite-recovery-email');
+            const returnButton = document.getElementById('flora-invite-return-login');
+            const email = document.getElementById('flora-invite-email');
+            if (session?.user) {
+                if (email) email.textContent = session.user.email || '';
+                if (recoveryEmail && session.user.email) recoveryEmail.value = session.user.email;
+                if (fields) fields.classList.remove('hidden');
+                if (recovery) recovery.classList.add('hidden');
+                if (returnButton) returnButton.classList.add('hidden');
+                showFloraInviteStatus('Set a password below to finish creating your account.');
+            } else {
+                if (fields) fields.classList.add('hidden');
+                if (recovery) recovery.classList.remove('hidden');
+                if (returnButton) returnButton.classList.remove('hidden');
+                showFloraInviteStatus('This invitation link has already been used or is no longer valid. You can request a fresh password setup link below.', true);
+            }
+            updateAuthUI(!!session?.user, session?.user?.email || '');
+        }
+
+        async function sendFloraInviteRecoveryEmail() {
+            if (!supabaseClient) {
+                showFloraInviteStatus('GROnote could not connect to the account service. Refresh and try again.', true);
+                return;
+            }
+            const emailInput = document.getElementById('flora-invite-recovery-email');
+            const email = emailInput?.value.trim() || '';
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showFloraInviteStatus('Enter a valid email address that received the invitation.', true);
+                emailInput?.focus();
+                return;
+            }
+            const button = document.getElementById('flora-invite-recovery-button');
+            if (button) { button.disabled = true; button.textContent = 'Sending…'; }
+            try {
+                const redirectTo = window.location.origin + window.location.pathname + '?password-recovery=1';
+                const { error } = await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo });
+                if (error) throw error;
+                showFloraInviteStatus('If an account exists for that email, a fresh password setup link has been sent. Check your inbox and spam folder, then open the newest email on this device.', false);
+                if (button) button.textContent = 'Email requested';
+            } catch (error) {
+                console.error('Flora invitation recovery request failed:', error);
+                showFloraInviteStatus('Could not send the password setup email: ' + (error.message || 'Please try again or contact your administrator.'), true);
+                if (button) { button.disabled = false; button.textContent = 'Email me a password setup link'; }
+            }
+        }
+
+        // Expose the handler explicitly so the invite screen's inline click can invoke it.
+        window.sendFloraInviteRecoveryEmail = sendFloraInviteRecoveryEmail;
+
+        function toggleFloraInvitePasswordVisibility(inputId, button) {
+            const input = document.getElementById(inputId);
+            if (!input || !button) return;
+            const showPassword = input.type === 'password';
+            input.type = showPassword ? 'text' : 'password';
+            button.setAttribute('aria-pressed', String(showPassword));
+            button.setAttribute('aria-label', (showPassword ? 'Hide ' : 'Show ') + (inputId === 'flora-invite-password' ? 'create password' : 'confirm password'));
+            const icon = button.querySelector('i');
+            if (icon) icon.className = showPassword ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye';
+        }
+
+        function getFloraInvitePasswordRules(password) {
+            return {
+                length: password.length >= 12,
+                upper: /[A-Z]/.test(password),
+                lower: /[a-z]/.test(password),
+                number: /[0-9]/.test(password),
+                symbol: /[^A-Za-z0-9]/.test(password)
+            };
+        }
+
+        function updateFloraInvitePasswordStrength() {
+            const password = document.getElementById('flora-invite-password')?.value || '';
+            const rules = getFloraInvitePasswordRules(password);
+            const entries = Object.entries(rules);
+            let passed = 0;
+            entries.forEach(([rule, valid]) => {
+                const item = document.getElementById('flora-password-rule-' + rule);
+                if (!item) return;
+                const icon = item.querySelector('i');
+                if (valid) passed++;
+                item.classList.toggle('text-emerald-900', valid);
+                item.classList.toggle('font-semibold', valid);
+                item.classList.toggle('text-slate-600', !valid);
+                if (icon) icon.className = valid ? 'fa-solid fa-circle-check text-emerald-900 mr-2' : 'fa-regular fa-circle text-emerald-900 mr-2';
+            });
+            const label = document.getElementById('flora-invite-password-strength-label');
+            const bar = document.getElementById('flora-invite-password-strength-bar');
+            if (label) {
+                label.textContent = !password ? 'Not started' : passed === 5 ? 'Strong' : passed >= 3 ? 'Getting stronger' : 'Needs work';
+                label.className = 'text-xs font-semibold ' + (passed === 5 ? 'text-emerald-900' : password ? 'text-emerald-800' : 'text-emerald-900');
+            }
+            if (bar) {
+                bar.style.width = (passed * 20) + '%';
+                bar.className = 'h-full rounded-full transition-all bg-emerald-900';
+            }
+            return passed === 5;
+        }
+
+        async function completeFloraInviteRegistration() {
+            if (!supabaseClient) { showFloraInviteStatus('GROnote could not connect to the account service. Refresh and try again.', true); return; }
+            const isPasswordRecovery = floraInitialParams.get('password-recovery') === '1';
+            const usernameInput = document.getElementById('flora-invite-username');
+            const username = usernameInput?.value?.trim() || '';
+            const password = document.getElementById('flora-invite-password')?.value || '';
+            const confirmation = document.getElementById('flora-invite-password-confirm')?.value || '';
+            if (!isPasswordRecovery && !/^[A-Za-z0-9._-]{3,24}$/.test(username)) {
+                showFloraInviteStatus('Please choose a username between 3 and 24 characters using letters, numbers, dots, underscores or hyphens.', true);
+                usernameInput?.focus();
+                return;
+            }
+            if (!updateFloraInvitePasswordStrength()) { showFloraInviteStatus('Please meet all five password requirements before continuing.', true); return; }
+            if (password !== confirmation) { showFloraInviteStatus('The passwords do not match. Please try again.', true); return; }
+            const button = document.getElementById('flora-invite-complete-button');
+            if (button) { button.disabled = true; button.textContent = isPasswordRecovery ? 'Updating password…' : 'Creating account…'; }
+            try {
+                const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
+                if (sessionError || !session?.user) throw new Error(isPasswordRecovery ? 'Your password reset link has expired. Please request a new one.' : 'Your invitation session has expired. Ask the administrator for a new invitation.');
+
+                if (isPasswordRecovery) {
+                    const { error } = await supabaseClient.auth.updateUser({ password });
+                    if (error) throw error;
+                    await supabaseClient.auth.signOut();
+                    alert('Your GROnote password has been reset. You can now sign in with your new password.');
+                    window.location.replace(window.location.pathname);
+                    return;
+                }
+
+                // Atomically reserve the username in the database. The unique,
+                // case-insensitive constraint prevents simultaneous duplicate signups.
+                const { error: usernameError } = await supabaseClient.rpc('gronote_claim_username', {
+                    p_username: username
+                });
+                if (usernameError) throw usernameError;
+
+                const { error } = await supabaseClient.auth.updateUser({
+                    password,
+                    data: { username }
+                });
+                if (error) throw error;
+
+                // Sign in with the newly chosen password, then send the personalised welcome
+                // email using the verified account identity and transfer the session.
+                // Email failure must not undo a password that Supabase has already saved.
+                const { data: signedIn, error: signInError } = await supabaseClient.auth.signInWithPassword({
+                    email: session.user.email,
+                    password
+                });
+                if (signInError || !signedIn?.session) {
+                    throw new Error('Your password and username have been saved. Please return to the sign-in page and sign in with your new password.');
+                }
+                const { error: welcomeEmailError } = await supabaseClient.functions.invoke('send-welcome-email', {
+                    body: {}
+                });
+                if (welcomeEmailError) {
+                    console.error('GROnote welcome email could not be sent:', welcomeEmailError);
+                }
+
+                // Transfer only this invited user's session into the normal app storage namespace.
+                const appUrl = FLORA_SUPABASE_CONFIG.url || appSettings.supabaseUrl || '';
+                const appKey = FLORA_SUPABASE_CONFIG.publishableKey || appSettings.supabaseKey || '';
+                const appClient = window.supabase.createClient(appUrl, appKey);
+                const { error: transferError } = await appClient.auth.setSession({
+                    access_token: signedIn.session.access_token,
+                    refresh_token: signedIn.session.refresh_token
+                });
+                if (transferError) throw transferError;
+                await supabaseClient.auth.signOut();
+                alert('Your GROnote account has been created. Welcome!');
+                window.location.replace(window.location.pathname);
+                return;
+            } catch (error) {
+                showFloraInviteStatus(error.message || (isPasswordRecovery ? 'Could not reset your password. Please try again.' : 'Could not complete registration. Please try again.'), true);
+            } finally {
+                if (button) { button.disabled = false; button.textContent = isPasswordRecovery ? 'Reset password' : 'Create my account'; }
+            }
+        }
+        async function leaveFloraInviteScreen() {
+            if (supabaseClient) await supabaseClient.auth.signOut();
+            isFloraInviteFlow = false;
+            window.history.replaceState({}, document.title, window.location.pathname);
+            updateAuthUI(false);
+        }
+
+        function updateAuthUI(isLoggedIn, email = '') {
+            const loggedOutSec = document.getElementById('auth-logged-out');
+            const loggedInSec = document.getElementById('auth-logged-in');
+            const invitePanel = document.getElementById('flora-invite-registration');
+            const emailDisp = document.getElementById('user-email-display');
+            const profileEmail = document.getElementById('setting-profile-email');
+            const adminTools = document.getElementById('flora-admin-tools');
+            const adminNote = document.getElementById('flora-admin-access-note');
+            const cloudAdminSettings = document.getElementById('supabase-cloud-admin-settings');
+            const accountSession = document.getElementById('settings-account-session');
+            const cloudAuthScreen = document.getElementById('cloud-auth-screen');
+            // Session restoration has now made the authoritative signed-in/out decision.
+            document.documentElement.classList.remove('flora-auth-pending');
+            document.documentElement.classList.toggle('flora-authenticated', !!isLoggedIn && !isFloraInviteFlow);
+            document.documentElement.classList.toggle('flora-sign-in-only', !isLoggedIn && !isFloraInviteFlow);
+            if (cloudAuthScreen) cloudAuthScreen.classList.toggle('hidden', isLoggedIn || isFloraInviteFlow);
+            const accountEmail = document.getElementById('settings-account-email');
+            if (accountSession) accountSession.classList.toggle('hidden', !isLoggedIn);
+            if (accountEmail) accountEmail.textContent = isLoggedIn ? (email || currentUser?.email || 'Signed in') : 'Not signed in';
+            const isAdmin = !!(isLoggedIn && currentUser && currentUser.app_metadata && currentUser.app_metadata.role === 'admin');
+            // Cloud connection details and account administration are admin-only settings.
+            if (cloudAdminSettings) cloudAdminSettings.classList.toggle('hidden', !isAdmin);
+            if (adminTools) adminTools.classList.toggle('hidden', !isAdmin);
+            if (adminNote) adminNote.textContent = isAdmin ? 'Administrator access confirmed. You can manage gardener accounts below.' : (isLoggedIn ? 'This account does not have administrator permissions.' : 'Connect to Supabase and sign in with the administrator account to unlock account management.');
+            if (isAdmin) setTimeout(() => refreshFloraAdminUsers(), 0);
+
+            if (isFloraInviteFlow) {
+                if (loggedOutSec) loggedOutSec.classList.add('hidden');
+                if (loggedInSec) loggedInSec.classList.add('hidden');
+                if (invitePanel) invitePanel.classList.remove('hidden');
+                const inviteEmail = document.getElementById('flora-invite-email');
+                if (inviteEmail) inviteEmail.textContent = currentUser?.email || '';
+                if (profileEmail) profileEmail.value = '';
+            } else if (isLoggedIn) {
+                if (loggedOutSec) loggedOutSec.classList.add('hidden');
+                if (loggedInSec) loggedInSec.classList.remove('hidden');
+                if (invitePanel) invitePanel.classList.add('hidden');
+                if (emailDisp) emailDisp.textContent = email;
+                if (profileEmail) profileEmail.value = (appSettings.notificationEmail || email || '');
+            } else {
+                if (profileEmail) profileEmail.value = '';
+                if (loggedOutSec) loggedOutSec.classList.remove('hidden');
+                if (loggedInSec) loggedInSec.classList.add('hidden');
+                if (invitePanel) invitePanel.classList.add('hidden');
+            }
+        }
+
+        async function handleSupabaseLogin() {
+            const loginButton = document.querySelector('#auth-logged-out button[onclick*="handleSupabaseLogin"]');
+            const emailInput = document.getElementById('auth-email');
+            const passwordInput = document.getElementById('auth-password');
+            const email = emailInput?.value.trim() || '';
+            const password = passwordInput?.value || '';
+
+            if (!supabaseClient) {
+                alert('GROnote is still connecting to the sign-in service. Please wait a moment and try again. If this continues, refresh the page.');
+                return;
+            }
+            if (!email || !password) {
+                alert('Please enter your email address and password.');
+                (!email ? emailInput : passwordInput)?.focus();
+                return;
+            }
+
+            const originalButtonText = loginButton?.textContent || 'Login';
+            if (loginButton) {
+                loginButton.disabled = true;
+                loginButton.textContent = 'Signing in…';
+                loginButton.setAttribute('aria-busy', 'true');
+            }
+
+            try {
+                // Choose Plants before Supabase emits any sign-in or token events.
+                // This prevents a later auth event from briefly restoring the previously
+                // selected Settings tab during a fresh login.
+                try {
+                    if (window.matchMedia('(min-width: 768px)').matches) {
+                        localStorage.setItem('gronote_desktop_last_tab', 'plants');
+                    }
+                } catch (_) {}
+                let data;
+                if (email.includes('@')) {
+                    // Preserve the existing direct email-and-password sign-in path.
+                    const result = await supabaseClient.auth.signInWithPassword({ email, password });
+                    if (result.error) throw result.error;
+                    data = result.data;
+                } else {
+                    // Username lookup and password verification happen server-side;
+                    // the matched email address is never exposed to the browser.
+                    const result = await supabaseClient.functions.invoke('username-login', {
+                        body: { username: email, password }
+                    });
+                    if (result.error) throw new Error(result.error.message || 'Invalid username or password.');
+                    const tokens = result.data || {};
+                    if (!tokens.access_token || !tokens.refresh_token) {
+                        throw new Error(tokens.error || 'Invalid username or password.');
+                    }
+                    const sessionResult = await supabaseClient.auth.setSession({
+                        access_token: tokens.access_token,
+                        refresh_token: tokens.refresh_token
+                    });
+                    if (sessionResult.error) throw sessionResult.error;
+                    data = sessionResult.data;
+                }
+                if (!data?.session || !data?.user) {
+                    throw new Error('The sign-in service did not return an active session. Please try again.');
+                }
+                // Suppress mobile interstitials immediately, before the auth-state
+                // listener finishes restoring this account's garden data.
+                document.documentElement.classList.add('flora-authenticated');
+                switchTab('plants');
+                // Stay on the current page. The Supabase SIGNED_IN listener restores
+                // this account's garden and switches straight to the Plants tab; a full
+                // reload would replay startup and briefly show intermediate screens.
+                return;
+            } catch (error) {
+                console.error('GROnote sign-in failed:', error);
+                alert('Sign in failed: ' + (error?.message || 'An unexpected error occurred. Please try again.'));
+            } finally {
+                if (loginButton) {
+                    loginButton.disabled = false;
+                    loginButton.textContent = originalButtonText;
+                    loginButton.removeAttribute('aria-busy');
+                }
+            }
+        }
+
+        // Expose the handler explicitly for the login button's inline click action.
+        window.handleSupabaseLogin = handleSupabaseLogin;
+
+        async function handleSupabaseChangePassword() {
+            if (!supabaseClient) { alert('Supabase is not connected.'); return; }
+            const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
+            if (sessionError || !session || !session.user) {
+                alert('Your session is no longer active. Please sign in again before changing your password.');
+                return;
+            }
+            const newPassword = window.prompt('Enter a new password (at least 6 characters):');
+            if (newPassword === null) return;
+            if (newPassword.length < 6) { alert('Please choose a password with at least 6 characters.'); return; }
+            const confirmation = window.prompt('Enter the new password again to confirm:');
+            if (confirmation === null) return;
+            if (newPassword !== confirmation) { alert('The passwords did not match. Please try again.'); return; }
+            const { error } = await supabaseClient.auth.updateUser({ password: newPassword });
+            if (error) {
+                console.error('Password change failed:', error);
+                alert('Could not change the password: ' + error.message);
+                return;
+            }
+            alert('Password changed successfully. Your plant journal and cloud records have not been deleted.');
+        }
+
+        async function handleSupabasePasswordReset() {
+            if (!supabaseClient) { alert('Please connect your Supabase credentials first.'); return; }
+            const emailInput = document.getElementById('auth-email');
+            const identifier = emailInput ? emailInput.value.trim() : '';
+            if (!identifier) { alert('Enter your account email address or username first.'); if (emailInput) emailInput.focus(); return; }
+            const redirectTo = window.location.origin + window.location.pathname + '?password-recovery=1';
+            try {
+                if (identifier.includes('@')) {
+                    const { error } = await supabaseClient.auth.resetPasswordForEmail(identifier, { redirectTo });
+                    if (error) throw error;
+                } else {
+                    const { data, error } = await supabaseClient.functions.invoke('username-password-reset', {
+                        body: { username: identifier, redirectTo }
+                    });
+                    if (error) {
+                        let detail = '';
+                        try {
+                            if (error.context && typeof error.context.json === 'function') {
+                                const body = await error.context.json();
+                                detail = body?.error || body?.message || '';
+                            }
+                        } catch (_) {}
+                        throw new Error(detail || error.message || 'Password reset request failed.');
+                    }
+                    if (data?.error) throw new Error(data.error);
+                }
+                alert('If an account exists for those details, Supabase will send a password-reset link. Check your inbox and spam folder.');
+            } catch (error) {
+                console.error('Password reset request failed:', error);
+                alert('Could not send the reset email: ' + (error.message || 'Please try again.') + '. Check your Supabase Auth email settings.');
+            }
+        }
+
+        async function completeSupabasePasswordRecovery() {
+            if (!supabaseClient || !window.location.search.includes('password-recovery=1')) return;
+            const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
+            if (sessionError || !session) return;
+            const newPassword = window.prompt('Enter a new password (at least 6 characters):');
+            if (newPassword === null) return;
+            if (newPassword.length < 6) { alert('Please choose a password with at least 6 characters, then open the reset link again.'); return; }
+            const confirmation = window.prompt('Enter the new password again to confirm:');
+            if (confirmation === null) return;
+            if (newPassword !== confirmation) { alert('The passwords did not match. Please open the reset link again and try once more.'); return; }
+            const { error } = await supabaseClient.auth.updateUser({ password: newPassword });
+            if (error) { alert('Could not update the password: ' + error.message); return; }
+            window.history.replaceState({}, document.title, window.location.pathname);
+            alert('Password updated. You can now sign in with your new password.');
+        }
+        function showSupabaseSignUpView() {
+            const loginView = document.getElementById('auth-logged-out');
+            if (!loginView) return;
+            // Use Tailwind's .hidden utility rather than the HTML hidden attribute:
+            // utility classes such as .flex can override the browser's [hidden] rule.
+            loginView.querySelectorAll(':scope > div:not(#auth-signup-view)').forEach(section => {
+                section.classList.add('hidden');
+                section.hidden = true;
+            });
+            const signupView = document.getElementById('auth-signup-view');
+            if (signupView) {
+                signupView.hidden = false;
+                signupView.classList.remove('hidden');
+            }
+            document.getElementById('auth-signup-email')?.focus();
+        }
+
+        function showSupabaseLoginView() {
+            const loginView = document.getElementById('auth-logged-out');
+            if (!loginView) return;
+            loginView.querySelectorAll(':scope > div:not(#auth-signup-view)').forEach(section => {
+                section.hidden = false;
+                section.classList.remove('hidden');
+            });
+            const signupView = document.getElementById('auth-signup-view');
+            if (signupView) {
+                signupView.hidden = true;
+                signupView.classList.add('hidden');
+            }
+        }
+
+        async function handleSupabaseSignUp() {
+            if (!supabaseClient) { alert("Please connect your Supabase credentials first!"); return; }
+            const emailInput = document.getElementById('auth-signup-email');
+            const email = emailInput?.value?.trim();
+            if (!email) {
+                alert("Please enter your email address.");
+                emailInput?.focus();
+                return;
+            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert("Please enter a valid email address.");
+                emailInput?.focus();
+                return;
+            }
+
+            // Sign-up only asks for an email. Supabase requires an initial password,
+            // so create an unpredictable temporary one; the user sets their own
+            // password on the standalone page after following the confirmation link.
+            const temporaryPassword = 'GRO-' + crypto.randomUUID() + '-aA1!';
+            // Return email confirmation to the exact deployed app URL (including
+            // the GitHub Pages repository path), not Supabase's default Site URL.
+            const emailRedirectTo = new URL(window.location.href);
+            emailRedirectTo.search = '';
+            emailRedirectTo.hash = '';
+            emailRedirectTo.searchParams.set('invite', '1');
+            const { data, error } = await supabaseClient.auth.signUp({
+                email,
+                password: temporaryPassword,
+                options: { emailRedirectTo: emailRedirectTo.toString() }
+            });
+            if (error) {
+                alert("Sign Up Failed: " + error.message);
+            } else if (data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+                alert("This email may already be registered. Please log in instead, or use Forgot password if you cannot remember your password.");
+            } else {
+                alert("Account registered. Please check your email for a confirmation link. You'll create your password after confirming your email.");
+                // After successful signup, show a standalone GROnote logo screen.
+                // Explicitly clear every startup visibility guard and make the new screen
+                // visible independently of inherited body styles.
+                const root = document.documentElement;
+                root.classList.remove('flora-auth-pending', 'flora-auth-setup-navigation');
+                root.classList.add('flora-signup-confirmation-complete');
+                document.body.style.visibility = 'visible';
+                document.body.style.opacity = '1';
+                let confirmationScreen = document.getElementById('flora-signup-confirmation-screen');
+                if (!confirmationScreen) {
+                    confirmationScreen = document.createElement('div');
+                    confirmationScreen.id = 'flora-signup-confirmation-screen';
+                    confirmationScreen.setAttribute('role', 'status');
+                    confirmationScreen.setAttribute('aria-label', 'GROnote');
+                    confirmationScreen.style.cssText = 'position:fixed!important;inset:0!important;z-index:2147483647!important;display:flex!important;visibility:visible!important;opacity:1!important;align-items:center!important;justify-content:center!important;padding:28px!important;background:#f7f6f0!important;';
+                    const logo = document.createElement('img');
+                    logo.src = new URL('Leaf-Stamp-Logo-Dark-Green.png', window.location.href).toString();
+                    logo.alt = 'GROnote';
+                    logo.style.cssText = 'display:block!important;visibility:visible!important;opacity:1!important;width:min(220px,70vw)!important;height:auto!important;max-height:180px!important;object-fit:contain!important;';
+                    logo.onerror = () => {
+                        logo.remove();
+                        const fallback = document.createElement('div');
+                        fallback.textContent = 'GROnote';
+                        fallback.style.cssText = 'color:#294b34;font-family:Georgia,serif;font-size:42px;font-weight:700;letter-spacing:1px;';
+                        confirmationScreen.appendChild(fallback);
+                    };
+                    confirmationScreen.appendChild(logo);
+                    document.body.appendChild(confirmationScreen);
+                }
+                confirmationScreen.style.visibility = 'visible';
+                confirmationScreen.style.opacity = '1';
+            }
+        }
+
+        async function handleSupabaseSignOut() {
+            if (!supabaseClient) return;
+            // Read this before signing out; the preference controls whether the email is retained.
+            const rememberMe = document.getElementById('auth-remember-me')?.checked !== false;
+
+            // Invalidate in-flight cloud loads immediately so they cannot show another
+            // growing-locations error while the user is trying to leave the session.
+            ++floraAuthRestoreGeneration;
+            currentUser = null;
+            if (plantLocationsRealtimeChannel) {
+                try { supabaseClient.removeChannel(plantLocationsRealtimeChannel); } catch (_) {}
+                plantLocationsRealtimeChannel = null;
+            }
+
+            // Use local scope: a broken/deleted Auth user can make remote sign-out fail,
+            // but that must never prevent the browser session from being cleared.
+            try {
+                await supabaseClient.auth.signOut({ scope: 'local' });
+            } catch (signOutError) {
+                console.warn('Local GROnote sign-out cleanup completed despite an auth error:', signOutError);
+            } finally {
+                const emailInput = document.getElementById('auth-email');
+                const passwordInput = document.getElementById('auth-password');
+                const passwordVisibility = document.getElementById('auth-password-visibility');
+                if (passwordInput) {
+                    if (!rememberMe) passwordInput.value = '';
+                    passwordInput.type = 'password';
+                }
+                if (passwordVisibility) {
+                    passwordVisibility.setAttribute('aria-pressed', 'false');
+                    passwordVisibility.setAttribute('aria-label', 'Show password');
+                    const visibilityLabel = passwordVisibility.querySelector('span');
+                    if (visibilityLabel) visibilityLabel.textContent = 'Show';
+                }
+                if (!rememberMe && emailInput) emailInput.value = '';
+                resetFloraAccountStateForSignedOut();
+                renderPlants();
+                updateAuthUI(false);
+                updateSyncBadge('cloud', 'Supabase Ready (Sign In)');
+            }
+            alert('Signed out on this device.');
+        }
+
+        function saveSupabaseCredentials() {
+            appSettings.supabaseUrl = document.getElementById('supabase-url').value.trim();
+            appSettings.supabaseKey = document.getElementById('supabase-key').value.trim();
+            setFloraAccountItem('flora_settings', JSON.stringify(appSettings));
+            initSupabaseClient();
+            alert("Supabase credentials updated.");
+        }
+
+        // Fetch plants from Supabase Cloud or Local Storage Fallback
+        const JOURNAL_PHOTO_BUCKET = 'journal-photos';
+        const JOURNAL_PHOTO_SIGNED_URL_TTL = 60 * 60 * 24 * 7;
+        const JOURNAL_PHOTO_URL_CACHE_KEY = 'flora_journal_photo_url_cache_v1';
+        const JOURNAL_PHOTO_URL_REFRESH_BUFFER = 15 * 60 * 1000;
+        const journalPhotoUrlRequests = new Map();
+
+        function getJournalPhotoUrlCache() {
+            try {
+                const cache = JSON.parse(localStorage.getItem(JOURNAL_PHOTO_URL_CACHE_KEY) || '{}');
+                return cache && typeof cache === 'object' && !Array.isArray(cache) ? cache : {};
+            } catch (_) {
+                return {};
+            }
+        }
+
+        function getJournalPhotoUrlCacheId(path) {
+            // Keep cached private URLs isolated by Supabase project and signed-in account.
+            return [appSettings.supabaseUrl || '', currentUser?.id || 'signed-out', path].join('|');
+        }
+
+        function clearJournalPhotoUrlCache(path) {
+            if (!path) return;
+            try {
+                const cache = getJournalPhotoUrlCache();
+                delete cache[getJournalPhotoUrlCacheId(path)];
+                localStorage.setItem(JOURNAL_PHOTO_URL_CACHE_KEY, JSON.stringify(cache));
+            } catch (_) {
+                // URL caching is an optimisation; storage failures must not block photo changes.
+            }
+        }
+
+        async function createJournalPhotoUrl(path, forceRefresh = false) {
+            if (!supabaseClient || !path || path.startsWith('data:') || path.startsWith('blob:')) return path;
+
+            const cacheId = getJournalPhotoUrlCacheId(path);
+            const now = Date.now();
+            if (!forceRefresh) {
+                const cached = getJournalPhotoUrlCache()[cacheId];
+                if (cached && cached.url && Number(cached.expiresAt) > now + JOURNAL_PHOTO_URL_REFRESH_BUFFER) {
+                    return cached.url;
+                }
+                if (journalPhotoUrlRequests.has(cacheId)) return journalPhotoUrlRequests.get(cacheId);
+            }
+
+            const request = (async () => {
+                const { data, error } = await supabaseClient.storage.from(JOURNAL_PHOTO_BUCKET)
+                    .createSignedUrl(path, JOURNAL_PHOTO_SIGNED_URL_TTL);
+                if (error) {
+                    console.error('Could not create journal photo URL:', error);
+                    return '';
+                }
+
+                const signedUrl = data.signedUrl;
+                try {
+                    const cache = getJournalPhotoUrlCache();
+                    // Drop expired entries and cap the cache so it remains small on long-lived devices.
+                    Object.keys(cache).forEach(key => {
+                        if (!cache[key] || Number(cache[key].expiresAt) <= now) delete cache[key];
+                    });
+                    cache[cacheId] = {
+                        url: signedUrl,
+                        expiresAt: now + JOURNAL_PHOTO_SIGNED_URL_TTL * 1000
+                    };
+                    const keys = Object.keys(cache);
+                    if (keys.length > 500) {
+                        keys.sort((a, b) => Number(cache[a]?.expiresAt || 0) - Number(cache[b]?.expiresAt || 0));
+                        keys.slice(0, keys.length - 500).forEach(key => delete cache[key]);
+                    }
+                    localStorage.setItem(JOURNAL_PHOTO_URL_CACHE_KEY, JSON.stringify(cache));
+                } catch (_) {
+                    // Continue with the signed URL even when browser storage is unavailable.
+                }
+                return signedUrl;
+            })();
+
+            journalPhotoUrlRequests.set(cacheId, request);
+            try {
+                return await request;
+            } finally {
+                if (journalPhotoUrlRequests.get(cacheId) === request) journalPhotoUrlRequests.delete(cacheId);
+            }
+        }
+
+        async function uploadJournalPhoto(dataUrl, plantId, logId, index) {
+            if (!supabaseClient || !currentUser) throw new Error('Sign in to Supabase before syncing journal photos across devices.');
+            const response = await fetch(dataUrl);
+            const blob = await response.blob();
+            const path = currentUser.id + '/' + plantId + '/' + logId + '/' + index + '.jpg';
+            const { error } = await supabaseClient.storage.from(JOURNAL_PHOTO_BUCKET).upload(path, blob, {
+                contentType: 'image/jpeg',
+                upsert: true
+            });
+            if (error) throw error;
+            // A path may be overwritten when a photo is changed; do not keep its old signed URL.
+            clearJournalPhotoUrlCache(path);
+            return path;
+        }
+
+        // Keep each gardener's offline queue and plant cache separate on shared devices.
+        function floraUserStorageKey(base, userId = currentUser?.id) {
+            return userId ? base + '_' + userId : base;
+        }
+
+        function saveLocalPlantsForCurrentUser(value = plants) {
+            const serialized = JSON.stringify(value);
+            if (currentUser?.id) {
+                // Authenticated data is written only to this account's cache.
+                localStorage.setItem(floraUserStorageKey('flora_plants_user', currentUser.id), serialized);
+            } else {
+                // Retain a legacy cache only for signed-out/local-only use.
+                localStorage.setItem('flora_plants', serialized);
+            }
+        }
+
+        // Durable local-first sync queue. Only successful cloud operations clear queued work.
+        function getFloraSyncQueue() {
+            try {
+                const scopedKey = floraUserStorageKey('flora_pending_sync');
+                const scopedQueue = localStorage.getItem(scopedKey);
+                if (scopedQueue) return JSON.parse(scopedQueue) || {};
+
+                // Migrate the old single-device queue only when its recorded owner matches.
+                const legacyQueue = JSON.parse(localStorage.getItem('flora_pending_sync') || '{}') || {};
+                if (!currentUser?.id) return legacyQueue;
+                if (legacyQueue.userId === currentUser.id) {
+                    localStorage.setItem(scopedKey, JSON.stringify(legacyQueue));
+                    return legacyQueue;
+                }
+                return {};
+            } catch (_) { return {}; }
+        }
+
+        function saveFloraSyncQueue(queue) {
+            localStorage.setItem(floraUserStorageKey('flora_pending_sync'), JSON.stringify(queue));
+        }
+
+        function markFloraSyncPending(kind = 'data', deletedId = null) {
+            const queue = getFloraSyncQueue();
+            queue.dirty = true;
+            queue.userId = currentUser?.id || queue.userId || localStorage.getItem('flora_last_user_id') || null;
+            queue.updatedAt = new Date().toISOString();
+            queue.deletedPlantIds = Array.isArray(queue.deletedPlantIds) ? queue.deletedPlantIds : [];
+            queue.deletedLogIds = Array.isArray(queue.deletedLogIds) ? queue.deletedLogIds : [];
+            if (kind === 'plant-delete' && deletedId) queue.deletedPlantIds = [...new Set([...queue.deletedPlantIds, deletedId])];
+            if (kind === 'log-delete' && deletedId) queue.deletedLogIds = [...new Set([...queue.deletedLogIds, deletedId])];
+            if (kind === 'profile') queue.profileDirty = true;
+            if (kind === 'locations') queue.locationsDirty = true;
+            // Track plant/journal edits separately: the general dirty flag also covers
+            // profile and location changes and must not suppress the cloud plant read.
+            if (kind !== 'profile' && kind !== 'locations') queue.plantsDirty = true;
+            saveFloraSyncQueue(queue);
+            if (!navigator.onLine) updateSyncBadge('local', 'Offline · Changes Queued');
+        }
+
+        async function syncPendingFloraChanges() {
+            if (!navigator.onLine || !supabaseClient || !currentUser) return false;
+            if (window.floraSyncInProgress) return false;
+            let queue = getFloraSyncQueue();
+            if (!queue.dirty && !queue.profileDirty && !queue.plantLibraryDirty && !queue.locationsDirty &&
+                !(queue.deletedPlantIds || []).length && !(queue.deletedLogIds || []).length) return true;
+            if (!queue.userId) {
+                updateSyncBadge('local', 'Pending Changes · Original Account Unknown');
+                return false;
+            }
+            if (queue.userId !== currentUser.id) {
+                updateSyncBadge('local', 'Pending Changes · Original Account Required');
+                return false;
+            }
+
+            window.floraSyncInProgress = true;
+            updateSyncBadge('local', 'Syncing Offline Changes…');
+            try {
+                const localPlants = JSON.parse(localStorage.getItem(floraUserStorageKey('flora_plants_user', currentUser.id)) || '[]');
+                const deletedLogs = Array.isArray(queue.deletedLogIds) ? queue.deletedLogIds : [];
+                const deletedPlants = Array.isArray(queue.deletedPlantIds) ? queue.deletedPlantIds : [];
+
+                // Upload independent plants in parallel. Each plant is saved before its
+                // journal entries, while independent photos/logs can upload together.
+                await Promise.all(localPlants.map(async plant => {
+                    if (deletedPlants.includes(plant.id)) return;
+                    if (plant.customIconUrl && plant.customIconUrl.startsWith('data:') && !plant.customIconPath) {
+                        plant.customIconPath = await uploadJournalPhoto(plant.customIconUrl, plant.id, 'plant-icon', 0);
+                    }
+                    const { error: plantError } = await supabaseClient.from('plants').upsert({
+                        id: plant.id, user_id: currentUser.id, name: plant.name, variety: plant.variety,
+                        quantity: Math.max(1, Number(plant.quantity) || 1),
+                        quantity_type: ['plants', 'seeds', 'cuttings'].includes(plant.quantityType) ? plant.quantityType : 'plants',
+                        remaining_seeds: Math.max(0, Number(plant.remainingSeeds) || 0),
+                        remaining_cuttings: Math.max(0, Number(plant.remainingCuttings) || (plant.quantityType === 'cuttings' ? Number(plant.quantity) || 0 : 0)),
+                        multisow: !!plant.multisow,
+                        multisow_pots: plant.multisow ? Math.max(0, Number(plant.multisowPots) || 0) : 0,
+                        multisow_container_type: plant.multisow ? (plant.multisowContainerType === 'plugs' ? 'plugs' : 'pots') : '',
+                        seeds_per_pot: plant.multisow ? Math.max(0, Number(plant.seedsPerPot) || 0) : 0,
+                        icon_key: plant.iconKey, custom_icon_path: plant.customIconPath || null, hex: plant.hex, date: plant.date, medium: plant.medium,
+                        setup: Array.isArray(plant.setup) ? plant.setup : (plant.setup ? [plant.setup] : []),
+                        heated_propagator_temperature_c: plant.heatedPropagatorTemperatureC ?? null,
+                        archived_at: plant.archivedAt || null,
+                        notes: plant.notes, location: plant.location || '',
+                        nfc_tag_linked: !!plant.nfcTagLinked, qr_code_value: plant.qrCodeValue || null
+                    });
+                    if (plantError) throw plantError;
+                    if (plant.customIconPath) plant.customIconUrl = await createJournalPhotoUrl(plant.customIconPath);
+
+                    await Promise.all((plant.logs || []).map(async log => {
+                        if (deletedLogs.includes(log.id)) return;
+                        let photoPaths = Array.isArray(log.photoPaths) ? [...log.photoPaths] : [];
+                        const photos = Array.isArray(log.photos) ? log.photos : [];
+                        await Promise.all(photos.map(async (photo, index) => {
+                            if (typeof photo === 'string' && photo.startsWith('data:')) {
+                                photoPaths[index] = await uploadJournalPhoto(photo, plant.id, log.id, index);
+                            }
+                        }));
+                        const { error: logError } = await supabaseClient.from('plant_logs').upsert({
+                            id: log.id, plant_id: plant.id, user_id: currentUser.id,
+                            date: log.date, type: log.type, text: serializeJournalLogText(log), photos: photoPaths, feed_reminder_date: log.feedReminderDate || null,
+                            feed_reminder_mode: log.feedReminderMode || 'once', feed_reminder_interval: log.feedReminderInterval !== '' && log.feedReminderInterval != null ? (Number(log.feedReminderInterval) || null) : null, feed_reminder_unit: log.feedReminderUnit || 'days'
+                        });
+                        if (logError) throw logError;
+                        log.photoPaths = photoPaths;
+                        if (photoPaths.length) {
+                            log.photos = (await Promise.all(photoPaths.map(createJournalPhotoUrl))).filter(Boolean);
+                        }
+                    }));
+                }));
+
+                // Replay tombstones after upserts so removed records are not recreated.
+                for (const logId of deletedLogs) {
+                    const { data: oldLog, error: oldLogReadError } = await supabaseClient
+                        .from('plant_logs').select('photos').eq('id', logId).eq('user_id', currentUser.id).maybeSingle();
+                    if (oldLogReadError) throw oldLogReadError;
+                    await deleteJournalPhotoFiles(oldLog?.photos || []);
+                    const { error: reminderError } = await supabaseClient.from('feed_reminders').delete().eq('log_id', String(logId)).eq('user_id', currentUser.id);
+                    if (reminderError) throw reminderError;
+                    const { error } = await supabaseClient.from('plant_logs').delete().eq('id', logId).eq('user_id', currentUser.id);
+                    if (error) throw error;
+                }
+                for (const plantId of deletedPlants) {
+                    const { data: oldLogs, error: oldLogsReadError } = await supabaseClient
+                        .from('plant_logs').select('photos').eq('plant_id', plantId).eq('user_id', currentUser.id);
+                    if (oldLogsReadError) throw oldLogsReadError;
+                    await deleteJournalPhotoFiles((oldLogs || []).flatMap(log => log.photos || []));
+                    const { error: reminderError } = await supabaseClient.from('feed_reminders').delete().eq('plant_id', String(plantId)).eq('user_id', currentUser.id);
+                    if (reminderError) throw reminderError;
+                    const { error: logsError } = await supabaseClient.from('plant_logs').delete().eq('plant_id', plantId).eq('user_id', currentUser.id);
+                    if (logsError) throw logsError;
+                    const { error: plantError } = await supabaseClient.from('plants').delete().eq('id', plantId).eq('user_id', currentUser.id);
+                    if (plantError) throw plantError;
+                }
+
+                queue = getFloraSyncQueue();
+                if (queue.userId && queue.userId !== currentUser.id) throw new Error('The signed-in account changed during sync.');
+
+                if (queue.locationsDirty) {
+                    const { error } = await supabaseClient.from('user_plant_locations').upsert({
+                        user_id: currentUser.id,
+                        locations: {
+                            names: plantLocations,
+                            types: locationTypes,
+                            details: locationDetails,
+                            detailsVisibility: locationDetailsVisibility,
+                            equipment: JSON.parse(getFloraAccountItem('flora_location_inside_options') || '{}'),
+                            equipmentNames: JSON.parse(getFloraAccountItem('flora_location_equipment_names') || '{}'),
+                            postcodes: locationPostcodes,
+                            coordinates: locationCoordinates
+                        },
+                        updated_at: new Date().toISOString()
+                    }, { onConflict: 'user_id' });
+                    if (error) throw error;
+                }
+
+                if (queue.profileDirty || queue.plantLibraryDirty) {
+                    const settings = JSON.parse(getFloraAccountItem('flora_settings') || '{}');
+                    if (settings.username || typeof settings.notificationEmail === 'string') {
+                        const { error } = await supabaseClient.auth.updateUser({
+                            data: {
+                                ...(settings.username ? { username: settings.username } : {}),
+                                ...(typeof settings.notificationEmail === 'string' ? { notification_email: settings.notificationEmail } : {}),
+                                ...(queue.plantLibraryDirty ? { personal_plant_library: JSON.parse(getFloraAccountItem('flora_personal_plant_library') || '[]') } : {})
+                            }
+                        });
+                        if (error) throw error;
+                        currentUser = (await supabaseClient.auth.getUser()).data.user || currentUser;
+                    }
+                }
+
+                saveLocalPlantsForCurrentUser(localPlants);
+                saveFloraSyncQueue({
+                    dirty: false, plantsDirty: false, userId: currentUser.id, deletedPlantIds: [], deletedLogIds: [],
+                    profileDirty: false, plantLibraryDirty: false, locationsDirty: false, syncedAt: new Date().toISOString()
+                });
+                // Pull records created on other devices after this device's pending work is safely uploaded.
+                await fetchPlantsFromCloudOrLocal();
+                await fetchPlantLocationsFromCloudOrLocal();
+                renderPlantLocationControls();
+                renderPlants();
+                updateSyncBadge('cloud', 'Cloud Synced');
+                return true;
+            } catch (error) {
+                console.error('GROnote sync is still pending:', error);
+                queue = getFloraSyncQueue();
+                queue.dirty = true;
+                queue.userId = currentUser.id;
+                queue.lastError = error.message || String(error);
+                saveFloraSyncQueue(queue);
+                updateSyncBadge('local', 'Sync Pending · Retry When Online');
+                return false;
+            } finally {
+                window.floraSyncInProgress = false;
+            }
+        }
+
+        window.addEventListener('online', () => {
+            setTimeout(() => syncPendingFloraChanges(), 800);
+        });
+
+        window.addEventListener('offline', () => {
+            const queue = getFloraSyncQueue();
+            updateSyncBadge('local', queue.dirty ? 'Offline · Changes Queued' : 'Offline · Local Only');
+        });
+
+        window.addEventListener('focus', async () => {
+            if (!navigator.onLine || !supabaseClient || !currentUser) return;
+            const queue = getFloraSyncQueue();
+            if (queue.dirty || queue.profileDirty || queue.locationsDirty) {
+                await syncPendingFloraChanges();
+            } else {
+                await fetchPlantsFromCloudOrLocal();
+                await fetchPlantLocationsFromCloudOrLocal();
+                renderPlantLocationControls();
+                renderPlants();
+            }
+        });
+
+        async function fetchPlantsFromCloudOrLocal() {
+            // Account setup routes must not read shared local storage or any gardener's cloud records.
+            if (isFloraInviteFlow) {
+                plants = [];
+                return;
+            }
+            const pending = getFloraSyncQueue();
+            if (supabaseClient && currentUser) {
+                const requestedUserId = currentUser.id;
+                const userCacheKey = floraUserStorageKey('flora_plants_user', requestedUserId);
+                const readOwnedCache = () => {
+                    try {
+                        const cached = localStorage.getItem(userCacheKey);
+                        if (cached) return JSON.parse(cached) || [];
+                        // Read the legacy shared cache only if it is explicitly tagged to this same account.
+                        if (localStorage.getItem('flora_last_user_id') === requestedUserId) {
+                            return JSON.parse(localStorage.getItem('flora_plants') || '[]') || [];
+                        }
+                    } catch (_) {}
+                    return [];
+                };
+
+                // The general dirty flag also covers profile and location edits.
+                // Always read the cloud library, then merge locally queued plant edits below.
+                const hasPendingPlantChanges = pending.userId === requestedUserId && (
+                    pending.plantsDirty === true ||
+                    (pending.dirty && !pending.profileDirty && !pending.locationsDirty)
+                );
+
+                try {
+                    const { data: dbPlants, error: plantErr } = await supabaseClient
+                        .from('plants')
+                        .select('*')
+                        .eq('user_id', requestedUserId)
+                        .order('created_at', { ascending: false });
+                    if (plantErr) throw plantErr;
+                    if (!currentUser || currentUser.id !== requestedUserId) return;
+
+                    // Render the plant records as soon as the plants query succeeds.
+                    // Journal rows and signed photo URLs are optional enrichment and must
+                    // never hold the entire plant library behind a second query or storage request.
+                    const localPlants = readOwnedCache();
+                    const localPlantsById = new Map(localPlants.map(plant => [String(plant.id), plant]));
+                    const deletedPlantIds = new Set((pending.userId === requestedUserId && Array.isArray(pending.deletedPlantIds) ? pending.deletedPlantIds : []).map(String));
+                    const loadedPlants = (dbPlants || []).map(p => ({
+                        id: p.id,
+                        name: p.name,
+                        variety: p.variety,
+                        quantity: Math.max(1, Number(p.quantity) || 1),
+                        quantityType: ['plants', 'seeds', 'cuttings'].includes(p.quantity_type) ? p.quantity_type : 'plants',
+                        multisow: !!p.multisow,
+                        multisowPots: Math.max(0, Number(p.multisow_pots) || 0),
+                        multisowContainerType: p.multisow_container_type === 'plugs' ? 'plugs' : (p.multisow_container_type === 'pots' ? 'pots' : ''),
+                        seedsPerPot: Math.max(0, Number(p.seeds_per_pot) || 0),
+                        remainingSeeds: Math.max(0, Number(p.remaining_seeds) || 0),
+                        remainingCuttings: Math.max(0, Number(p.remaining_cuttings) || 0),
+                        iconKey: p.icon_key,
+                        customIconPath: p.custom_icon_path || '',
+                        customIconUrl: '',
+                        hex: p.hex,
+                        date: p.date,
+                        medium: p.medium,
+                        setup: Array.isArray(p.setup) ? p.setup : (p.setup ? [p.setup] : []),
+                        heatedPropagatorTemperatureC: p.heated_propagator_temperature_c ?? null,
+                        archivedAt: p.archived_at || (localPlantsById.get(String(p.id)) || {}).archivedAt || '',
+                        location: p.location || (localPlants.find(localPlant => localPlant.id === p.id) || {}).location || '',
+                        notes: p.notes,
+                        nfcTagLinked: !!p.nfc_tag_linked,
+                        qrCodeValue: p.qr_code_value || '',
+                        logs: []
+                    }));
+                    if (!currentUser || currentUser.id !== requestedUserId) return;
+                    // Preserve unsynced local plant/journal edits without hiding cloud-only
+                    // records. Deleted plant tombstones remain excluded from the merged list.
+                    const cloudPlantIds = new Set(loadedPlants.map(plant => String(plant.id)));
+                    const mergedPlants = loadedPlants.map(cloudPlant => {
+                        if (!hasPendingPlantChanges || !localPlantsById.has(String(cloudPlant.id))) return cloudPlant;
+                        return { ...cloudPlant, ...localPlantsById.get(String(cloudPlant.id)) };
+                    });
+                    if (hasPendingPlantChanges) {
+                        localPlants.forEach(localPlant => {
+                            const id = String(localPlant.id);
+                            if (!cloudPlantIds.has(id) && !deletedPlantIds.has(id)) mergedPlants.push(localPlant);
+                        });
+                    }
+                    plants = mergedPlants.filter(plant => !deletedPlantIds.has(String(plant.id)));
+                    saveLocalPlantsForCurrentUser(plants);
+
+                    // If an earlier app version saved the compost status locally only,
+                    // preserve it and upload it now that archived_at is available in the cloud.
+                    const localCompostNeedsCloudSync = loadedPlants.some(plant => {
+                        const localPlant = localPlantsById.get(String(plant.id));
+                        const cloudRow = (dbPlants || []).find(row => String(row.id) === String(plant.id));
+                        return !!localPlant?.archivedAt && !cloudRow?.archived_at;
+                    });
+                    if (localCompostNeedsCloudSync) {
+                        markFloraSyncPending('plant-update');
+                        void syncPendingFloraChanges();
+                    }
+
+                    // Enrich journal entries and private photo URLs in the background.
+                    // Failure here leaves the already-rendered plant cards intact.
+                    void (async () => {
+                        try {
+                            const { data: dbLogs, error: logsErr } = await supabaseClient
+                                .from('plant_logs')
+                                .select('*')
+                                .eq('user_id', requestedUserId)
+                                .order('created_at', { ascending: false });
+                            if (logsErr) throw logsErr;
+                            if (!currentUser || currentUser.id !== requestedUserId) return;
+
+                            await Promise.all(loadedPlants.map(async plant => {
+                                const row = (dbPlants || []).find(item => item.id === plant.id);
+                                if (row?.custom_icon_path) {
+                                    plant.customIconUrl = await createJournalPhotoUrl(row.custom_icon_path);
+                                }
+                                plant.logs = await Promise.all((dbLogs || []).filter(log => log.plant_id === plant.id).map(async log => {
+                                    const photoPaths = Array.isArray(log.photos) ? log.photos : [];
+                                    const photoUrls = await Promise.all(photoPaths.map(createJournalPhotoUrl));
+                                    return { ...restoreJournalLogStage(log), feedReminderDate: log.feed_reminder_date || '', feedReminderMode: log.feed_reminder_mode || 'once', feedReminderInterval: log.feed_reminder_interval || '', feedReminderUnit: log.feed_reminder_unit || 'days', photos: photoUrls.filter(Boolean), photoPaths };
+                                }));
+                            }));
+                            if (!currentUser || currentUser.id !== requestedUserId) return;
+                            saveLocalPlantsForCurrentUser(plants);
+                            renderPlants();
+                        } catch (enrichmentError) {
+                            console.warn('Plant cards loaded; optional journal/photo enrichment was unavailable:', enrichmentError);
+                        }
+                    })();
+                    return;
+                } catch (err) {
+                    if (!currentUser || currentUser.id !== requestedUserId) return;
+                    console.error("Cloud fetch failed; using only this account's local cache:", err);
+                    plants = readOwnedCache();
+                    updateSyncBadge('local', 'Cloud Read Failed · Local Cache');
+                    return;
+                }
+            }
+            plants = []; // Never show the previous account's shared legacy cache.
+        }
+
+        async function syncPlantToCloud(plant) {
+            if (!supabaseClient || !currentUser || !navigator.onLine) {
+                markFloraSyncPending();
+                return false;
+            }
+            // Pin every write to the account that initiated it. Authentication can
+            // change while a photo upload or other network request is in flight.
+            const requestedUserId = currentUser.id;
+            try {
+                if (plant.customIconUrl && plant.customIconUrl.startsWith('data:') && !plant.customIconPath) {
+                    plant.customIconPath = await uploadJournalPhoto(plant.customIconUrl, plant.id, 'plant-icon', 0);
+                }
+                if (!currentUser || currentUser.id !== requestedUserId) return false;
+                const { error } = await supabaseClient.from('plants').upsert({
+                    id: plant.id,
+                    user_id: requestedUserId,
+                    name: plant.name,
+                    variety: plant.variety,
+                    quantity: Math.max(1, Number(plant.quantity) || 1),
+                    quantity_type: ['plants', 'seeds', 'cuttings'].includes(plant.quantityType) ? plant.quantityType : 'plants',
+                    remaining_seeds: Math.max(0, Number(plant.remainingSeeds) || 0),
+                    remaining_cuttings: Math.max(0, Number(plant.remainingCuttings) || (plant.quantityType === 'cuttings' ? Number(plant.quantity) || 0 : 0)),
+                    multisow: !!plant.multisow,
+                    multisow_pots: plant.multisow ? Math.max(0, Number(plant.multisowPots) || 0) : 0,
+                    multisow_container_type: plant.multisow ? (plant.multisowContainerType === 'plugs' ? 'plugs' : 'pots') : '',
+                    seeds_per_pot: plant.multisow ? Math.max(0, Number(plant.seedsPerPot) || 0) : 0,
+                    icon_key: plant.iconKey,
+                    custom_icon_path: plant.customIconPath || null,
+                    hex: plant.hex,
+                    date: plant.date,
+                    medium: plant.medium,
+                    setup: Array.isArray(plant.setup) ? plant.setup : (plant.setup ? [plant.setup] : []),
+                    heated_propagator_temperature_c: plant.heatedPropagatorTemperatureC ?? null,
+                    archived_at: plant.archivedAt || null,
+                    notes: plant.notes,
+                    location: plant.location || '',
+                    nfc_tag_linked: !!plant.nfcTagLinked,
+                    qr_code_value: plant.qrCodeValue || null
+                });
+                if (!currentUser || currentUser.id !== requestedUserId) return false;
+                if (error) {
+                    console.error("Failed to sync plant to cloud:", error);
+                    updateSyncBadge('local', 'Cloud Save Failed');
+                    markFloraSyncPending();
+                    alert("Your plant was saved on this device, but cloud sync failed: " + error.message + ". Check that the plants table has a location column and that your Supabase policies allow updates.");
+                    return false;
+                }
+                if (plant.customIconPath) {
+                    plant.customIconUrl = await createJournalPhotoUrl(plant.customIconPath);
+                    if (!currentUser || currentUser.id !== requestedUserId) return false;
+                    saveLocalPlantsForCurrentUser(plants);
+                }
+                updateSyncBadge('cloud', 'Cloud Synced');
+                return true;
+            } catch (err) {
+                console.error("Failed to sync plant to cloud:", err);
+                if (currentUser && currentUser.id === requestedUserId) {
+                    updateSyncBadge('local', 'Cloud Save Failed');
+                    markFloraSyncPending();
+                    alert("Your plant was saved on this device, but cloud sync failed. Check your connection and Supabase database settings.");
+                }
+                return false;
+            }
+        }
+
+        async function deleteJournalPhotoFiles(paths) {
+            const safePaths = [...new Set((Array.isArray(paths) ? paths : []).filter(path =>
+                typeof path === 'string' &&
+                path.startsWith(currentUser.id + '/') &&
+                !path.startsWith('data:') &&
+                !path.startsWith('blob:')
+            ))];
+            if (!safePaths.length) return;
+            const { error } = await supabaseClient.storage.from(JOURNAL_PHOTO_BUCKET).remove(safePaths);
+            if (error) throw error;
+            safePaths.forEach(clearJournalPhotoUrlCache);
+        }
+
+        async function deletePlantFromCloud(plantId) {
+            if (!supabaseClient || !currentUser) return null;
+            try {
+                const { data: logs, error: logsError } = await supabaseClient
+                    .from('plant_logs').select('id, photos')
+                    .eq('plant_id', plantId).eq('user_id', currentUser.id);
+                if (logsError) throw logsError;
+
+                const photoPaths = (logs || []).flatMap(log => Array.isArray(log.photos) ? log.photos : []);
+                await deleteJournalPhotoFiles(photoPaths);
+                const { error: reminderDeleteError } = await supabaseClient.from('feed_reminders').delete().eq('plant_id', String(plantId)).eq('user_id', currentUser.id);
+                if (reminderDeleteError) throw reminderDeleteError;
+
+                const { error: deleteLogsError } = await supabaseClient
+                    .from('plant_logs').delete().eq('plant_id', plantId).eq('user_id', currentUser.id);
+                if (deleteLogsError) throw deleteLogsError;
+
+                const { error: deletePlantError } = await supabaseClient
+                    .from('plants').delete().eq('id', plantId).eq('user_id', currentUser.id);
+                if (deletePlantError) throw deletePlantError;
+                return true;
+            } catch (err) {
+                console.error("Failed to delete plant and journal photos from cloud:", err);
+                return false;
+            }
+        }
+
+        // Keep growth stage in the existing plant_logs.text field so this works
+        // with databases that do not yet have a dedicated growth_stage column.
+        function serializeJournalLogText(log) {
+            const cleanText = String(log.text || '').replace(/\n?<!-- FloraScanGrowthStage:[^>]* -->/g, '');
+            const stage = String(log.growthStage || '').trim();
+            return stage ? cleanText + (cleanText ? '\n' : '') + '<!-- FloraScanGrowthStage:' + stage.replace(/-->/g, '') + ' -->' : cleanText;
+        }
+
+        function restoreJournalLogStage(log) {
+            const text = String(log.text || '');
+            const marker = text.match(/<!-- FloraScanGrowthStage:([^>]*) -->/);
+            const growthStage = log.growth_stage || log.growthStage || (marker ? marker[1].trim() : '');
+            return {
+                ...log,
+                growthStage,
+                text: text.replace(/\n?<!-- FloraScanGrowthStage:[^>]* -->/g, '').trimEnd()
+            };
+        }
+
+        async function syncLogToCloud(plantId, log) {
+            if (!supabaseClient || !currentUser || !navigator.onLine) {
+                markFloraSyncPending();
+                return false;
+            }
+            const requestedUserId = currentUser.id;
+            try {
+                const { error } = await supabaseClient.from('plant_logs').upsert({
+                    id: log.id,
+                    plant_id: plantId,
+                    user_id: requestedUserId,
+                    date: log.date,
+                    type: log.type,
+                    text: serializeJournalLogText(log),
+                    photos: Array.isArray(log.photoPaths) ? log.photoPaths : [],
+                    feed_reminder_date: log.feedReminderDate || null,
+                    feed_reminder_mode: log.feedReminderMode || 'once',
+                    feed_reminder_interval: log.feedReminderInterval !== '' && log.feedReminderInterval != null ? (Number(log.feedReminderInterval) || null) : null,
+                    feed_reminder_unit: log.feedReminderUnit || 'days'
+                });
+                if (error) throw error;
+            } catch (err) {
+                console.error("Failed to sync log to cloud:", err);
+                if (currentUser && currentUser.id === requestedUserId) markFloraSyncPending();
+                return false;
+            }
+            return !!currentUser && currentUser.id === requestedUserId;
+        }
+
+        async function deleteLogFromCloud(logId) {
+            if (!supabaseClient || !currentUser) return null;
+            try {
+                const { data: log, error: fetchError } = await supabaseClient
+                    .from('plant_logs').select('photos')
+                    .eq('id', logId).eq('user_id', currentUser.id).maybeSingle();
+                if (fetchError) throw fetchError;
+
+                await deleteJournalPhotoFiles(log && Array.isArray(log.photos) ? log.photos : []);
+                const { error: reminderDeleteError } = await supabaseClient.from('feed_reminders').delete().eq('log_id', String(logId)).eq('user_id', currentUser.id);
+                if (reminderDeleteError) throw reminderDeleteError;
+
+                const { error: deleteError } = await supabaseClient
+                    .from('plant_logs').delete().eq('id', logId).eq('user_id', currentUser.id);
+                if (deleteError) throw deleteError;
+                return true;
+            } catch (err) {
+                console.error("Failed to delete journal entry and photos from cloud:", err);
+                return false;
+            }
+        }
+
+        const FLORA_ACCENT_PALETTES = {
+            green:  { 50: '#f0fdf4', 100: '#dcfce7', 400: '#4ade80', 500: '#22c55e', 600: '#16a34a', 700: '#15803d', 800: '#166534', 900: '#14532d' },
+            blue:   { 50: '#eff6ff', 100: '#dbeafe', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' },
+            purple: { 50: '#faf5ff', 100: '#f3e8ff', 400: '#c084fc', 500: '#a855f7', 600: '#9333ea', 700: '#7e22ce', 800: '#6b21a8', 900: '#581c87' },
+            rose:   { 50: '#fff1f2', 100: '#ffe4e6', 400: '#fb7185', 500: '#f43f5e', 600: '#e11d48', 700: '#be123c', 800: '#9f1239', 900: '#881337' },
+            amber:  { 50: '#fffbeb', 100: '#fef3c7', 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706', 700: '#b45309', 800: '#92400e', 900: '#78350f' }
+        };
+
+        function applyAppearance() {
+            // GROnote uses its standard light Garden Fresh appearance.
+            appSettings.theme = 'light';
+            appSettings.accentColor = 'green';
+            appSettings.appearancePreset = 'garden';
+            document.documentElement.classList.remove('dark');
+            document.body.dataset.accent = 'green';
+            document.body.dataset.theme = 'light';
+        }
+
+        function applyBranding() {
+            const subDisplay = document.getElementById('app-subtitle-display');
+            if (subDisplay) subDisplay.textContent = appSettings.username;
+            
+            const usernameInput = document.getElementById('setting-username');
+            if (usernameInput) usernameInput.value = appSettings.username;
+
+            // Keep the built-in GROnote leaf logo; custom logo uploads/URLs are not offered in Settings.
+            const logoImg = document.getElementById('header-logo-img');
+            const logoIcon = document.getElementById('header-logo-icon');
+            if (logoImg) {
+                logoImg.removeAttribute('src');
+                logoImg.classList.add('hidden');
+            }
+            if (logoIcon) logoIcon.classList.remove('hidden');
+        }
+
+        async function saveBrandingSettings() {
+            const usernameInput = document.getElementById('setting-username');
+            const requestedUsername = (usernameInput?.value || '').trim().replace(/^@/, '');
+            const notificationEmail = document.getElementById('setting-profile-email').value.trim();
+
+            if (!/^[A-Za-z0-9._-]{3,24}$/.test(requestedUsername)) {
+                alert('Please choose a username between 3 and 24 characters using letters, numbers, dots, underscores or hyphens. Do not include @.');
+                usernameInput?.focus();
+                return;
+            }
+            if (notificationEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(notificationEmail)) {
+                alert('Please enter a valid notification email address.');
+                return;
+            }
+
+            const previousUsername = String(currentUser?.user_metadata?.username || appSettings.username || '').trim().replace(/^@/, '');
+            if (supabaseClient && currentUser) {
+                try {
+                    // Reserve the new username first. The database enforces uniqueness
+                    // and permits the signed-in user to update their own username.
+                    const { error: usernameError } = await supabaseClient.rpc('gronote_claim_username', {
+                        p_username: requestedUsername
+                    });
+                    if (usernameError) throw usernameError;
+
+                    const { error } = await supabaseClient.auth.updateUser({
+                        data: { username: requestedUsername, notification_email: notificationEmail || '' }
+                    });
+                    if (error) {
+                        // Restore the previous username reservation if Auth metadata
+                        // could not be updated, so the two account records stay aligned.
+                        if (/^[A-Za-z0-9._-]{3,24}$/.test(previousUsername)) {
+                            const { error: rollbackError } = await supabaseClient.rpc('gronote_claim_username', {
+                                p_username: previousUsername
+                            });
+                            if (rollbackError) console.error('Could not restore the previous username reservation:', rollbackError);
+                        }
+                        throw error;
+                    }
+                    currentUser = (await supabaseClient.auth.getUser()).data.user || currentUser;
+                } catch (error) {
+                    console.error('Could not update GROnote profile:', error);
+                    alert(error.message || 'Your username could not be updated. Please try another username.');
+                    return;
+                }
+            } else {
+                alert('Please sign in to your GROnote account before changing your username.');
+                return;
+            }
+
+            appSettings.username = requestedUsername;
+            appSettings.notificationEmail = notificationEmail;
+            setFloraAccountItem('flora_settings', JSON.stringify(appSettings));
+            markFloraSyncPending('profile');
+            applyBranding();
+            updateMobileWelcomeGreeting();
+            const profileSavedModal = document.getElementById('profile-preferences-saved-modal');
+            if (profileSavedModal) {
+                profileSavedModal.classList.remove('hidden');
+                profileSavedModal.classList.add('flex');
+            }
+        }
+
+        function renderIconPickerGrid(selectedKey = 'cucumber') {
+            const grid = document.getElementById('icon-picker-grid');
+            grid.innerHTML = CROP_ICON_LIBRARY.map(item => {
+                const isSelected = item.key === selectedKey;
+                const svgMarkup = MONOCHROME_VEG_SVGS[item.key] || MONOCHROME_VEG_SVGS.cucumber;
+                return `
+                    <button type="button" onclick="selectCropIcon('${item.key}', '${item.label.replace(/'/g, "\\'")}')" 
+                        title="${item.label}"
+                        class="p-1.5 rounded-xl flex items-center justify-center aspect-square transition crop-badge-container ${isSelected ? 'ring-2 ring-emerald-500' : ''}">
+                        <div class="w-8 h-8">${svgMarkup}</div>
+                    </button>
+                `;
+            }).join('');
+
+            document.getElementById('plant-icon-key').value = selectedKey;
+            const currentItem = CROP_ICON_LIBRARY.find(i => i.key === selectedKey);
+            if (currentItem) {
+                const selectedIconNameDisplay = document.getElementById('selected-icon-name-display');
+                if (selectedIconNameDisplay) selectedIconNameDisplay.textContent = currentItem.label;
+            }
+        }
+
+        function selectCropIcon(key, label) {
+            renderIconPickerGrid(key);
+        }
+
+        function setupAutocomplete() {
+            const nameInput = document.getElementById('plant-name');
+            const varietyInput = document.getElementById('plant-variety');
+            const nameDropdown = document.getElementById('name-suggestions');
+            const varietyDropdown = document.getElementById('variety-suggestions');
+
+            function getPlantSuggestionLibrary() {
+                return getPersonalPlantLibrary()
+                    .filter(plant => String(plant.name || '').trim())
+                    .map(plant => ({
+                        name: String(plant.name).trim(),
+                        varieties: [...new Map((plant.varieties || [])
+                            .map(value => String(value || '').trim())
+                            .filter(Boolean)
+                            .map(value => [value.toLocaleLowerCase(), value])).values()]
+                    }));
+            }
+
+            function getSuggestedVarieties(plantName) {
+                const normalized = String(plantName || '').trim().toLocaleLowerCase();
+                if (!normalized) return [];
+                const library = getPlantSuggestionLibrary();
+                // Prefer an exact plant-name match; while the user is still typing,
+                // use matching library names so suggestions appear immediately.
+                const exact = library.find(item => item.name.toLocaleLowerCase() === normalized);
+                if (exact) return exact.varieties;
+                const matches = library.filter(item =>
+                    item.name.toLocaleLowerCase().includes(normalized)
+                );
+                return [...new Map(matches.flatMap(item => item.varieties)
+                    .map(value => [value.toLocaleLowerCase(), value])).values()];
+            }
+
+            function renderVarietySuggestions(showAll = false) {
+                const query = varietyInput.value.trim().toLocaleLowerCase();
+                const selectedName = nameInput.value.trim();
+                const isMobileView = window.matchMedia('(max-width: 639px)').matches;
+                const normalizedName = selectedName.toLocaleLowerCase();
+                const exactLibraryPlant = getPlantSuggestionLibrary().some(item =>
+                    item.name.toLocaleLowerCase() === normalizedName
+                );
+                // On mobile, wait until a complete plant name from the library
+                // has been entered/selected before showing its variety choices.
+                if (isMobileView && (!selectedName || !exactLibraryPlant)) {
+                    varietyDropdown.classList.add('hidden');
+                    return;
+                }
+                const savedVarieties = getSuggestedVarieties(selectedName);
+                const matches = savedVarieties
+                    .filter(value => showAll || !query || value.toLocaleLowerCase().includes(query)).slice(0, 10);
+                varietyDropdown.replaceChildren();
+                if (!selectedName || !matches.length) { varietyDropdown.classList.add('hidden'); return; }
+
+                matches.forEach(varName => {
+                    const option = document.createElement('button');
+                    option.type = 'button';
+                    option.className = 'w-full px-3.5 py-2  dark: cursor-pointer text-xs font-medium text-slate-800 dark:text-slate-100 border-b border-slate-100 dark:border-slate-700/50 last:border-0 text-left';
+                    option.textContent = varName;
+                    option.addEventListener('click', () => selectVarietyName(varName));
+                    varietyDropdown.appendChild(option);
+                });
+                varietyDropdown.classList.remove('hidden');
+            }
+
+            nameInput.addEventListener('input', () => {
+                const query = nameInput.value.trim().toLocaleLowerCase();
+                if (!query) { nameDropdown.classList.add('hidden'); varietyDropdown.classList.add('hidden'); return; }
+
+                const matches = getPlantSuggestionLibrary().filter(item =>
+                    item.name.toLocaleLowerCase().includes(query) ||
+                    item.varieties.some(value => value.toLocaleLowerCase().includes(query))
+                ).slice(0, 10);
+                nameDropdown.replaceChildren();
+                if (!matches.length) nameDropdown.classList.add('hidden');
+                else {
+                    matches.forEach(item => {
+                        const option = document.createElement('button');
+                        option.type = 'button';
+                        option.className = 'w-full px-3.5 py-2  dark: cursor-pointer text-xs flex justify-between items-center border-b border-slate-100 dark:border-slate-700/50 last:border-0 text-left';
+                        const label = document.createElement('span');
+                        label.className = 'font-semibold text-slate-800 dark:text-slate-100';
+                        label.textContent = item.name;
+                        const count = document.createElement('span');
+                        count.className = 'text-[10px] text-emerald-600 dark:text-emerald-400 font-mono pl-2 flex-shrink-0';
+                        count.textContent = item.varieties.length + ' saved varieties';
+                        option.append(label, count);
+                        option.addEventListener('click', () => selectPlantName(item.name));
+                        nameDropdown.appendChild(option);
+                    });
+                    nameDropdown.classList.remove('hidden');
+                }
+                // Show saved varieties as choices, but leave the field empty
+                // until the user explicitly selects one.
+                varietyInput.value = '';
+                renderVarietySuggestions(true);
+            });
+
+            // Show all saved varieties as soon as the plant name is entered
+            // or the variety field receives focus; typing filters the list.
+            varietyInput.addEventListener('input', () => renderVarietySuggestions(false));
+            varietyInput.addEventListener('focus', () => renderVarietySuggestions(true));
+
+            document.addEventListener('click', (e) => {
+                if (!nameInput.contains(e.target) && !nameDropdown.contains(e.target)) {
+                    nameDropdown.classList.add('hidden');
+                }
+                // Keep saved variety suggestions open after the plant name is entered.
+                // They close when a variety is selected, the plant name is cleared,
+                // or the variety search no longer has matches.
+            });
+        }
+
+
+        function selectPlantName(name, defaultKey) {
+            const nameInput = document.getElementById('plant-name');
+            nameInput.value = name;
+            document.getElementById('name-suggestions').classList.add('hidden');
+            nameInput.dispatchEvent(new Event('input', { bubbles: true }));
+            if (defaultKey) renderIconPickerGrid(defaultKey);
+            document.getElementById('plant-variety').focus();
+        }
+
+        function selectVarietyName(variety) {
+            document.getElementById('plant-variety').value = variety;
+            document.getElementById('variety-suggestions').classList.add('hidden');
+        }
+
+        function setActiveNavigationTab(tabId) {
+            ['plants', 'scanner', 'add-plant', 'settings'].forEach(t => {
+                const tab = document.getElementById(`tab-${t}`);
+                if (!tab) return;
+                tab.className = "flex-1 py-2.5 rounded-xl transition flex items-center justify-center space-x-2 text-slate-600 dark:text-slate-400 ";
+                tab.setAttribute('aria-current', 'false');
+            });
+            const activeTab = document.getElementById(`tab-${tabId}`);
+            if (activeTab) {
+                activeTab.className = "flex-1 py-2.5 rounded-xl transition flex items-center justify-center space-x-2 bg-[#e4eadf] border border-[#d7dfd0] text-[#294b34] shadow-sm font-semibold";
+                activeTab.setAttribute('aria-current', 'page');
+            }
+        }
+
+        function toggleMyPlantLibrary() {
+            const content = document.getElementById('my-plant-library-content');
+            const toggle = document.getElementById('my-plant-library-toggle');
+            const chevron = document.getElementById('my-plant-library-chevron');
+            if (!content || !toggle) return;
+            const willOpen = content.classList.contains('hidden');
+            content.classList.toggle('hidden', !willOpen);
+            toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            if (chevron) chevron.classList.toggle('rotate-180', willOpen);
+        }
+
+        function getPersonalPlantLibrary() {
+            const stored = getFloraAccountItem('flora_personal_plant_library');
+            if (stored !== null) {
+                try {
+                    const parsed = JSON.parse(stored);
+                    return Array.isArray(parsed) ? parsed : [];
+                } catch (error) {
+                    console.warn('Could not read personal plant library:', error);
+                    return [];
+                }
+            }
+
+            // One-time migration: copy names and varieties from existing plant records.
+            // Thereafter this library is independent, so edits/deletions never alter plants.
+            const library = new Map();
+            (Array.isArray(plants) ? plants : []).forEach(plant => {
+                const name = String(plant.name || '').trim();
+                if (!name) return;
+                const key = name.toLocaleLowerCase();
+                if (!library.has(key)) library.set(key, { name, varieties: [] });
+                const variety = String(plant.variety || '').trim();
+                if (variety && !library.get(key).varieties.some(v => v.toLocaleLowerCase() === variety.toLocaleLowerCase())) {
+                    library.get(key).varieties.push(variety);
+                }
+            });
+            const initial = [...library.values()];
+            setFloraAccountItem('flora_personal_plant_library', JSON.stringify(initial));
+            return initial;
+        }
+
+        function savePersonalPlantLibrary(library) {
+            setFloraAccountItem('flora_personal_plant_library', JSON.stringify(library));
+            renderMyPlantLibrary();
+            if (typeof setupAutocomplete === 'function') setupAutocomplete();
+            if (!currentUser) return;
+            const queue = getFloraSyncQueue();
+            queue.userId = currentUser.id;
+            if (!supabaseClient || !navigator.onLine) {
+                queue.plantLibraryDirty = true;
+                saveFloraSyncQueue(queue);
+                return;
+            }
+            supabaseClient.auth.updateUser({ data: { personal_plant_library: library } }).then(({ error }) => {
+                if (error) {
+                    console.error('Could not sync personal plant library:', error);
+                    const pending = getFloraSyncQueue();
+                    pending.userId = currentUser.id;
+                    pending.plantLibraryDirty = true;
+                    saveFloraSyncQueue(pending);
+                } else {
+                    currentUser = { ...currentUser, user_metadata: { ...(currentUser.user_metadata || {}), personal_plant_library: library } };
+                    const pending = getFloraSyncQueue();
+                    pending.plantLibraryDirty = false;
+                    saveFloraSyncQueue(pending);
+                }
+            }).catch(error => {
+                console.error('Could not sync personal plant library:', error);
+                const pending = getFloraSyncQueue();
+                pending.userId = currentUser.id;
+                pending.plantLibraryDirty = true;
+                saveFloraSyncQueue(pending);
+            });
+        }
+
+        function updatePersonalLibraryFromPlantEdit(oldName, oldVariety, plant) {
+            const library = getPersonalPlantLibrary();
+            const oldKey = String(oldName || '').trim().toLocaleLowerCase();
+            const newName = String(plant.name || '').trim();
+            const newKey = newName.toLocaleLowerCase();
+            const newVariety = String(plant.variety || '').trim();
+            const oldEntryIndex = library.findIndex(item => item.name.toLocaleLowerCase() === oldKey);
+            if (oldEntryIndex < 0) {
+                // A library entry may have been intentionally removed; do not recreate it.
+                return;
+            }
+
+            const otherOldNameRecords = plants.some(item =>
+                String(item.id) !== String(plant.id) &&
+                String(item.name || '').trim().toLocaleLowerCase() === oldKey
+            );
+
+            const oldEntry = library[oldEntryIndex];
+            const oldVarieties = (oldEntry.varieties || []).filter(value =>
+                String(value).trim().toLocaleLowerCase() !== String(oldVariety || '').trim().toLocaleLowerCase()
+            );
+
+            if (!otherOldNameRecords) {
+                oldEntry.name = newName;
+                oldEntry.varieties = oldVarieties;
+            } else {
+                oldEntry.varieties = oldVarieties;
+            }
+
+            let newEntry = library.find(item => item.name.toLocaleLowerCase() === newKey);
+            if (!newEntry) {
+                newEntry = { name: newName, varieties: [] };
+                library.push(newEntry);
+            }
+            if (newVariety && !newEntry.varieties.some(value => value.toLocaleLowerCase() === newVariety.toLocaleLowerCase())) {
+                newEntry.varieties.push(newVariety);
+            }
+            if (oldKey === newKey && newVariety && !newEntry.varieties.some(value => value.toLocaleLowerCase() === newVariety.toLocaleLowerCase())) {
+                newEntry.varieties.push(newVariety);
+            }
+            savePersonalPlantLibrary(library.filter(item => item.name && (item.varieties || []).length || item.name));
+        }
+
+        function addPlantToPersonalLibrary() {
+            const nameInput = document.getElementById('library-new-plant-name');
+            const varietyInput = document.getElementById('library-new-plant-variety');
+            if (!nameInput || !varietyInput) return;
+            const name = nameInput.value.trim();
+            const variety = varietyInput.value.trim();
+            if (!name) {
+                alert('Enter a plant name first.');
+                nameInput.focus();
+                return;
+            }
+
+            const library = getPersonalPlantLibrary();
+            let entry = library.find(item => String(item.name || '').trim().toLocaleLowerCase() === name.toLocaleLowerCase());
+            if (!entry) {
+                entry = { name, varieties: [] };
+                library.push(entry);
+            } else if (variety && (entry.varieties || []).some(value => String(value).trim().toLocaleLowerCase() === variety.toLocaleLowerCase())) {
+                alert('That plant and variety are already in your library.');
+                varietyInput.focus();
+                return;
+            }
+
+            if (variety) {
+                if (!Array.isArray(entry.varieties)) entry.varieties = [];
+                entry.varieties.push(variety);
+            }
+            savePersonalPlantLibrary(library);
+            nameInput.value = '';
+            varietyInput.value = '';
+            nameInput.focus();
+        }
+
+        function getPersonalPlantLibraryRows() {
+            return getPersonalPlantLibrary().flatMap(item => {
+                const varieties = (item.varieties || []).slice();
+                return varieties.length
+                    ? varieties.map(variety => ({ name: item.name, variety }))
+                    : [{ name: item.name, variety: '' }];
+            }).sort((a, b) => a.name.localeCompare(b.name) || a.variety.localeCompare(b.variety));
+        }
+
+        async function editMyPlantLibraryEntry(index) {
+            const rows = getPersonalPlantLibraryRows();
+            const row = rows[index];
+            if (!row) return;
+            const library = getPersonalPlantLibrary();
+            const name = window.prompt('Edit plant name:', row.name);
+            if (name === null) return;
+            const cleanName = name.trim();
+            if (!cleanName) { alert('Plant name cannot be empty.'); return; }
+            const varietyText = window.prompt('Edit variety:', row.variety);
+            if (varietyText === null) return;
+            const cleanVariety = varietyText.trim();
+
+            const duplicate = rows.some((item, i) => i !== index &&
+                item.name.toLocaleLowerCase() === cleanName.toLocaleLowerCase() &&
+                item.variety.toLocaleLowerCase() === cleanVariety.toLocaleLowerCase());
+            if (duplicate) { alert('That plant and variety already exist in your library.'); return; }
+
+            const oldKey = row.name.toLocaleLowerCase();
+            const sourceIndex = library.findIndex(item => item.name.toLocaleLowerCase() === oldKey);
+            if (sourceIndex < 0) return;
+
+            // Apply the library edit to the corresponding plant records as well,
+            // so cards, journals and cloud copies all use the updated details.
+            const matchingPlants = (Array.isArray(plants) ? plants : []).filter(plant =>
+                String(plant.name || '').trim().toLocaleLowerCase() === oldKey &&
+                String(plant.variety || '').trim().toLocaleLowerCase() === row.variety.toLocaleLowerCase()
+            );
+            matchingPlants.forEach(plant => {
+                plant.name = cleanName;
+                plant.variety = cleanVariety;
+            });
+
+            const source = library[sourceIndex];
+            source.varieties = (source.varieties || []).filter(value =>
+                value.toLocaleLowerCase() !== row.variety.toLocaleLowerCase()
+            );
+            if (cleanName.toLocaleLowerCase() === oldKey) {
+                if (cleanVariety && !source.varieties.some(value => value.toLocaleLowerCase() === cleanVariety.toLocaleLowerCase())) {
+                    source.varieties.push(cleanVariety);
+                }
+            } else {
+                if (!source.varieties.length) library.splice(sourceIndex, 1);
+                let target = library.find(item => item.name.toLocaleLowerCase() === cleanName.toLocaleLowerCase());
+                if (!target) { target = { name: cleanName, varieties: [] }; library.push(target); }
+                if (cleanVariety && !target.varieties.some(value => value.toLocaleLowerCase() === cleanVariety.toLocaleLowerCase())) {
+                    target.varieties.push(cleanVariety);
+                }
+            }
+
+            if (matchingPlants.length) {
+                saveLocalPlantsForCurrentUser(plants);
+                markFloraSyncPending();
+                const journalPlantId = document.getElementById('log-plant-id')?.value;
+                const openJournalPlant = matchingPlants.find(plant => String(plant.id) === String(journalPlantId));
+                if (openJournalPlant) {
+                    const journalName = document.getElementById('journal-name');
+                    const journalVariety = document.getElementById('journal-variety');
+                    const editName = document.getElementById('journal-edit-plant-name');
+                    const editVariety = document.getElementById('journal-edit-plant-variety');
+                    if (journalName) journalName.textContent = openJournalPlant.name;
+
+                    if (journalVariety) journalVariety.textContent = openJournalPlant.variety || 'Standard Variety';
+                    if (editName) editName.value = openJournalPlant.name;
+                    if (editVariety) editVariety.value = openJournalPlant.variety || '';
+                }
+                renderPlants();
+                await Promise.all(matchingPlants.map(plant => syncPlantToCloud(plant)));
+            }
+
+            savePersonalPlantLibrary(library);
+        }
+
+        async function deleteMyPlantLibraryEntry(index) {
+            const rows = getPersonalPlantLibraryRows();
+            const row = rows[index];
+            if (!row) return;
+            const label = row.name + (row.variety ? ' — ' + row.variety : '');
+            const matchingPlants = (Array.isArray(plants) ? plants : []).filter(plant =>
+                String(plant.name || '').trim().toLocaleLowerCase() === row.name.trim().toLocaleLowerCase() &&
+                (!row.variety || String(plant.variety || '').trim().toLocaleLowerCase() === row.variety.trim().toLocaleLowerCase())
+            );
+            const recordCount = matchingPlants.length;
+            const warning = recordCount
+                ? 'WARNING: Deleting "' + label + '" from My Plant Library will also permanently delete ' +
+                    recordCount + ' matching plant ' + (recordCount === 1 ? 'record and its journal' : 'records and their journals') +
+                    ', including their journal entries, reminders and associated photos. This cannot be undone.\n\n' +
+                    'Choose OK to delete this library entry and matching plant records, or Cancel to keep everything.'
+                : 'Delete "' + label + '" from My Plant Library?' + (row.variety ? ' Other varieties of ' + row.name + ' will remain.' : ' There are no matching plant records to delete.');
+            if (!confirm(warning)) return;
+
+            const deletedIds = matchingPlants.map(plant => plant.id);
+            if (deletedIds.length) {
+                const deletedIdSet = new Set(deletedIds.map(String));
+                plants = plants.filter(plant => !deletedIdSet.has(String(plant.id)));
+                saveLocalPlantsForCurrentUser(plants);
+                deletedIds.forEach(id => markFloraSyncPending('plant-delete', id));
+                const openJournalPlantId = document.getElementById('log-plant-id')?.value;
+                if (openJournalPlantId && deletedIdSet.has(String(openJournalPlantId))) closeJournalModal();
+                const cloudResults = await Promise.all(deletedIds.map(id => deletePlantFromCloud(id)));
+                if (cloudResults.some(result => result === false)) {
+                    alert('The plant records were removed from this device, but some cloud cleanup failed. Their cloud journals and/or photos may still be present. Please check your connection and sync again.');
+                }
+                renderPlants();
+            }
+
+            const library = getPersonalPlantLibrary();
+            const libraryIndex = library.findIndex(item => item.name.toLocaleLowerCase() === row.name.toLocaleLowerCase());
+            if (libraryIndex >= 0) {
+                if (row.variety) {
+                    library[libraryIndex].varieties = (library[libraryIndex].varieties || []).filter(value =>
+                        value.toLocaleLowerCase() !== row.variety.toLocaleLowerCase()
+                    );
+                    if (!library[libraryIndex].varieties.length) library.splice(libraryIndex, 1);
+                } else {
+                    library.splice(libraryIndex, 1);
+                }
+            }
+            savePersonalPlantLibrary(library);
+        }
+
+        let myPlantLibraryLetterFilter = 'ALL';
+        let selectedMyPlantLibraryRow = null;
+
+        function selectMyPlantLibraryRow(index) {
+            selectedMyPlantLibraryRow = selectedMyPlantLibraryRow === index ? null : index;
+            renderMyPlantLibrary();
+        }
+
+        document.addEventListener('click', function(event) {
+            if (selectedMyPlantLibraryRow === null) return;
+            if (event.target.closest('#my-plant-library-list .plant-library-row')) return;
+            selectedMyPlantLibraryRow = null;
+            renderMyPlantLibrary();
+        }, true);
+
+        function setMyPlantLibraryLetter(letter) {
+            myPlantLibraryLetterFilter = letter;
+            selectedMyPlantLibraryRow = null;
+            renderMyPlantLibrary();
+        }
+
+        function renderMyPlantLibrary() {
+            const list = document.getElementById('my-plant-library-list');
+            const count = document.getElementById('my-plant-library-count');
+            const alphabet = document.getElementById('my-plant-library-az');
+            if (!list || !count) return;
+
+            const rows = getPersonalPlantLibraryRows();
+            const plantNames = [...new Set(rows.map(row => row.name.toLocaleLowerCase()))];
+            count.textContent = plantNames.length + ' ' + (plantNames.length === 1 ? 'plant' : 'plants') +
+                (rows.length !== plantNames.length ? ' · ' + rows.length + ' varieties' : '');
+
+            if (alphabet) {
+                const letters = [...new Set(rows.map(row => row.name.trim().charAt(0).toLocaleUpperCase()).filter(letter => /^[A-Z]$/.test(letter)))].sort();
+                alphabet.innerHTML = ['ALL', ...letters].map(letter =>
+                    '<button type="button" onclick="setMyPlantLibraryLetter(\'' + letter + '\')" aria-pressed="' + (myPlantLibraryLetterFilter === letter) + '" class="min-w-7 px-2 py-1 rounded-md text-xs font-semibold ' +
+                    (myPlantLibraryLetterFilter === letter ? 'bg-emerald-800 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300') + '">' +
+                    (letter === 'ALL' ? 'All' : letter) + '</button>'
+                ).join('');
+                alphabet.classList.toggle('hidden', rows.length === 0);
+            }
+
+            if (!rows.length) {
+                list.innerHTML = '<div class="py-4 text-center"><p class="text-sm font-medium text-slate-700 dark:text-slate-200">Your library is empty</p><p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Add a plant above to get started.</p></div>';
+                return;
+            }
+
+            const grouped = new Map();
+            rows.forEach((row, index) => {
+                const key = row.name.toLocaleLowerCase();
+                if (!grouped.has(key)) grouped.set(key, { name: row.name, entries: [] });
+                grouped.get(key).entries.push({ ...row, rowIndex: index });
+            });
+
+            const visibleGroups = [...grouped.values()]
+                .filter(group => myPlantLibraryLetterFilter === 'ALL' || group.name.trim().charAt(0).toLocaleUpperCase() === myPlantLibraryLetterFilter)
+                .sort((a, b) => a.name.localeCompare(b.name));
+
+            if (!visibleGroups.length) {
+                list.innerHTML = '<div class="py-4 text-center text-sm text-slate-500 dark:text-slate-400">No plants under ' + escapeHtml(myPlantLibraryLetterFilter) + '.</div>';
+                return;
+            }
+
+            list.innerHTML = visibleGroups.map(group =>
+                '<div class="py-2 border-b border-slate-100 dark:border-slate-700 last:border-0">' +
+                    '<div class="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-1">' + escapeHtml(group.name) + '</div>' +
+                    '<div class="space-y-0">' +
+                        group.entries.map(row =>
+                            '<div class="plant-library-row flex items-center justify-between gap-1 py-0 rounded-lg ' + (selectedMyPlantLibraryRow === row.rowIndex ? 'bg-emerald-50 dark:bg-emerald-900/20' : '') + '">' +
+                                '<button type="button" onclick="selectMyPlantLibraryRow(' + row.rowIndex + ')" aria-pressed="' + (selectedMyPlantLibraryRow === row.rowIndex) + '" class="text-left text-sm text-slate-600 dark:text-slate-300 min-w-0 flex-1 truncate px-1 py-1 focus:outline-none focus:ring-2 focus:ring-emerald-600 rounded">' +
+                                    (row.variety ? escapeHtml(row.variety) : '<span class="italic text-slate-400">No variety</span>') +
+                                '</button>' +
+                                (selectedMyPlantLibraryRow === row.rowIndex ? '<span class="flex items-center gap-1 flex-shrink-0">' +
+                                    '<button type="button" onclick="editMyPlantLibraryEntry(' + row.rowIndex + ')" aria-label="Edit ' + escapeHtml(row.name) + (row.variety ? ' - ' + escapeHtml(row.variety) : '') + '" title="Edit" class="w-8 h-8 inline-flex items-center justify-center rounded-lg text-emerald-900 dark:text-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-700"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>' +
+                                    '<button type="button" onclick="deleteMyPlantLibraryEntry(' + row.rowIndex + ')" aria-label="Delete ' + escapeHtml(row.name) + (row.variety ? ' - ' + escapeHtml(row.variety) : '') + '" title="Delete" class="w-8 h-8 inline-flex items-center justify-center rounded-lg text-[#B0466C] dark:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-500"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button>' +
+                                '</span>' : '') +
+                            '</div>'
+                        ).join('') +
+                    '</div>' +
+                '</div>'
+            ).join('');
+        }
+
+        function getDesktopStartupTab() {
+            // Restore the last selected main app page on every screen size.
+            try {
+                return localStorage.getItem('gronote_desktop_last_tab') === 'settings'
+                    ? 'settings'
+                    : 'plants';
+            } catch (_) {
+                return 'plants';
+            }
+        }
+
+        function switchTab(tabId) {
+            // Remember the selected page so returning to the browser tab or refreshing
+            // the app restores the same main section on desktop and mobile.
+            try {
+                if (tabId === 'settings' || tabId === 'plants') {
+                    localStorage.setItem('gronote_desktop_last_tab', tabId);
+                }
+            } catch (_) {}
+            // A root-level guard prevents Settings flashing even before Tailwind loads.
+            document.documentElement.classList.toggle('flora-settings-inactive', tabId !== 'settings');
+            if (tabId === 'settings') renderMyPlantLibrary();
+            // On mobile, dismiss an open Plant Journal when navigating to Settings.
+            if (tabId === 'settings' && window.matchMedia('(max-width: 767px)').matches) {
+                const journalModal = document.getElementById('journal-modal');
+                if (journalModal) journalModal.classList.add('hidden');
+            }
+            // Dismiss the Add Plant modal whenever the user navigates to another tab.
+            const plantModal = document.getElementById('plant-modal');
+            if (plantModal) plantModal.classList.add('hidden');
+
+            if (tabId === 'scanner') {
+                showScanOptions();
+                return;
+            }
+            ['plants', 'settings'].forEach(t => {
+                const view = document.getElementById(`view-${t}`);
+                if (view) view.classList.add('hidden');
+            });
+            const activeView = document.getElementById(`view-${tabId}`);
+            if (activeView) {
+                activeView.classList.remove('hidden');
+                // Clear the initial inline display:none on Settings only when it is selected.
+                activeView.style.display = '';
+            }
+            setActiveNavigationTab(tabId);
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, char => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[char]));
+        }
+
+        function toggleJournalLocationMenu() {
+            const button = document.getElementById('journal-plant-location');
+            const menu = document.getElementById('journal-plant-location-menu');
+            if (!button || !menu || button.disabled) return;
+            const opening = menu.style.display !== 'block';
+            const label = document.getElementById('journal-plant-location-label');
+            if (opening && label && !label.textContent.trim()) {
+                label.textContent = 'Choose location';
+                label.classList.remove('text-slate-500');
+                label.classList.add('text-slate-900', 'dark:text-slate-100');
+                label.style.setProperty('color', '#294b34', 'important');
+            }
+            menu.style.setProperty('display', opening ? 'block' : 'none', 'important');
+            menu.classList.toggle('hidden', !opening);
+            button.setAttribute('aria-expanded', opening ? 'true' : 'false');
+            if (opening) button.dataset.placeholderDismissEnabled = 'true';
+        }
+
+        // Use capture-phase pointer handling so clicks elsewhere still close the
+        // location menu even when the journal modal stops bubbling click events.
+        document.addEventListener('pointerdown', function(event) {
+            const control = document.getElementById('journal-plant-location-control');
+            const menu = document.getElementById('journal-plant-location-menu');
+            const button = document.getElementById('journal-plant-location');
+            if (!control || !menu || menu.classList.contains('hidden') || control.contains(event.target)) return;
+            menu.classList.add('hidden');
+            menu.style.setProperty('display', 'none', 'important');
+            if (button) button.setAttribute('aria-expanded', 'false');
+        }, true);
+
+        document.addEventListener('click', function(event) {
+            const control = document.getElementById('journal-plant-location-control');
+            if (!control || control.contains(event.target)) return;
+            const menu = document.getElementById('journal-plant-location-menu');
+            const button = document.getElementById('journal-plant-location');
+            if (menu) {
+                menu.classList.add('hidden');
+                menu.style.setProperty('display', 'none', 'important');
+            }
+            if (button) button.setAttribute('aria-expanded', 'false');
+        });
+
+        function closeJournalLocationMenuIfOutside(event) {
+            const control = document.getElementById('journal-plant-location-control');
+            const menu = document.getElementById('journal-plant-location-menu');
+            const button = document.getElementById('journal-plant-location');
+            if (!control || !menu || menu.classList.contains('hidden')) return;
+            if (control.contains(event.target)) return;
+
+            menu.classList.add('hidden');
+            menu.style.setProperty('display', 'none', 'important');
+            if (button) button.setAttribute('aria-expanded', 'false');
+        }
+
+        // Capture on window so the menu closes even if a modal or inner panel
+        // stops propagation later in the event cycle.
+        window.addEventListener('pointerdown', closeJournalLocationMenuIfOutside, true);
+        window.addEventListener('mousedown', closeJournalLocationMenuIfOutside, true);
+        window.addEventListener('touchstart', closeJournalLocationMenuIfOutside, true);
+        window.addEventListener('click', closeJournalLocationMenuIfOutside, true);
+
+        function selectJournalLocation(location) {
+            const menu = document.getElementById('journal-plant-location-menu');
+            const button = document.getElementById('journal-plant-location');
+            if (menu) menu.classList.add('hidden');
+            if (button) button.setAttribute('aria-expanded', 'false');
+            changePlantLocation(document.getElementById('log-plant-id').value, location);
+        }
+
+        async function changePlantLocation(plantId, newLocation) {
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            if (!plant || !plantLocations.includes(newLocation) || (plant.location || '') === newLocation) return;
+            const previousLocation = plant.location || 'Unassigned';
+            plant.location = newLocation;
+            const journalLocationButton = document.getElementById('journal-plant-location');
+            if (journalLocationButton && String(document.getElementById('log-plant-id')?.value) === String(plantId)) {
+                const locationLabel = document.getElementById('journal-plant-location-label');
+                if (locationLabel) {
+                    locationLabel.textContent = newLocation;
+                    locationLabel.classList.remove('text-slate-500');
+                    locationLabel.classList.add('text-slate-900', 'dark:text-slate-100');
+                    locationLabel.style.setProperty('color', '#294b34', 'important');
+                }
+                const locationMenu = document.getElementById('journal-plant-location-menu');
+                if (locationMenu) locationMenu.classList.add('hidden');
+                journalLocationButton.setAttribute('aria-expanded', 'false');
+            }
+            if (!Array.isArray(plant.logs)) plant.logs = [];
+            plant.logs.push({
+                id: 'log_' + Date.now(),
+                date: new Date().toISOString().slice(0, 10),
+                type: 'Location Change',
+                text: 'Moved from ' + previousLocation + ' to ' + newLocation + '.'
+            });
+            saveLocalPlantsForCurrentUser(plants);
+            markFloraSyncPending();
+            const synced = await syncPlantToCloud(plant);
+            renderPlants();
+            // Close the journal after the location change has been saved and the plant cards refreshed.
+            const openJournal = document.getElementById('journal-modal');
+            if (openJournal && !openJournal.classList.contains('hidden') &&
+                String(document.getElementById('log-plant-id')?.value) === String(plantId)) {
+                closeJournalModal();
+            }
+            if (supabaseClient && currentUser && navigator.onLine && synced === false) {
+                alert('The location change and journal entry were saved on this device. Cloud sync will retry when available.');
+            }
+        }
+
+        function setPlantLocationFilter(location) {
+            const selected = String(location || '');
+            const availableLocations = [...new Set([
+                ...(Array.isArray(plantLocations) ? plantLocations : []),
+                ...plants.map(plant => plant.location).filter(Boolean)
+            ])];
+            window.groSelectedPlantLocation = selected && availableLocations.includes(selected) ? selected : '';
+            const filterSelect = document.getElementById('plant-location-filter');
+            if (filterSelect) filterSelect.value = window.groSelectedPlantLocation;
+            renderPlantLocationControls();
+            renderPlants();
+        }
+
+        function renderPlantLocationControls(selectedLocation = '') {
+            const plantSelect = document.getElementById('plant-location');
+            const filterSelect = document.getElementById('plant-location-filter');
+            const settingsList = document.getElementById('setting-plant-locations-list');
+            const currentFilter = window.groSelectedPlantLocation !== undefined
+                ? window.groSelectedPlantLocation
+                : (filterSelect ? filterSelect.value : '');
+            if (plantSelect) {
+                const selected = selectedLocation || plantSelect.value || '';
+                plantSelect.innerHTML = '<option value="">Choose a location</option>' + plantLocations.map(location =>
+                    '<option value="' + escapeHtml(location) + '">' + escapeHtml(location) + '</option>'
+                ).join('');
+                plantSelect.value = plantLocations.includes(selected) ? selected : '';
+            }
+            if (filterSelect) {
+                filterSelect.innerHTML = '<option value="">All locations</option>' + plantLocations.map(location =>
+                    '<option value="' + escapeHtml(location) + '">' + escapeHtml(location) + '</option>'
+                ).join('');
+                const availableLocations = [...new Set([
+                    ...(Array.isArray(plantLocations) ? plantLocations : []),
+                    ...plants.map(plant => plant.location).filter(Boolean)
+                ])];
+                filterSelect.value = availableLocations.includes(currentFilter) ? currentFilter : '';
+                window.groSelectedPlantLocation = filterSelect.value;
+            }
+            const locationTabs = document.getElementById('plant-location-tabs');
+            if (locationTabs) {
+                const activeLocation = window.groSelectedPlantLocation || (filterSelect ? filterSelect.value : '');
+                const tabClass = 'location-filter-tab inline-flex flex-shrink-0 items-center rounded-full px-4 py-2 text-sm font-semibold transition-colors';
+                locationTabs.innerHTML = [
+                    { value: '', label: 'All' },
+                    ...plantLocations.map(location => ({ value: location, label: location }))
+                ].map(item => {
+                    const active = item.value === activeLocation;
+                    return '<button type="button" class="' + tabClass + (active ? ' is-active' : '') +
+                        '" aria-pressed="' + (active ? 'true' : 'false') +
+                        '" onclick="setPlantLocationFilter(this.dataset.location)" data-location="' + escapeHtml(item.value) + '">' +
+                        escapeHtml(item.label) + '</button>';
+                }).join('');
+            }
+            if (settingsList) {
+                settingsList.innerHTML = plantLocations.map((location, index) => `
+                    <div class="flex flex-col gap-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 p-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                            <input type="text" maxlength="80" value="${escapeHtml(location)}" aria-label="Location name" data-location="${escapeHtml(location)}" onchange="renamePlantLocation(this.dataset.location, this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}" class="min-w-0 flex-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm font-medium" />
+                            <div class="flex items-center gap-2">
+                                <select aria-label="Type for ${escapeHtml(location)}" onchange="setPlantLocationType(this.dataset.location, this.value)" data-location="${escapeHtml(location)}" class="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2 py-1.5 text-xs"><option value="indoor" ${locationTypes[location] !== 'outdoor' ? 'selected' : ''}>Indoor</option><option value="outdoor" ${locationTypes[location] === 'outdoor' ? 'selected' : ''}>Outdoor</option></select>
+                                <button type="button" onclick="removePlantLocation(${index})" class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-slate-500   dark: dark:" aria-label="Delete location" title="Delete location"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                        </div>
+                        ${locationTypes[location] === 'outdoor' ? `
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 dark:text-slate-300">Postcode for local weather</label>
+                                <div class="mt-1 flex items-center gap-2">
+                                    <input type="text" value="${escapeHtml(locationPostcodes[location] || '')}" maxlength="12" autocomplete="postal-code" placeholder="e.g. WR14 2XX" data-location="${escapeHtml(location)}" onchange="saveOutdoorLocationPostcode(this.dataset.location, this.value)" ${locationPostcodeLocks[location] === false ? '' : 'disabled'} class="min-w-0 flex-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-60" />
+                                    <button type="button" onclick="toggleOutdoorPostcodeLock('${escapeHtml(location)}')" class="flex h-9 w-10 flex-shrink-0 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 ${locationPostcodeLocks[location] === false ? 'text-amber-600  dark:' : 'text-slate-500  dark:'}" aria-label="${locationPostcodeLocks[location] === false ? 'Lock postcode input' : 'Unlock postcode input'}" title="${locationPostcodeLocks[location] === false ? 'Lock postcode input' : 'Unlock postcode input'}"><i class="fa-solid ${locationPostcodeLocks[location] === false ? 'fa-lock-open' : 'fa-lock'}"></i></button>
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400">${locationCoordinates[location] ? 'Postcode saved · coordinates ready for scheduled weather' : 'Enter a UK postcode to set the weather location.'}</p>
+                        ` : '' }
+                    </div>
+                `).join('');
+            }
+        }
+
+        async function fetchPlantLocationsFromCloudOrLocal() {
+            const pending = getFloraSyncQueue();
+            if (pending.locationsDirty) return;
+            if (!supabaseClient || !currentUser) return;
+            const requestedUserId = currentUser.id;
+            try {
+                const { data, error } = await supabaseClient
+                    .from('user_plant_locations')
+                    .select('locations')
+                    .eq('user_id', currentUser.id)
+                    .maybeSingle();
+                if (error) throw error;
+                if (!currentUser || currentUser.id !== requestedUserId) return;
+
+                if (!data || !data.locations) {
+                    // No cloud row means this account has not synced locations yet. Keep its
+                    // already-loaded account-scoped local values and seed the cloud from them.
+                    const saved = await savePlantLocationsToCloud();
+                    if (!currentUser || currentUser.id !== requestedUserId) return;
+                    if (!saved) throw new Error('Could not initialise this account’s growing locations in the cloud.');
+                } else {
+                    // Older cloud records may not yet contain every location setting. Preserve this device's
+                    // existing values for missing fields, then backfill the complete record to the account.
+                    const needsLocationSettingsBackfill = !Array.isArray(data.locations) &&
+                        (!data.locations.names || !data.locations.types || !data.locations.details ||
+                         !data.locations.setups || !data.locations.postcodes || !data.locations.coordinates ||
+                         !data.locations.postcodeLocks || !data.locations.equipment || !data.locations.equipmentNames);
+                    // Accept the original string-array format and the newer format that includes per-location details.
+                    const cloudNames = Array.isArray(data.locations) ? data.locations : data.locations.names;
+                    if (Array.isArray(cloudNames)) {
+                        plantLocations = [...new Set(cloudNames.map(v => String(v).trim()).filter(Boolean))];
+                        setFloraAccountItem('flora_plant_locations', JSON.stringify(plantLocations));
+                    }
+                    if (!Array.isArray(data.locations) && data.locations.types && typeof data.locations.types === 'object') {
+                        locationTypes = { ...DEFAULT_LOCATION_TYPES, ...data.locations.types };
+                        setFloraAccountItem('flora_plant_location_types', JSON.stringify(locationTypes));
+                    }
+                    if (!Array.isArray(data.locations) && data.locations.details && typeof data.locations.details === 'object') {
+                        locationDetails = data.locations.details;
+                        setFloraAccountItem('flora_plant_location_details', JSON.stringify(locationDetails));
+                    }
+                    if (!Array.isArray(data.locations) && data.locations.equipment && typeof data.locations.equipment === 'object') {
+                        setFloraAccountItem('flora_location_inside_options', JSON.stringify(data.locations.equipment));
+                    }
+                    if (!Array.isArray(data.locations) && data.locations.equipmentNames && typeof data.locations.equipmentNames === 'object') {
+                        setFloraAccountItem('flora_location_equipment_names', JSON.stringify(data.locations.equipmentNames));
+                    }
+                    if (!Array.isArray(data.locations) && data.locations.setups && typeof data.locations.setups === 'object') {
+                        locationSetups = data.locations.setups;
+                        setFloraAccountItem('flora_plant_location_setups', JSON.stringify(locationSetups));
+                    }
+                    // Keep the current on-screen expanded/collapsed state during background
+                    // cloud refreshes. The visibility map is account-scoped locally and is
+                    // changed only by the location details toggle.
+                    if (!Array.isArray(data.locations) && data.locations.postcodes && typeof data.locations.postcodes === 'object') {
+                        locationPostcodes = data.locations.postcodes;
+                        setFloraAccountItem('flora_plant_location_postcodes', JSON.stringify(locationPostcodes));
+                    }
+                    if (!Array.isArray(data.locations) && data.locations.coordinates && typeof data.locations.coordinates === 'object') {
+                        locationCoordinates = data.locations.coordinates;
+                        setFloraAccountItem('flora_plant_location_coordinates', JSON.stringify(locationCoordinates));
+                    }
+                    if (!Array.isArray(data.locations) && data.locations.postcodeLocks && typeof data.locations.postcodeLocks === 'object') {
+                        locationPostcodeLocks = data.locations.postcodeLocks;
+                        setFloraAccountItem('flora_plant_location_postcode_locks', JSON.stringify(locationPostcodeLocks));
+                    }
+                    if (needsLocationSettingsBackfill) {
+                        const backfilled = await savePlantLocationsToCloud();
+                        if (!currentUser || currentUser.id !== requestedUserId) return;
+                        if (!backfilled) throw new Error('Could not backfill all growing-location settings to the cloud.');
+                    }
+                }
+            } catch (err) {
+                if (!currentUser || currentUser.id !== requestedUserId) return;
+                console.error('Failed to load growing locations from cloud:', err);
+                updateSyncBadge('local', 'Location Sync Failed');
+                alert('Could not load your growing locations from the cloud. Your device copy is still available. Check the user_plant_locations table and its access policies in Supabase.');
+            }
+        }
+
+        async function savePlantLocationsToCloud() {
+            if (!supabaseClient || !currentUser) return false;
+            const requestedUserId = currentUser.id;
+            // Snapshot this account's state before the network request; an account switch
+            // must never cause an in-flight save to pick up the next gardener's data.
+            const locationsSnapshot = {
+                names: [...plantLocations], types: { ...locationTypes }, details: { ...locationDetails },
+                detailsVisibility: { ...locationDetailsVisibility },
+                equipment: JSON.parse(getFloraAccountItem('flora_location_inside_options') || '{}'),
+                equipmentNames: JSON.parse(getFloraAccountItem('flora_location_equipment_names') || '{}'),
+                setups: { ...locationSetups }, postcodes: { ...locationPostcodes },
+                coordinates: { ...locationCoordinates }, postcodeLocks: { ...locationPostcodeLocks }
+            };
+            try {
+                const { error } = await supabaseClient
+                    .from('user_plant_locations')
+                    .upsert({
+                        user_id: requestedUserId,
+                        locations: locationsSnapshot,
+                        updated_at: new Date().toISOString()
+                    }, { onConflict: 'user_id' });
+                if (error) throw error;
+                if (!currentUser || currentUser.id !== requestedUserId) return false;
+                const queue = getFloraSyncQueue();
+                queue.locationsDirty = false;
+                saveFloraSyncQueue(queue);
+                return true;
+            } catch (err) {
+                console.error('Failed to save growing locations to cloud:', err);
+                updateSyncBadge('local', 'Location Sync Failed');
+                alert('Your location list is saved on this device, but cloud sync failed: ' + (err.message || 'Unknown Supabase error') + '.');
+                return false;
+            }
+        }
+
+        async function persistPlantLocations() {
+            setFloraAccountItem('flora_plant_locations', JSON.stringify(plantLocations));
+            setFloraAccountItem('flora_plant_location_types', JSON.stringify(locationTypes));
+            setFloraAccountItem('flora_plant_location_details', JSON.stringify(locationDetails));
+            setFloraAccountItem('flora_plant_location_postcodes', JSON.stringify(locationPostcodes));
+            setFloraAccountItem('flora_plant_location_coordinates', JSON.stringify(locationCoordinates));
+            markFloraSyncPending('locations');
+            renderPlantLocationControls();
+            renderPlants();
+            if (supabaseClient && currentUser) {
+                const results = await Promise.all([
+                    savePlantLocationsToCloud(),
+                    ...plants.map(plant => syncPlantToCloud(plant))
+                ]);
+                if (results[0]) updateSyncBadge('cloud', 'Cloud Synced');
+            } else {
+                updateSyncBadge('local', 'Saved Locally');
+            }
+        }
+
+        async function addPlantLocation() {
+            const input = document.getElementById('new-plant-location');
+            const name = (input.value || '').trim();
+            if (!name) {
+                input.focus();
+                return;
+            }
+            if (plantLocations.some(location => location.toLowerCase() === name.toLowerCase())) {
+                alert('That location already exists.');
+                input.focus();
+                return;
+            }
+            plantLocations = [...plantLocations, name];
+            const typeSelect = document.getElementById('new-plant-location-type');
+            locationTypes[name] = typeSelect && typeSelect.value === 'outdoor' ? 'outdoor' : 'indoor';
+            input.value = '';
+            await persistPlantLocations();
+            input.focus();
+        }
+
+        async function toggleOutdoorPostcodeLock(location) {
+            if (!plantLocations.includes(location) || locationTypes[location] !== 'outdoor') return;
+            locationPostcodeLocks[location] = locationPostcodeLocks[location] === false;
+            setFloraAccountItem('flora_plant_location_postcode_locks', JSON.stringify(locationPostcodeLocks));
+            markFloraSyncPending('locations');
+            const saved = await savePlantLocationsToCloud();
+            updateSyncBadge(saved ? 'cloud' : 'local', saved ? 'Cloud Synced' : 'Saved Locally');
+            renderPlantLocationControls();
+        }
+
+        async function saveOutdoorLocationPostcode(location, rawPostcode) {
+            if (!plantLocations.includes(location) || locationTypes[location] !== 'outdoor') return;
+            const postcode = String(rawPostcode || '').trim().toUpperCase().replace(/\s+/g, ' ');
+            if (!postcode) {
+                delete locationPostcodes[location];
+                delete locationCoordinates[location];
+                setFloraAccountItem('flora_plant_location_postcodes', JSON.stringify(locationPostcodes));
+                setFloraAccountItem('flora_plant_location_coordinates', JSON.stringify(locationCoordinates));
+                await savePlantLocationsToCloud();
+                renderPlantLocationControls();
+                return;
+            }
+            const ukPostcodePattern = /^(GIR 0AA|[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2})$/i;
+            if (!ukPostcodePattern.test(postcode)) {
+                alert('Please enter a valid UK postcode, for example WR14 2XX.');
+                renderPlantLocationControls();
+                return;
+            }
+            try {
+                const response = await fetch('https://api.postcodes.io/postcodes/' + encodeURIComponent(postcode));
+                const result = await response.json();
+                if (!response.ok || result.status !== 200 || !result.result) throw new Error('Postcode not found');
+                locationPostcodes[location] = result.result.postcode;
+                locationCoordinates[location] = { latitude: result.result.latitude, longitude: result.result.longitude };
+                setFloraAccountItem('flora_plant_location_postcodes', JSON.stringify(locationPostcodes));
+                setFloraAccountItem('flora_plant_location_coordinates', JSON.stringify(locationCoordinates));
+                markFloraSyncPending('locations');
+                const saved = await savePlantLocationsToCloud();
+                updateSyncBadge(saved ? 'cloud' : 'local', saved ? 'Cloud Synced' : 'Saved Locally');
+                renderPlantLocationControls();
+            } catch (error) {
+                console.error('Could not resolve outdoor postcode:', error);
+                alert('That postcode could not be looked up. Check it and try again.');
+                renderPlantLocationControls();
+            }
+        }
+
+        async function setPlantLocationType(location, type) {
+            if (!plantLocations.includes(location)) return;
+            locationTypes[location] = type === 'outdoor' ? 'outdoor' : 'indoor';
+            setFloraAccountItem('flora_plant_location_types', JSON.stringify(locationTypes));
+            markFloraSyncPending('locations');
+            const saved = await savePlantLocationsToCloud();
+            if (saved) updateSyncBadge('cloud', 'Cloud Synced');
+            else updateSyncBadge('local', 'Saved Locally');
+        }
+
+        async function renamePlantLocation(oldName, rawName) {
+            if (!plantLocations.includes(oldName)) return;
+            const newName = String(rawName || '').trim().slice(0, 80);
+            if (!newName) {
+                renderPlantLocationControls();
+                return;
+            }
+            if (newName === oldName) return;
+            if (plantLocations.some(location => location.toLowerCase() === newName.toLowerCase())) {
+                alert('That location name is already in use.');
+                renderPlantLocationControls();
+                return;
+            }
+            const renameKey = object => {
+                if (!object || typeof object !== 'object' || Array.isArray(object)) return object;
+                if (Object.prototype.hasOwnProperty.call(object, oldName)) {
+                    object[newName] = object[oldName];
+                    delete object[oldName];
+                }
+                return object;
+            };
+            plantLocations = plantLocations.map(location => location === oldName ? newName : location);
+            [locationTypes, locationDetails, locationDetailsVisibility, locationPostcodes, locationCoordinates, locationPostcodeLocks, plantLocationViewModes].forEach(renameKey);
+            plants = plants.map(plant => plant.location === oldName ? { ...plant, location: newName } : plant);
+            saveLocalPlantsForCurrentUser(plants);
+            await persistPlantLocations();
+        }
+
+        async function removePlantLocation(index) {
+            if (plantLocations.length <= 1) {
+                alert('Please keep at least one growing location.');
+                return;
+            }
+            const removed = plantLocations[index];
+            if (!removed) return;
+            if (!confirm('Delete "' + removed + '"? Plants assigned to it will be moved to "' + plantLocations.find(location => location !== removed) + '".')) return;
+            const next = plantLocations.filter((location, i) => i !== index);
+            const moveTo = next[0];
+            plants = plants.map(plant => plant.location === removed ? { ...plant, location: moveTo } : plant);
+            delete locationDetails[removed];
+            delete locationTypes[removed];
+            delete locationPostcodes[removed];
+            delete locationCoordinates[removed];
+            delete locationPostcodeLocks[removed];
+            setFloraAccountItem('flora_plant_location_postcode_locks', JSON.stringify(locationPostcodeLocks));
+            setFloraAccountItem('flora_plant_location_types', JSON.stringify(locationTypes));
+            saveLocalPlantsForCurrentUser(plants);
+            plantLocations = next;
+            await persistPlantLocations();
+        }
+
+        function openPlantLocationDetailsModal(location) {
+            const existing = document.getElementById('plant-location-details-modal');
+            if (existing) existing.remove();
+
+            const modal = document.createElement('div');
+            modal.id = 'plant-location-details-modal';
+            modal.className = 'fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 overflow-y-auto';
+            modal.setAttribute('role', 'dialog');
+            modal.setAttribute('aria-modal', 'true');
+            modal.setAttribute('aria-labelledby', 'plant-location-details-title');
+            const insideSections = [
+                {
+                    title: 'Monitoring & testing',
+                    options: [
+                        'Digital temperature & humidity meter',
+                        'Probe temperature & humidity meter',
+                        'pH meter / pH pen',
+                        'EC meter',
+                        'pH / EC / temperature combo meter',
+                        'Soil and substrate moisture meter',
+                        'PAR / quantum light meter',
+                        'CO₂ monitor',
+                        'Measuring jugs and cups',
+                        'Nutrient measuring syringes',
+                        'Pipettes',
+                        'Digital scales',
+                        'Calibration and meter storage solutions'
+                    ]
+                },
+                {
+                    title: 'Temperature, humidity & CO₂',
+                    options: [
+                        'Humidifier',
+                        'Dehumidifier',
+                        'Air conditioning unit',
+                        'Grow room heater',
+                        'Thermostat',
+                        'Temperature and humidity controller',
+                        'Wireless temperature / humidity sensor',
+                        'CO₂ monitor',
+                        'CO₂ controller',
+                        'CO₂ regulator',
+                        'CO₂ cylinder / bottle',
+                        'CO₂ generator',
+                        'CO₂ distribution tubing'
+                    ]
+                },
+                {
+                    title: 'Extraction & air movement',
+                    options: [
+                        'Inline extractor fan',
+                        'EC extractor fan',
+                        'Twin-speed extractor fan',
+                        'Intake fan',
+                        'Complete extraction kit',
+                        'Carbon filter',
+                        'Pre-filter sleeve',
+                        'Ducting',
+                        'Duct clamps and connectors',
+                        'Duct silencer',
+                        'Backdraft shutter',
+                        'Clip-on circulation fan',
+                        'Oscillating fan',
+                        'Fan speed controller',
+                        'Fan and climate controller'
+                    ]
+                },
+                {
+                    title: 'Lighting',
+                    options: [
+                        'LED grow light',
+                        'HPS grow light',
+                        'CDM / CMH grow light',
+                        'T5 fluorescent propagation light',
+                        'Grow lamp / replacement bulb',
+                        'Reflector',
+                        'Ballast',
+                        'LED driver / power supply',
+                        'Light timer',
+                        'Contactor',
+                        'Grow light controller',
+                        'Light hanging kit / ratchet hangers',
+                        'Reflective light accessories',
+                        'PAR light meter'
+                    ]
+                },
+                {
+                    title: 'Grow space & tents',
+                    options: [
+                        'Grow tent',
+                        'Complete grow tent kit',
+                        'Propagation tent',
+                        'Mother plant tent',
+                        'Grow room sheeting',
+                        'Reflective sheeting',
+                        'Lightproof sheeting',
+                        'Tent frame / replacement poles',
+                        'Tent observation window / viewing accessories',
+                        'Ventilation flanges and duct ports',
+                        'Grow tent trays / floor trays',
+                        'Grow room tape',
+                        'Tent clips and hanging accessories'
+                    ]
+                }
+            ];
+            const outsideSections = [
+                {
+                    title: 'Drip & micro irrigation',
+                    options: [
+                        'Automatic drip irrigation kit',
+                        'Drip rings',
+                        'Drip lines / delivery pipe',
+                        'Pressure-compensated drippers',
+                        'Adjustable drippers',
+                        'Micro sprayers',
+                        'Dripper manifolds',
+                        'Irrigation stakes',
+                        'Inline irrigation filter',
+                        'Pressure regulator',
+                        'Watering system accessories'
+                    ]
+                },
+                {
+                    title: 'Growing areas & protection',
+                    options: [
+                        'Greenhouse',
+                        'Polytunnel',
+                        'Cold frame',
+                        'Propagation cover',
+                        'Shade netting',
+                        'Insect mesh',
+                        'Garden fleece',
+                        'Ground cover fabric',
+                        'Plant support netting',
+                        'Trellis netting',
+                        'Plant ties and clips',
+                        'Grow bags and outdoor containers',
+                        'Open Field',
+                        'Orchard',
+                        'Raised Beds',
+                        'No Dig Beds',
+                        'Tilled Beds',
+                        'No Dig Raised Beds',
+                        'Tilled Raised Beds'
+                    ]
+                },
+                {
+                    title: 'Pumps, filters & water storage',
+                    options: [
+                        'Submersible water pump',
+                        'Inline irrigation pump',
+                        'Water reservoir / tank',
+                        'Flexible water tank',
+                        'Water butt / storage barrel',
+                        'Inline water filter',
+                        'Sediment filter',
+                        'Pump filter / pre-filter',
+                        'Float valve',
+                        'Tank tap / outlet',
+                        'Air pump and air stone'
+                    ]
+                },
+                {
+                    title: 'Timers, controllers & sensors',
+                    options: [
+                        'Digital watering timer',
+                        'Analogue timer',
+                        'Tap-mounted water timer',
+                        'Automatic irrigation controller',
+                        'Multi-outlet timer',
+                        'Lighting timer',
+                        'Timer contactor',
+                        'Fan speed controller',
+                        'Temperature controller',
+                        'Humidity controller',
+                        'Soil moisture sensor',
+                        'Temperature / humidity sensor'
+                    ]
+                },
+                {
+                    title: 'Hoses, pipe & fittings',
+                    options: [
+                        'Garden hose',
+                        'Irrigation delivery pipe',
+                        '4mm micro tubing',
+                        '13mm irrigation pipe',
+                        '19mm irrigation pipe',
+                        '25mm irrigation pipe',
+                        'Hose tail connectors',
+                        'Barbed straight connectors',
+                        'Tee pieces',
+                        'Elbow connectors',
+                        'End stops',
+                        'Inline taps and valves',
+                        'Non-return valve',
+                        'Grommets and hose clamps'
+                    ]
+                },
+                {
+                    title: 'Sprinklers & watering heads',
+                    options: [
+                        'Oscillating sprinkler',
+                        'Rotary sprinkler',
+                        'Impact sprinkler',
+                        'Micro sprinkler',
+                        'Spray nozzle',
+                        'Adjustable spray head',
+                        'Misting nozzle',
+                        'Dripper / emitter',
+                        'Watering wand',
+                        'Spray lance',
+                        'Adjustable spray gun',
+                        'Hose-end watering head'
+                    ]
+                }
+            ];
+            const savedInsideSelections = (() => {
+                try {
+                    const saved = JSON.parse(getFloraAccountItem('flora_location_inside_options') || '{}');
+                    return new Set(Array.isArray(saved[location]) ? saved[location] : []);
+                } catch (error) {
+                    return new Set();
+                }
+            })();
+            const draftInsideSelections = new Set(savedInsideSelections);
+            const savedEquipmentNames = (() => {
+                try {
+                    const saved = JSON.parse(getFloraAccountItem('flora_location_equipment_names') || '{}');
+                    return saved[location] && typeof saved[location] === 'object' ? saved[location] : {};
+                } catch (error) {
+                    return {};
+                }
+            })();
+            const draftEquipmentNames = { ...savedEquipmentNames };
+            modal.innerHTML = `
+                <div class="relative bg-[#fffef9] max-w-lg w-full rounded-2xl shadow-xl overflow-hidden my-3 border border-[#e1e1d5] flex flex-col" style="max-height:min(90vh, 90dvh);">
+                    <div class="absolute top-0 left-0 right-0 z-10 h-7 px-[10px] flex items-start justify-end bg-[#fffef9]">
+                        <div aria-hidden="true" class="absolute left-[14px] right-[14px] bottom-0 h-[6px] pointer-events-none" style="background-repeat:no-repeat;background-position:center;background-size:100% 6px;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 6' preserveAspectRatio='none'%3E%3Cpath d='M2 3.8 C80 1.8 120 4.6 205 3.1 S350 2.1 430 3.5 S580 4.5 665 2.9 S820 2.2 998 3.4' fill='none' stroke='%23b8c9b9' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E&quot;);"></div>
+                        <button type="button" class="relative z-20 w-6 h-[34px] flex items-center justify-center rounded-b-lg bg-[rgb(196,85,124)] text-white border-0" style="box-shadow:0 0 0 5px #fffef9;" aria-label="Close location details" onclick="closePlantLocationDetailsModal()"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="p-6 pt-12 space-y-5 overflow-y-auto custom-scrollbar flex-1 min-h-0" style="color:#294333;">
+                        <div class="pb-3 border-b border-[#e1e1d5]">
+                            <h2 id="plant-location-details-title" class="text-lg font-bold" style="color:#294333;">Location details</h2>
+                            <p class="text-sm truncate" style="color:#718071;">${escapeHtml(location)}</p>
+                        </div>
+                        ${locationTypes[location] !== 'outdoor' ? `
+                        <section aria-labelledby="plant-location-inside-heading">
+                            
+                            <div class="space-y-2">
+                                ${insideSections.map(section => `
+                                    <div class="rounded-xl border px-4 py-3 space-y-3" style="background:#f8f8f1;border-color:#d9ddcf;">
+                                        <h4 class="font-semibold text-sm" style="color:#294333;">${escapeHtml(section.title)}</h4>
+                                        <fieldset class="min-w-0">
+                                            <legend class="sr-only">${escapeHtml(section.title)} options</legend>
+                                            <div class="flex flex-col gap-2">
+                                                ${section.options.map(option => {
+                                                    const equipmentKey = section.title + '::' + option;
+                                                    const selected = savedInsideSelections.has(equipmentKey);
+                                                    const equipmentName = draftEquipmentNames[equipmentKey] || '';
+                                                    return `
+                                                        <div class="location-equipment-row flex flex-col gap-2 py-1">
+                                                            <label class="flex items-center gap-2 text-sm cursor-pointer" style="color:#426b47;">
+                                                                <input type="checkbox" class="location-equipment-option h-4 w-4 shrink-0" data-section="${escapeHtml(section.title)}" data-option="${escapeHtml(option)}" ${selected ? 'checked' : ''} style="accent-color:#31583b;">
+                                                                <span>${escapeHtml(option)}</span>
+                                                            </label>
+                                                            <input type="text" class="location-equipment-name ml-6 w-[calc(100%-1.5rem)] rounded-lg border px-3 py-2 text-sm" data-equipment-key="${escapeHtml(equipmentKey)}" value="${escapeHtml(equipmentName)}" placeholder="Type the equipment name..." aria-label="Equipment name for ${escapeHtml(option)}" ${selected ? '' : 'hidden'} style="background:#fffef9;border-color:#d9ddcf;color:#294333;">
+                                                        </div>
+                                                    `;
+                                                }).join('')}
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </section>` : ''}
+                        ${locationTypes[location] === 'outdoor' ? `
+                        <section aria-labelledby="plant-location-outside-heading">
+                            
+                            <div class="space-y-2">
+                                ${outsideSections.map(section => `
+                                    <div class="rounded-xl border px-4 py-3 space-y-3" style="background:#f8f8f1;border-color:#d9ddcf;">
+                                        <h4 class="font-semibold text-sm" style="color:#294333;">${escapeHtml(section.title)}</h4>
+                                        <fieldset class="min-w-0">
+                                            <legend class="sr-only">${escapeHtml(section.title)} options</legend>
+                                            <div class="flex flex-col gap-2">
+                                                ${section.options.map(option => {
+                                                    const equipmentKey = section.title + '::' + option;
+                                                    const selected = savedInsideSelections.has(equipmentKey);
+                                                    const equipmentName = draftEquipmentNames[equipmentKey] || '';
+                                                    return `
+                                                        <div class="location-equipment-row flex flex-col gap-2 py-1">
+                                                            <label class="flex items-center gap-2 text-sm cursor-pointer" style="color:#426b47;">
+                                                                <input type="checkbox" class="location-equipment-option h-4 w-4 shrink-0" data-section="${escapeHtml(section.title)}" data-option="${escapeHtml(option)}" ${selected ? 'checked' : ''} style="accent-color:#31583b;">
+                                                                <span>${escapeHtml(option)}</span>
+                                                            </label>
+                                                            <input type="text" class="location-equipment-name ml-6 w-[calc(100%-1.5rem)] rounded-lg border px-3 py-2 text-sm" data-equipment-key="${escapeHtml(equipmentKey)}" value="${escapeHtml(equipmentName)}" placeholder="Type the equipment name..." aria-label="Equipment name for ${escapeHtml(option)}" ${selected ? '' : 'hidden'} style="background:#fffef9;border-color:#d9ddcf;color:#294333;">
+                                                        </div>
+                                                    `;
+                                                }).join('')}
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </section>` : ''}
+                        </div>
+                        <div class="flex-shrink-0 px-6 py-4 flex justify-end gap-2" style="background:#fffef9;">
+                            <button type="button" onclick="closePlantLocationDetailsModal()" class="rounded-lg px-4 py-2 text-sm font-semibold border" style="background:#fffef9;border-color:#d9ddcf;color:#426b47;">Cancel</button>
+                            <button type="button" id="save-plant-location-details" class="rounded-lg px-5 py-2 text-sm font-bold shadow-sm" style="background:#294b34;color:#fff;border:1px solid #294b34;">Save details</button>
+                        </div>
+                    </div>
+                </div>`;
+            // Product suggestions are selected from the GroWell product catalogue
+            // according to the equipment checkbox in the same row.
+            const growellProductsByCategory = {
+                lighting: [
+                    'Omega 3.0 Infinity Pro LED Grow Light - 600W',
+                    'Omega Black LED Grow Light - 720W',
+                    'Omega Spectra G Line Quantum LED Grow Light - 100W',
+                    'Lumatek ATS Pro LED Grow Light',
+                    'Sylvania Grolux Lamps',
+                    'Omega 18W or 9W Clone LED Grow Lights (Twin Pack)',
+                    'Heavy Duty Lighting Timer and Contactor'
+                ],
+                propagation: [
+                    'GroWell Clone & Seed Propagation Kit',
+                    'BAY6 Mini Propagation Tent',
+                    'BAY6 Dual Purpose 130 Propagation Tent',
+                    'Grow Tools Budget Propagator',
+                    'SHOGUN Start',
+                    'Clonex Rooting Gel',
+                    'Root Riot Cubes',
+                    'Grodan Rockwool Cubes',
+                    'Eazy Plug Propagation Cubes',
+                    'Disposable Cloning Scalpels',
+                    'Omega 18W or 9W Clone LED Grow Lights (Twin Pack)'
+                ],
+                nutrients: [
+                    'SHOGUN Samurai Coco Nutrients',
+                    'SHOGUN Samurai Terra Nutrients',
+                    'SHOGUN Samurai Hydroponics Nutrients',
+                    'Biobizz Bio Grow & Bloom',
+                    'Biobizz Starter Pack',
+                    'Canna Rhizotonic',
+                    'SHOGUN Start',
+                    'Clonex Rooting Gel'
+                ],
+                media: [
+                    'Tropic 100% Coco Pro - 50 Litre',
+                    'Tropic 70/30 Coco Mix - 50 Litre',
+                    'Plagron Cocos Premium Growing Media - 50 Litre',
+                    'Canna Coco Professional Plus Growing Medium - 50 Litres',
+                    'Ecothrive Coco Pro - 50 Litres',
+                    'Tropic Light Mix - 50 Litre',
+                    'Tropic All Mix - 50 Litre',
+                    'Biobizz All-Mix Soil',
+                    'Biobizz Light Mix Soil',
+                    'Gold Label HydroCorn Clay Pebbles - 45 Litre',
+                    'Grodan Rockwool Cubes',
+                    'Eazy Plug Propagation Cubes'
+                ],
+                tents: [
+                    'BAY6 Mini Propagation Tent',
+                    'BAY6 Dual Purpose 130 Propagation Tent',
+                    'BAY6 Dual Purpose 160 Propagation Tent',
+                    'BAY6 1m x 1m x 2m Grow Tent',
+                    'BAY6 XL Grow Tent',
+                    'BudBox Pro Grow Tent',
+                    'BAY6 Multi-Chamber Propagation Tent',
+                    'Omega Black 720W LED 1.2m x 1.2m Complete Kit'
+                ],
+                climate: [
+                    'Mammoth TT Twin Speed Inline Fans',
+                    'Mammoth Juiced EC Fans',
+                    'Systemair RVK Extractor Fans',
+                    'Phresh HyperFan Silenced EC Fans',
+                    'Vortex 6 Inch Clip-on Fans',
+                    'Vortex 16 Inch Oscillating Pedestal Fan',
+                    'Grow Gadgets Temperature & Humidity Meter',
+                    'Lighthouse Wireless Thermostat',
+                    'Exhale CO2 Bag',
+                    'TNB The Enhancer CO2 Dispersal Canister'
+                ],
+                irrigation: [
+                    'AutoPot Easy2Grow Irrigation System',
+                    'Automatic Drip Irrigation Kit',
+                    'ALIEN EasyFeed Pipe',
+                    '4mm Barbed Irrigation Fittings',
+                    'Submersible Water Pump',
+                    'Water Reservoir / Tank',
+                    'Tap-Mounted Water Timer',
+                    'Inline Irrigation Filter',
+                    'Drip Rings and Drippers'
+                ],
+                tools: [
+                    'Grow Gadgets Temperature & Humidity Meter',
+                    'Nutrient Measuring Syringes & Pipettes',
+                    'Measuring Jugs and Cups',
+                    'Bluelab pH Pen',
+                    'Bluelab Truncheon EC Meter',
+                    'Digital Scales',
+                    'Disposable Cloning Scalpels'
+                ],
+                plantHealth: [
+                    'Thrips Predators',
+                    'SHOGUN Silicon',
+                    'Clonex Rooting Gel',
+                    'Canna Rhizotonic'
+                ],
+                general: [
+                    'Grow Tools Plant Support Canes',
+                    'Twist Tie and Cutter',
+                    'Nutrient Measuring Syringes & Pipettes',
+                    'Grow Gadgets Temperature & Humidity Meter'
+                ]
+            };
+            function getGrowellCategories(section, option) {
+                const text = (section + ' ' + option).toLowerCase();
+                const categories = [];
+                const add = (category) => { if (!categories.includes(category)) categories.push(category); };
+                if (/light|lamp|reflector|ballast|led driver|par meter/.test(text)) add('lighting');
+                if (/propagat|seed|clon|rooting|scalpel/.test(text)) add('propagation');
+                if (/nutrient|feed|booster|syringe|pipette/.test(text)) add('nutrients');
+                if (/medium|substrate|coco|coir|soil|rockwool|clay pebble|root riot|eazy plug/.test(text)) add('media');
+                if (/tent|grow space|sheeting|frame|tray|grow room/.test(text)) add('tents');
+                if (/extract|fan|carbon filter|duct|humid|dehumid|air condition|heater|thermostat|temperature|humidity|co2|climate/.test(text)) add('climate');
+                if (/irrigat|drip|water|pump|sprinkler|hose|pipe|tap|reservoir|tank|valve|dripper|misting/.test(text)) add('irrigation');
+                if (/meter|monitor|measur|scale|sensor|ph |ph\/| ec |ec meter|calibration/.test(text)) add('tools');
+                if (/pest|predator|plant health|silicon|vitality|insect/.test(text)) add('plantHealth');
+                if (!categories.length) add('general');
+                return categories;
+            }
+            const growellSuggestionList = document.createElement('datalist');
+            growellSuggestionList.id = 'growell-equipment-suggestions';
+            modal.appendChild(growellSuggestionList);
+            function updateGrowellSuggestions(input) {
+                const row = input.closest('.location-equipment-row');
+                const checkbox = row && row.querySelector('.location-equipment-option');
+                growellSuggestionList.replaceChildren();
+                if (!checkbox || !checkbox.checked) return;
+                const categories = getGrowellCategories(checkbox.dataset.section || '', checkbox.dataset.option || '');
+                const suggestions = [...new Set(categories.flatMap(category => growellProductsByCategory[category] || []))];
+                suggestions.forEach(product => {
+                    const option = document.createElement('option');
+                    option.value = product;
+                    growellSuggestionList.appendChild(option);
+                });
+            }
+            modal.querySelectorAll('.location-equipment-name').forEach(input => {
+                input.setAttribute('list', growellSuggestionList.id);
+                input.setAttribute('autocomplete', 'off');
+                input.addEventListener('focus', () => updateGrowellSuggestions(input));
+                input.addEventListener('click', () => updateGrowellSuggestions(input));
+            });
+
+            modal.addEventListener('change', event => {
+                const checkbox = event.target.closest('.location-equipment-option');
+                if (!checkbox) return;
+                const key = checkbox.dataset.section + '::' + checkbox.dataset.option;
+                const nameInput = checkbox.closest('.location-equipment-row').querySelector('.location-equipment-name');
+                if (checkbox.checked) {
+                    draftInsideSelections.add(key);
+                    nameInput.hidden = false;
+                    updateGrowellSuggestions(nameInput);
+                    nameInput.focus();
+                } else {
+                    draftInsideSelections.delete(key);
+                    delete draftEquipmentNames[key];
+                    nameInput.value = '';
+                    nameInput.hidden = true;
+                }
+            });
+            modal.addEventListener('input', event => {
+                const nameInput = event.target.closest('.location-equipment-name');
+                if (!nameInput) return;
+                const key = nameInput.dataset.equipmentKey;
+                const value = nameInput.value.trim();
+                if (value) draftEquipmentNames[key] = value;
+                else delete draftEquipmentNames[key];
+            });
+            modal.querySelector('#save-plant-location-details').addEventListener('click', () => {
+                try {
+                    const saved = JSON.parse(getFloraAccountItem('flora_location_inside_options') || '{}');
+                    saved[location] = Array.from(draftInsideSelections);
+                    setFloraAccountItem('flora_location_inside_options', JSON.stringify(saved));
+                    const savedNames = JSON.parse(getFloraAccountItem('flora_location_equipment_names') || '{}');
+                    // Use the checkbox label as the equipment name when no custom name was entered.
+                    modal.querySelectorAll('.location-equipment-option:checked').forEach(checkbox => {
+                        const key = checkbox.dataset.section + '::' + checkbox.dataset.option;
+                        const nameInput = checkbox.closest('.location-equipment-row').querySelector('.location-equipment-name');
+                        const customName = nameInput ? nameInput.value.trim() : '';
+                        draftEquipmentNames[key] = customName || checkbox.dataset.option;
+                    });
+                    savedNames[location] = draftEquipmentNames;
+                    setFloraAccountItem('flora_location_equipment_names', JSON.stringify(savedNames));
+                    markFloraSyncPending('locations');
+                    renderPlants();
+                    closePlantLocationDetailsModal();
+                    syncPendingFloraChanges();
+                } catch (error) {
+                    console.error('Could not save location equipment selections', error);
+                    alert('Unable to save these location details. Please try again.');
+                }
+            });
+            modal.addEventListener('click', event => {
+                if (event.target === modal) closePlantLocationDetailsModal();
+            });
+            document.body.appendChild(modal);
+            document.addEventListener('keydown', handlePlantLocationDetailsEscape);
+        }
+
+        function handlePlantLocationDetailsEscape(event) {
+            if (event.key === 'Escape') closePlantLocationDetailsModal();
+        }
+
+        function closePlantLocationDetailsModal() {
+            const modal = document.getElementById('plant-location-details-modal');
+            if (modal) modal.remove();
+            document.removeEventListener('keydown', handlePlantLocationDetailsEscape);
+        }
+
+        function setLocationHeaderWeatherVisibility(visible) {
+            locationHeaderWeatherVisible = visible === true;
+            setFloraAccountItem('flora_location_header_weather_visible', String(locationHeaderWeatherVisible));
+            renderPlants();
+        }
+
+        async function toggleLocationDetailsVisibility(location) {
+            locationDetailsVisibility[location] = locationDetailsVisibility[location] !== true;
+            setFloraAccountItem('flora_plant_location_details_visibility', JSON.stringify(locationDetailsVisibility));
+            markFloraSyncPending('locations');
+            renderPlants();
+            if (supabaseClient && currentUser) {
+                const saved = await savePlantLocationsToCloud();
+                if (!saved) return;
+            } else {
+                updateSyncBadge('local', 'Saved Locally');
+            }
+        }
+
+        // Close an open plant actions (three-dot) menu when the user clicks elsewhere.
+        document.addEventListener('click', (event) => {
+            if (event.target.closest('#plants-grid details')) return;
+            document.querySelectorAll('#plants-grid details[open]').forEach(menu => {
+                menu.open = false;
+            });
+        });
+
+        function togglePlantSearch(forceOpen) {
+            const searchWrap = document.getElementById('plant-search-wrap');
+            const searchInput = document.getElementById('plant-search');
+            const toggle = document.getElementById('plant-search-toggle');
+            if (!searchWrap || !searchInput || !toggle) return;
+
+            const shouldOpen = typeof forceOpen === 'boolean'
+                ? forceOpen
+                : searchWrap.classList.contains('hidden');
+
+            searchWrap.classList.toggle('hidden', !shouldOpen);
+            const toolbar = document.getElementById('plants-toolbar');
+            if (toolbar) toolbar.classList.toggle('search-open', shouldOpen);
+            toggle.setAttribute('aria-expanded', String(shouldOpen));
+            toggle.setAttribute('aria-label', shouldOpen ? 'Close plant search' : 'Open plant search');
+            toggle.setAttribute('title', shouldOpen ? 'Close search' : 'Search plants');
+            toggle.innerHTML = shouldOpen
+                ? '<i class="fa-solid fa-xmark" aria-hidden="true"></i>'
+                : '<i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>';
+
+            if (shouldOpen) {
+                searchInput.focus();
+            } else if (searchInput.value) {
+                searchInput.value = '';
+                renderPlants();
+            }
+        }
+
+        function showOverdueFeedReminderPopup() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const overduePlants = plants.flatMap(plant => {
+                const reminderLog = (Array.isArray(plant.logs) ? plant.logs : [])
+                    .filter(log => log.type === 'Feed' && log.feedReminderDate)
+                    .sort((a, b) => String(a.feedReminderDate).localeCompare(String(b.feedReminderDate)))[0];
+                if (!reminderLog) return [];
+                const parts = String(reminderLog.feedReminderDate).split('-').map(Number);
+                const reminderDate = parts.length === 3 && parts.every(Number.isFinite)
+                    ? new Date(parts[0], parts[1] - 1, parts[2])
+                    : new Date(reminderLog.feedReminderDate);
+                if (Number.isNaN(reminderDate.getTime())) return [];
+                reminderDate.setHours(0, 0, 0, 0);
+                if (reminderDate.getTime() >= today.getTime()) return [];
+                return [{ id: plant.id, name: plant.name, date: reminderDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) }];
+            });
+            if (!overduePlants.length || document.getElementById('overdue-feed-reminder-modal')) return;
+
+            const modal = document.createElement('div');
+            modal.id = 'overdue-feed-reminder-modal';
+            modal.className = 'fixed inset-0 z-[10000] flex items-center justify-center p-4';
+            modal.style.cssText = 'background:rgba(15,23,42,.58);backdrop-filter:blur(3px);';
+            modal.innerHTML = `
+                <section role="dialog" aria-modal="true" aria-labelledby="overdue-feed-reminder-title" class="w-full max-w-md rounded-2xl bg-white dark:bg-slate-800 shadow-2xl border border-[#798CBF]/40 p-5">
+                    <div class="flex items-start gap-3">
+                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full" style="background:#798CBF;color:#ffffff;"><i class="fa-solid fa-bell" aria-hidden="true"></i></span>
+                        <div class="min-w-0">
+                            <h2 id="overdue-feed-reminder-title" class="text-lg font-bold text-slate-900 dark:text-white">Nutrient feed overdue</h2>
+                            <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">These plants are due for a nutrient feed:</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 space-y-2 max-h-64 overflow-y-auto">
+                        ${overduePlants.map(plant => `<button type="button" data-overdue-plant-id="${escapeHtml(plant.id)}" class="w-full flex items-center justify-between gap-3 rounded-xl border border-[#798CBF]/30 bg-[#798CBF]/10 dark:bg-slate-900 px-3 py-2.5 text-left"><span class="font-semibold text-sm text-slate-800 dark:text-slate-100">${escapeHtml(plant.name)}</span><span class="text-xs whitespace-nowrap" style="color:#798CBF;">Due ${escapeHtml(plant.date)} <i class="fa-solid fa-chevron-right ml-1"></i></span></button>`).join('')}
+                    </div>
+                    <div class="mt-5 flex justify-end">
+                        <button type="button" data-dismiss-overdue-feed class="rounded-xl px-4 py-2 text-sm font-semibold text-white" style="background:#798CBF;">Dismiss</button>
+                    </div>
+                </section>`;
+            modal.addEventListener('click', event => {
+                if (event.target === modal || event.target.closest('[data-dismiss-overdue-feed]')) {
+                    modal.remove();
+                    return;
+                }
+                const plantButton = event.target.closest('[data-overdue-plant-id]');
+                if (plantButton) {
+                    const plantId = plantButton.dataset.overduePlantId;
+                    modal.remove();
+                    openJournalModal(plantId);
+                }
+            });
+            document.body.appendChild(modal);
+        }
+
+        function renderPlants() {
+            const query = document.getElementById('plant-search').value.toLowerCase();
+            const container = document.getElementById('plants-grid');
+            const emptyEl = document.getElementById('plants-empty');
+
+            // Do not flash the empty-library message while the account's garden is still loading.
+            if (!plantsInitialLoadComplete) {
+                emptyEl.classList.add('hidden');
+                emptyEl.style.display = 'none';
+                return;
+            }
+            const locationFilter = document.getElementById('plant-location-filter');
+            const selectedLocation = window.groSelectedPlantLocation !== undefined
+                ? window.groSelectedPlantLocation
+                : (locationFilter ? locationFilter.value : '');
+
+            const archiveView = window.groPlantArchiveView === 'archived' ? 'archived' : 'active';
+            // Apply a navigation-level state so mobile scanner preference logic or
+            // inline display styles cannot reveal these actions in the Compost bin.
+            const mainNavigationTabs = document.getElementById('main-navigation-tabs');
+            if (mainNavigationTabs) mainNavigationTabs.dataset.compostView = archiveView === 'archived' ? 'true' : 'false';
+            ['tab-plants', 'tab-add-plant', 'tab-scanner'].forEach(id => {
+                const tab = document.getElementById(id);
+                if (tab) tab.classList.toggle('hidden', archiveView === 'archived');
+            });
+            const locationControl = document.getElementById('plants-location-control');
+            const locationTabs = document.getElementById('plant-location-tabs');
+            const locationTabsLabel = document.getElementById('plant-location-tabs-label');
+            const locationSelect = document.getElementById('plant-location-filter');
+            if (archiveView === 'archived') {
+                if (locationControl) locationControl.classList.remove('hidden');
+                if (locationTabsLabel) locationTabsLabel.textContent = 'Filter composted plants by year';
+                if (locationSelect) locationSelect.classList.add('hidden');
+                // Always include the current calendar year so its filter button is ready
+                // as soon as a new year begins, even before the first plant is composted.
+                const compostYears = [...new Set([
+                    String(new Date().getFullYear()),
+                    ...plants.filter(plant => plant.archivedAt).map(plant => {
+                        const sowingDate = String(plant.date || '');
+                        const yearMatch = sowingDate.match(/^(\\d{4})/);
+                        if (yearMatch) return yearMatch[1];
+                        const date = new Date(sowingDate);
+                        return sowingDate && !Number.isNaN(date.getTime()) ? String(date.getFullYear()) : 'Unknown year';
+                    })
+                ])].sort((a, b) => a === 'Unknown year' ? 1 : b === 'Unknown year' ? -1 : Number(b) - Number(a));
+                const selectedYear = window.groSelectedCompostYear || '';
+                if (locationTabs) {
+                    const tabClass = 'location-filter-tab inline-flex flex-shrink-0 items-center rounded-full px-4 py-2 text-sm font-semibold transition-colors';
+                    locationTabs.innerHTML = [{value:'',label:'All years'}, ...compostYears.map(year => ({value:year,label:year}))].map(item => {
+                        const active = item.value === selectedYear;
+                        return '<button type="button" class="' + tabClass + (active ? ' is-active' : '') +
+                            '" aria-pressed="' + (active ? 'true' : 'false') +
+                            '" onclick="setPlantArchiveYear(this.dataset.year)" data-year="' + escapeHtml(item.value) + '">' +
+                            escapeHtml(item.label) + '</button>';
+                    }).join('');
+                }
+            } else {
+                if (locationControl) locationControl.classList.remove('hidden');
+                if (locationTabsLabel) locationTabsLabel.textContent = 'Filter plants by location';
+                if (locationSelect) locationSelect.classList.add('hidden');
+                renderPlantLocationControls();
+            }
+            const activeTab = document.getElementById('active-plants-tab');
+            const archivedTab = document.getElementById('archived-plants-tab');
+            if (archivedTab) {
+                archivedTab.className = 'px-3 py-2 rounded-lg text-xs font-semibold border border-[#294b34]/30 text-[#294b34] bg-white';
+                archivedTab.classList.toggle('hidden', archiveView === 'archived');
+            }
+            const backToPlantsTab = document.getElementById('back-to-plants-tab');
+            if (backToPlantsTab) backToPlantsTab.classList.toggle('hidden', archiveView !== 'archived');
+            if (activeTab) {
+                activeTab.className = archiveView === 'active'
+                    ? 'px-3 py-2 rounded-lg text-xs font-semibold bg-[#294b34] text-white'
+                    : 'px-3 py-2 rounded-lg text-xs font-semibold border border-[#294b34]/30 text-[#294b34] bg-white';
+            }
+            const filtered = plants.filter(p => {
+                if ((archiveView === 'archived') !== Boolean(p.archivedAt)) return false;
+                if (archiveView === 'archived' && window.groSelectedCompostYear) {
+                    const sowingDate = String(p.date || '');
+                    const yearMatch = sowingDate.match(/^(\\d{4})/);
+                    const sowingDateParsed = sowingDate ? new Date(sowingDate) : null;
+                    const sowingYear = yearMatch ? yearMatch[1] : sowingDateParsed && !Number.isNaN(sowingDateParsed.getTime()) ? String(sowingDateParsed.getFullYear()) : 'Unknown year';
+                    if (sowingYear !== window.groSelectedCompostYear) return false;
+                }
+                if (archiveView === 'active' && selectedLocation && (p.location || '') !== selectedLocation) return false;
+                return p.name.toLowerCase().includes(query) ||
+                       (p.variety && p.variety.toLowerCase().includes(query)) ||
+                       (p.notes && p.notes.toLowerCase().includes(query));
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                emptyEl.classList.remove('hidden');
+                emptyEl.style.display = 'block';
+                const emptyTitle = emptyEl.querySelector('h3');
+                const emptyText = emptyEl.querySelector('p');
+                const emptyAction = emptyEl.querySelector('button');
+                const emptyIcon = emptyEl.querySelector('img');
+                if (emptyIcon) {
+                    emptyIcon.src = './Leaf%20Stamp%20Logo%20green.png';
+                    emptyIcon.className = 'w-[100px] h-[100px] object-contain';
+                }
+                if (emptyTitle) emptyTitle.textContent = archiveView === 'archived' ? 'No plants here yet.' : 'No plants added yet';
+                if (emptyText) emptyText.textContent = archiveView === 'archived' ? 'Plants you have finished with can be stored here and kept for future reference.' : 'This location is ready to grow. Add your first plant here to start tracking its progress.';
+                if (emptyAction) emptyAction.style.display = archiveView === 'archived' ? 'none' : '';
+                return;
+            }
+            const emptyTitle = emptyEl.querySelector('h3');
+            const emptyText = emptyEl.querySelector('p');
+            const emptyAction = emptyEl.querySelector('button');
+            if (emptyTitle) emptyTitle.textContent = 'No plants added yet';
+            if (emptyText) emptyText.textContent = 'This location is ready to grow. Add your first plant here to start tracking its progress.';
+            if (emptyAction) emptyAction.style.display = '';
+            emptyEl.classList.add('hidden');
+            emptyEl.style.display = 'none';
+
+        async function refreshPlantCardPhoto(image) {
+            if (!image || image.dataset.refreshAttempted === 'true') {
+                if (image) image.outerHTML = '<div class="w-full h-full flex items-center justify-center text-slate-300"><img src="./Leaf-Stamp-Logo-Dark-Green.png" alt="" aria-hidden="true" class="w-full h-full object-contain" /></div>';
+                return;
+            }
+            image.dataset.refreshAttempted = 'true';
+            const plant = plants.find(item => String(item.id) === String(image.dataset.plantId));
+            if (!plant || !plant.customIconPath) {
+                image.outerHTML = '<div class="w-full h-full flex items-center justify-center text-slate-300"><img src="./Leaf-Stamp-Logo-Dark-Green.png" alt="" aria-hidden="true" class="w-full h-full object-contain" /></div>';
+                return;
+            }
+            try {
+                const freshUrl = await createJournalPhotoUrl(plant.customIconPath, true);
+                if (!freshUrl) throw new Error('Could not refresh plant photo URL.');
+                plant.customIconUrl = freshUrl;
+                saveLocalPlantsForCurrentUser(plants);
+                image.src = freshUrl;
+            } catch (error) {
+                console.error('Could not refresh plant card photo:', error);
+                image.outerHTML = '<div class="w-full h-full flex items-center justify-center text-slate-300"><img src="./Leaf-Stamp-Logo-Dark-Green.png" alt="" aria-hidden="true" class="w-full h-full object-contain" /></div>';
+            }
+        }
+
+            const cardMarkup = (p, groupLocation, forceListView = false) => {
+                const svgMarkup = p.customIconUrl
+                    ? '<img src="' + escapeHtml(p.customIconUrl) + '" data-plant-id="' + escapeHtml(p.id) + '" onerror="refreshPlantCardPhoto(this)" alt="' + escapeHtml(p.name) + ' plant photo" style="display:block;width:100%;height:100%;object-fit:cover;border:0;box-shadow:none;" class="rounded-xl">'
+                    : '<div class="w-full h-full flex items-center justify-center text-slate-300"><img src="./Leaf-Stamp-Logo-Dark-Green.png" alt="" aria-hidden="true" class="w-full h-full object-contain" /></div>';
+                // Use the actual rendered group heading as the key, so every card in a group gets the same details.
+                const plantLocation = (groupLocation || p.location || '').trim();
+                const isListView = forceListView || getLocationPlantView(plantLocation) === 'list';
+                const listOnlyStyle = isListView ? ' style="display:none !important;"' : '';
+                const setupItems = (Array.isArray(p.setup) ? p.setup : (p.setup ? [p.setup] : []))
+                    .map(value => String(value).trim())
+                    .filter(Boolean)
+                    .map(value => value === 'Heated propagator' && p.heatedPropagatorTemperatureC !== null && p.heatedPropagatorTemperatureC !== undefined && p.heatedPropagatorTemperatureC !== ''
+                        ? value + ' (' + p.heatedPropagatorTemperatureC + ' °C)'
+                        : value);
+                const setupLabel = setupItems.length ? setupItems.join(', ') : 'Not specified';
+                let savedDetails = {};
+                try {
+                    savedDetails = JSON.parse(getFloraAccountItem('flora_plant_location_details') || '{}') || {};
+                } catch (error) {
+                    console.warn('Could not read saved plant location details; rendering plant cards without them.', error);
+                }
+                const sharedLocationDetails = String(locationDetails[plantLocation] || savedDetails[plantLocation] || '');
+                const feedReminderLog = (Array.isArray(p.logs) ? p.logs : [])
+                    .filter(log => log.type === 'Feed' && log.feedReminderDate)
+                    .sort((a, b) => String(a.feedReminderDate).localeCompare(String(b.feedReminderDate)))[0];
+                const feedReminderMarkup = feedReminderLog ? (() => {
+                    const reminderParts = String(feedReminderLog.feedReminderDate).split('-').map(Number);
+                    const reminderDate = reminderParts.length === 3 && reminderParts.every(Number.isFinite)
+                        ? new Date(reminderParts[0], reminderParts[1] - 1, reminderParts[2])
+                        : new Date(feedReminderLog.feedReminderDate);
+                    if (Number.isNaN(reminderDate.getTime())) return '';
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const reminderDay = new Date(reminderDate);
+                    reminderDay.setHours(0, 0, 0, 0);
+                    // Keep upcoming feed reminders off the plant cards; show the bell only when due today or overdue.
+                    if (reminderDay.getTime() > today.getTime()) return '';
+                    const reminderLabel = reminderDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const isOverdue = reminderDay.getTime() < today.getTime();
+                    const dueLabel = isOverdue ? 'Feed overdue' : 'Feed due today';
+                    const bellColor = isOverdue ? '#798CBF' : '#c6537b';
+                    return '<span class="inline-flex items-center justify-center mt-1 text-lg" style="color:' + bellColor + ';" title="' + dueLabel + ' · ' + escapeHtml(reminderLabel) + '" aria-label="' + dueLabel + ' · ' + escapeHtml(reminderLabel) + '"><i class="fa-solid fa-bell"></i></span>';
+                })() : '';
+                return `
+                    <div onclick="openJournalModal('${p.id}')" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && event.target === this) { event.preventDefault(); openJournalModal('${p.id}'); }" tabindex="0" aria-label="Open growth journal for ${escapeHtml(p.name)}" class="plant-card relative bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm   dark: focus:outline-none focus:ring-2 focus:ring-emerald-500 transition flex flex-col cursor-pointer" style="background-color: rgb(248, 248, 242) !important; background-image: none !important;">
+                        <div class="flex items-center justify-between p-3.5 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-900/30" style="background-color: rgb(248, 248, 242) !important; background-image: none !important;">
+                            <div class="min-w-0 pr-2">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <h4 class="text-base font-bold text-slate-900 dark:text-slate-100 truncate">${escapeHtml(p.name)}</h4>
+                                    ${String(p.qrCodeValue || '').trim() ? '<i class="fa-solid fa-qrcode flex-shrink-0 text-slate-600 dark:text-slate-300" title="QR code tag" aria-label="QR code tag"></i>' : (p.nfcTagLinked ? '<img src="https://commons.wikimedia.org/wiki/Special:FilePath/NFC_logo.svg" alt="NFC tag" title="NFC tag" class="inline-block w-4 h-4 flex-shrink-0 object-contain" style="filter: brightness(0) saturate(100%) invert(24%) sepia(13%) saturate(1115%) hue-rotate(79deg) brightness(93%) contrast(89%);" />' : '')}
+                                </div>
+                                <p class="text-xs font-semibold text-emerald-700 dark:text-emerald-400 truncate">${escapeHtml(p.variety || 'Standard Variety')}</p>
+                                <p class="text-xs font-semibold mt-1" style="color:#a63d65;">${p.quantityType === 'seeds' ? (Number(p.quantity || 1) + ' seeds sown') : (Number(p.quantity || 1) + ' ' + (p.quantityType === 'cuttings' ? (Number(p.quantity || 1) === 1 ? 'cutting' : 'cuttings') : (Number(p.quantity || 1) === 1 ? 'plant' : 'plants')))}${Number(p.remainingSeeds) > 0 ? ' · ' + Number(p.remainingSeeds) + ' seeds left' : ''}${Number(p.remainingCuttings || (p.quantityType === 'cuttings' ? p.quantity : 0)) > 0 && p.quantityType !== 'cuttings' ? ' · ' + Number(p.remainingCuttings) + ' cuttings left' : ''}</p>
+                                ${p.multisow ? '<p class="plant-multisow-card-detail text-xs font-semibold mt-1" style="color:#526653;">' + Number(p.multisowPots || 0) + ' ' + (p.multisowContainerType === 'plugs' ? 'Plugs' : 'Pots') + ' · ' + Number(p.seedsPerPot || 0) + ' seeds per ' + (p.multisowContainerType === 'plugs' ? 'Plug' : 'Pot') + '</p>' : ''}
+                            </div>
+                            <div class="plant-feed-reminder-indicator ml-auto flex flex-col items-end justify-center gap-1 min-w-0 flex-shrink-0">
+                                ${feedReminderMarkup}
+                            </div>
+                        </div>
+                        <div class="p-5 flex space-x-4 items-center" style="background-color: #f7f6f0;">
+                            <div class="w-16 h-16 flex items-center justify-center flex-shrink-0 ${p.customIconUrl ? 'plant-photo-no-frame' : 'rounded-2xl crop-badge-container p-2 shadow-sm'}">${svgMarkup}</div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2"${listOnlyStyle}>${escapeHtml(p.notes || 'No notes added.')}</p>
+
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1"${listOnlyStyle}><i class="fa-solid fa-layer-group mr-1"></i>Medium: <strong class="font-semibold">${escapeHtml(p.medium || 'Not specified')}</strong></p>
+                                <p class="plant-card-setup-detail text-[11px] text-slate-500 dark:text-slate-400 mt-1"${isListView ? ' style="display:block !important;"' : ''}><i class="fa-solid fa-seedling mr-1"></i>Setup: <strong class="font-semibold">${escapeHtml(setupLabel)}</strong></p>
+                                <span class="inline-flex items-center text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 mt-2"${listOnlyStyle}><i class="fa-solid fa-book-open mr-1 text-[10px]"></i> ${p.logs ? p.logs.length : 0} Growth Logs</span>
+                            </div>
+                        </div>
+                        <div class="px-5 py-2.5 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-700/50 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600 dark:text-slate-400">
+                            <div class="flex items-center space-x-2"><span>Date Sown: <strong class="text-slate-700 dark:text-slate-300 font-semibold">${escapeHtml(p.date || 'Not set')}</strong></span></div>
+
+                        </div>
+                    </div>`;
+            };
+
+            // The Compost bin is grouped by each plant's sowing year, newest year first.
+            if (archiveView === 'archived') {
+                const yearGroups = new Map();
+                filtered.forEach(plant => {
+                    const sowingDate = String(plant.date || '');
+                    const yearMatch = sowingDate.match(/^(\\d{4})/);
+                    const parsedSowingDate = sowingDate ? new Date(sowingDate) : null;
+                    const year = yearMatch ? yearMatch[1] : parsedSowingDate && !Number.isNaN(parsedSowingDate.getTime())
+                        ? String(parsedSowingDate.getFullYear())
+                        : 'Unknown year';
+                    if (!yearGroups.has(year)) yearGroups.set(year, []);
+                    yearGroups.get(year).push(plant);
+                });
+                const orderedYears = [...yearGroups.keys()].sort((a, b) => {
+                    if (a === 'Unknown year') return 1;
+                    if (b === 'Unknown year') return -1;
+                    return Number(b) - Number(a);
+                });
+                container.innerHTML = orderedYears.map(year => {
+                    const cards = yearGroups.get(year).sort((a, b) =>
+                        String(b.archivedAt || '').localeCompare(String(a.archivedAt || ''))
+                    );
+                    return `
+                        <section class="col-span-full min-w-0 mb-3 p-3 sm:p-4" style="background:transparent;border:0;box-shadow:none;">
+                            <div class="flex items-center gap-2 mb-3">
+                                <h3 class="text-base sm:text-lg font-bold text-[#294b34]">${escapeHtml(year)}</h3>
+                                <span class="text-xs text-slate-500">(${cards.length} ${cards.length === 1 ? 'plant' : 'plants'})</span>
+                            </div>
+                            <div class="location-group-plants is-list-view grid grid-cols-1 gap-2">${cards.map(plant => cardMarkup(plant, (plant.location || '').trim(), true)).join('')}</div>
+                        </section>`;
+                }).join('');
+                return;
+            }
+
+            // Keep active plants grouped by growing location.
+            const groups = new Map();
+            filtered.forEach(p => {
+                const location = (p.location || '').trim() || 'No location assigned';
+                if (!groups.has(location)) groups.set(location, []);
+                groups.get(location).push(p);
+            });
+            const orderedLocations = [
+                ...plantLocations.filter(location => groups.has(location)),
+                ...[...groups.keys()].filter(location => !plantLocations.includes(location))
+            ];
+
+            container.innerHTML = orderedLocations.map((location, locationIndex) => {
+                const cards = groups.get(location);
+                const activeGrid = getLocationPlantView(location) === 'grid';
+                const isOutdoor = locationTypes[location] === 'outdoor';
+                let selectedLocationEquipment = [];
+                try {
+                    const savedEquipment = JSON.parse(getFloraAccountItem('flora_location_inside_options') || '{}');
+                    const storedSelections = Array.isArray(savedEquipment[location]) ? savedEquipment[location] : [];
+                    // Only section-qualified keys correspond to real modal checkboxes.
+                    // Discard orphaned legacy labels so they cannot appear as equipment pills.
+                    selectedLocationEquipment = storedSelections.filter(item => typeof item === 'string' && item.includes('::'));
+                    if (selectedLocationEquipment.length !== storedSelections.length) {
+                        savedEquipment[location] = selectedLocationEquipment;
+                        setFloraAccountItem('flora_location_inside_options', JSON.stringify(savedEquipment));
+                    }
+                } catch (error) {
+                    selectedLocationEquipment = [];
+                }
+                let locationEquipmentNames = {};
+                try {
+                    const savedNames = JSON.parse(getFloraAccountItem('flora_location_equipment_names') || '{}');
+                    locationEquipmentNames = savedNames[location] && typeof savedNames[location] === 'object' ? savedNames[location] : {};
+                } catch (error) {
+                    locationEquipmentNames = {};
+                }
+                const selectedEquipmentLabels = selectedLocationEquipment
+                    .map(item => locationEquipmentNames[item] || item.split('::').slice(1).join('::'))
+                    .filter(label => Boolean(label) && String(label).trim().toLowerCase() !== 'thermometer')
+                    // Put shorter labels first so more pills can share each mobile row.
+                    .sort((a, b) => String(a).trim().length - String(b).trim().length);
+                return `
+                    <section class="location-group col-span-full min-w-0 mb-3 p-3 sm:p-4" style="background-color: transparent !important; background-image: none !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important;">
+                        <div class="location-group-toolbar flex items-center justify-between gap-2 mb-3">
+                            <div class="location-group-heading min-w-0 flex flex-1 items-center gap-2">
+                                <h3 class="text-base sm:text-lg font-bold text-emerald-800 dark:text-emerald-300 min-w-0 break-words">${escapeHtml(location)}</h3>
+                                <span class="location-group-count flex-shrink-0 text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">(${cards.reduce((total, plant) => total + (plant.quantityType === 'plants' ? Math.max(0, Number(plant.quantity) || 0) : 0), 0)} ${cards.reduce((total, plant) => total + (plant.quantityType === 'plants' ? Math.max(0, Number(plant.quantity) || 0) : 0), 0) === 1 ? 'plant' : 'plants'})</span>
+                                ${locationHeaderWeatherVisible && location === 'Grow Tent' && isGoveeAccount() && locationDetailsVisibility[location] === true ? '<span id="govee-inline-readings" class="text-xs text-slate-600 whitespace-nowrap">Loading sensor…</span>' : ''}
+                                ${locationHeaderWeatherVisible && isOutdoor && locationDetailsVisibility[location] === true ? '<span id="outdoor-weather-' + locationIndex + '" data-location="' + escapeHtml(location) + '" class="text-xs text-slate-600 dark:text-slate-300 whitespace-nowrap" aria-live="polite">Loading postcode weather…</span>' : ''}
+                            </div>
+                            <div class="location-group-actions flex flex-shrink-0 items-center gap-1.5">
+                                <button type="button" onclick="toggleLocationDetailsVisibility(this.dataset.location)" data-location="${escapeHtml(location)}" aria-label="${locationDetailsVisibility[location] === true ? 'Hide' : 'Show'} location details for ${escapeHtml(location)}" aria-pressed="${locationDetailsVisibility[location] === true ? 'true' : 'false'}" title="${locationDetailsVisibility[location] === true ? 'Hide location details' : 'Show location details'}" class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-slate-600 dark:text-slate-300"><i class="fa-solid ${locationDetailsVisibility[location] === true ? 'fa-eye' : 'fa-eye-slash'}" aria-hidden="true"></i></button>
+
+                                <div class="location-view-toggle inline-flex items-center gap-0.5 rounded-xl p-0.5" role="group" aria-label="${escapeHtml(location)} plant view">
+                                    <button type="button" onclick="setLocationPlantView(this.dataset.location, 'grid')" data-location="${escapeHtml(location)}" aria-label="Grid view for ${escapeHtml(location)}" aria-pressed="${activeGrid ? 'true' : 'false'}" title="Grid view" class="location-view-button ${activeGrid ? 'is-active' : ''}"><i class="fa-solid fa-grip" aria-hidden="true"></i></button>
+                                    <button type="button" onclick="setLocationPlantView(this.dataset.location, 'list')" data-location="${escapeHtml(location)}" aria-label="List view for ${escapeHtml(location)}" aria-pressed="${!activeGrid ? 'true' : 'false'}" title="List view" class="location-view-button ${!activeGrid ? 'is-active' : ''}"><i class="fa-solid fa-list" aria-hidden="true"></i></button>
+                                </div>
+</div>
+                        </div>
+                        ${locationDetailsVisibility[location] === true ? '<div class="location-equipment-summary mb-3 flex flex-wrap items-center gap-2 text-xs" aria-label="Saved equipment for ' + escapeHtml(location) + '"><div class="flex flex-wrap items-center gap-1.5">' + (selectedEquipmentLabels.length ? selectedEquipmentLabels.map(item => '<span class="rounded-full px-2.5 py-1" style="background:#e4eadf;color:#31583b;border:1px solid #cbd8c4;">' + escapeHtml(item) + '</span>').join('') : '<span class="text-xs" style="color:#718071;">None selected</span>') + '<button type="button" onclick="openPlantLocationDetailsModal(this.dataset.location)" data-location="' + escapeHtml(location) + '" class="inline-flex flex-shrink-0 items-center justify-center w-7 h-7 rounded-md p-1 transition hover:bg-[#fbeaf0]" style="background:transparent;color:#a63d65;border:0" aria-label="Edit location details" title="Edit details"><i class="fa-solid fa-pen-to-square" style="color:#294b34;" aria-hidden="true"></i></button></div></div>' : ''}
+
+                        ${locationDetails[location] && locationDetailsVisibility[location] === true ? `<div class="location-group-details mb-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700 px-3 py-2.5 text-sm text-slate-600 dark:text-slate-300"><div class="whitespace-pre-line">${escapeHtml(String(locationDetails[location]).replace(/\\n/g, '\n'))}</div></div>` : (!locationDetails[location] ? `` : '')}
+                        
+                        <div class="location-group-plants grid grid-cols-1 ${activeGrid ? 'md:grid-cols-2' : 'is-list-view'} gap-3 sm:gap-4">${cards.map(plant => cardMarkup(plant, location)).join('')}</div>
+                    </section>`;
+            }).join('');
+            if (orderedLocations.includes('Grow Tent')) loadGoveeReading();
+            if (orderedLocations.some(location => locationTypes[location] === 'outdoor')) loadOutdoorWeather();
+        }
+
+        // Current outdoor conditions from Open-Meteo using each outdoor location's saved postcode coordinates.
+        const outdoorWeatherCache = {};
+        const outdoorWeatherFetchedAt = {};
+        const outdoorWeatherRequests = {};
+
+        async function loadOutdoorWeather(force = false) {
+            const panels = [...document.querySelectorAll('[id^="outdoor-weather-"]')];
+            if (!panels.length) return;
+            await Promise.all(panels.map(async panel => {
+                const location = panel.dataset.location;
+                if (!location) {
+                    panel.textContent = 'Location postcode unavailable';
+                    return;
+                }
+                const coordinates = locationCoordinates[location];
+                if (!coordinates || typeof coordinates.latitude !== 'number' || typeof coordinates.longitude !== 'number') {
+                    panel.textContent = locationPostcodes[location]
+                        ? 'Postcode coordinates unavailable'
+                        : 'Add a postcode in location settings';
+                    panel.title = 'Set this outdoor location postcode in Growing Location Settings';
+                    return;
+                }
+                if (!force && outdoorWeatherCache[location] && Date.now() - (outdoorWeatherFetchedAt[location] || 0) < 10 * 60 * 1000) {
+                    showOutdoorWeather(location, outdoorWeatherCache[location]);
+                    return;
+                }
+                if (outdoorWeatherRequests[location]) {
+                    await outdoorWeatherRequests[location];
+                    return;
+                }
+                panel.textContent = 'Loading postcode weather…';
+                outdoorWeatherRequests[location] = (async () => {
+                    const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + encodeURIComponent(coordinates.latitude) +
+                        '&longitude=' + encodeURIComponent(coordinates.longitude) +
+                        '&current=temperature_2m,relative_humidity_2m&temperature_unit=celsius&timezone=auto';
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Weather service unavailable');
+                    const data = await response.json();
+                    if (!data.current || typeof data.current.temperature_2m !== 'number' || typeof data.current.relative_humidity_2m !== 'number') {
+                        throw new Error('No current weather readings returned');
+                    }
+                    outdoorWeatherCache[location] = {
+                        temperature: data.current.temperature_2m,
+                        humidity: data.current.relative_humidity_2m,
+                        time: data.current.time || null
+                    };
+                    outdoorWeatherFetchedAt[location] = Date.now();
+                    showOutdoorWeather(location, outdoorWeatherCache[location]);
+                })();
+                try {
+                    await outdoorWeatherRequests[location];
+                } catch (error) {
+                    console.warn('Could not load postcode weather for ' + location + ':', error);
+                    panel.textContent = 'Postcode weather unavailable';
+                    panel.title = 'Check the postcode saved for this outdoor location';
+                } finally {
+                    delete outdoorWeatherRequests[location];
+                }
+            }));
+        }
+
+        function showOutdoorWeather(location, data) {
+            const temperature = data.temperature.toFixed(1) + ' °C';
+            const humidity = Math.round(data.humidity) + ' %';
+            document.querySelectorAll('[id^="outdoor-weather-"]').forEach(panel => {
+                if (panel.dataset.location !== location) return;
+                panel.textContent = temperature + '  ' + humidity;
+                panel.title = 'Current outdoor weather for ' + location + ' postcode ' + (locationPostcodes[location] || '');
+            });
+        }
+
+        function getFloraISOWeekKey(date = new Date()) {
+            const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getUTCFullYear() + '-W' + String(week).padStart(2, '0');
+        }
+
+        let weeklyOutdoorSummaryRequest = null;
+        async function createWeeklyOutdoorWeatherLogs() {
+            const outdoorLocations = [...new Set(plantLocations.filter(location => locationTypes[location] === 'outdoor'))];
+            const outdoorPlants = plants.filter(plant => outdoorLocations.includes((plant.location || '').trim()));
+            if (!outdoorPlants.length) return;
+            const weekKey = getFloraISOWeekKey();
+            const accountKey = currentUser?.id || 'local';
+            const doneKey = 'flora_weekly_weather_done_' + accountKey + '_' + weekKey;
+            if (localStorage.getItem(doneKey) === '1' || weeklyOutdoorSummaryRequest) return;
+            weeklyOutdoorSummaryRequest = (async () => {
+                try {
+                    if (!outdoorWeatherCoordinates) {
+                        if (!navigator.geolocation) throw new Error('Device location is unavailable');
+                        outdoorWeatherCoordinates = await new Promise((resolve, reject) => {
+                            navigator.geolocation.getCurrentPosition(
+                                position => resolve({ latitude: position.coords.latitude, longitude: position.coords.longitude }),
+                                reject,
+                                { enableHighAccuracy: false, timeout: 12000, maximumAge: 10 * 60 * 1000 }
+                            );
+                        });
+                    }
+                    const { latitude, longitude } = outdoorWeatherCoordinates;
+                    const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + encodeURIComponent(latitude) +
+                        '&longitude=' + encodeURIComponent(longitude) +
+                        '&hourly=temperature_2m,relative_humidity_2m&past_days=7&forecast_days=1&temperature_unit=celsius&timezone=auto';
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Historical weather service unavailable');
+                    const data = await response.json();
+                    const times = data.hourly?.time || [];
+                    const temperatures = data.hourly?.temperature_2m || [];
+                    const humidities = data.hourly?.relative_humidity_2m || [];
+                    const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
+                    const samples = [];
+                    times.forEach((time, index) => {
+                        const timestamp = new Date(time).getTime();
+                        const temperature = temperatures[index];
+                        const humidity = humidities[index];
+                        if (Number.isFinite(timestamp) && timestamp >= cutoff && timestamp <= Date.now() &&
+                            typeof temperature === 'number' && Number.isFinite(temperature) &&
+                            typeof humidity === 'number' && Number.isFinite(humidity)) {
+                            samples.push({ timestamp, temperature, humidity });
+                        }
+                    });
+                    if (!samples.length) throw new Error('No hourly weather history was returned for the last seven days.');
+                    const highestTemperature = Math.max(...samples.map(sample => sample.temperature));
+                    const lowestTemperature = Math.min(...samples.map(sample => sample.temperature));
+                    const highestHumidity = Math.max(...samples.map(sample => sample.humidity));
+                    const lowestHumidity = Math.min(...samples.map(sample => sample.humidity));
+                    const startDate = new Date(Math.min(...samples.map(sample => sample.timestamp))).toLocaleDateString();
+                    const endDate = new Date(Math.max(...samples.map(sample => sample.timestamp))).toLocaleDateString();
+                    const summary = 'Outdoor weather for the last 7 days (' + startDate + ' – ' + endDate + '): ' +
+                        'Temperature high ' + highestTemperature.toFixed(1) + ' °C, low ' + lowestTemperature.toFixed(1) + ' °C. ' +
+                        'Humidity high ' + Math.round(highestHumidity) + '%, low ' + Math.round(lowestHumidity) + '%.';
+                    const createdAt = new Date().toISOString().slice(0, 10);
+                    const newLogs = [];
+                    outdoorPlants.forEach(plant => {
+                        if (!Array.isArray(plant.logs)) plant.logs = [];
+                        const locationKey = (plant.location || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                        const logId = 'weather-week-' + weekKey + '-' + locationKey + '-' + plant.id;
+                        if (plant.logs.some(log => log.id === logId)) return;
+                        const log = { id: logId, date: createdAt, type: 'Weekly Weather Summary', text: summary };
+                        plant.logs.unshift(log);
+                        newLogs.push({ plantId: plant.id, log });
+                    });
+                    saveLocalPlantsForCurrentUser(plants);
+                    if (newLogs.length && supabaseClient && currentUser) {
+                        markFloraSyncPending();
+                        for (const item of newLogs) await syncLogToCloud(item.plantId, item.log);
+                    }
+                    localStorage.setItem(doneKey, '1');
+                    if (newLogs.length) renderPlants();
+                } catch (error) {
+                    console.warn('Could not create weekly outdoor weather journal entries:', error);
+                } finally {
+                    weeklyOutdoorSummaryRequest = null;
+                }
+            })();
+            return weeklyOutdoorSummaryRequest;
+        }
+
+        // Govee H5179 live readings for the Grow Tent location.
+        // The physical Govee sensor belongs exclusively to this GROnote account.
+        function isGoveeAccount() {
+            return String(currentUser?.email || '').trim().toLowerCase() === 'markriches.mail@gmail.com';
+        }
+
+        let goveeReadingCache = null;
+        let goveeReadingFetchedAt = 0;
+        let goveeReadingRequest = null;
+
+        async function loadGoveeReading(force = false) {
+            const panel = document.getElementById('govee-inline-readings');
+            if (!panel) return;
+            if (!isGoveeAccount()) { panel.textContent = ''; return; }
+            if (!force && goveeReadingCache && Date.now() - goveeReadingFetchedAt < 3 * 60 * 1000) { showGoveeReading(goveeReadingCache); return; }
+            if (!supabaseClient || !currentUser) { panel.innerHTML = '<p class="text-xs text-slate-500">Sign in to your GROnote cloud account to view live Govee readings.</p>'; return; }
+            if (goveeReadingRequest) return goveeReadingRequest;
+            panel.innerHTML = '<p class="text-xs text-slate-500"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Connecting to Govee…</p>';
+            goveeReadingRequest = (async () => {
+                const result = await supabaseClient.functions.invoke('govee-sensor');
+                if (result.error) throw result.error;
+                if (!result.data || result.data.error) throw new Error(result.data?.error || 'No sensor data was returned.');
+                goveeReadingCache = result.data; goveeReadingFetchedAt = Date.now(); showGoveeReading(result.data);
+            })();
+            try { await goveeReadingRequest; } catch (error) {
+                console.error('Govee sensor request failed:', error);
+                let detail = error.message || 'Please try again.';
+                // Supabase wraps non-2xx Edge Function responses; read its response body for the real cause.
+                try {
+                    if (error.context && typeof error.context.clone === 'function') {
+                        const responseBody = await error.context.clone().json();
+                        if (responseBody && responseBody.error) {
+                            detail = responseBody.error + (responseBody.details ? ': ' + JSON.stringify(responseBody.details) : '');
+                        } else if (responseBody) {
+                            detail = JSON.stringify(responseBody);
+                        }
+                    }
+                } catch (_) {}
+                const currentPanel = document.getElementById('govee-inline-readings');
+                if (currentPanel) currentPanel.innerHTML = '<p class="text-xs text-rose-700">Govee connection: ' + escapeHtml(detail) + '</p>';
+            } finally { goveeReadingRequest = null; }
+        }
+
+        function showGoveeReading(data) {
+            const panel = document.getElementById('govee-inline-readings'); if (!panel) return;
+            const t = typeof data.temperature === 'number' ? data.temperature.toFixed(1) + ' °C' : '—';
+            const h = typeof data.humidity === 'number' ? data.humidity.toFixed(1) + ' %' : '—';
+            const updated = data.updatedAt ? new Date(data.updatedAt).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : 'just now';
+            panel.textContent = t + '     ' + h;
+        }
+        function toggleMultisowFields() {
+            const checkbox = document.getElementById('plant-multisow');
+            const details = document.getElementById('plant-multisow-details');
+            const quantityType = document.getElementById('plant-quantity-type');
+            if (!checkbox || !details || !quantityType) return;
+            // Multisowing is only meaningful for seeds; selecting it sets the quantity type.
+            if (checkbox.checked) quantityType.value = 'seeds';
+            updateMultisowLabels();
+            details.classList.toggle('hidden', !checkbox.checked);
+            const quantity = document.getElementById('plant-quantity');
+            if (quantity) quantity.readOnly = checkbox.checked;
+            if (checkbox.checked) updateMultisowTotal();
+        }
+
+        function updateMultisowLabels() {
+            const typeSelect = document.getElementById('plant-multisow-container-type');
+            const type = typeSelect && typeSelect.value === 'plugs' ? 'Plug' : 'Pot';
+            const plural = type + 's';
+            const countLabel = document.getElementById('plant-multisow-count-label');
+            const seedsLabel = document.getElementById('plant-multisow-seeds-label');
+            const help = document.getElementById('plant-multisow-help');
+            if (countLabel) countLabel.textContent = 'Number of ' + plural;
+            if (seedsLabel) seedsLabel.textContent = 'Seeds per ' + type;
+            if (help) help.textContent = 'Total seeds sown is calculated automatically: number of ' + plural + ' × seeds per ' + type + '.';
+        }
+
+        function updateMultisowTotal() {
+            const pots = document.getElementById('plant-multisow-pots');
+            const seedsPerPot = document.getElementById('plant-multisow-seeds-per-pot');
+            const quantity = document.getElementById('plant-quantity');
+            const checkbox = document.getElementById('plant-multisow');
+            if (!pots || !seedsPerPot || !quantity || !checkbox || !checkbox.checked) return;
+            const potCount = Math.max(1, parseInt(pots.value, 10) || 1);
+            const seedsCount = Math.max(1, parseInt(seedsPerPot.value, 10) || 1);
+            quantity.value = potCount * seedsCount;
+        }
+
+        function openAddPlantModal() {
+            // On mobile, dismiss an open Plant Journal before opening Add Plant.
+            if (window.matchMedia('(max-width: 767px)').matches) {
+                const journalModal = document.getElementById('journal-modal');
+                if (journalModal) journalModal.classList.add('hidden');
+            }
+            setActiveNavigationTab('add-plant');
+            document.getElementById('modal-title').textContent = 'Add New Plant';
+            document.getElementById('edit-plant-id').value = '';
+            document.getElementById('plant-nfc-pending-id').value = '';
+            document.getElementById('plant-qr-pending-value').value = '';
+            document.getElementById('plant-form').reset();
+            window.syncPlantOtherFields?.();
+            // Re-apply the saved scanner preference whenever the Add Plant modal opens.
+            // This prevents the QR linking option from reappearing for NFC / no-scanner users.
+            applyScannerPreference();
+            const qrLinkStatus = document.getElementById('plant-qr-link-status');
+            if (qrLinkStatus) qrLinkStatus.textContent = 'No QR code linked yet.';
+            document.getElementById('plant-quantity').value = '1';
+            document.getElementById('plant-quantity-type').value = 'plants';
+            document.getElementById('plant-multisow').checked = false;
+            document.getElementById('plant-multisow-pots').value = '1';
+            document.getElementById('plant-multisow-container-type').value = 'pots';
+            document.getElementById('plant-multisow-seeds-per-pot').value = '2';
+            updateMultisowLabels();
+            toggleMultisowFields();
+            renderPlantLocationControls('');
+            
+            renderIconPickerGrid('cucumber');
+
+            const initialHex = '#16a34a';
+            document.getElementById('form-color-hex').value = initialHex;
+
+            document.getElementById('plant-modal').classList.remove('hidden');
+        }
+
+        function openEditPlantModal(id) {
+            const p = plants.find(item => item.id === id);
+            if (!p) return;
+            const archiveActionLabel = document.getElementById('journal-archive-action-label');
+            if (archiveActionLabel) archiveActionLabel.textContent = p.archivedAt ? 'Restore plant' : 'Compost plant';
+            const deletePlantAction = document.getElementById('journal-delete-plant-action');
+            if (deletePlantAction) deletePlantAction.classList.toggle('hidden', !p.archivedAt);
+            setActiveNavigationTab('plants');
+            document.getElementById('modal-title').textContent = 'Edit Plant Profile';
+            document.getElementById('edit-plant-id').value = p.id;
+            document.getElementById('plant-nfc-pending-id').value = '';
+            document.getElementById('plant-qr-pending-value').value = '';
+            const qrLinkSection = document.getElementById('plant-qr-link-section');
+            if (qrLinkSection) qrLinkSection.classList.add('hidden');
+            document.getElementById('plant-name').value = p.name;
+            document.getElementById('plant-variety').value = p.variety || '';
+            document.getElementById('plant-quantity').value = Math.max(1, Number(p.quantity) || 1);
+            document.getElementById('plant-quantity-type').value = ['plants', 'seeds', 'cuttings'].includes(p.quantityType) ? p.quantityType : 'plants';
+            document.getElementById('plant-multisow').checked = !!p.multisow;
+            document.getElementById('plant-multisow-pots').value = Math.max(1, Number(p.multisowPots) || 1);
+            document.getElementById('plant-multisow-container-type').value = p.multisowContainerType === 'plugs' ? 'plugs' : 'pots';
+            document.getElementById('plant-multisow-seeds-per-pot').value = Math.max(1, Number(p.seedsPerPot || p.seedsPerPlug) || Math.ceil((Number(p.quantity) || 1) / Math.max(1, Number(p.multisowPots) || 1)));
+            updateMultisowLabels();
+            toggleMultisowFields();
+            document.getElementById('plant-date').value = p.date || '';
+            const savedMedium = p.medium || '';
+            if (window.setSelectedPlantMediums) window.setSelectedPlantMediums(savedMedium);
+            const mediumOther = document.getElementById('plant-medium-other');
+            if (mediumOther) mediumOther.value = p.mediumOther || '';
+            const savedSetups = Array.isArray(p.setup) ? p.setup : (p.setup ? [p.setup] : []);
+            document.querySelectorAll('#plant-setup-options input[name="plant-setup-option"]').forEach(input => { input.checked = savedSetups.includes(input.value); });
+            const setupOther = document.getElementById('plant-setup-other');
+            if (setupOther) setupOther.value = p.setupOther || '';
+            const heatedPropagatorTemperature = document.getElementById('plant-heated-propagator-temperature');
+            if (heatedPropagatorTemperature) heatedPropagatorTemperature.value = p.heatedPropagatorTemperatureC ?? '';
+            window.syncPlantOtherFields?.();
+            window.syncHeatedPropagatorTemperatureField?.();
+            renderPlantLocationControls(p.location || '');
+            document.getElementById('plant-notes').value = p.notes || '';
+            document.getElementById('form-color-hex').value = p.hex || '#16a34a';
+            
+            renderIconPickerGrid(p.iconKey || 'cucumber');
+
+            document.getElementById('plant-modal').classList.remove('hidden');
+        }
+
+        function closePlantModal() {
+            document.getElementById('plant-modal').classList.add('hidden');
+            setActiveNavigationTab('plants');
+        }
+
+
+
+
+
+        function setNfcStatus(message, isError = false) {
+            const el = document.getElementById('nfc-overlay-status');
+            if (el) {
+                el.textContent = message;
+                el.style.color = isError ? '#a63d65' : '#294b34';
+            }
+            const formStatus = document.getElementById('plant-nfc-status');
+            if (formStatus) { formStatus.textContent = message; formStatus.className = 'text-xs ' + (isError ? 'text-rose-700' : 'text-slate-500'); }
+        }
+        function nfcSupportMessage() {
+            if (!window.isSecureContext) return 'NFC requires an HTTPS secure connection.';
+            if (!('NDEFReader' in window)) return 'NFC is not supported in this browser. Use a compatible Android phone with Chrome and NFC enabled.';
+            return '';
+        }
+        let activeNfcScanController = null;
+        let activeQrStream = null;
+        let activeQrFrame = null;
+        let activeQrDetector = null;
+        let qrJsLoaded = false;
+        let qrScanPurpose = 'journal';
+
+        function getScannerPreference() {
+            return ['nfc', 'qr', 'none'].includes(appSettings.scannerPreference) ? appSettings.scannerPreference : 'nfc';
+        }
+
+        function applyScannerPreference() {
+            const preference = getScannerPreference();
+            const scannerTab = document.getElementById('tab-scanner');
+            if (scannerTab) {
+                const hideScannerTab = preference === 'none';
+                scannerTab.classList.toggle('hidden', hideScannerTab);
+                // Native hidden state plus a CSS !important rule overrides the tab's
+                // inline flex layout when no scanner is selected.
+                scannerTab.hidden = hideScannerTab;
+                scannerTab.dataset.scannerDisabled = hideScannerTab ? 'true' : 'false';
+                if (hideScannerTab) scannerTab.style.setProperty('display', 'none', 'important');
+                else scannerTab.style.setProperty('display', 'flex');
+                scannerTab.setAttribute('aria-hidden', hideScannerTab ? 'true' : 'false');
+                scannerTab.tabIndex = hideScannerTab ? -1 : 0;
+            }
+            const nfcOption = document.getElementById('scan-option-nfc');
+            const qrOption = document.getElementById('scan-option-qr');
+            if (nfcOption) {
+                const hideNfcOption = preference !== 'nfc';
+                nfcOption.classList.toggle('hidden', hideNfcOption);
+                nfcOption.style.display = hideNfcOption ? 'none' : '';
+            }
+            if (qrOption) {
+                const hideQrOption = preference !== 'qr';
+                qrOption.classList.toggle('hidden', hideQrOption);
+                qrOption.style.display = hideQrOption ? 'none' : '';
+            }
+            if (preference === 'none') {
+                document.getElementById('scan-options-overlay')?.classList.add('hidden');
+                document.getElementById('qr-scan-overlay')?.classList.add('hidden');
+            }
+            const nfcFormSection = document.getElementById('plant-nfc-section');
+            const qrFormSection = document.getElementById('plant-qr-link-section');
+            if (nfcFormSection) nfcFormSection.classList.toggle('hidden', preference !== 'nfc');
+            if (qrFormSection) {
+                const hideQrFormSection = preference !== 'qr';
+                qrFormSection.classList.toggle('hidden', hideQrFormSection);
+                qrFormSection.style.display = hideQrFormSection ? 'none' : '';
+            }
+            const preferenceSelect = document.getElementById('setting-scanner-preference');
+            if (preferenceSelect) preferenceSelect.value = preference;
+            const rememberPreference = document.getElementById('setting-remember-scanner-preference');
+            if (rememberPreference) rememberPreference.checked = appSettings.rememberScannerPreference !== false;
+            const journalActions = document.getElementById('journal-nfc-tag-actions');
+            const journalQrActions = document.getElementById('journal-qr-tag-actions');
+            const currentPlantId = document.getElementById('log-plant-id')?.value;
+            const currentPlant = currentPlantId ? plants.find(item => String(item.id) === String(currentPlantId)) : null;
+            const hasQrCode = !!String(currentPlant?.qrCodeValue || '').trim();
+            const hasNfcTag = !!currentPlant?.nfcTagLinked;
+            const unassignActions = document.getElementById('journal-unassign-tag-actions');
+            if (unassignActions) unassignActions.classList.toggle('hidden', !(hasQrCode || hasNfcTag));
+            if (journalActions) journalActions.classList.toggle('hidden', preference !== 'nfc' || hasQrCode);
+            const nfcButtonLabel = document.getElementById('journal-nfc-button-label');
+            if (nfcButtonLabel) nfcButtonLabel.textContent = hasNfcTag ? 'Rewrite NFC Tag' : 'Add NFC Tag';
+            if (journalQrActions) journalQrActions.classList.toggle('hidden', preference !== 'qr' || hasQrCode || hasNfcTag);
+            const headerScannerIcon = document.getElementById('header-scanner-mode-icon');
+            if (headerScannerIcon) {
+                if (preference === 'none') {
+                    headerScannerIcon.innerHTML = '';
+                    headerScannerIcon.hidden = true;
+                    headerScannerIcon.removeAttribute('title');
+                    headerScannerIcon.removeAttribute('aria-label');
+                } else {
+                    headerScannerIcon.hidden = false;
+                    const scannerModeDetails = preference === 'nfc'
+                        ? { title: 'Scanning mode: NFC', markup: '<img src="https://commons.wikimedia.org/wiki/Special:FilePath/NFC_logo.svg" alt="" class="w-3 h-3 object-contain" style="filter:brightness(0) saturate(100%) invert(79%) sepia(18%) saturate(590%) hue-rotate(292deg) brightness(101%) contrast(91%);" />' }
+                        : { title: 'Scanning mode: QR code', markup: '<i class="fa-solid fa-qrcode text-sm" style="color:#ffffff;" aria-hidden="true"></i>' };
+                    headerScannerIcon.innerHTML = scannerModeDetails.markup;
+                    headerScannerIcon.title = scannerModeDetails.title;
+                    headerScannerIcon.setAttribute('aria-label', scannerModeDetails.title);
+                }
+            }
+            const scannerTabIcon = document.getElementById('scanner-tab-icon');
+            if (scannerTabIcon) scannerTabIcon.innerHTML = preference === 'nfc'
+                ? '<img src="https://commons.wikimedia.org/wiki/Special:FilePath/NFC_logo.svg" alt="" style="display:block; width:20px; height:20px; margin:0 auto; object-fit:contain; filter:brightness(0) saturate(100%) invert(24%) sepia(13%) saturate(1115%) hue-rotate(79deg) brightness(93%) contrast(89%);" />'
+                : '<i class="fa-solid fa-qrcode text-lg" style="display:block; margin:0 auto;"></i>';
+            const scannerTabLabel = document.getElementById('scanner-tab-label');
+            if (scannerTabLabel) scannerTabLabel.textContent = preference === 'nfc' ? 'NFC Scan' : preference === 'qr' ? 'QR Scan' : '';
+        }
+
+        function closeScannerPreferenceSavedModal() {
+            const modal = document.getElementById('scanner-preference-saved-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function closeProfilePreferencesSavedModal() {
+            const modal = document.getElementById('profile-preferences-saved-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function scannerPreferenceChanged() {
+            const status = document.getElementById('setting-scanner-preference-status');
+            if (status) status.textContent = 'You have an unsaved change. Select Save preference to apply it.';
+        }
+
+        function saveScannerPreference() {
+            const select = document.getElementById('setting-scanner-preference');
+            const preference = select?.value;
+            if (!['nfc', 'qr', 'none'].includes(preference)) return;
+            const rememberPreference = document.getElementById('setting-remember-scanner-preference');
+            appSettings.rememberScannerPreference = rememberPreference ? rememberPreference.checked : true;
+            // Always persist the selected mode, including "none", regardless of the remember toggle.
+            appSettings.scannerPreference = preference;
+            setFloraAccountItem('flora_settings', JSON.stringify(appSettings));
+            applyScannerPreference();
+            const savedPreference = appSettings.scannerPreference;
+            const status = document.getElementById('setting-scanner-preference-status');
+            if (status) status.textContent = '✓ Launch default saved. ' + (savedPreference === 'nfc' ? 'NFC controls are now shown.' : savedPreference === 'qr' ? 'QR controls are now shown.' : 'Scanner controls are now hidden.') + (appSettings.rememberScannerPreference ? ' This choice will be used every time the app opens.' : ' NFC will be selected next time the app opens.');
+            const savedModal = document.getElementById('scanner-preference-saved-modal');
+            const savedMessage = document.getElementById('scanner-preference-saved-message');
+            if (savedMessage) savedMessage.textContent = (savedPreference === 'nfc' ? 'NFC scanning is now selected.' : savedPreference === 'qr' ? 'QR code scanning is now selected.' : 'Scanner controls are now turned off.') + (appSettings.rememberScannerPreference ? ' This will be your default each time GROnote opens.' : ' This setting applies for this session; NFC will be selected next time GROnote opens.');
+            if (savedModal) {
+                savedModal.classList.remove('hidden');
+                savedModal.classList.add('flex');
+            }
+            if (preference === 'none') {
+                closeScanOptions();
+                stopQrScan();
+                stopNfcScan();
+            }
+            // Saving a scanner preference is a Settings action: keep the user on Settings
+            // rather than navigating to the scanner or another view.
+            document.documentElement.classList.remove('flora-settings-inactive');
+            const settingsView = document.getElementById('view-settings');
+            if (settingsView) {
+                settingsView.classList.remove('hidden');
+                settingsView.style.display = '';
+            }
+            const plantsView = document.getElementById('view-plants');
+            if (plantsView) plantsView.classList.add('hidden');
+            const scannerView = document.getElementById('view-scanner');
+            if (scannerView) scannerView.classList.add('hidden');
+            setActiveNavigationTab('settings');
+        }
+
+        function showScanOptions() {
+            const preference = getScannerPreference();
+            if (preference === 'none') return;
+            setActiveNavigationTab('scanner');
+            if (preference === 'nfc') startNfcScan();
+            else if (preference === 'qr') startQrScan();
+        }
+        function closeScanOptions() {
+            const overlay = document.getElementById('scan-options-overlay');
+            if (overlay) overlay.classList.add('hidden');
+            switchTab('plants');
+        }
+        function showNfcTapOverlay() {
+            const overlay = document.getElementById('nfc-tap-overlay');
+            if (overlay) overlay.classList.remove('hidden');
+        }
+
+        function hideNfcTapOverlay() {
+            const overlay = document.getElementById('nfc-tap-overlay');
+            if (overlay) overlay.classList.add('hidden');
+        }
+
+        async function stopNfcScan() {
+            hideNfcTapOverlay();
+            // Stop scanning and switch the actual content view, not just the tab highlight.
+            switchTab('plants');
+            if (activeNfcScanController) {
+                activeNfcScanController.abort();
+                activeNfcScanController = null;
+            }
+            const button = document.getElementById('nfc-scan-btn');
+            if (button) {
+                button.disabled = false;
+                button.innerHTML = '<img src="https://commons.wikimedia.org/wiki/Special:FilePath/NFC_logo.svg" alt="NFC logo" class="inline-block w-5 h-5 object-contain inline-flex items-center justify-center" style="filter: brightness(0) saturate(100%) invert(24%) sepia(13%) saturate(1115%) hue-rotate(79deg) brightness(93%) contrast(89%);" /><span>Start NFC Scan</span>';
+            }
+        }
+
+        async function startNfcScan() {
+            if (getScannerPreference() !== 'nfc') return;
+            const chooser = document.getElementById('scan-options-overlay');
+            if (chooser) chooser.classList.add('hidden');
+            const unsupported = nfcSupportMessage();
+            if (unsupported) { setNfcStatus(unsupported, true); setActiveNavigationTab('plants'); return; }
+            // Abort any previous reader synchronously so the browser's NFC permission
+            // request remains within the original navigation tap gesture.
+            stopNfcScan();
+            setActiveNavigationTab('scanner');
+            const controller = new AbortController();
+            activeNfcScanController = controller;
+            const button = document.getElementById('nfc-scan-btn');
+            if (button) {
+                button.disabled = true;
+                button.innerHTML = '<img src="https://commons.wikimedia.org/wiki/Special:FilePath/NFC_logo.svg" alt="NFC logo" class="inline-block w-5 h-5 object-contain inline-flex items-center justify-center" style="filter: brightness(0) saturate(100%) invert(24%) sepia(13%) saturate(1115%) hue-rotate(79deg) brightness(93%) contrast(89%);" /><span>Scanning…</span>';
+            }
+            try {
+                const reader = new NDEFReader();
+                await reader.scan({ signal: controller.signal });
+                showNfcTapOverlay();
+                setNfcStatus('Ready — hold your phone close to a GROnote NFC plant tag.');
+                reader.onreadingerror = () => setNfcStatus('Could not read this tag. Hold the phone closer and try again.', true);
+                reader.onreading = async event => {
+                    if (controller.signal.aborted) return;
+                    let value = '';
+                    for (const record of event.message.records) {
+                        if (record.recordType === 'text') { try { value = new TextDecoder(record.encoding || 'utf-8').decode(record.data); } catch (_) {} }
+                        if (value) break;
+                    }
+                    if (!openScannedPlantCode(value, 'NFC tag')) {
+                        if (!value) setNfcStatus('Could not read a GROnote plant ID from this NFC tag.', true);
+                        return;
+                    }
+
+                    // The shared handler has opened the plant journal and stopped the reader.
+                };
+            } catch (err) {
+                if (err && err.name === 'AbortError') return;
+                setNfcStatus(err && err.name === 'NotAllowedError' ? 'NFC permission was not granted.' : 'Could not start NFC scanning. Check NFC is enabled and try again.', true);
+                await stopNfcScan();
+            }
+        }
+        function openScannedPlantCode(value, source) {
+            const rawValue = String(value || '').trim();
+            if (!rawValue) return false;
+
+            if (qrScanPurpose === 'journal-link') {
+                const plantId = document.getElementById('log-plant-id')?.value;
+                const journalPlant = plants.find(item => String(item.id) === String(plantId));
+                if (!journalPlant) {
+                    const status = document.getElementById('qr-scan-status');
+                    if (status) status.textContent = 'Could not find this plant. Close and reopen its journal.';
+                    return false;
+                }
+                if (journalPlant.nfcTagLinked) {
+                    const status = document.getElementById('qr-scan-status');
+                    if (status) status.textContent = 'This plant already has an NFC tag. Remove its NFC tag assignment before adding a QR code.';
+                    return false;
+                }
+                const floraMatch = rawValue.match(/^GROnote:([A-Za-z0-9_-]+)$/);
+                const alreadyLinkedPlant = floraMatch
+                    ? plants.find(item => String(item.id) === floraMatch[1] && String(item.id) !== String(journalPlant.id))
+                    : plants.find(item => String(item.qrCodeValue || '') === rawValue && String(item.id) !== String(journalPlant.id));
+                if (alreadyLinkedPlant) {
+                    const status = document.getElementById('qr-scan-status');
+                    if (status) status.textContent = 'This QR code is already linked to ' + alreadyLinkedPlant.name + '. Scan a different, unassigned code.';
+                    return false;
+                }
+                journalPlant.qrCodeValue = rawValue;
+                saveLocalPlantsForCurrentUser(plants);
+                markFloraSyncPending();
+                const status = document.getElementById('journal-qr-status');
+                if (status) status.textContent = 'QR code linked. Syncing…';
+                stopQrCameraOnly();
+                const scanOverlay = document.getElementById('qr-scan-overlay');
+                if (scanOverlay) scanOverlay.classList.add('hidden');
+                qrScanPurpose = 'journal';
+                syncPlantToCloud(journalPlant).then(() => {
+                    if (status) status.textContent = 'QR code added to ' + journalPlant.name + '.';
+                    const qrActions = document.getElementById('journal-qr-tag-actions');
+                    if (qrActions) qrActions.classList.add('hidden');
+                    renderPlants();
+                });
+                return true;
+            }
+
+            if (qrScanPurpose === 'link') {
+                const floraMatch = rawValue.match(/^GROnote:([A-Za-z0-9_-]+)$/);
+                const existingPlant = floraMatch
+                    ? plants.find(p => String(p.id) === floraMatch[1])
+                    : plants.find(p => String(p.qrCodeValue || '') === rawValue);
+                if (existingPlant) {
+                    const status = document.getElementById('qr-scan-status');
+                    if (status) status.textContent = 'This QR code is already linked to ' + existingPlant.name + '. Scan a different, unassigned code.';
+                    return false;
+                }
+                const pendingValue = document.getElementById('plant-qr-pending-value');
+                if (!pendingValue) return false;
+                pendingValue.value = rawValue;
+                // Preserve existing GROnote tag IDs as the plant ID; other QR payloads
+                // are stored separately so the new plant receives its own internal ID.
+                const pendingId = document.getElementById('plant-nfc-pending-id');
+                if (pendingId) pendingId.value = floraMatch ? floraMatch[1] : '';
+                const linkStatus = document.getElementById('plant-qr-link-status');
+                if (linkStatus) linkStatus.textContent = 'QR code scanned and linked. Save this plant to finish. (' + rawValue.slice(0, 90) + (rawValue.length > 90 ? '…' : '') + ')';
+                stopQrCameraOnly();
+                const scanOverlay = document.getElementById('qr-scan-overlay');
+                if (scanOverlay) scanOverlay.classList.add('hidden');
+                qrScanPurpose = 'journal';
+                return true;
+            }
+
+            const floraMatch = rawValue.match(/^GROnote:([A-Za-z0-9_-]+)$/);
+            const plant = floraMatch
+                ? plants.find(p => String(p.id) === floraMatch[1])
+                : plants.find(p => String(p.qrCodeValue || '') === rawValue);
+            if (!plant) {
+                setNfcStatus('No saved plant matches this ' + source + ' on this device/account.', true);
+                const qrStatus = document.getElementById('qr-scan-status');
+                if (qrStatus) qrStatus.textContent = 'No saved plant is linked to this QR code yet.';
+                return false;
+            }
+            stopQrScan();
+            hideNfcTapOverlay();
+            const chooser = document.getElementById('scan-options-overlay');
+            if (chooser) chooser.classList.add('hidden');
+            if (activeNfcScanController) { activeNfcScanController.abort(); activeNfcScanController = null; }
+            const button = document.getElementById('nfc-scan-btn');
+            if (button) { button.disabled = false; button.innerHTML = '<span>Start NFC Scan</span>'; }
+            setNfcStatus('Plant found: ' + plant.name + ' — opening its growth journal.');
+            openJournalModal(plant.id);
+            return true;
+        }
+
+        async function loadQrDecoder() {
+            if (window.jsQR) { qrJsLoaded = true; return true; }
+            if (qrJsLoaded) return !!window.jsQR;
+            qrJsLoaded = true;
+            return new Promise(resolve => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';
+                script.onload = () => resolve(!!window.jsQR);
+                script.onerror = () => resolve(false);
+                document.head.appendChild(script);
+            });
+        }
+
+        async function startQrScan(purpose = 'journal') {
+            if (getScannerPreference() !== 'qr') return;
+            qrScanPurpose = ['link', 'journal-link'].includes(purpose) ? purpose : 'journal';
+            const chooser = document.getElementById('scan-options-overlay');
+            if (chooser) chooser.classList.add('hidden');
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                const message = 'Camera scanning requires a secure HTTPS connection and a browser with camera support.';
+                setNfcStatus(message, true);
+                alert(message);
+                return;
+            }
+            const overlay = document.getElementById('qr-scan-overlay');
+            const video = document.getElementById('qr-scan-video');
+            const status = document.getElementById('qr-scan-status');
+            overlay.classList.remove('hidden');
+            status.textContent = 'Requesting camera access…';
+            try {
+                activeQrStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } }, audio: false });
+                video.srcObject = activeQrStream;
+                await video.play();
+                if ('BarcodeDetector' in window) {
+                    try { activeQrDetector = new BarcodeDetector({ formats: ['qr_code'] }); } catch (_) { activeQrDetector = null; }
+                }
+                if (!activeQrDetector && !(await loadQrDecoder())) {
+                    throw new Error('QR scanning is not available. Check your internet connection and try again.');
+                }
+                status.textContent = 'Camera ready — point it at a QR code.';
+                scanQrFrame();
+            } catch (err) {
+                status.textContent = err && err.name === 'NotAllowedError'
+                    ? 'Camera permission was denied. Allow camera access in your browser settings and try again.'
+                    : (err.message || 'Could not start the camera. Please try again.');
+                stopQrCameraOnly();
+            }
+        }
+
+        function stopQrCameraOnly() {
+            if (activeQrFrame) { cancelAnimationFrame(activeQrFrame); activeQrFrame = null; }
+            if (activeQrStream) { activeQrStream.getTracks().forEach(track => track.stop()); activeQrStream = null; }
+            const video = document.getElementById('qr-scan-video');
+            if (video) video.srcObject = null;
+            activeQrDetector = null;
+        }
+        function stopQrScan() {
+            stopQrCameraOnly();
+            const overlay = document.getElementById('qr-scan-overlay');
+            if (overlay) overlay.classList.add('hidden');
+            switchTab('plants');
+        }
+
+        async function scanQrFrame() {
+            const video = document.getElementById('qr-scan-video');
+            if (!activeQrStream || !video || video.readyState < 2) {
+                if (activeQrStream) activeQrFrame = requestAnimationFrame(scanQrFrame);
+                return;
+            }
+            try {
+                let value = '';
+                if (activeQrDetector) {
+                    const codes = await activeQrDetector.detect(video);
+                    if (codes.length) value = codes[0].rawValue;
+                } else if (window.jsQR) {
+                    const canvas = scanQrFrame.canvas || (scanQrFrame.canvas = document.createElement('canvas'));
+                    const context = canvas.getContext('2d', { willReadFrequently: true });
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const result = window.jsQR(context.getImageData(0, 0, canvas.width, canvas.height).data, canvas.width, canvas.height, { inversionAttempts: 'dontInvert' });
+                    if (result) value = result.data;
+                }
+                if (value && openScannedPlantCode(value, 'QR code')) return;
+            } catch (err) {
+                console.warn('QR scan frame could not be decoded:', err);
+            }
+            if (activeQrStream) activeQrFrame = requestAnimationFrame(scanQrFrame);
+        }
+
+        async function writePlantNfcTag() {
+            if (getScannerPreference() !== 'nfc') return;
+            const editId = document.getElementById('edit-plant-id').value;
+            const pendingIdField = document.getElementById('plant-nfc-pending-id');
+            const existingPlant = editId ? plants.find(p => String(p.id) === String(editId)) : null;
+            if (editId && !existingPlant) { setNfcStatus('Could not find this saved plant. Close the form and try again.', true); return; }
+            const plantId = editId || pendingIdField.value || ('plant_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8));
+            const plantName = document.getElementById('plant-name').value.trim() || 'your new plant';
+            const unsupported = nfcSupportMessage();
+            if (unsupported) { setNfcStatus(unsupported, true); return; }
+            try {
+                const writer = new NDEFReader();
+                const tagText = 'GROnote:' + plantId;
+                await writer.write({ records: [{ recordType: 'text', data: tagText }] });
+                if (!editId) pendingIdField.value = plantId;
+                setNfcStatus('NFC tag written successfully for ' + (existingPlant ? existingPlant.name : plantName) + '. ' + (editId ? '' : 'Now select Save Plant to finish adding it.'));
+                alert('NFC tag written successfully for ' + (existingPlant ? existingPlant.name : plantName) + '.' + (editId ? '' : ' Select Save Plant to finish adding it.'));
+            } catch (err) { setNfcStatus(err && err.name === 'NotAllowedError' ? 'NFC permission was not granted.' : 'Could not write this tag. Hold a writable NFC tag close to the phone and try again.', true); }
+        }
+
+        async function handlePlantSubmit(e) {
+            e.preventDefault();
+            const editId = document.getElementById('edit-plant-id').value;
+            const pendingNfcId = document.getElementById('plant-nfc-pending-id').value;
+            const pendingQrValue = document.getElementById('plant-qr-pending-value').value;
+            const scannerPreference = getScannerPreference();
+            // The saved scanner setting is authoritative. With "No scanner" selected,
+            // adding a plant must never require a QR or NFC tag, even if a form section
+            // was left visible by an earlier setting or stale UI state.
+            const requiredTagMode = scannerPreference;
+
+            // A new plant in QR/NFC mode cannot be saved until its tag is scanned/written.
+            // With "none", no tag is required. Editing existing plants is unaffected.
+            if (!editId && requiredTagMode === 'qr' && !String(pendingQrValue || '').trim()) {
+                const status = document.getElementById('plant-qr-link-status');
+                if (status) status.textContent = 'A QR tag must be scanned before this plant can be saved.';
+                alert('Scan a QR tag before saving this plant.');
+                return;
+            }
+            if (!editId && requiredTagMode === 'nfc' && !String(pendingNfcId || '').trim()) {
+                setNfcStatus('An NFC tag must be written successfully before this plant can be saved.', true);
+                alert('Write an NFC tag before saving this plant.');
+                return;
+            }
+
+            const locationSelect = document.getElementById('plant-location');
+            const selectedLocation = locationSelect ? locationSelect.value.trim() : '';
+
+            // A plant must always belong to one of the configured growing locations.
+            if (!selectedLocation || !plantLocations.includes(selectedLocation)) {
+                if (locationSelect) {
+                    locationSelect.setCustomValidity('Choose a growing location before saving this plant.');
+                    locationSelect.reportValidity();
+                    locationSelect.focus();
+                } else {
+                    alert('Choose a growing location before saving this plant.');
+                }
+                return;
+            }
+            if (locationSelect) locationSelect.setCustomValidity('');
+
+            const plantData = {
+                id: editId || pendingNfcId || ('plant_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8)),
+                nfcTagLinked: editId ? !!plants.find(p => String(p.id) === String(editId))?.nfcTagLinked : !!pendingNfcId,
+                ...(pendingQrValue ? { qrCodeValue: pendingQrValue } : {}),
+                name: document.getElementById('plant-name').value,
+                variety: document.getElementById('plant-variety').value,
+                quantity: document.getElementById('plant-multisow').checked && document.getElementById('plant-quantity-type').value === 'seeds'
+                    ? Math.max(1, parseInt(document.getElementById('plant-multisow-pots').value, 10) || 1) * Math.max(1, parseInt(document.getElementById('plant-multisow-seeds-per-pot').value, 10) || 1)
+                    : Math.max(1, parseInt(document.getElementById('plant-quantity').value, 10) || 1),
+                quantityType: ['plants', 'seeds', 'cuttings'].includes(document.getElementById('plant-quantity-type').value) ? document.getElementById('plant-quantity-type').value : 'plants',
+                multisow: document.getElementById('plant-multisow').checked && document.getElementById('plant-quantity-type').value === 'seeds',
+                multisowPots: document.getElementById('plant-multisow').checked && document.getElementById('plant-quantity-type').value === 'seeds' ? Math.max(1, parseInt(document.getElementById('plant-multisow-pots').value, 10) || 1) : 0,
+                multisowContainerType: document.getElementById('plant-multisow').checked && document.getElementById('plant-quantity-type').value === 'seeds' ? (document.getElementById('plant-multisow-container-type').value === 'plugs' ? 'plugs' : 'pots') : '',
+                seedsPerPot: document.getElementById('plant-multisow').checked && document.getElementById('plant-quantity-type').value === 'seeds' ? Math.max(1, parseInt(document.getElementById('plant-multisow-seeds-per-pot').value, 10) || 1) : 0,
+                remainingSeeds: 0,
+                remainingCuttings: 0,
+                iconKey: document.getElementById('plant-icon-key').value,
+                customIconPath: editId ? (plants.find(p => String(p.id) === String(editId))?.customIconPath || '') : '',
+                customIconUrl: editId ? (plants.find(p => String(p.id) === String(editId))?.customIconUrl || '') : '',
+                hex: document.getElementById('form-color-hex').value,
+                date: document.getElementById('plant-date').value,
+                medium: (window.getSelectedPlantMediums ? window.getSelectedPlantMediums() : []).filter(value => value !== 'Other').join(' · '),
+                mediumOther: (document.getElementById('plant-medium-other')?.value || '').trim(),
+                setup: Array.from(document.querySelectorAll('#plant-setup-options input[name="plant-setup-option"]:checked')).map(input => input.value).filter(value => value !== 'Other'),
+                heatedPropagatorTemperatureC: Array.from(document.querySelectorAll('#plant-setup-options input[name="plant-setup-option"]:checked')).some(input => input.value === 'Heated propagator') && document.getElementById('plant-heated-propagator-temperature')?.value !== ''
+                    ? Number(document.getElementById('plant-heated-propagator-temperature').value)
+                    : null,
+                setupOther: (document.getElementById('plant-setup-other')?.value || '').trim(),
+                location: document.getElementById('plant-location').value,
+                notes: document.getElementById('plant-notes').value,
+                logs: []
+            };
+
+            let initialMediumLog = null;
+            let initialGrowthLog = null;
+            if (editId) {
+                const idx = plants.findIndex(p => p.id === editId);
+                if (idx !== -1) {
+                    const previousPlant = plants[idx];
+                    updatePersonalLibraryFromPlantEdit(previousPlant.name, previousPlant.variety || '', plantData);
+                    plantData.addedAt = plants[idx].addedAt || plants[idx].createdAt || plants[idx].date || '';
+                    plantData.logs = plants[idx].logs || [];
+                    plantData.remainingSeeds = Math.max(0, Number(plants[idx].remainingSeeds) || (plants[idx].quantityType === 'seeds' ? Number(plants[idx].quantity) || 0 : 0));
+                    plantData.remainingCuttings = Math.max(0, Number(plants[idx].remainingCuttings) || (plants[idx].quantityType === 'cuttings' ? Number(plants[idx].quantity) || 0 : 0));
+                    plants[idx] = plantData;
+                }
+            } else {
+                if (plantData.quantityType === 'seeds') plantData.remainingSeeds = plantData.quantity;
+                if (plantData.quantityType === 'cuttings') plantData.remainingCuttings = plantData.quantity;
+                // Store the actual date this plant was added, independently of its planting date.
+                const localToday = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+                plantData.addedAt = localToday;
+                // Record the starting quantity as a Growth journal entry when the plant is created.
+                const quantityLabels = { plants: 'Plants', seeds: 'Seeds sown', cuttings: 'Cuttings' };
+                const quantityLabel = quantityLabels[plantData.quantityType] || 'Plants';
+                initialGrowthLog = {
+                    id: 'log_' + Date.now() + '_growth',
+                    date: plantData.date || localToday,
+                    type: 'Growth',
+                    text: plantData.multisow
+                        ? 'Multisown: ' + plantData.quantity + ' seeds total (' + plantData.multisowPots + ' ' + (plantData.multisowContainerType === 'plugs' ? 'Plugs' : 'Pots') + ' × ' + plantData.seedsPerPot + ' seeds each)'
+                        : 'Initial amount recorded: ' + plantData.quantity + ' ' + quantityLabel.toLowerCase()
+                };
+                plantData.logs.unshift(initialGrowthLog);
+
+                // Also record the medium chosen during plant creation as a separate journal entry.
+                const initialMedium = String(plantData.medium || '').trim();
+                const initialSetup = (Array.isArray(plantData.setup) ? plantData.setup : (plantData.setup ? [plantData.setup] : [])).map(value => String(value).trim()).filter(Boolean).join(', ');
+                if (initialMedium || initialSetup) {
+                    const initialHeatedTemperature = initialSetup.split(',').map(value => value.trim()).includes('Heated propagator')
+                        ? plantData.heatedPropagatorTemperatureC
+                        : null;
+                    initialMediumLog = {
+                        id: 'log_' + (Date.now() + 1),
+                        date: plantData.date || localToday,
+                        type: 'Medium',
+                        heatedPropagatorTemperatureC: initialHeatedTemperature ?? null,
+                        text: 'Initial growing medium: ' + (initialMedium || 'Not specified') +
+                            (initialSetup ? ' · Growing setup: ' + initialSetup : '') +
+                            (initialHeatedTemperature !== null && initialHeatedTemperature !== undefined && initialHeatedTemperature !== ''
+                                ? ' · Set temperature: ' + initialHeatedTemperature + ' °C'
+                                : '')
+                    };
+                    plantData.logs.unshift(initialMediumLog);
+                }
+                // Save only names and varieties explicitly entered by the user.
+                const personalLibrary = getPersonalPlantLibrary();
+                const personalEntry = personalLibrary.find(item => item.name.toLocaleLowerCase() === plantData.name.trim().toLocaleLowerCase());
+                if (!personalEntry) personalLibrary.push({ name: plantData.name.trim(), varieties: plantData.variety.trim() ? [plantData.variety.trim()] : [] });
+                else if (plantData.variety.trim() && !(personalEntry.varieties || []).some(value => value.toLocaleLowerCase() === plantData.variety.trim().toLocaleLowerCase())) personalEntry.varieties.push(plantData.variety.trim());
+                savePersonalPlantLibrary(personalLibrary);
+                plants.unshift(plantData);
+            }
+
+            saveLocalPlantsForCurrentUser(plants);
+            markFloraSyncPending();
+            await syncPlantToCloud(plantData);
+            if (initialGrowthLog) await syncLogToCloud(plantData.id, initialGrowthLog);
+            if (initialMediumLog) await syncLogToCloud(plantData.id, initialMediumLog);
+
+            renderPlants();
+            renderMyPlantLibrary();
+            closePlantModal();
+            // Keep the user on the plant list after saving instead of leaving them on Settings.
+            switchTab('plants');
+        }
+
+
+
+
+
+
+        function getMultisowContainerStates(plant) {
+            const count = Math.max(0, Math.floor(Number(plant.multisowPots) || 0));
+            const rawLabel = String(plant.multisowContainerType || 'pot').replace(/s$/i, '');
+            const label = rawLabel.charAt(0).toUpperCase() + rawLabel.slice(1);
+            const states = Array.from({length: count}, (_, i) => ({index: i + 1, germinated: 0, thinned: 0}));
+            // Journal logs are stored newest-first. Each matching line is a cumulative
+            // snapshot for that container, so keep the first (most recent) snapshot only.
+            const restored = new Set();
+            (Array.isArray(plant.logs) ? plant.logs : []).forEach(log => {
+                const re = /Multi-sow container (\d+) \| germinated: (\d+) \| thinned: (\d+)/g;
+                let match;
+                while ((match = re.exec(String(log.text || '')))) {
+                    const index = Number(match[1]);
+                    const state = states[index - 1];
+                    if (state && !restored.has(index)) {
+                        state.germinated = Number(match[2]);
+                        state.thinned = Number(match[3]);
+                        restored.add(index);
+                    }
+                }
+            });
+            return {label, states};
+        }
+
+        function renderMultisowContainerRows(plant) {
+            const host = document.getElementById('multisow-container-rows');
+            if (!host || !plant) return;
+            const data = getMultisowContainerStates(plant);
+            host.innerHTML = data.states.map(state => {
+                const remaining = Math.max(0, state.germinated - state.thinned);
+                const seedsLeftToGerminate = Math.max(0, Number(plant.seedsPerPot) - state.germinated);
+                const seedLimit = seedsLeftToGerminate;
+                const germinationField = seedLimit > 0
+                    ? '<label class="text-[9px] font-normal leading-3" style="color:#000000 !important;font-weight:400 !important">Germinated<input aria-label="Newly germinated in ' + escapeHtml(data.label) + ' ' + state.index + '" data-ms-germ="' + state.index + '" type="number" min="0" max="' + seedLimit + '" step="1" inputmode="numeric" placeholder="0" class="mt-0.5 w-full rounded-md border border px-1.5 py-1 text-xs text-emerald-950" style="border-color:#e2e8f0 !important;background-color:#ffffff;color:#294b34"></label>'
+                    : '<span class="multisow-complete text-[9px] font-medium text-center" style="color:#000000 !important">Complete</span>';
+                return '<div class="grid grid-cols-[minmax(0,1fr)_4.25rem_4.25rem] items-center gap-2 rounded-lg border px-2 py-2" style="border-color:#e2e8f0 !important;background-color:#f4f5ee !important;background:#f4f5ee !important">' +
+                    '<div class="min-w-0"><strong class="block truncate text-xs font-semibold text-emerald-900">' + escapeHtml(data.label) + ' ' + state.index + '</strong>' +
+                    '<span class="block truncate text-[9px] leading-3 text-emerald-800" style="color:#294b34">Seedlings ' + remaining + (seedsLeftToGerminate > 0 ? ' · Left to germinate ' + seedsLeftToGerminate : '') + '</span></div>' +
+                    germinationField +
+                    '<label class="text-[9px] font-normal leading-3" style="color:#000000 !important;font-weight:400 !important">Removed<input aria-label="Removed from ' + escapeHtml(data.label) + ' ' + state.index + '" data-ms-thin="' + state.index + '" type="number" min="0" max="' + remaining + '" step="1" inputmode="numeric" placeholder="0" class="mt-0.5 w-full rounded-md border border px-1.5 py-1 text-xs text-emerald-950" style="border-color:#e2e8f0 !important;background-color:#ffffff;color:#294b34"></label></div>';
+            }).join('');
+        }
+
+        function toggleGerminationSection() {
+            const section = document.getElementById('germination-section');
+            const amountInput = document.getElementById('log-germinated-amount');
+            if (!section || !amountInput) return;
+            const plantId = document.getElementById('log-plant-id').value;
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            const availableSeeds = plant ? (plant.quantityType === 'seeds' ? Math.max(0, Number(plant.quantity) || 0) : Math.max(0, Number(plant.remainingSeeds) || 0)) : 0;
+            const isGrowth = document.getElementById('log-type').value === 'Growth';
+            const showSeeds = isGrowth && plant && plant.quantityType !== 'cuttings' && availableSeeds > 0;
+            const availableCuttings = plant ? (plant.quantityType === 'cuttings' ? Math.max(0, Number(plant.quantity) || 0) : Math.max(0, Number(plant.remainingCuttings) || 0)) : 0;
+            const showCuttings = isGrowth && plant && availableCuttings > 0;
+            section.classList.toggle('hidden', !showSeeds && !showCuttings);
+            const seedControls = document.getElementById('seed-germination-controls');
+            const cuttingControls = document.getElementById('cutting-rooting-controls');
+            const multisow = !!(plant && plant.multisow && Number(plant.multisowPots) > 0);
+            const multisowPanel = document.getElementById('multisow-container-tracking');
+            if (seedControls) seedControls.classList.toggle('hidden', !showSeeds);
+            if (cuttingControls) cuttingControls.classList.toggle('hidden', !showCuttings);
+            if (multisowPanel) multisowPanel.classList.toggle('hidden', !showSeeds || !multisow);
+            if (multisow && showSeeds) renderMultisowContainerRows(plant);
+            ['log-germinated-amount','log-failed-seed-amount'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('hidden', multisow && showSeeds);
+            });
+            document.querySelectorAll('label[for="log-germinated-amount"], #seed-germination-controls details, #seed-germination-controls > p').forEach(el => el.classList.toggle('hidden', multisow && showSeeds));
+            amountInput.max = showSeeds ? String(availableSeeds) : '';
+            if (!showSeeds) amountInput.value = '';
+            const stageSection = document.getElementById('growth-stage-section');
+            const stageSelect = document.getElementById('log-growth-stage');
+            if (stageSection) stageSection.classList.toggle('hidden', document.getElementById('log-type').value === 'Location Change');
+            if (stageSelect) stageSelect.required = document.getElementById('log-type').value !== 'Location Change';
+            const failedInput = document.getElementById('log-failed-seed-amount');
+            if (failedInput) failedInput.max = showSeeds ? String(availableSeeds) : '';
+            const rootedInput = document.getElementById('log-cuttings-rooted-amount');
+            const failedCuttingInput = document.getElementById('log-failed-cutting-amount');
+            if (rootedInput) rootedInput.max = showCuttings ? String(availableCuttings) : '';
+            if (failedCuttingInput) failedCuttingInput.max = showCuttings ? String(availableCuttings) : '';
+            if (!showCuttings && rootedInput) rootedInput.value = '';
+            if (!showCuttings && failedCuttingInput) failedCuttingInput.value = '';
+            // Multi-sow seed tracking is inherently at the seedling stage, so avoid
+            // asking for a redundant stage selection while recording germination/thinning.
+            // Keep the stage value for the saved journal entry and existing timeline grouping.
+            const isMultiSowSeedEntry = isGrowth && multisow && showSeeds;
+            if (isMultiSowSeedEntry && stageSelect) stageSelect.value = 'Seedling';
+            const requiresGrowthStage = document.getElementById('log-type').value !== 'Location Change' && !isMultiSowSeedEntry;
+            if (stageSection) stageSection.classList.toggle('hidden', !requiresGrowthStage);
+            if (stageSelect) stageSelect.required = requiresGrowthStage;
+        }
+
+        function updateFeedReminderDateFromInterval() {
+            const amount = parseInt(document.getElementById('feed-reminder-interval')?.value || '', 10);
+            const unit = document.getElementById('feed-reminder-unit')?.value || 'days';
+            const baseDate = document.getElementById('log-date')?.value;
+            const dateInput = document.getElementById('feed-reminder-date');
+            if (!dateInput) return;
+            if (!Number.isInteger(amount) || amount < 1 || !baseDate) {
+                dateInput.value = '';
+                return;
+            }
+            const [year, month, day] = baseDate.split('-').map(Number);
+            const nextDate = new Date(year, month - 1, day);
+            nextDate.setDate(nextDate.getDate() + amount * (unit === 'weeks' ? 7 : 1));
+            dateInput.value = [nextDate.getFullYear(), String(nextDate.getMonth() + 1).padStart(2, '0'), String(nextDate.getDate()).padStart(2, '0')].join('-');
+        }
+
+        function toggleFeedReminderInputs() {
+            const section = document.getElementById('feed-reminder-section');
+            const toggle = document.getElementById('feed-reminder-toggle');
+            if (!section || !toggle) return;
+            const willExpand = section.classList.contains('hidden');
+            section.classList.toggle('hidden', !willExpand);
+            toggle.setAttribute('aria-expanded', String(willExpand));
+        }
+
+        function updateFeedReminderModeUI() {
+            // Keep the interval controls editable in both one-time and repeat modes.
+            // In once mode, the interval can still be used to calculate the single reminder date.
+            const repeatInterval = document.getElementById('feed-reminder-interval');
+            const repeatUnit = document.getElementById('feed-reminder-unit');
+            if (repeatInterval) repeatInterval.disabled = false;
+            if (repeatUnit) repeatUnit.disabled = false;
+        }
+
+        function restoreFeedReminderInterval(log) {
+            const amountInput = document.getElementById('feed-reminder-interval');
+            const unitInput = document.getElementById('feed-reminder-unit');
+            const modeInput = document.getElementById('feed-reminder-mode');
+            if (!amountInput || !unitInput) return;
+            let savedInterval = log.feedReminderInterval ?? '';
+            let savedUnit = log.feedReminderUnit === 'weeks' ? 'weeks' : 'days';
+            const savedDate = String(log.feedReminderDate || '');
+            // Older Growth Logs may have saved the first reminder date but not
+            // the interval fields. Recover the interval from the log and reminder dates.
+            if ((savedInterval === '' || savedInterval == null) && savedDate && log.date) {
+                const start = new Date(log.date + 'T00:00:00');
+                const end = new Date(savedDate + 'T00:00:00');
+                const days = Math.round((end - start) / 86400000);
+                if (Number.isFinite(days) && days > 0) {
+                    if (days % 7 === 0) {
+                        savedInterval = days / 7;
+                        savedUnit = 'weeks';
+                    } else {
+                        savedInterval = days;
+                        savedUnit = 'days';
+                    }
+                }
+            }
+            amountInput.value = savedInterval;
+            unitInput.value = savedUnit;
+            if (modeInput) modeInput.value = log.feedReminderMode === 'repeat' ? 'repeat' : 'once';
+            updateFeedReminderModeUI();
+
+            const dateInput = document.getElementById('feed-reminder-date');
+            if (dateInput) {
+                dateInput.value = savedDate;
+                if (!dateInput.value && amountInput.value) updateFeedReminderDateFromInterval();
+            }
+        }
+
+        async function saveFeedReminder(plant, log) {
+            const date = log.type === 'Feed' ? String(log.feedReminderDate || '') : '';
+            const reminderMode = log.feedReminderMode === 'repeat' ? 'repeat' : 'once';
+            const intervalValue = log.feedReminderInterval === '' || log.feedReminderInterval == null
+                ? null
+                : Number(log.feedReminderInterval);
+            const repeatUnit = log.feedReminderUnit === 'weeks' ? 'weeks' : 'days';
+
+            // Validate the complete edited schedule before touching the existing reminder.
+            // This prevents an invalid edit from deleting a previously working schedule.
+            if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+                alert('Choose a valid reminder date.');
+                return false;
+            }
+            if (date && reminderMode === 'repeat' &&
+                (!Number.isInteger(intervalValue) || intervalValue < 1)) {
+                alert('Enter a whole-number repeat interval of at least 1.');
+                document.getElementById('feed-reminder-interval')?.focus();
+                return false;
+            }
+            if (!supabaseClient || !currentUser) {
+                if (date) {
+                    alert('Sign in to your GROnote account to schedule email reminders.');
+                    return false;
+                }
+                return true;
+            }
+
+            try {
+                // An empty date means the user cleared the schedule (or changed the
+                // entry away from Feed), so remove the existing scheduled reminder.
+                if (!date) {
+                    const { error } = await supabaseClient.from('feed_reminders').delete()
+                        .eq('user_id', currentUser.id).eq('log_id', String(log.id));
+                    if (error) throw error;
+                    return true;
+                }
+
+                if (!currentUser.user_metadata?.feed_reminder_email_initialized) {
+                    const { data: updatedAuth, error: profileError } = await supabaseClient.auth.updateUser({
+                        data: { notification_email: 'markriches.mail@gmail.com', feed_reminder_email_initialized: true }
+                    });
+                    if (profileError) throw profileError;
+                    currentUser = updatedAuth.user || currentUser;
+                    appSettings.notificationEmail = 'markriches.mail@gmail.com';
+                    setFloraAccountItem('flora_settings', JSON.stringify(appSettings));
+                    const profileEmailInput = document.getElementById('setting-profile-email');
+                    if (profileEmailInput) profileEmailInput.value = appSettings.notificationEmail;
+                }
+
+                const notificationEmail = String(appSettings.notificationEmail || currentUser.user_metadata?.notification_email || 'markriches.mail@gmail.com').trim();
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(notificationEmail)) {
+                    alert('Please add a valid notification email in Settings → Profile before scheduling a feed reminder.');
+                    return false;
+                }
+
+                const scheduledAt = new Date(date + 'T08:00:00').toISOString();
+                const { error } = await supabaseClient.from('feed_reminders').upsert({
+                    user_id: currentUser.id,
+                    plant_id: String(plant.id),
+                    log_id: String(log.id),
+                    plant_name: String(plant.name || 'Your plant'),
+                    feed_details: String(log.text || ''),
+                    notification_email: notificationEmail,
+                    scheduled_at: scheduledAt,
+                    scheduled_date: date,
+                    repeat_interval: reminderMode === 'repeat' ? intervalValue : null,
+                    repeat_unit: repeatUnit,
+                    sent_at: null
+                }, { onConflict: 'user_id,log_id' });
+                if (error) throw error;
+                return true;
+            } catch (error) {
+                console.error('Could not save feed reminder:', error);
+                alert('Your journal entry was saved, but the email reminder could not be updated: ' + (error.message || error));
+                return false;
+            }
+        }
+
+        let activeFeedReminderContext = null;
+
+        function manageJournalFeedReminder() {
+            const plantId = document.getElementById('log-plant-id')?.value;
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            if (!plant) return;
+            const reminderLog = (Array.isArray(plant.logs) ? plant.logs : [])
+                .filter(log => log.type === 'Feed' && log.feedReminderDate && log.feedReminderMode === 'repeat')
+                .sort((a, b) => String(a.feedReminderDate).localeCompare(String(b.feedReminderDate)))[0];
+            if (!reminderLog) {
+                alert('There is no active repeat feed reminder to manage.');
+                return;
+            }
+            activeFeedReminderContext = { plant, reminderLog };
+            const completeButton = document.getElementById('feed-reminder-complete-button');
+            if (completeButton) {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const todayKey = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, '0'), String(today.getDate()).padStart(2, '0')].join('-');
+                const scheduledKey = String(reminderLog.feedReminderDate || '');
+                const isTooEarly = !scheduledKey || todayKey < scheduledKey;
+                completeButton.disabled = isTooEarly;
+                completeButton.title = isTooEarly
+                    ? 'Available from ' + (scheduledKey ? new Date(scheduledKey + 'T00:00:00').toLocaleDateString('en-GB') : 'the scheduled day')
+                    : '';
+                completeButton.setAttribute('aria-disabled', String(isTooEarly));
+            }
+            const interval = document.getElementById('feed-reminder-manage-interval');
+            const unit = document.getElementById('feed-reminder-manage-unit');
+            if (interval) interval.value = Number(reminderLog.feedReminderInterval) || 1;
+            if (unit) unit.value = reminderLog.feedReminderUnit === 'weeks' ? 'weeks' : 'days';
+            document.getElementById('feed-reminder-manage-edit').classList.add('hidden');
+            document.getElementById('feed-reminder-manage-modal').classList.remove('hidden');
+            document.getElementById('feed-reminder-manage-modal').classList.add('flex');
+        }
+
+        function closeFeedReminderManager() {
+            const modal = document.getElementById('feed-reminder-manage-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+            activeFeedReminderContext = null;
+        }
+
+        async function finishFeedReminderManager(message) {
+            const context = activeFeedReminderContext;
+            if (!context) return;
+            const { plant, reminderLog } = context;
+            saveLocalPlantsForCurrentUser(plants);
+            const cloudLogSaved = await syncLogToCloud(plant.id, reminderLog);
+            const reminderSaved = await saveFeedReminder(plant, reminderLog);
+            if (!cloudLogSaved || !reminderSaved) alert('Your change was saved on this device, but cloud sync may need attention.');
+            closeFeedReminderManager();
+            renderPlants();
+            renderJournalLogs(plant);
+            openJournalModal(plant.id);
+            if (message) alert(message);
+        }
+
+        async function saveEditedFeedSchedule() {
+            if (!activeFeedReminderContext) return;
+            const { reminderLog } = activeFeedReminderContext;
+            const interval = Number(document.getElementById('feed-reminder-manage-interval')?.value);
+            const unit = document.getElementById('feed-reminder-manage-unit')?.value === 'weeks' ? 'weeks' : 'days';
+            if (!Number.isInteger(interval) || interval < 1 || interval > 3650) {
+                alert('Enter a whole number between 1 and 3650.');
+                return;
+            }
+            reminderLog.feedReminderInterval = interval;
+            reminderLog.feedReminderUnit = unit;
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const nextDate = new Date(today);
+            nextDate.setDate(nextDate.getDate() + interval * (unit === 'weeks' ? 7 : 1));
+            reminderLog.feedReminderDate = [nextDate.getFullYear(), String(nextDate.getMonth() + 1).padStart(2, '0'), String(nextDate.getDate()).padStart(2, '0')].join('-');
+            await finishFeedReminderManager('Your repeat feed schedule has been updated.');
+        }
+
+        async function turnOffFeedReminder() {
+            if (!activeFeedReminderContext || !confirm('Turn off this repeat feed reminder completely?')) return;
+            const { reminderLog } = activeFeedReminderContext;
+            reminderLog.feedReminderDate = '';
+            reminderLog.feedReminderMode = 'once';
+            await finishFeedReminderManager('Your repeat feed reminder has been turned off.');
+        }
+
+        async function recordFeedReminderCompleted() {
+            if (!activeFeedReminderContext) return;
+            const { plant, reminderLog } = activeFeedReminderContext;
+            const todayCheck = new Date();
+            todayCheck.setHours(0, 0, 0, 0);
+            const todayKey = [todayCheck.getFullYear(), String(todayCheck.getMonth() + 1).padStart(2, '0'), String(todayCheck.getDate()).padStart(2, '0')].join('-');
+            if (!reminderLog.feedReminderDate || todayKey < String(reminderLog.feedReminderDate)) return;
+            const interval = Number(reminderLog.feedReminderInterval);
+            if (!Number.isInteger(interval) || interval < 1) {
+                alert('This reminder has an invalid repeat interval. Please edit the schedule first.');
+                return;
+            }
+            const completed = new Date();
+            completed.setHours(0, 0, 0, 0);
+            const completedDate = [completed.getFullYear(), String(completed.getMonth() + 1).padStart(2, '0'), String(completed.getDate()).padStart(2, '0')].join('-');
+            const nextDate = new Date(completed);
+            nextDate.setDate(nextDate.getDate() + interval * (reminderLog.feedReminderUnit === 'weeks' ? 7 : 1));
+            reminderLog.feedReminderDate = [nextDate.getFullYear(), String(nextDate.getMonth() + 1).padStart(2, '0'), String(nextDate.getDate()).padStart(2, '0')].join('-');
+            const completedLog = {
+                id: (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'feed_completed_' + Date.now(),
+                date: completedDate,
+                type: 'Feed',
+                text: 'Feed completed (repeat schedule continued).'
+            };
+            plant.logs = Array.isArray(plant.logs) ? plant.logs : [];
+            plant.logs.push(completedLog);
+            const completionSaved = await syncLogToCloud(plant.id, completedLog);
+            if (!completionSaved) alert('The feed entry was recorded on this device, but cloud sync may need attention.');
+            await finishFeedReminderManager('Feed recorded. Your next reminder is ' + new Date(reminderLog.feedReminderDate + 'T00:00:00').toLocaleDateString('en-GB') + '.');
+        }
+
+        function getHarvestLogDetails(log) {
+            if (!log || log.type !== 'Harvest') return null;
+            const storedMeasurement = log.harvestMeasurement;
+            const storedValue = Number(log.harvestValue);
+            if ((storedMeasurement === 'weight' || storedMeasurement === 'number') && Number.isFinite(storedValue) && storedValue > 0) {
+                return {
+                    measurement: storedMeasurement,
+                    value: storedValue,
+                    unit: storedMeasurement === 'weight' ? (log.harvestUnit || 'kg') : 'items'
+                };
+            }
+            const match = String(log.text || '').match(/^Harvested:\s*([0-9]+(?:\.[0-9]+)?)\s+(.+?)\s*(?:\r?\n|$)/i);
+            if (!match) return null;
+            const suffix = match[2].trim();
+            const normalizedUnit = suffix.toLowerCase();
+            const isWeight = ['g', 'kg', 'oz', 'lb'].includes(normalizedUnit);
+            return {
+                measurement: isWeight ? 'weight' : 'number',
+                value: Number(match[1]),
+                unit: isWeight ? normalizedUnit : suffix
+            };
+        }
+
+        function stripHarvestLogLine(text) {
+            return String(text || '').replace(/^Harvested:[^\r\n]*(?:\r?\n|$)/i, '').trim();
+        }
+
+        function pluralizeHarvestPlantName(plantName) {
+            const name = String(plantName || 'plant').trim() || 'plant';
+            const lower = name.toLowerCase();
+            const irregular = { tomato: 'tomatoes', potato: 'potatoes', hero: 'heroes', leaf: 'leaves', berry: 'berries', strawberry: 'strawberries', blueberry: 'blueberries', raspberry: 'raspberries', blackberry: 'blackberries', pea: 'peas' };
+            if (irregular[lower]) return irregular[lower];
+            if (/(?:s|x|z|ch|sh)$/i.test(name)) return name + 'es';
+            if (/[^aeiou]y$/i.test(name)) return name.slice(0, -1) + 'ies';
+            if (/[^aeiou]o$/i.test(name)) return name + 'es';
+            if (/s$/i.test(name)) return name;
+            return name + 's';
+        }
+
+        function buildHarvestLogText(notes, measurement, value, unit, plantName) {
+            const singularOrPluralName = Number(value) === 1
+                ? (String(plantName || 'plant').trim() || 'plant')
+                : pluralizeHarvestPlantName(plantName);
+            const harvestLine = measurement === 'number'
+                ? 'Harvested: ' + value + ' ' + singularOrPluralName
+                : 'Harvested: ' + value + ' ' + unit;
+            const cleanNotes = stripHarvestLogLine(notes);
+            return cleanNotes ? harvestLine + '\n' + cleanNotes : harvestLine;
+        }
+
+        function toggleHarvestFields() {
+            const section = document.getElementById('harvest-measurement-section');
+            if (!section) return;
+            const isHarvest = document.getElementById('log-type')?.value === 'Harvest';
+            section.classList.toggle('hidden', !isHarvest);
+            const selected = document.querySelector('input[name="harvest-measurement"]:checked')?.value || 'weight';
+            document.getElementById('harvest-weight-fields')?.classList.toggle('hidden', selected !== 'weight');
+            document.getElementById('harvest-number-fields')?.classList.toggle('hidden', selected !== 'number');
+        }
+
+        function toggleNutrientLibraryView() {
+            const logType = document.getElementById('log-type').value;
+            const locationField = document.getElementById('journal-edit-location-field');
+            if (locationField) locationField.classList.toggle('hidden', logType !== 'Location Change');
+            const librarySec = document.getElementById('nutrient-library-section');
+            const tankSec = document.getElementById('tank-volume-section');
+            const mediumSec = document.getElementById('growth-medium-section');
+            const tankLabel = document.getElementById('tank-volume-label');
+            const perPlantField = document.getElementById('volume-per-plant-field');
+            if (tankLabel) tankLabel.textContent = logType === 'Water' ? 'Watering Can Fill Volume' : 'Tank Fill Volume';
+            const wateringCanFields = document.getElementById('nutrient-watering-can-fields');
+            const wateringCanEnabled = document.getElementById('nutrient-watering-can-enabled');
+            if (perPlantField) {
+                if (logType === 'Water') tankSec.appendChild(perPlantField);
+                else if (wateringCanFields) wateringCanFields.appendChild(perPlantField);
+                const showPerPlantVolume = logType === 'Water' || (logType === 'Feed' && wateringCanEnabled && wateringCanEnabled.checked);
+                perPlantField.classList.toggle('hidden', !showPerPlantVolume);
+            }
+            if (mediumSec) mediumSec.classList.toggle('hidden', logType !== 'Medium');
+            
+            const feedReminderSection = document.getElementById('feed-reminder-section');
+            const feedReminderToggle = document.getElementById('feed-reminder-toggle');
+            if (feedReminderSection && logType !== 'Feed') feedReminderSection.classList.add('hidden');
+            if (feedReminderToggle) feedReminderToggle.classList.toggle('hidden', logType !== 'Feed');
+            const feedReminderDateInput = document.getElementById('feed-reminder-date');
+            if (feedReminderDateInput) feedReminderDateInput.min = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+            toggleHarvestFields();
+
+            if (logType === 'Feed') {
+                librarySec.classList.remove('hidden');
+                tankSec.classList.toggle('hidden', !!(wateringCanEnabled && wateringCanEnabled.checked));
+                populateNutrientBrandOptions();
+            } else if (logType === 'Water') {
+                librarySec.classList.add('hidden');
+                tankSec.classList.remove('hidden');
+            } else {
+                librarySec.classList.add('hidden');
+                tankSec.classList.add('hidden');
+            }
+        }
+
+        function toggleWateringCanFields() {
+            const enabled = document.getElementById('nutrient-watering-can-enabled').checked;
+            document.getElementById('nutrient-watering-can-fields').classList.toggle('hidden', !enabled);
+            const perPlantField = document.getElementById('volume-per-plant-field');
+            const logType = document.getElementById('log-type').value;
+            const tankVolumeSection = document.getElementById('tank-volume-section');
+            const tankVolumeAmount = document.getElementById('tank-volume-amount');
+            const wateringCanOption = document.getElementById('nutrient-watering-can-option');
+            if (tankVolumeSection && logType === 'Feed') {
+                tankVolumeSection.classList.toggle('hidden', enabled);
+            }
+            if (wateringCanOption) {
+                const tankFillSelected = logType === 'Feed' && !enabled && !!(tankVolumeAmount && tankVolumeAmount.value.trim());
+                wateringCanOption.classList.toggle('hidden', tankFillSelected);
+            }
+            if (perPlantField) {
+                if (logType === 'Water') document.getElementById('tank-volume-section').appendChild(perPlantField);
+                else document.getElementById('nutrient-watering-can-fields').appendChild(perPlantField);
+                const showPerPlantVolume = logType === 'Water' || (logType === 'Feed' && enabled);
+                perPlantField.classList.toggle('hidden', !showPerPlantVolume);
+            }
+            if (!enabled && logType === 'Feed') {
+                document.getElementById('volume-per-plant-amount').value = '';
+            }
+        }
+
+        // Returns a journal-ready summary, or null when enabled fields are invalid.
+        function getWateringCanSummary() {
+            const enabled = document.getElementById('nutrient-watering-can-enabled').checked;
+            if (!enabled) return '';
+
+            const fill = Number(document.getElementById('watering-can-fill').value);
+            const unit = document.getElementById('watering-can-unit').value;
+
+            if (!Number.isFinite(fill) || fill <= 0) {
+                alert('Enter a water fill volume greater than zero.');
+                return null;
+            }
+
+            return `Watering Can: ${fill} ${unit} water`;
+        }
+
+        function populateNutrientBrandOptions() {
+            const brandSelect = document.getElementById('nutrient-brand-select');
+            if (!brandSelect) return;
+
+            brandSelect.innerHTML = `<option value="">-- Choose Brand --</option>` +
+                NUTRIENT_BRANDS_LIBRARY.map(b => `<option value="${b.brand}">${b.brand}</option>`).join('');
+
+            handleNutrientBrandChange();
+        }
+
+        function handleNutrientBrandChange() {
+            const brandName = document.getElementById('nutrient-brand-select').value;
+            const productList = document.getElementById('nutrient-product-list');
+
+            // In edit mode, save the brand currently displayed into the journal text
+            // before switching the picker to another brand.
+            if (document.getElementById('log-edit-id')?.value && window.nutrientEditorActiveBrand) {
+                syncNutrientBrandToLog(window.nutrientEditorActiveBrand);
+            }
+            window.nutrientEditorActiveBrand = brandName || '';
+
+            if (!brandName) {
+                productList.innerHTML = `<p class="text-[11px] text-slate-400 italic px-1">Select a brand first</p>`;
+                return;
+            }
+
+            const brandObj = NUTRIENT_BRANDS_LIBRARY.find(b => b.brand === brandName);
+            if (!brandObj) return;
+
+            productList.innerHTML = brandObj.products.map((p, i) => `
+                <div class="p-1.5  dark: rounded flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-100 dark:border-slate-700/50 last:border-0">
+                    <label class="flex items-start space-x-2 cursor-pointer text-xs flex-1 min-w-0">
+                        <input type="checkbox" name="nutrient-product-check" value="${p.name}" class="mt-0.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
+                        <div class="min-w-0">
+                            <div class="font-semibold text-slate-800 dark:text-slate-200 text-[11px] truncate">${p.name}</div>
+                            <div class="text-[10px] text-slate-400 truncate">Rec: ${p.dosage}</div>
+                        </div>
+                    </label>
+                    <div class="flex items-center space-x-1 flex-shrink-0 pl-6 sm:pl-0">
+                        <input type="number" step="0.1" min="0" id="dose-val-${i}" placeholder="Amt" class="w-14 px-1.5 py-0.5 text-right rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-[11px]">
+                        <select id="dose-unit-${i}" class="text-[10px] py-0.5 px-1 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 font-semibold text-slate-600 dark:text-slate-300">
+                            <option value="ml">ml</option>
+                            <option value="ml/L">ml/L</option>
+                            <option value="tsp">tsp</option>
+                        </select>
+                    </div>
+                </div>
+            `).join('');
+            restoreNutrientsForSelectedBrand(brandObj);
+        }
+
+        function restoreNutrientsForSelectedBrand(brandObj) {
+            const textarea = document.getElementById('log-text');
+            const productList = document.getElementById('nutrient-product-list');
+            if (!textarea || !productList || !brandObj) return;
+
+            const normalizedText = textarea.value.split(String.fromCharCode(92) + 'n').join('\n');
+            const lines = normalizedText.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+            const feedHeaderIndex = lines.findIndex(line => /^(?:Mixed with:|Fed with:)$/i.test(line));
+            if (feedHeaderIndex < 0) return;
+
+            const knownBrands = new Map(NUTRIENT_BRANDS_LIBRARY.map(brand => [brand.brand.toLowerCase(), brand]));
+            let activeBrand = null;
+            let savedProducts = [];
+            lines.slice(feedHeaderIndex + 1).forEach(line => {
+                const headerMatch = line.match(/^(.*?):\s*$/);
+                const matchedBrand = headerMatch ? knownBrands.get(headerMatch[1].toLowerCase()) : null;
+                if (matchedBrand) {
+                    activeBrand = matchedBrand;
+                    return;
+                }
+                if (activeBrand && /^[•*-]\s*/.test(line)) {
+                    if (activeBrand.brand === brandObj.brand) {
+                        const item = line.replace(/^[•*-]\s*/, '').match(/^(.*?)\s*\((.*?)\)\s*$/);
+                        if (item) savedProducts.push({ name: item[1].trim(), dosage: item[2].trim() });
+                    }
+                    return;
+                }
+                if (line && !/^(?:Watering Can:|Mixed with:|Fed with:)/i.test(line)) activeBrand = null;
+            });
+
+            // Rebuilds happen when the brand dropdown changes, so reset the controls
+            // first and then restore only the products recorded for this brand.
+            brandObj.products.forEach((product, index) => {
+                const checkbox = Array.from(productList.querySelectorAll('input[name="nutrient-product-check"]'))
+                    .find(input => input.value.trim().toLowerCase() === product.name.trim().toLowerCase());
+                if (checkbox) checkbox.checked = false;
+                const amountInput = document.getElementById('dose-val-' + index);
+                if (amountInput) amountInput.value = '';
+                const unit = document.getElementById('dose-unit-' + index);
+                if (unit) unit.value = 'ml';
+            });
+
+            savedProducts.forEach(saved => {
+                const productIndex = brandObj.products.findIndex(product =>
+                    product.name.trim().toLowerCase() === saved.name.toLowerCase()
+                );
+                if (productIndex < 0) return;
+                const checkbox = Array.from(productList.querySelectorAll('input[name="nutrient-product-check"]'))
+                    .find(input => input.value.trim().toLowerCase() === saved.name.toLowerCase());
+                if (checkbox) checkbox.checked = true;
+                const dosage = saved.dosage.match(/^([0-9]*\.?[0-9]+)\s*(ml\s*\/\s*L|ml|tsp)$/i);
+                if (dosage) {
+                    const amountInput = document.getElementById('dose-val-' + productIndex);
+                    if (amountInput) amountInput.value = dosage[1];
+                    const unit = document.getElementById('dose-unit-' + productIndex);
+                    if (unit) {
+                        const unitValue = dosage[2].replace(/\s+/g, '').toLowerCase();
+                        unit.value = unitValue === 'ml/l' ? 'ml/L' : unitValue;
+                    }
+                }
+            });
+        }
+
+        function resizeJournalLogTextarea() {
+            const textarea = document.getElementById('log-text');
+            if (!textarea) return;
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.max(textarea.scrollHeight, 56) + 'px';
+        }
+
+        function syncNutrientBrandToLog(brandName) {
+            const brand = NUTRIENT_BRANDS_LIBRARY.find(item => item.brand === brandName);
+            const textarea = document.getElementById('log-text');
+            const list = document.getElementById('nutrient-product-list');
+            if (!brand || !textarea || !list) return;
+
+            const products = Array.from(list.querySelectorAll('input[name="nutrient-product-check"]:checked'))
+                .map(checkbox => {
+                    const index = brand.products.findIndex(item =>
+                        item.name.trim().toLowerCase() === checkbox.value.trim().toLowerCase()
+                    );
+                    if (index < 0) return null;
+                    const amount = document.getElementById('dose-val-' + index)?.value.trim() || '';
+                    const unit = document.getElementById('dose-unit-' + index)?.value || 'ml';
+                    return checkbox.value.trim() + ' (' + (amount ? amount + ' ' + unit : brand.products[index].dosage) + ')';
+                }).filter(Boolean);
+
+            const lines = String(textarea.value || '').replace(/\\n/g, '\n')
+                .split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+            const brandLookup = new Map(NUTRIENT_BRANDS_LIBRARY.map(item => [item.brand.toLowerCase(), item.brand]));
+            const saved = new Map();
+            const otherLines = [];
+            let currentBrand = null;
+
+            lines.forEach(line => {
+                if (/^(?:Mixed with:|Fed with:)$/i.test(line)) return;
+                const header = line.match(/^(.*?):\s*$/);
+                const matched = header ? brandLookup.get(header[1].toLowerCase()) : null;
+                if (matched) {
+                    currentBrand = matched;
+                    if (!saved.has(currentBrand)) saved.set(currentBrand, []);
+                } else if (currentBrand && /^[•*-]\s*/.test(line)) {
+                    saved.get(currentBrand).push(line.replace(/^[•*-]\s*/, ''));
+                } else {
+                    currentBrand = null;
+                    otherLines.push(line);
+                }
+            });
+
+            // The currently selected brand is authoritative: unchecked products are removed.
+            if (products.length) saved.set(brandName, products);
+            else saved.delete(brandName);
+
+            const header = lines.find(line => /^(?:Mixed with:|Fed with:)$/i.test(line)) || 'Fed with:';
+            const blocks = Array.from(saved.entries()).map(([savedBrand, items]) =>
+                savedBrand + ':\n' + items.map(item => '• ' + item).join('\n')
+            ).join('\n');
+            textarea.value = [otherLines.join('\n'), header, blocks].filter(Boolean).join('\n');
+            resizeJournalLogTextarea();
+            if (document.getElementById('log-edit-id')?.value) updateJournalEditLivePreview();
+        }
+
+        function applyNutrientSelection() {
+            const brandName = document.getElementById('nutrient-brand-select').value;
+            if (!brandName) return;
+            const brandObj = NUTRIENT_BRANDS_LIBRARY.find(b => b.brand === brandName);
+            if (!brandObj) return;
+            const checkedBoxes = Array.from(document.querySelectorAll('input[name="nutrient-product-check"]:checked'));
+            if (!checkedBoxes.length) return;
+            const selectedProducts = checkedBoxes.map(cb => {
+                const selectedBrandName = cb.dataset.brandName || brandName;
+                const selectedBrand = NUTRIENT_BRANDS_LIBRARY.find(b => b.brand === selectedBrandName);
+                if (!selectedBrand) return null;
+                const idx = Number.isInteger(Number(cb.dataset.productIndex))
+                    ? Number(cb.dataset.productIndex)
+                    : selectedBrand.products.findIndex(p => p.name === cb.value);
+                const product = selectedBrand.products[idx];
+                const doseKey = cb.dataset.doseKey || String(idx);
+                const valInput = document.getElementById('dose-val-' + doseKey);
+                const unitInput = document.getElementById('dose-unit-' + doseKey);
+                const customAmount = valInput ? valInput.value.trim() : '';
+                const customUnit = unitInput ? unitInput.value : 'ml';
+                return product ? { brand: selectedBrand, product, amount: customAmount ? customAmount + ' ' + customUnit : product.dosage } : null;
+            }).filter(Boolean);
+            if (!selectedProducts.length) return;
+
+            const logTextarea = document.getElementById('log-text');
+            const currentText = logTextarea.value.split(String.fromCharCode(92) + 'n').join('\n').trim();
+            const lines = currentText.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+            const brandNames = new Set(NUTRIENT_BRANDS_LIBRARY.map(brand => brand.brand.toLowerCase()));
+            const savedBrands = new Map();
+            const otherLines = [];
+            let activeBrand = null;
+
+            // Read and retain every existing brand/product block instead of replacing it.
+            lines.forEach(line => {
+                if (/^Watering Can:\s*/i.test(line) || /^(?:Mixed with:|Fed with:)$/i.test(line)) return;
+                const brandHeader = line.match(/^(.*?):\s*$/);
+                if (brandHeader && brandNames.has(brandHeader[1].toLowerCase())) {
+                    activeBrand = NUTRIENT_BRANDS_LIBRARY.find(brand => brand.brand.toLowerCase() === brandHeader[1].toLowerCase()).brand;
+                    if (!savedBrands.has(activeBrand)) savedBrands.set(activeBrand, []);
+                    return;
+                }
+                if (activeBrand && /^[•*-]\s*/.test(line)) {
+                    savedBrands.get(activeBrand).push(line.replace(/^[•*-]\s*/, ''));
+                } else {
+                    activeBrand = null;
+                    otherLines.push(line);
+                }
+            });
+
+            // Merge selected products into this brand. Existing products from other brands
+            // and unselected products from this brand remain intact; matching products update.
+            selectedProducts.forEach(item => {
+                const selectedBrandName = item.brand.brand;
+                const existingProducts = savedBrands.get(selectedBrandName) || [];
+                const productLine = item.product.name + ' (' + item.amount + ')';
+                const index = existingProducts.findIndex(line => line.match(/^(.*?)\s*\((.*?)\)\s*$/)?.[1].trim().toLowerCase() === item.product.name.toLowerCase());
+                if (index >= 0) existingProducts[index] = productLine;
+                else existingProducts.push(productLine);
+                savedBrands.set(selectedBrandName, existingProducts);
+            });
+
+            const wateringCanSummary = getWateringCanSummary();
+            if (wateringCanSummary === null) return;
+            const header = wateringCanSummary
+                ? wateringCanSummary + '\nMixed with:\n'
+                : 'Fed with:\n';
+            const retainedOtherText = otherLines.join('\n');
+            const nutrientBlocks = Array.from(savedBrands.entries()).map(([savedBrand, products]) =>
+                savedBrand + ':\n' + products.map(product => '• ' + product).join('\n')
+            ).join('\n');
+            logTextarea.value = [retainedOtherText, header + nutrientBlocks].filter(Boolean).join('\\n');
+            resizeJournalLogTextarea();
+            if (document.getElementById('log-edit-id')?.value) updateJournalEditLivePreview();
+        }
+
+        async function unassignJournalPlantTag() {
+            const plantId = document.getElementById('log-plant-id')?.value;
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            const status = document.getElementById('journal-unassign-tag-status');
+            if (!plant) {
+                if (status) status.textContent = 'Could not find this plant. Close and reopen its journal.';
+                return;
+            }
+            const hasQrCode = !!String(plant.qrCodeValue || '').trim();
+            const hasNfcTag = !!plant.nfcTagLinked;
+            if (!hasQrCode && !hasNfcTag) {
+                if (status) status.textContent = 'There is no assigned tag to remove.';
+                return;
+            }
+            const tagName = hasQrCode && hasNfcTag ? 'QR code and NFC tag' : (hasQrCode ? 'QR code' : 'NFC tag');
+            if (!confirm('Unassign the ' + tagName + ' from ' + plant.name + '? The physical NFC tag will not be erased.')) return;
+
+            if (hasQrCode) delete plant.qrCodeValue;
+            if (hasNfcTag) delete plant.nfcTagLinked;
+            saveLocalPlantsForCurrentUser(plants);
+            markFloraSyncPending();
+            if (status) status.textContent = 'Tag assignment removed. Syncing…';
+            await syncPlantToCloud(plant);
+
+            const preference = getScannerPreference();
+            const nfcActions = document.getElementById('journal-nfc-tag-actions');
+            const qrActions = document.getElementById('journal-qr-tag-actions');
+            const unassignActions = document.getElementById('journal-unassign-tag-actions');
+            if (nfcActions) nfcActions.classList.toggle('hidden', preference !== 'nfc');
+            if (qrActions) qrActions.classList.toggle('hidden', preference !== 'qr');
+            if (unassignActions) unassignActions.classList.add('hidden');
+            const nfcButtonLabel = document.getElementById('journal-nfc-button-label');
+            if (nfcButtonLabel) nfcButtonLabel.textContent = 'Add NFC Tag';
+            const tagTypeRow = document.getElementById('journal-tag-type-row');
+            if (tagTypeRow) tagTypeRow.classList.add('hidden');
+            const tagTypeLabel = document.getElementById('journal-tag-type');
+            if (tagTypeLabel) tagTypeLabel.textContent = '';
+            if (status) status.textContent = 'Tag unassigned from ' + plant.name + '.';
+            renderPlants();
+        }
+
+        async function rewriteJournalPlantNfcTag() {
+            if (getScannerPreference() !== 'nfc') return;
+            const status = document.getElementById('journal-nfc-status');
+            const plantId = document.getElementById('log-plant-id').value;
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            const setStatus = (message, isError) => {
+                if (status) {
+                    status.textContent = message;
+                    status.className = 'text-xs ' + (isError ? 'text-rose-700' : 'text-slate-500');
+                }
+            };
+            if (!plant) { setStatus('Could not find this plant. Close and reopen its journal.', true); return; }
+            if (String(plant.qrCodeValue || '').trim()) {
+                setStatus('This plant already has a QR code. It cannot also have an NFC tag.', true);
+                return;
+            }
+            const unsupported = nfcSupportMessage();
+            if (unsupported) { setStatus(unsupported, true); return; }
+            setStatus('Ready — hold a writable NFC tag close to your phone.', false);
+            try {
+                const writer = new NDEFReader();
+                await writer.write({ records: [{ recordType: 'text', data: 'GROnote:' + plant.id }] });
+                plant.nfcTagLinked = true;
+                saveLocalPlantsForCurrentUser(plants);
+                markFloraSyncPending();
+                await syncPlantToCloud(plant);
+                const tagTypeRow = document.getElementById('journal-tag-type-row');
+                const tagTypeLabel = document.getElementById('journal-tag-type');
+                if (tagTypeRow && tagTypeLabel) { tagTypeLabel.textContent = 'NFC'; tagTypeRow.classList.remove('hidden'); tagTypeRow.style.display = ''; }
+                const nfcButtonLabel = document.getElementById('journal-nfc-button-label');
+                if (nfcButtonLabel) nfcButtonLabel.textContent = 'Rewrite NFC Tag';
+                setStatus('NFC tag successfully written for ' + plant.name + '.', false);
+                alert('NFC tag successfully written for ' + plant.name + '.');
+            } catch (err) {
+                setStatus(err && err.name === 'NotAllowedError' ? 'NFC permission was not granted.' : 'Could not write this tag. Hold a writable NFC tag close to the phone and try again.', true);
+            }
+        }
+
+        function toggleJournalPlantDetailsEdit(show) {
+            const editor = document.getElementById('journal-plant-details-editor');
+            const plant = plants.find(item => String(item.id) === String(document.getElementById('log-plant-id').value));
+            if (!editor || !plant) return;
+            const shouldShow = typeof show === 'boolean' ? show : editor.classList.contains('hidden');
+            if (shouldShow) {
+                document.getElementById('journal-edit-plant-name').value = plant.name || '';
+                document.getElementById('journal-edit-plant-variety').value = plant.variety || '';
+                editor.classList.remove('hidden');
+                document.getElementById('journal-edit-plant-name').focus();
+            } else {
+                editor.classList.add('hidden');
+            }
+        }
+
+        async function saveJournalPlantDetails() {
+            const plantId = document.getElementById('log-plant-id').value;
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            if (!plant) return;
+            const name = document.getElementById('journal-edit-plant-name').value.trim();
+            const variety = document.getElementById('journal-edit-plant-variety').value.trim();
+            if (!name) {
+                alert('Please enter a plant name.');
+                document.getElementById('journal-edit-plant-name').focus();
+                return;
+            }
+            const previousName = plant.name;
+            const previousVariety = plant.variety || '';
+            plant.name = name;
+            plant.variety = variety;
+            updatePersonalLibraryFromPlantEdit(previousName, previousVariety, plant);
+            saveLocalPlantsForCurrentUser(plants);
+            markFloraSyncPending();
+            await syncPlantToCloud(plant);
+            document.getElementById('journal-name').textContent = plant.name;
+
+            document.getElementById('journal-variety').textContent = plant.variety || 'Standard Variety';
+            document.getElementById('journal-plant-details-editor').classList.add('hidden');
+            renderPlants();
+        }
+
+        async function saveJournalPlantQuantity() {
+            const plantId = document.getElementById('log-plant-id').value;
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            const quantityInput = document.getElementById('journal-quantity');
+            const quantity = Number(quantityInput.value);
+            if (!plant) return;
+            if (!Number.isSafeInteger(quantity) || quantity < 1) {
+                alert('Please enter a whole number of at least 1.');
+                quantityInput.focus();
+                return;
+            }
+
+            plant.quantity = quantity;
+            plant.quantityType = ['plants', 'seeds', 'cuttings'].includes(document.getElementById('journal-quantity-type').value) ? document.getElementById('journal-quantity-type').value : 'plants';
+            if (plant.quantityType !== 'seeds') {
+                plant.multisow = false;
+                plant.multisowPots = 0;
+                plant.seedsPerPot = 0;
+            }
+            saveLocalPlantsForCurrentUser(plants);
+            markFloraSyncPending();
+            await syncPlantToCloud(plant);
+            renderPlants();
+            alert('Journal amount updated successfully.');
+        }
+
+        function formatLocalWeatherDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return year + '-' + month + '-' + day;
+        }
+
+        async function recordWeeklyOutdoorRainfall(location) {
+            if (!location || locationTypes[location] !== 'outdoor' || !locationCoordinates[location]) return;
+            const postcode = locationPostcodes[location];
+            const coordinates = locationCoordinates[location];
+            const today = new Date();
+            const endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+            const startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+            const start = formatLocalWeatherDate(startDate);
+            const end = formatLocalWeatherDate(endDate);
+            const periodLabel = start + ' to ' + end;
+
+            const outdoorPlants = plants.filter(plant => plant.location === location);
+            if (!outdoorPlants.length || outdoorPlants.every(plant =>
+                (plant.logs || []).some(log => ['Weather', 'Rainfall'].includes(log.type) && String(log.text || '').includes('Rainfall for ' + periodLabel))
+            )) return;
+
+            try {
+                const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + encodeURIComponent(coordinates.latitude) +
+                    '&longitude=' + encodeURIComponent(coordinates.longitude) +
+                    '&daily=precipitation_sum&past_days=7&forecast_days=1&timezone=Europe%2FLondon';
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Weather service returned ' + response.status);
+                const weather = await response.json();
+                const daily = weather.daily || {};
+                const rainfallByDate = new Map((daily.time || []).map((date, index) => [date, Number((daily.precipitation_sum || [])[index])]));
+                const days = [];
+                for (let offset = 0; offset < 7; offset++) {
+                    const date = formatLocalWeatherDate(new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + offset));
+                    if (!rainfallByDate.has(date) || !Number.isFinite(rainfallByDate.get(date))) {
+                        throw new Error('Rainfall data is not yet available for ' + date);
+                    }
+                    days.push(rainfallByDate.get(date));
+                }
+                const totalMm = days.reduce((sum, amount) => sum + amount, 0);
+                let changed = false;
+                for (const plant of outdoorPlants) {
+                    plant.logs = Array.isArray(plant.logs) ? plant.logs : [];
+                    if (plant.logs.some(log => ['Weather', 'Rainfall'].includes(log.type) && String(log.text || '').includes('Rainfall for ' + periodLabel))) continue;
+
+                    const rainfallText = 'Rainfall for ' + periodLabel + ': ' + totalMm.toFixed(1) +
+                        ' mm total (' + (totalMm / 25.4).toFixed(2) + ' in). Source: Open-Meteo.';
+                    const log = {
+                        id: 'log_weather_' + plant.id + '_' + start.replace(/-/g, ''),
+                        date: end,
+                        type: 'Rainfall',
+                        text: rainfallText
+                    };
+                    plant.logs.push(log);
+                    await syncLogToCloud(plant.id, log);
+                    changed = true;
+                }
+                if (changed) {
+                    saveLocalPlantsForCurrentUser(plants);
+                    markFloraSyncPending();
+                    renderPlants();
+                    const currentPlantId = document.getElementById('log-plant-id')?.value;
+                    if (currentPlantId && outdoorPlants.some(plant => String(plant.id) === String(currentPlantId))) {
+                        const currentPlant = plants.find(plant => String(plant.id) === String(currentPlantId));
+                        if (currentPlant) renderJournalLogs(currentPlant);
+                    }
+                }
+            } catch (error) {
+                console.warn('Weekly outdoor rainfall could not be recorded:', error);
+            }
+        }
+
+        function openAiGrowingGuide() {
+            const plantId = document.getElementById('log-plant-id')?.value;
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            if (!plant) {
+                alert('Please close and reopen this plant journal, then try again.');
+                return;
+            }
+
+            const details = [
+                plant.date ? 'Recorded planting date: ' + plant.date : '',
+                plant.medium ? 'Growing medium: ' + plant.medium : '',
+                plant.location ? 'Garden location: ' + plant.location : '',
+                plant.notes ? 'My notes: ' + plant.notes : ''
+            ].filter(Boolean);
+            const prompt = [
+                'Create a practical, personalised growing guide for the plant in my GROnote journal.',
+                '',
+                'PLANT',
+                'Name: ' + String(plant.name || 'Unknown plant'),
+                'Variety: ' + String(plant.variety || 'Not specified'),
+                ...details,
+                '',
+                'Make the guide specific to this plant and named variety wherever reliable information exists. Cover:',
+                '- sowing and propagation, planting out and timing',
+                '- ideal light, soil / growing medium, spacing and support',
+                '- watering, feeding and ongoing care',
+                '- pruning, common pests and diseases, and prevention',
+                '- signs of problems and practical troubleshooting',
+                '- when and how to harvest, including ways to extend cropping where relevant',
+                '- a simple month-by-month seasonal checklist',
+                '',
+                'Tailor seasonal advice to my local climate. If my region is not known and it materially affects the advice, ask me where I garden rather than guessing. Clearly distinguish variety-specific facts from general plant advice. Include links to reliable horticultural sources for important recommendations, and do not invent citations. Finish with a short checklist I can follow.'
+            ].join('\n');
+            const url = 'https://chatgpt.com/?q=' + encodeURIComponent(prompt);
+            const opened = window.open(url, '_blank', 'noopener,noreferrer');
+            if (!opened && navigator.clipboard?.writeText) {
+                navigator.clipboard.writeText(prompt).catch(() => {});
+            }
+        }
+
+        function getLatestJournalMediumSetup(plant) {
+            const logs = Array.isArray(plant?.logs) ? plant.logs : [];
+            const parseDate = value => {
+                if (!value) return 0;
+                const raw = String(value).trim();
+                let match = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+                if (match) return Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+                match = raw.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+                if (match) return Date.UTC(Number(match[3]), Number(match[2]) - 1, Number(match[1]));
+                const parsed = Date.parse(raw);
+                return Number.isNaN(parsed) ? 0 : parsed;
+            };
+            const mediumEntries = logs.map((log, index) => ({ log, index, timestamp: parseDate(log.date) }))
+                .filter(item => String(item.log.type || '').toLowerCase() === 'medium')
+                .sort((a, b) => b.timestamp - a.timestamp || b.index - a.index);
+            for (const { log } of mediumEntries) {
+                const text = String(log.text || '');
+                const match = text.match(/\(Growing medium changed from [\s\S]*? to ([\s\S]*?); setup changed from [\s\S]*? to ([\s\S]*?)\.\)/i);
+                const initialMediumMatch = text.match(/Initial growing medium:\s*([\s\S]*?)(?=\s*[·;]\s*Growing setup:|$)/i);
+                const initialSetupMatch = text.match(/Growing setup:\s*([\s\S]*?)(?=\s*[·;]\s*(?:Heated propagator )?set temperature:|$)/i);
+                const medium = String(log.growthMedium || (match ? match[1] : (initialMediumMatch ? initialMediumMatch[1] : ''))).trim();
+                let setup = match ? match[2].trim() : (initialSetupMatch ? initialSetupMatch[1].trim() : '');
+                const temperatureMatch = text.match(/(?:Heated propagator )?set temperature:\s*(-?\d+(?:\.\d+)?)\s*°?C/i);
+                const temperature = log.heatedPropagatorTemperatureC ?? (temperatureMatch ? Number(temperatureMatch[1]) : null);
+                if (temperature !== null && temperature !== undefined && temperature !== '' && setup) {
+                    setup = setup.replace(/Heated propagator(?:\s*\([^)]*\))?/i, 'Heated propagator (' + temperature + ' °C)');
+                    setup = setup.replace(/\s*[·;,]\s*(?:Heated propagator )?set temperature:\s*-?\d+(?:\.\d+)?\s*°?C/ig, '');
+                }
+                if (medium || setup) {
+                    return {
+                        medium: medium || (plant.medium || 'Not specified'),
+                        setup: setup || (Array.isArray(plant.setup) ? plant.setup.join(', ') : (plant.setup || 'Not specified'))
+                    };
+                }
+            }
+            return {
+                medium: plant.medium || 'Not specified',
+                setup: Array.isArray(plant.setup) ? plant.setup.join(', ') : (plant.setup || 'Not specified')
+            };
+        }
+
+        function updateJournalMediumSetupHeader(plant) {
+            const latest = getLatestJournalMediumSetup(plant);
+            const medium = document.getElementById('journal-medium');
+            const setup = document.getElementById('journal-setup');
+            if (medium) medium.textContent = latest.medium || 'Not specified';
+            if (setup) setup.textContent = latest.setup || 'Not specified';
+        }
+
+        function openJournalModal(id) {
+            const p = plants.find(item => String(item.id) === String(id));
+            if (!p) return;
+            const archiveActionLabel = document.getElementById('journal-archive-action-label');
+            if (archiveActionLabel) archiveActionLabel.textContent = p.archivedAt ? 'Restore plant' : 'Compost plant';
+            const deletePlantAction = document.getElementById('journal-delete-plant-action');
+            if (deletePlantAction) deletePlantAction.classList.toggle('hidden', !p.archivedAt);
+            setActiveNavigationTab('plants');
+
+            document.getElementById('log-plant-id').value = p.id;
+            // A journal may be closed while an entry is in edit mode. Reset that
+            // transient form state on every reopen so the edit-only hidden classes
+            // cannot carry over and leave the journal options inaccessible.
+            cancelJournalLogEdit();
+            const nfcTagActions = document.getElementById('journal-nfc-tag-actions');
+            if (nfcTagActions) nfcTagActions.classList.toggle('hidden', getScannerPreference() !== 'nfc' || !!String(p.qrCodeValue || '').trim());
+            const nfcButtonLabel = document.getElementById('journal-nfc-button-label');
+            if (nfcButtonLabel) nfcButtonLabel.textContent = p.nfcTagLinked ? 'Rewrite NFC Tag' : 'Add NFC Tag';
+            const qrTagActions = document.getElementById('journal-qr-tag-actions');
+            if (qrTagActions) qrTagActions.classList.toggle('hidden', getScannerPreference() !== 'qr' || !!String(p.qrCodeValue || '').trim() || !!p.nfcTagLinked);
+            const unassignTagActions = document.getElementById('journal-unassign-tag-actions');
+            if (unassignTagActions) unassignTagActions.classList.toggle('hidden', !(String(p.qrCodeValue || '').trim() || p.nfcTagLinked));
+            const unassignTagStatus = document.getElementById('journal-unassign-tag-status');
+            if (unassignTagStatus) unassignTagStatus.textContent = '';
+            const qrStatus = document.getElementById('journal-qr-status');
+            if (qrStatus) qrStatus.textContent = '';
+            const journalLocationButton = document.getElementById('journal-plant-location');
+            if (journalLocationButton) {
+                // Reset the outside-click dismissal state every time a journal opens,
+                // so clicks that opened the journal cannot immediately clear the prompt.
+                journalLocationButton.dataset.placeholderDismissEnabled = 'false';
+                const locationMenu = document.getElementById('journal-plant-location-menu');
+                const locationLabel = document.getElementById('journal-plant-location-label');
+                if (locationLabel) {
+                    // Always show the prompt until the user actively chooses a destination.
+                    // The plant's current location is shown elsewhere in its journal details.
+                    locationLabel.textContent = 'Choose location';
+                    locationLabel.classList.remove('text-slate-500');
+                    locationLabel.classList.add('text-slate-900', 'dark:text-slate-100');
+                    locationLabel.style.setProperty('color', '#294b34', 'important');
+                }
+                if (locationMenu) {
+                    locationMenu.innerHTML = plantLocations.map(location => '<button type="button" role="option" onclick="selectJournalLocation(\'' + escapeHtml(location).replace(/\\'/g, '&#39;') + '\')" class="block w-full text-left px-3.5 py-2.5 text-sm  dark:">' + escapeHtml(location) + '</button>').join('');
+                }
+                journalLocationButton.disabled = false;
+                journalLocationButton.setAttribute('aria-expanded', 'false');
+            }
+            document.getElementById('journal-quantity').value = Math.max(1, Number(p.quantity) || 1);
+            document.getElementById('journal-quantity-type').value = ['plants', 'seeds', 'cuttings'].includes(p.quantityType) ? p.quantityType : 'plants';
+            const journalMultisowSummary = document.getElementById('journal-multisow-summary');
+            if (journalMultisowSummary) {
+                journalMultisowSummary.textContent = p.multisow
+                    ? 'Multisown in ' + Number(p.multisowPots || 0) + ' ' + (p.multisowContainerType === 'plugs' ? 'Plugs' : 'Pots') + ' × ' + Number(p.seedsPerPot || 0) + ' seeds each.'
+                    : '';
+                journalMultisowSummary.classList.toggle('hidden', !(p.multisow));
+            }
+            document.getElementById('journal-name').textContent = p.name;
+
+            document.getElementById('journal-variety').textContent = p.variety || 'Standard Variety';
+            const journalFeedReminder = (Array.isArray(p.logs) ? p.logs : [])
+                .filter(log => log.type === 'Feed' && log.feedReminderDate)
+                .sort((a, b) => String(a.feedReminderDate).localeCompare(String(b.feedReminderDate)))[0];
+            const journalFeedReminderPill = document.getElementById('journal-feed-reminder');
+            const journalFeedReminderLabel = document.getElementById('journal-feed-reminder-label');
+            if (journalFeedReminderPill && journalFeedReminderLabel) {
+                if (journalFeedReminder) {
+                    const reminderParts = String(journalFeedReminder.feedReminderDate).split('-').map(Number);
+                    const reminderDate = reminderParts.length === 3 && reminderParts.every(Number.isFinite)
+                        ? new Date(reminderParts[0], reminderParts[1] - 1, reminderParts[2])
+                        : new Date(journalFeedReminder.feedReminderDate);
+                    const reminderLabel = Number.isNaN(reminderDate.getTime()) ? journalFeedReminder.feedReminderDate : reminderDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const reminderDay = new Date(reminderDate);
+                    reminderDay.setHours(0, 0, 0, 0);
+                    const isOverdue = !Number.isNaN(reminderDate.getTime()) && reminderDay.getTime() < today.getTime();
+                    const dueLabel = Number.isNaN(reminderDate.getTime()) ? 'Repeat feed' : isOverdue ? 'Feed overdue' : reminderDay.getTime() === today.getTime() ? 'Feed due today' : 'Repeat feed';
+                    journalFeedReminderLabel.textContent = dueLabel + ' · ' + reminderLabel;
+                    if (isOverdue) {
+                        journalFeedReminderPill.style.setProperty('background-color', '#798CBF', 'important');
+                        journalFeedReminderPill.style.setProperty('color', '#ffffff', 'important');
+                        journalFeedReminderPill.style.setProperty('border', '1px solid #798CBF', 'important');
+                    } else {
+                        journalFeedReminderPill.style.removeProperty('background-color');
+                        journalFeedReminderPill.style.removeProperty('color');
+                        journalFeedReminderPill.style.removeProperty('border');
+                    }
+                    journalFeedReminderPill.classList.remove('hidden');
+                } else {
+                    journalFeedReminderLabel.textContent = '';
+                    journalFeedReminderPill.classList.add('hidden');
+                }
+            }
+            document.getElementById('journal-date').textContent = p.date || 'Not specified';
+            updateJournalMediumSetupHeader(p);
+            const tagTypeRow = document.getElementById('journal-tag-type-row');
+            const tagTypeLabel = document.getElementById('journal-tag-type');
+            const linkedTagType = String(p.qrCodeValue || '').trim() ? 'QR code' : (p.nfcTagLinked ? 'NFC' : '');
+            if (tagTypeRow && tagTypeLabel) {
+                tagTypeLabel.textContent = linkedTagType;
+                tagTypeRow.classList.toggle('hidden', !linkedTagType);
+                tagTypeRow.style.display = linkedTagType ? '' : 'none';
+            }
+            document.getElementById('journal-initial-notes').textContent = p.notes ? `"${p.notes}"` : '';
+
+            const plantLocation = (p.location || '').trim();
+            const savedLocationDetails = JSON.parse(getFloraAccountItem('flora_plant_location_details') || '{}') || {};
+            const sharedLocationDetails = String(locationDetails[plantLocation] || savedLocationDetails[plantLocation] || '');
+            const setupSection = document.getElementById('journal-location-setup');
+            const setupTitle = document.getElementById('journal-location-setup-title');
+            const setupText = document.getElementById('journal-location-setup-details');
+            if (setupSection && setupTitle && setupText) {
+                setupTitle.textContent = plantLocation ? escapeHtml(plantLocation) + ' setup' : 'Location setup';
+                setupText.textContent = sharedLocationDetails
+                    .split(/\\r?\\n|\s*[;•]\s*/)
+                    .map(detail => detail.trim())
+                    .filter(Boolean)
+                    .join('\\n');
+                setupSection.classList.toggle('hidden', !sharedLocationDetails);
+            }
+
+            const iconContainer = document.getElementById('journal-icon-container');
+            iconContainer.innerHTML = p.customIconUrl
+                ? '<img src="' + escapeHtml(p.customIconUrl) + '" alt="' + escapeHtml(p.name) + ' plant photo" class="w-full h-full object-cover rounded-xl">'
+                : '<div class="w-full h-full flex items-center justify-center text-slate-300"><img src="./Leaf-Stamp-Logo-Dark-Green.png" alt="" aria-hidden="true" class="w-full h-full object-contain" /></div>';
+            // Open the journal even if an optional nutrient UI control is unavailable.
+            try { toggleNutrientLibraryView(); toggleGerminationSection(); } catch (error) { console.warn('Journal controls could not be refreshed:', error); }
+            // Move the actual Add Plant picker nodes into the journal. These are
+            // the same controls, not copies or journal-specific replacements.
+            if (typeof window.refreshJournalGrowingPickers === 'function') {
+                window.refreshJournalGrowingPickers();
+            }
+            // Start both journal pickers completely blank: clear selections,
+            // custom "Other" values, and search text whenever the journal opens.
+            if (typeof window.setJournalGrowingValues === 'function') {
+                window.setJournalGrowingValues('', []);
+            }
+            const heatedTemperatureInput = document.getElementById('heated-propagator-temperature');
+            if (heatedTemperatureInput) heatedTemperatureInput.value = p.heatedPropagatorTemperatureC ?? '';
+            renderJournalLogs(p);
+            document.getElementById('journal-modal').classList.remove('hidden');
+            // Refresh rainfall for every configured outdoor location, not only the location
+            // of the plant whose journal was opened.
+            Promise.allSettled(plantLocations
+                .filter(location => locationTypes[location] === 'outdoor')
+                .map(location => recordWeeklyOutdoorRainfall(location)))
+                .then(results => results.forEach(result => {
+                    if (result.status === 'rejected') console.warn('Outdoor rainfall log skipped:', result.reason);
+                }));
+        }
+
+        async function duplicatePlantJournal(plantId) {
+            const original = plants.find(item => String(item.id) === String(plantId));
+            if (!original) {
+                alert('Could not find this plant journal. Please close and reopen it, then try again.');
+                return;
+            }
+
+            const duplicateId = 'plant_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+            const originalLogs = Array.isArray(original.logs) ? original.logs : [];
+            const copiedLogs = [];
+
+            try {
+                for (const [logIndex, originalLog] of originalLogs.entries()) {
+                    const copiedLogId = 'log_' + Date.now() + '_' + logIndex + '_' + Math.random().toString(36).slice(2, 7);
+                    const copiedLog = { ...originalLog, id: copiedLogId };
+
+                    // Give copied journal photos their own Storage paths so either journal
+                    // can be edited or deleted without affecting the other.
+                    const originalPhotoPaths = Array.isArray(originalLog.photoPaths) ? originalLog.photoPaths : [];
+                    const copiedPhotoPaths = [];
+                    if (originalPhotoPaths.length && supabaseClient && currentUser && navigator.onLine) {
+                        for (let photoIndex = 0; photoIndex < originalPhotoPaths.length; photoIndex++) {
+                            const sourcePath = originalPhotoPaths[photoIndex];
+                            if (!sourcePath) continue;
+                            const destinationPath = currentUser.id + '/' + duplicateId + '/' + copiedLogId + '/' + photoIndex + '.jpg';
+                            const { error } = await supabaseClient.storage.from(JOURNAL_PHOTO_BUCKET).copy(sourcePath, destinationPath);
+                            if (error) throw error;
+                            copiedPhotoPaths[photoIndex] = destinationPath;
+                        }
+                    } else if (originalPhotoPaths.length) {
+                        // Keep existing photo references locally while offline; cloud sync can
+                        // upload data-URL photos when available.
+                        copiedLog.photos = Array.isArray(originalLog.photos) ? [...originalLog.photos] : [];
+                    }
+
+                    if (originalPhotoPaths.length && supabaseClient && currentUser && navigator.onLine) {
+                        copiedLog.photoPaths = copiedPhotoPaths;
+                        copiedLog.photos = (await Promise.all(copiedPhotoPaths.map(path => path ? createJournalPhotoUrl(path) : Promise.resolve('')))).filter(Boolean);
+                    } else if (Array.isArray(originalLog.photos)) {
+                        copiedLog.photos = [...originalLog.photos];
+                        copiedLog.photoPaths = [];
+                    }
+                    copiedLogs.push(copiedLog);
+                }
+            } catch (error) {
+                console.error('Could not copy all journal entries and photos:', error);
+                alert('The journal could not be duplicated because one or more photos could not be copied. The original journal has not been changed. Please try again.');
+                return;
+            }
+
+            const duplicate = {
+                ...original,
+                id: duplicateId,
+                name: String(original.name || 'Plant') + ' (duplicate)',
+                logs: copiedLogs
+            };
+
+            plants.unshift(duplicate);
+            saveLocalPlantsForCurrentUser(plants);
+            markFloraSyncPending();
+            await syncPlantToCloud(duplicate);
+            for (const log of copiedLogs) await syncLogToCloud(duplicate.id, log);
+            renderPlants();
+            openJournalModal(duplicate.id);
+        }
+
+        function escapePDFHTML(value) {
+            return String(value == null ? '' : value).replace(/[&<>"']/g, character => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[character]));
+        }
+
+        function downloadPlantJournalPDF(plantId) {
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            if (!plant) { alert('Could not find this plant journal. Please close and reopen it, then try again.'); return; }
+
+            const esc = escapePDFHTML;
+            const logs = Array.isArray(plant.logs) ? [...plant.logs] : [];
+            logs.sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')));
+            const generated = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+            const pdfUsername = esc(String(appSettings.username || '@kitchengardener').trim());
+            const formatDate = value => {
+                if (!value) return 'Not recorded';
+                const parsed = new Date(String(value).length === 10 ? value + 'T00:00:00' : value);
+                return Number.isNaN(parsed.getTime()) ? esc(value) : esc(parsed.toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }));
+            };
+            const safeImage = value => {
+                const src = String(value || '');
+                return /^(https?:\/\/|data:image\/)/i.test(src) ? esc(src) : '';
+            };
+            const setup = (Array.isArray(plant.setup) ? plant.setup : (plant.setup ? [plant.setup] : [])).filter(Boolean).map(String);
+            if (setup.includes('Heated propagator') && plant.heatedPropagatorTemperatureC !== null && plant.heatedPropagatorTemperatureC !== undefined && plant.heatedPropagatorTemperatureC !== '') {
+                setup[setup.indexOf('Heated propagator')] += ' (' + plant.heatedPropagatorTemperatureC + ' °C)';
+            }
+            const type = plant.quantityType || 'plants';
+            const quantity = Math.max(0, Number(plant.quantity) || 0);
+            const quantityLabel = quantity + ' ' + (type === 'seeds' ? 'seeds' : type === 'cuttings' ? (quantity === 1 ? 'cutting' : 'cuttings') : (quantity === 1 ? 'plant' : 'plants'));
+            const plantTagType = String(plant.qrCodeValue || '').trim() ? 'QR code' : (plant.nfcTagLinked ? 'NFC' : 'Not assigned');
+            const remaining = type === 'seeds' ? Number(plant.remainingSeeds || 0) : type === 'cuttings' ? Number(plant.remainingCuttings || 0) : 0;
+            const notes = String(plant.notes || '').trim();
+            const title = esc(plant.name || 'Plant Journal');
+            const variety = esc(plant.variety || 'Variety not specified');
+            const coverImage = safeImage(plant.customIconUrl);
+            const detail = (label, value) => '<div class="detail"><span class="detail-label">' + esc(label) + '</span><span class="detail-value">' + (value || '<span class="muted">Not recorded</span>') + '</span></div>';
+            const photoMarkup = photos => (Array.isArray(photos) ? photos : []).map((photo, index) => {
+                const src = safeImage(photo);
+                return src ? '<figure class="journal-photo"><img src="' + src + '" alt="Journal photograph ' + (index + 1) + '"><figcaption>Photo ' + (index + 1) + '</figcaption></figure>' : '';
+            }).join('');
+            const entriesHTML = logs.length ? logs.map((log, index) => {
+                const stage = log.growthStage || log.growth_stage || '';
+                const reminder = log.feedReminderDate ? '<div class="log-meta">Feed reminder: ' + formatDate(log.feedReminderDate) + (log.feedReminderMode === 'recurring' ? ' · recurring' : '') + '</div>' : '';
+                return '<article class="entry">' +
+                    '<div class="entry-topline"><span class="entry-number">ENTRY ' + String(index + 1).padStart(2, '0') + '</span><time>' + formatDate(log.date) + '</time></div>' +
+                    '<div class="entry-title-row"><h3>' + esc(log.type || 'Growth Update') + '</h3>' + (stage ? '<span class="stage">' + esc(stage) + '</span>' : '') + '</div>' +
+                    '<div class="entry-copy">' + esc(log.text || 'No written notes for this entry.').replace(/\n/g, '<br>') + '</div>' + reminder + photoMarkup(log.photos) + '</article>';
+            }).join('') : '<p class="empty-state">No journal entries have been recorded yet.</p>';
+
+            const printWindow = window.open('', '_blank');
+            if (!printWindow) { alert('Your browser blocked the PDF window. Please allow pop-ups for GROnote and try again.'); return; }
+            const multisow = plant.multisow ? Number(plant.multisowPots || 0) + ' ' + (plant.multisowContainerType === 'plugs' ? 'Plugs' : 'Pots') + ' · ' + Number(plant.seedsPerPot || 0) + ' seeds per ' + (plant.multisowContainerType === 'plugs' ? 'Plug' : 'Pot') : '';
+            const setupValue = setup.length ? esc(setup.join(' · ')) : '';
+            const summary = [
+                detail('Sown / started', esc(quantityLabel)),
+                detail('Plant tag type', esc(plantTagType)),
+                detail('Remaining', remaining > 0 ? esc(remaining + (type === 'seeds' ? ' seeds' : ' cuttings')) : ''),
+                detail('Planting date', formatDate(plant.date)),
+                detail('Growing location', esc(plant.location || '')),
+                detail('Growing medium', esc(plant.medium || '')),
+
+                detail('Growing setup', setupValue),
+                detail('Journal entries', esc(String(logs.length))),
+                ...(multisow ? [detail('Multi-sowing', esc(multisow))] : [])
+            ].join('');
+            const plantLocation = String(plant.location || '').trim();
+            let locationEquipmentSelections = [];
+            let locationEquipmentNames = {};
+            try {
+                const allEquipment = JSON.parse(getFloraAccountItem('flora_location_inside_options') || '{}');
+                const selected = Array.isArray(allEquipment[plantLocation]) ? allEquipment[plantLocation] : [];
+                const allNames = JSON.parse(getFloraAccountItem('flora_location_equipment_names') || '{}');
+                locationEquipmentNames = allNames[plantLocation] && typeof allNames[plantLocation] === 'object' ? allNames[plantLocation] : {};
+                locationEquipmentSelections = selected.filter(key => typeof key === 'string' && key.includes('::')).map(key => {
+                    const parts = key.split('::');
+                    return { category: parts[0], name: locationEquipmentNames[key] || parts.slice(1).join('::') };
+                });
+            } catch (error) { locationEquipmentSelections = []; }
+            const locationType = locationTypes[plantLocation] === 'outdoor' ? 'Outdoor' : (plantLocation && plantLocations.includes(plantLocation) ? 'Indoor' : '');
+            const locationDescription = String(locationDetails[plantLocation] || '').trim();
+            const locationPostcode = locationPostcodes[plantLocation] || '';
+            const equipmentGroups = [...new Set(locationEquipmentSelections.map(item => item.category))].map(category => {
+                const names = locationEquipmentSelections.filter(item => item.category === category).map(item => esc(item.name));
+                return '<div class="equipment-group"><strong>' + esc(category) + '</strong><div class="equipment-items">' + names.map(name => '<span class="equipment-chip">' + name + '</span>').join('') + '</div></div>';
+            }).join('');
+            const hasLocationSetup = Boolean(plantLocation || locationDescription || locationType || locationPostcode || locationEquipmentSelections.length);
+            const locationSetupHTML = hasLocationSetup
+                ? '<section><div class="section-heading"><h2>Location setup</h2><span class="section-kicker">Growing environment</span></div>' +
+                    '<div class="details">' + detail('Location', esc(plantLocation)) + detail('Environment', esc(locationType)) + detail('Equipment selected', esc(String(locationEquipmentSelections.length))) + '</div>' +
+                    (locationDescription ? '<div class="notes-panel location-description">' + esc(locationDescription).replace(/\n/g, '<br>') + '</div>' : '') +
+                    (equipmentGroups ? '<div class="equipment-list">' + equipmentGroups + '</div>' : '<p class="empty-state">No equipment has been selected for this location.</p>') +
+                  '</section>'
+                : '';
+            const photo = coverImage ? '<img class="cover-photo" src="' + coverImage + '" alt="' + title + '">' : '';
+            const html = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + title + ' — GROnote Plant Journal</title>' +
+            '<style>' +
+            '@page{size:A4;margin:16mm 17mm 18mm}*{box-sizing:border-box}body{margin:0;padding:24px 0;color:#263b2d;background:#edf0ec;font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:10pt;line-height:1.55}.page-preview{width:min(210mm,calc(100% - 32px));min-height:297mm;margin:0 auto;padding:16mm 17mm 18mm;background:#fff;border:1px solid #cbd5c8;box-shadow:0 5px 22px rgba(31,55,37,.14)}' +
+            '.masthead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid #dce4d8;color:#526b56;font-size:8pt;letter-spacing:1.5px;text-transform:uppercase;font-weight:700}.masthead-mark{color:#2d5938;letter-spacing:2px}.masthead-title{color:#526052;font-size:8pt;font-weight:600;letter-spacing:1px}' +
+            '.cover{display:grid;grid-template-columns:minmax(0,1fr) 42mm;gap:18px;align-items:center;padding:24px 0 20px;border-bottom:3px solid #315b3b}.eyebrow{margin:0 0 5px;color:#789078;font-size:8pt;font-weight:700;letter-spacing:2px;text-transform:uppercase}' +
+            'h1{margin:0;color:#24452e;font-size:29pt;line-height:1.08;letter-spacing:-.8px;overflow-wrap:anywhere}.variety{margin:7px 0 0;color:#648069;font-size:13pt;font-weight:600}.cover-photo{width:42mm;height:42mm;object-fit:cover;border-radius:12px;border:1px solid #dce4d8}' +
+            '.section-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:22px 0 10px;padding-bottom:6px;border-bottom:1px solid #dce4d8}h2{margin:0;color:#2c5035;font-size:14pt}.section-kicker{color:#829184;font-size:8pt;text-transform:uppercase;letter-spacing:1px}' +
+            '.details{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;padding:13px 15px;background:#f5f7f1;border:1px solid #e1e8dc;border-radius:10px}.detail{min-width:0;padding:7px 0;border-bottom:1px solid #e5ebe1}.detail-label{display:block;margin-bottom:2px;color:#7c8d7d;font-size:7.5pt;font-weight:700;letter-spacing:.8px;text-transform:uppercase}.detail-value{display:block;color:#2e4935;font-size:9.5pt;font-weight:600;overflow-wrap:anywhere}.muted{color:#9aa59a;font-weight:400}' +
+            '.notes-panel{padding:13px 15px;background:#fbfcf9;border-left:3px solid #9bb18e;border-radius:0 8px 8px 0;overflow-wrap:anywhere}.notes-panel.empty{color:#929d91;font-style:italic}' +
+            '.location-description{margin-top:10px}.equipment-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.equipment-group{padding:10px 12px;border:1px solid #e1e8dc;border-radius:8px;break-inside:avoid}.equipment-group>strong{display:block;margin-bottom:6px;color:#607b60;font-size:8pt;text-transform:uppercase;letter-spacing:.6px}.equipment-items{display:flex;flex-wrap:wrap;gap:5px}.equipment-chip{padding:3px 7px;border-radius:20px;background:#edf3e9;color:#36583b;font-size:8pt}' +
+            '.entry{margin:0 0 13px;padding:13px 15px;border:1px solid #e1e8dc;border-radius:10px;break-inside:avoid;page-break-inside:avoid}.entry-topline{display:flex;justify-content:space-between;gap:12px;color:#829184;font-size:8pt}.entry-number{font-weight:800;letter-spacing:1.2px;color:#789078}.entry-title-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:5px 0 7px}h3{margin:0;color:#2c5035;font-size:12pt}.stage{padding:2px 8px;border-radius:20px;background:#edf3e9;color:#587653;font-size:8pt;font-weight:700}.entry-copy{color:#3e4d40;overflow-wrap:anywhere}.log-meta{margin-top:8px;color:#738575;font-size:8pt}' +
+            '.journal-photo{display:inline-block;width:31%;margin:10px 1% 0 0;vertical-align:top}.journal-photo img{display:block;width:100%;height:42mm;object-fit:cover;border-radius:7px;border:1px solid #e1e8dc}.journal-photo figcaption{margin-top:3px;color:#849184;font-size:7pt}.empty-state{padding:16px;color:#8b988b;background:#f7f9f5;border-radius:8px;font-style:italic}' +
+            '.footer{display:flex;justify-content:space-between;gap:12px;margin-top:25px;padding-top:9px;border-top:1px solid #dce4d8;color:#849184;font-size:8pt}.print-actions{margin:24px 0;text-align:center}.print-actions button{margin:0 4px;padding:10px 16px;border:0;border-radius:7px;background:#315b3b;color:white;font-weight:700;cursor:pointer}.print-actions button.secondary{border:1px solid #cbd7c8;background:white;color:#315b3b}' +
+            '@media print{body{padding:0;background:#fff}.page-preview{width:auto;min-height:0;margin:0;padding:0;border:0;box-shadow:none}.print-actions{display:none!important}a{color:inherit;text-decoration:none}.cover,.details,.entry,.notes-panel{-webkit-print-color-adjust:exact;print-color-adjust:exact}}' +
+            /* Research-report layout: remove decorative cards and prioritise readable data. */
+            '.masthead{padding-bottom:6px;border-bottom:1px solid #aeb9ad;color:#526052;letter-spacing:1px}.masthead-title{font-size:7.5pt;letter-spacing:.8px}' +
+            '.cover{grid-template-columns:minmax(0,1fr) 30mm;gap:14px;padding:16px 0 13px;border-bottom:1.5px solid #526b56}.cover-photo{width:30mm;height:30mm;border:0;border-radius:0}' +
+            '.eyebrow{letter-spacing:1.2px}h1{font-size:24pt;letter-spacing:0}.variety{margin-top:4px;font-size:11pt;font-weight:500;color:#526052}' +
+            '.section-heading{margin:17px 0 6px;padding-bottom:4px;border-bottom:1px solid #aeb9ad}h2{font-size:12pt;font-weight:700}.section-kicker{font-size:7pt;letter-spacing:.7px}' +
+            '.details{display:block;padding:0;background:transparent;border:0;border-radius:0}.detail{display:grid;grid-template-columns:38mm minmax(0,1fr);gap:8px;padding:5px 0;border-bottom:1px solid #e3e7e1}.detail-label{margin:0;font-size:7pt;letter-spacing:.5px}.detail-value{font-size:9pt;font-weight:500;color:#263b2d}' +
+            '.location-description{margin-top:8px;padding:0;background:transparent;border:0;border-radius:0;font-size:9pt}.equipment-list{display:block;margin-top:8px}.equipment-group{padding:6px 0;border:0;border-bottom:1px solid #e3e7e1;border-radius:0;break-inside:avoid}.equipment-group>strong{display:inline;margin:0 8px 0 0;color:#526052;font-size:8pt;letter-spacing:.3px}.equipment-items{display:inline;}.equipment-chip{display:inline;padding:0;margin:0 8px 0 0;border:0;border-radius:0;background:transparent;color:#263b2d;font-size:8.5pt}.equipment-chip:after{content:";"}' +
+            '.entry{margin:0;padding:10px 0;border:0;border-bottom:1px solid #cfd7ce;border-radius:0;break-inside:auto;page-break-inside:auto}.entry-topline{font-size:7.5pt;color:#657365}.entry-number{font-weight:700;letter-spacing:.7px}.entry-title-row{margin:3px 0 4px}h3{font-size:10.5pt}.stage{padding:0;background:transparent;border-radius:0;color:#526b56;font-size:8pt}.stage:before{content:" — ";}.entry-copy{font-size:9pt;line-height:1.5}.log-meta{font-size:8pt}.journal-photo{width:29%;margin:7px 1% 0 0}.journal-photo img{height:32mm;border:0;border-radius:0}.journal-photo figcaption{font-size:7pt}' +
+            '.empty-state{padding:5px 0;background:transparent;border-radius:0}.footer{margin-top:18px;padding-top:6px;border-top:1px solid #aeb9ad}' +
+            '@media print{.entry,.equipment-group{break-inside:avoid-page}.details,.cover,.location-description{-webkit-print-color-adjust:economy;print-color-adjust:economy}}' +
+            '</style></head><body><main class="page-preview">' +
+            '<div class="masthead"><span class="masthead-mark">GROnote</span><span class="masthead-title">Plant journal · ' + pdfUsername + '</span></div>' +
+            '<header class="cover"><div><h1>' + title + '</h1><p class="variety">' + variety + '</p></div>' + photo + '</header>' +
+            '<section><div class="section-heading"><h2>Plant profile</h2><span class="section-kicker">Growing details</span></div><div class="details">' + summary + '</div></section>' +
+            locationSetupHTML +
+            '<section><div class="section-heading"><h2>Growth journal</h2><span class="section-kicker">' + logs.length + ' ' + (logs.length === 1 ? 'entry' : 'entries') + '</span></div>' + entriesHTML + '</section>' +
+            '<footer class="footer"><span>GROnote · ' + title + '</span><span>Generated ' + esc(generated) + '</span></footer></main>' +
+            '<div class="print-actions"><button onclick="window.print()">Print / Save as PDF</button><button class="secondary" onclick="window.close()">Close</button><p style="color:#849184;font-size:9pt">Choose “Save as PDF” in your browser’s print destination to save a copy.</p></div>' +
+            '<script>window.addEventListener("load",()=>setTimeout(()=>window.print(),500));<\/script>' +
+
+            '</body></html>';
+            printWindow.document.open();
+            printWindow.document.write(html);
+            printWindow.document.close();
+        }
+        function closeJournalModal() {
+            if (typeof window.restoreSharedGrowingPickers === 'function') window.restoreSharedGrowingPickers();
+            document.getElementById('journal-modal').classList.add('hidden');
+            // Return to the Plants view as well as resetting its navigation highlight.
+            // This keeps the selected tab in sync after a journal opened by an NFC scan.
+            switchTab('plants');
+        }
+
+        // Close the journal's three-dot options menu when the user clicks anywhere outside it.
+        document.addEventListener('click', (event) => {
+            document.querySelectorAll('#journal-modal details[open]').forEach(menu => {
+                if (!menu.contains(event.target)) menu.open = false;
+            });
+        });
+
+        let journalSelectedFiles = [];
+        let journalPreviewUrls = [];
+
+        function addJournalPhotoFiles(inputId) {
+            const input = document.getElementById(inputId);
+            const incomingFiles = Array.from(input.files || []);
+            if (journalSelectedFiles.length + incomingFiles.length > 4) {
+                alert('You can add up to 4 photos per journal entry. Remove or submit the current selection before adding more.');
+                input.value = '';
+                return;
+            }
+            journalSelectedFiles.push(...incomingFiles);
+            input.value = '';
+            renderJournalPhotoPreviews();
+        }
+
+        function previewJournalPhotos() {
+            addJournalPhotoFiles('journal-photo-input');
+        }
+
+        function addJournalCameraPhoto() {
+            addJournalPhotoFiles('journal-camera-input');
+        }
+
+        function renderJournalPhotoPreviews() {
+            const preview = document.getElementById('journal-photo-preview');
+            const count = document.getElementById('journal-photo-count');
+            journalPreviewUrls.forEach(url => URL.revokeObjectURL(url));
+            journalPreviewUrls = [];
+            preview.innerHTML = journalSelectedFiles.map((file, index) => {
+                const url = URL.createObjectURL(file);
+                journalPreviewUrls.push(url);
+                return '<div class="relative"><img src="' + url + '" alt="Selected journal photo ' + (index + 1) + '" class="w-16 h-16 object-cover rounded-lg border border-slate-200 dark:border-slate-700"><button type="button" onclick="removeJournalPhoto(' + index + ')" aria-label="Remove photo ' + (index + 1) + '" title="Remove photo" class="absolute -top-2 -right-2 w-6 h-6 min-h-0 rounded-full bg-slate-800 text-white text-xs shadow"><i class="fa-solid fa-xmark"></i></button></div>';
+            }).join('');
+            if (count) count.textContent = journalSelectedFiles.length + ' of 4 photos selected';
+        }
+
+        function removeJournalPhoto(index) {
+            journalSelectedFiles.splice(index, 1);
+            renderJournalPhotoPreviews();
+        }
+
+        function compressJournalPhoto(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = () => reject(new Error('Could not read photo.'));
+                reader.onload = () => {
+                    const image = new Image();
+                    image.onerror = () => reject(new Error('Could not process photo.'));
+                    image.onload = () => {
+                        const maxSide = 1200;
+                        const scale = Math.min(1, maxSide / Math.max(image.width, image.height));
+                        const canvas = document.createElement('canvas');
+                        canvas.width = Math.max(1, Math.round(image.width * scale));
+                        canvas.height = Math.max(1, Math.round(image.height * scale));
+                        const context = canvas.getContext('2d');
+                        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.72));
+                    };
+                    image.src = reader.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function getJournalTankFillDisplay(log) {
+            if (!log) return '';
+            const logType = String(log.type || '').toLowerCase();
+            const lines = String(log.text || '').replace(/\\n/g, '\n').split(/\r?\n/);
+            if (logType === 'feed') {
+                const match = lines.map(line => line.match(/^\s*Tank fill volume:\s*([\d.]+)\s+(.+?)\.?\s*$/i)).find(Boolean);
+                if (!match) return '';
+                return '<p class="text-slate-600 dark:text-slate-400 whitespace-pre-line">Tank fill volume: ' + escapeHtml(match[1] + ' ' + match[2]) + '</p>';
+            }
+            if (logType === 'water') {
+                const pattern = /^\s*(?:Watering can filled with|Filled tank with)\s+([\d.]+)\s+(.+?)(?:\s+pure water)?\.?\s*$/i;
+                const match = lines.map(line => line.match(pattern)).find(Boolean);
+                if (!match) return '';
+                return '<p class="text-slate-600 dark:text-slate-400 whitespace-pre-line">Watering can:</p>';
+            }
+            return '';
+        }
+
+        function formatGrowthLogText(text, type) {
+            let sourceText = String(text || '').replace(/\\n/g, '\n');
+            const logType = String(type || '').toLowerCase();
+            if (logType === 'water') {
+                sourceText = sourceText.split(/\r?\n/).filter(line => !/^\s*(?:Watering can filled with|Filled tank with)\s+[\d.]+\s+.+?(?:\s+pure water)?\.?\s*$/i.test(line)).join('\n');
+            } else if (logType === 'feed') {
+                sourceText = sourceText.split(/\r?\n/).filter(line => !/^\s*Tank fill volume:\s*[\d.]+\s+.+?\.?\s*$/i.test(line)).join('\n');
+            }
+            let formatted = escapeHtml(sourceText);
+            NUTRIENT_BRANDS_LIBRARY.forEach(item => {
+                const escapedBrand = escapeHtml(item.brand);
+                formatted = formatted.split(escapedBrand + ':').join('<strong>' + escapedBrand + ':</strong>');
+            });
+            return formatted;
+        }
+        function getJournalUsageTotals(plant) {
+            let waterMl = 0;
+            const nutrientTotals = {};
+            // Usage summaries belong to the currently viewed plant journal only.
+            const journalPlants = plant ? [plant] : [];
+            const toMl = (amount, unit) => {
+                const value = Number(amount);
+                if (!Number.isFinite(value) || value <= 0) return 0;
+                const normalized = String(unit || '').toLowerCase();
+                if (normalized === 'l' || normalized === 'liters' || normalized === 'litres') return value * 1000;
+                if (normalized === 'gal' || normalized === 'gallons') return value * 3785.411784;
+                if (normalized === 'tsp') return value * 4.92892;
+                if (normalized === 'ml' || normalized === 'milliliters' || normalized === 'millilitres') return value;
+                return 0;
+            };
+
+            // Aggregate individual plant watering amounts across the whole garden.
+            // Watering-can fill/capacity is deliberately excluded from usage totals.
+            journalPlants.forEach(plant => {
+                (Array.isArray(plant.logs) ? plant.logs : []).forEach(log => {
+                    const content = String(log.text || '');
+                    const perPlantMatch = content.match(/(?:Watered this plant with|Each plant fed with:)\s*([\d.]+)\s*(Liters|Litres|Gallons|Milliliters|Millilitres|L|gal|ml)\b/i);
+                    const perPlantMl = perPlantMatch ? toMl(perPlantMatch[1], perPlantMatch[2]) : 0;
+                    const plantCount = Math.max(1, Number(plant.quantity) || 1);
+
+                    // Read the water volume recorded for this log's tank/watering can.
+                    // Nutrient entries store tank volume as "Tank fill volume:".
+                    const tankFillMatch = content.match(/Tank fill volume:\s*([\d.]+)\s*(Liters|Litres|Gallons|Milliliters|Millilitres|L|gal|ml)\b/i);
+                    const canWaterMatch = content.match(/Watering can(?:\s*\(Includes runoff\))?:\s*([\d.]+)\s*(Liters|Litres|Gallons|Milliliters|Millilitres|L|gal|ml)\s+water(?:\s+in\s+a)?/i)
+                        || content.match(/(?:Filled tank with|Watering can filled with)\s*([\d.]+)\s*(Liters|Litres|Gallons|Milliliters|Millilitres|L|gal|ml)\s+(?:pure\s+)?water/i);
+                    const canWaterMl = tankFillMatch
+                        ? toMl(tankFillMatch[1], tankFillMatch[2])
+                        : canWaterMatch ? toMl(canWaterMatch[1], canWaterMatch[2]) : 0;
+
+                    // A nutrient tank fill is the mixed water volume, so count it
+                    // once in the water-used total. Otherwise use applied per-plant
+                    // volume when available, falling back to the recorded can volume.
+                    const totalEntryWaterMl = tankFillMatch
+                        ? canWaterMl
+                        : perPlantMl > 0
+                            ? perPlantMl * plantCount
+                            : canWaterMl;
+                    if (totalEntryWaterMl > 0) waterMl += totalEntryWaterMl;
+
+                    // Nutrient totals are the proportion of the mixed can actually applied:
+                    // (nutrient mixed ÷ can water volume) × total water applied to all plants.
+                    content.split(/\r?\n/).forEach(line => {
+                        const productLine = line.match(/^\s*[•*-]\s*(.*?)\s*\((.*?)\)\s*$/);
+                        if (!productLine) return;
+                        const productName = productLine[1].trim();
+                        const dosage = productLine[2].trim();
+                        if (!productName) return;
+
+                        // Support the volume-based dosage formats used in the nutrient
+                        // library: ml/L, ml per 9 L, tsp/gal, tbsp/gal, and direct
+                        // ml/tsp/tbsp/cup amounts. Use the midpoint for dosage ranges.
+                        const dosageMatch = dosage.match(/(\d+(?:\.\d+)?)(?:\s*[-–]\s*(\d+(?:\.\d+)?))?\s*(ml|millilitres?|tsp|teaspoons?|tbsp|tablespoons?|cups?)\s*(?:(\/|per)\s*(?:(\d+(?:\.\d+)?)\s*)?(L|litres?|liters?|gal|gallons?))?/i);
+                        if (!dosageMatch) return;
+
+                        let amount = Number(dosageMatch[1]);
+                        if (dosageMatch[2]) amount = (amount + Number(dosageMatch[2])) / 2;
+                        const unit = dosageMatch[3].toLowerCase();
+                        const unitMl = unit === 'ml' || unit.startsWith('millilitre') ? 1
+                            : unit === 'tsp' || unit.startsWith('teaspoon') ? 4.92892
+                            : unit === 'tbsp' || unit.startsWith('tablespoon') ? 14.7868
+                            : 236.588;
+                        const doseMl = amount * unitMl;
+                        const denominatorUnit = (dosageMatch[6] || '').toLowerCase();
+                        const denominatorAmount = Number(dosageMatch[5] || 1);
+                        const denominatorMl = denominatorUnit
+                            ? denominatorAmount * (denominatorUnit === 'gal' || denominatorUnit.startsWith('gallon') ? 3785.411784 : 1000)
+                            : 0;
+                        const isPerPlantDose = /\bper\s+plant\b/i.test(dosage);
+                        let usedMl = 0;
+
+                        if (denominatorMl > 0 && totalEntryWaterMl > 0) {
+                            // Rate-based dosage: scale the dose to the water volume applied.
+                            usedMl = (doseMl / denominatorMl) * totalEntryWaterMl;
+                        } else if (isPerPlantDose) {
+                            usedMl = doseMl * plantCount;
+                        } else if (canWaterMl > 0 && totalEntryWaterMl > 0) {
+                            // Direct amount mixed into a can: prorate by the amount applied.
+                            usedMl = doseMl * (totalEntryWaterMl / canWaterMl);
+                        } else if (totalEntryWaterMl > 0) {
+                            usedMl = doseMl;
+                        }
+
+                        if (usedMl > 0) nutrientTotals[productName] = (nutrientTotals[productName] || 0) + usedMl;
+                    });
+                });
+            });
+            return { waterMl, nutrientTotals };
+        }
+        function formatJournalVolume(ml) {
+            if (ml >= 1000) return (ml / 1000).toFixed(2).replace(/\.?0+$/, '') + ' L';
+            return ml.toFixed(1).replace(/\.?0+$/, '') + ' ml';
+        }
+        // Nutrient usage can be fractional; retain finer precision than water totals.
+        function formatJournalNutrientVolume(ml) {
+            if (ml >= 1000) return (ml / 1000).toFixed(4).replace(/\.?0+$/, '') + ' L';
+            return ml.toFixed(3).replace(/\.?0+$/, '') + ' ml';
+        }
+
+        function getJournalCumulativeRainfall(plant) {
+            // A saved rainfall log is definitive evidence that this plant is in a rainfall-tracked outdoor location.
+            // Do not hide its total just because a custom location (for example, "Garden") has no type entry.
+            if (!plant || !plant.location || locationTypes[plant.location] === 'indoor') return null;
+            const weeklyTotals = new Map();
+            const addedAt = String(plant.addedAt || plant.createdAt || plant.date || '').slice(0, 10);
+            const pattern = /Rainfall for (\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2}): ([\d.]+) mm total/;
+            (Array.isArray(plant.logs) ? plant.logs : []).forEach(log => {
+                if (!['Weather', 'Rainfall'].includes(log.type)) return;
+                const match = String(log.text || '').match(pattern);
+                // Include rainfall periods that overlap the plant's journal dates.
+                // Logs are rolling weekly windows, so compare the period end with the
+                // plant's added date rather than excluding a week that started earlier.
+                if (match && Number.isFinite(Number(match[3])) && (!addedAt || match[2] >= addedAt)) {
+                    weeklyTotals.set(match[1] + '|' + match[2], { start: match[1], end: match[2], amount: Number(match[3]) });
+                }
+            });
+            if (!weeklyTotals.size) return null;
+            const weeks = Array.from(weeklyTotals.values());
+            const firstCoveredDate = addedAt && weeks.some(week => week.start <= addedAt && week.end >= addedAt)
+                ? addedAt
+                : weeks.reduce((earliest, week) => week.start < earliest ? week.start : earliest, weeks[0].start);
+            return {
+                mm: weeks.reduce((sum, week) => sum + week.amount, 0),
+                since: firstCoveredDate
+            };
+        }
+
+        function renderJournalLogs(p) {
+            const container = document.getElementById('journal-logs-container');
+            const usage = getJournalUsageTotals(p);
+            const rainfall = getJournalCumulativeRainfall(p);
+            const usageSummary = `
+                <div class="grid grid-cols-2 gap-2 mb-3">
+                    <div class="rounded-xl border border-[#d1d5db] bg-[#f4f5ee] p-3">
+                        <div class="text-[10px] uppercase tracking-wide font-bold text-[#294b34]">Total water used</div>
+                        <div class="text-lg font-bold text-[#294b34]">${formatJournalVolume(usage.waterMl)}</div>
+                        ${rainfall ? '<div class="mt-2 pt-2 border-t border-[#d1d5db]"><div class="text-[10px] uppercase tracking-wide font-bold text-[#294b34]">Cumulative rainfall</div><div class="text-sm font-bold text-[#294b34]">' + rainfall.mm.toFixed(1) + ' mm (' + (rainfall.mm / 25.4).toFixed(2) + ' in)</div><div class="text-[10px] text-[#294b34]">Since ' + escapeHtml(rainfall.since) + '</div></div>' : ''}
+                    </div>
+                    <div class="rounded-xl border border-[#d1d5db] bg-[#f4f5ee] p-3">
+                        <div class="text-[10px] uppercase tracking-wide font-bold text-[#294b34] mb-1">Nutrients used</div>
+                        ${Object.keys(usage.nutrientTotals).length
+                            ? '<div class="space-y-1">' + Object.entries(usage.nutrientTotals).sort((a, b) => a[0].localeCompare(b[0])).map(([name, amount]) => '<div class="flex justify-between items-start gap-2 text-xs"><span class="text-[#294b34] min-w-0">' + escapeHtml(name) + '</span><strong class="text-[#294b34] whitespace-nowrap">' + formatJournalNutrientVolume(amount) + '</strong></div>').join('') + '</div>'
+                            : '<div class="text-xs text-[#55705c]">No nutrient use recorded</div>'}
+                    </div>
+                </div>`;
+            if (!p.logs || p.logs.length === 0) {
+                container.innerHTML = usageSummary + `<p class="text-xs text-slate-400 italic py-3 text-center">No growth logs recorded yet. Add your first update above!</p>`;
+                return;
+            }
+
+            // Sort using the actual calendar date, not the order entries were saved.
+            // Accept ISO dates (YYYY-MM-DD), UK dates (DD/MM/YYYY or DD-MM-YYYY),
+            // and date-time strings from older/cloud-synced records.
+            const getGrowthLogSortDate = (rawDate) => {
+                if (rawDate === null || rawDate === undefined || rawDate === '') return null;
+                if (typeof rawDate === 'number') return Number.isFinite(rawDate) ? rawDate : null;
+                const value = String(rawDate).trim();
+                let parts = value.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+                if (parts) {
+                    const timestamp = Date.UTC(Number(parts[1]), Number(parts[2]) - 1, Number(parts[3]));
+                    const check = new Date(timestamp);
+                    return check.getUTCFullYear() === Number(parts[1]) &&
+                        check.getUTCMonth() === Number(parts[2]) - 1 &&
+                        check.getUTCDate() === Number(parts[3]) ? timestamp : null;
+                }
+                parts = value.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+                if (parts) {
+                    const day = Number(parts[1]), month = Number(parts[2]), year = Number(parts[3]);
+                    const timestamp = Date.UTC(year, month - 1, day);
+                    const check = new Date(timestamp);
+                    return check.getUTCFullYear() === year && check.getUTCMonth() === month - 1 &&
+                        check.getUTCDate() === day ? timestamp : null;
+                }
+                const parsed = Date.parse(value);
+                return Number.isNaN(parsed) ? null : parsed;
+            };
+            // Keep each original array index for legacy logs that do not yet have an ID.
+            const addedAtSortDate = getGrowthLogSortDate(p.addedAt || p.createdAt || p.date);
+            const timelineLogs = p.logs
+                .map((log, originalIndex) => ({ log, originalIndex, sortDate: getGrowthLogSortDate(log.date) }))
+                // Hide journal entries dated before this plant was added to GROnote.
+                .filter(({ sortDate }) => addedAtSortDate === null || sortDate === null || sortDate >= addedAtSortDate)
+                .sort((a, b) => {
+                    const stageOrder = ['Cutting', 'Seedling', 'Vegetative', 'Flowering'];
+                    const stageA = String(a.log.growthStage || '').trim();
+                    const stageB = String(b.log.growthStage || '').trim();
+                    const orderA = stageOrder.includes(stageA) ? stageOrder.indexOf(stageA) : stageOrder.length;
+                    const orderB = stageOrder.includes(stageB) ? stageOrder.indexOf(stageB) : stageOrder.length;
+                    if (orderA !== orderB) return orderA - orderB;
+                    if (stageA !== stageB) return stageA.localeCompare(stageB);
+                    if (a.sortDate === null && b.sortDate !== null) return 1;
+                    if (a.sortDate !== null && b.sortDate === null) return -1;
+                    return (b.sortDate ?? 0) - (a.sortDate ?? 0) || a.originalIndex - b.originalIndex;
+                });
+            container.innerHTML = usageSummary + timelineLogs.map(({ log, originalIndex }, timelineIndex) => `
+                ${timelineIndex === 0 || String(timelineLogs[timelineIndex - 1].log.growthStage || '').trim() !== String(log.growthStage || '').trim()
+                    ? '<div class="pt-4 pb-2 first:pt-0"><h4 class="text-sm font-bold tracking-wide text-emerald-800 dark:text-emerald-300 border-b border-emerald-200 dark:border-emerald-900 pb-2">' + escapeHtml(String(log.growthStage || '').trim() || 'Other updates') + '</h4></div>'
+                    : ''}
+                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 text-xs flex justify-between items-start">
+                    <div class="flex-1 min-w-0 space-y-1 pr-1">
+                        <div class="flex items-start justify-between gap-2 flex-wrap">
+                            <div class="flex items-center space-x-2 flex-wrap">
+                            <span class="font-bold text-slate-700 dark:text-slate-300">${log.type || 'Growth'}</span>
+                            <span class="text-[10px] text-slate-400">• ${log.date ? String(log.date).split(/[T ]/)[0] : 'Date not set'}</span>
+                            </div>
+                        </div>
+
+                        <p class="text-slate-600 dark:text-slate-400 whitespace-pre-line">${getJournalTankFillDisplay(log)}${formatGrowthLogText(log.text, log.type) ? '<p class="text-slate-600 dark:text-slate-400 whitespace-pre-line">' + formatGrowthLogText(log.text, log.type) + '</p>' : ''}
+                        ${Array.isArray(log.photos) && log.photos.length ? '<div class="flex flex-wrap gap-2 pt-2">' + log.photos.map((photo, photoIndex) => '<div class="relative"><a href="' + photo + '" target="_blank" rel="noopener noreferrer" title="Open journal photo ' + (photoIndex + 1) + '"><img src="' + photo + '" alt="Plant journal photo ' + (photoIndex + 1) + '" loading="lazy" class="w-24 h-24 object-cover rounded-lg border border-slate-200 dark:border-slate-700"></a><button type="button" onclick="removeJournalLogPhoto(\'' + p.id + '\', \'' + (log.id || originalIndex) + '\', ' + photoIndex + ')" aria-label="Delete journal photo ' + (photoIndex + 1) + '" title="Delete photo" class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-800 text-white text-xs shadow"><i class="fa-solid fa-xmark"></i></button></div>').join('') + '</div>' : ''}
+                    </div>
+                    <div class="flex flex-col items-end gap-1 flex-shrink-0">
+                        ${log.type === 'Feed' && log.feedReminderDate ? (() => {
+                            const reminderParts = String(log.feedReminderDate).split('-').map(Number);
+                            const reminderDate = reminderParts.length === 3 && reminderParts.every(Number.isFinite)
+                                ? new Date(reminderParts[0], reminderParts[1] - 1, reminderParts[2])
+                                : new Date(log.feedReminderDate);
+                            const reminderLabel = Number.isNaN(reminderDate.getTime()) ? log.feedReminderDate : reminderDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                            return '<span class="inline-flex items-center space-x-1 text-[10px] px-2 py-0.5 rounded-full font-bold bg-[#c6537b]/15 text-[#c6537b] dark:bg-[#c6537b]/25 dark:text-[#f2a6c1] border border-[#c6537b]/40 whitespace-nowrap"><i class="fa-regular fa-bell"></i><span>Repeat feed · ' + escapeHtml(reminderLabel) + '</span></span>';
+                        })() : ''}
+                        <details class="relative">
+                            <summary aria-label="Growth log options" title="More options" class="list-none cursor-pointer rounded-lg p-2 text-white bg-[#294b34] border border-[#294b34] shadow-sm [&::-webkit-details-marker]:hidden">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </summary>
+                            <div class="absolute right-0 top-full z-30 mt-1 min-w-36 overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg">
+                                <button type="button" onclick="this.closest('details').open=false; editJournalLogByIndex('${encodeURIComponent(String(p.id))}', ${originalIndex})" class="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm text-slate-700 dark:text-slate-200  dark:"><i class="fa-solid fa-pen w-4 text-[#294b34]" style="color:#294b34!important"></i> Edit</button>
+                                <button type="button" onclick="this.closest('details').open=false; deleteJournalLog('${p.id}', '${log.id || originalIndex}')" class="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm font-medium text-[#B0466C]  dark:"><i class="fa-regular fa-trash-can w-4 text-[#294b34]" style="color:#294b34!important"></i> Delete</button>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        let pendingJournalPlantIconImage = null;
+        let journalIconCropOffsetX = 0;
+        let journalIconCropOffsetY = 0;
+        let journalIconCropDragStart = null;
+
+        function openJournalPlantIconModal() {
+            const modal = document.getElementById('journal-plant-icon-modal');
+            const plantId = document.getElementById('log-plant-id').value;
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            if (!modal || !plant) return;
+            pendingJournalPlantIconImage = null;
+            const image = document.getElementById('journal-icon-crop-image');
+            const empty = document.getElementById('journal-icon-crop-empty');
+            document.getElementById('journal-icon-zoom').value = '1';
+            journalIconCropOffsetX = 0;
+            journalIconCropOffsetY = 0;
+            journalIconCropDragStart = null;
+            image.style.transform = 'translate3d(0px,0px,0) scale(1)';
+            const changeActionLabel = document.getElementById('journal-icon-change-action-label');
+            const deleteAction = document.getElementById('journal-icon-delete-action');
+            const setChangePhotoLabel = hasPhoto => {
+                if (changeActionLabel) changeActionLabel.textContent = hasPhoto ? 'Change photo' : 'Add photo';
+                if (deleteAction) deleteAction.classList.toggle('hidden', !hasPhoto);
+            };
+            setChangePhotoLabel(false);
+            if (plant.customIconUrl) {
+                image.onload = () => {
+                    image.classList.remove('hidden');
+                    empty.classList.add('hidden');
+                    updateJournalIconCropPreview();
+                    setChangePhotoLabel(true);
+                };
+                image.onerror = () => {
+                    image.classList.add('hidden');
+                    empty.classList.remove('hidden');
+                    setChangePhotoLabel(false);
+                };
+                image.crossOrigin = 'anonymous';
+                image.src = plant.customIconUrl;
+                if (image.complete && image.naturalWidth) {
+                    image.classList.remove('hidden');
+                    empty.classList.add('hidden');
+                    setChangePhotoLabel(true);
+                }
+            } else {
+                image.removeAttribute('src');
+                image.classList.add('hidden');
+                empty.classList.remove('hidden');
+                setChangePhotoLabel(false);
+            }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeJournalPlantIconModal() {
+            const modal = document.getElementById('journal-plant-icon-modal');
+            if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+            pendingJournalPlantIconImage = null;
+        }
+
+        function getJournalIconCropLimits() {
+            const image = document.getElementById('journal-icon-crop-image');
+            const viewport = document.getElementById('journal-icon-crop-viewport');
+            const width = viewport ? viewport.clientWidth : 256;
+            const height = viewport ? viewport.clientHeight : 256;
+            if (!image || !image.naturalWidth || !image.naturalHeight) return { x: 0, y: 0 };
+            const zoom = Math.max(1, Number(document.getElementById('journal-icon-zoom').value || 1));
+            const baseScale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
+            return {
+                x: Math.max(0, (image.naturalWidth * baseScale * zoom - width) / 2),
+                y: Math.max(0, (image.naturalHeight * baseScale * zoom - height) / 2)
+            };
+        }
+
+        function updateJournalIconCropPreview() {
+            const image = document.getElementById('journal-icon-crop-image');
+            if (!image) return;
+            const zoom = Math.max(1, Number(document.getElementById('journal-icon-zoom').value || 1));
+            const limits = getJournalIconCropLimits();
+            journalIconCropOffsetX = Math.max(-limits.x, Math.min(limits.x, journalIconCropOffsetX));
+            journalIconCropOffsetY = Math.max(-limits.y, Math.min(limits.y, journalIconCropOffsetY));
+            image.style.transform = 'translate3d(' + journalIconCropOffsetX + 'px,' + journalIconCropOffsetY + 'px,0) scale(' + zoom + ')';
+        }
+
+        function startJournalIconCropDrag(event) {
+            const image = document.getElementById('journal-icon-crop-image');
+            if (!image || !image.naturalWidth || event.button !== 0) return;
+            event.preventDefault();
+            journalIconCropDragStart = {
+                pointerId: event.pointerId,
+                x: event.clientX,
+                y: event.clientY,
+                offsetX: journalIconCropOffsetX,
+                offsetY: journalIconCropOffsetY
+            };
+            if (event.currentTarget && event.currentTarget.setPointerCapture) {
+                event.currentTarget.setPointerCapture(event.pointerId);
+            }
+        }
+
+        function moveJournalIconCropDrag(event) {
+            if (!journalIconCropDragStart || journalIconCropDragStart.pointerId !== event.pointerId) return;
+            event.preventDefault();
+            journalIconCropOffsetX = journalIconCropDragStart.offsetX + event.clientX - journalIconCropDragStart.x;
+            journalIconCropOffsetY = journalIconCropDragStart.offsetY + event.clientY - journalIconCropDragStart.y;
+            updateJournalIconCropPreview();
+        }
+
+        function endJournalIconCropDrag(event) {
+            if (!journalIconCropDragStart || (event && event.pointerId !== journalIconCropDragStart.pointerId)) return;
+            journalIconCropDragStart = null;
+        }
+
+        function handleJournalPlantIconFile(input) {
+            const file = input && input.files && input.files[0];
+            if (!file) return;
+            if (!file.type || !file.type.startsWith('image/')) { alert('Please choose an image file.'); input.value = ''; return; }
+            const reader = new FileReader();
+            reader.onload = () => {
+                const image = document.getElementById('journal-icon-crop-image');
+                pendingJournalPlantIconImage = String(reader.result || '');
+                image.onload = () => { image.classList.remove('hidden'); document.getElementById('journal-icon-crop-empty').classList.add('hidden'); updateJournalIconCropPreview(); };
+                journalIconCropOffsetX = 0;
+                journalIconCropOffsetY = 0;
+                image.src = pendingJournalPlantIconImage;
+                document.getElementById('journal-icon-zoom').value = '1';
+                document.getElementById('journal-icon-delete-action').classList.add('hidden');
+            };
+            reader.onerror = () => alert('Could not read that image.');
+            reader.readAsDataURL(file);
+            input.value = '';
+        }
+
+        async function saveJournalPlantIconCrop() {
+            const plantId = document.getElementById('log-plant-id').value;
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            const image = document.getElementById('journal-icon-crop-image');
+            if (!plant || !image || !image.naturalWidth) { alert('Choose a photo before saving.'); return; }
+            try {
+                const viewport = document.getElementById('journal-icon-crop-viewport');
+                const viewportWidth = viewport ? viewport.clientWidth : 256;
+                const viewportHeight = viewport ? viewport.clientHeight : 256;
+                const zoom = Math.max(1, Number(document.getElementById('journal-icon-zoom').value || 1));
+                const baseScale = Math.max(viewportWidth / image.naturalWidth, viewportHeight / image.naturalHeight);
+                const cropWidth = viewportWidth / (baseScale * zoom);
+                const cropHeight = viewportHeight / (baseScale * zoom);
+                const limitsX = Math.max(0, (image.naturalWidth - cropWidth) / 2);
+                const limitsY = Math.max(0, (image.naturalHeight - cropHeight) / 2);
+                const sx = Math.max(0, Math.min(image.naturalWidth - cropWidth, limitsX - journalIconCropOffsetX / (baseScale * zoom)));
+                const sy = Math.max(0, Math.min(image.naturalHeight - cropHeight, limitsY - journalIconCropOffsetY / (baseScale * zoom)));
+                const canvas = document.createElement('canvas');
+                canvas.width = 640;
+                canvas.height = 640;
+                const context = canvas.getContext('2d');
+                context.drawImage(image, sx, sy, cropWidth, cropHeight, 0, 0, 640, 640);
+                const croppedDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+                let photoPath = '';
+                let photoUrl = croppedDataUrl;
+                if (supabaseClient && currentUser && navigator.onLine) {
+                    photoPath = await uploadJournalPhoto(croppedDataUrl, plant.id, 'plant-icon', 0);
+                    photoUrl = await createJournalPhotoUrl(photoPath);
+                    if (!photoUrl) throw new Error('The uploaded photo could not be displayed.');
+                }
+                plant.customIconPath = photoPath;
+                plant.customIconUrl = photoUrl;
+                saveLocalPlantsForCurrentUser(plants);
+                markFloraSyncPending();
+                if (supabaseClient && currentUser && navigator.onLine) {
+                    const synced = await syncPlantToCloud(plant);
+                    if (!synced) throw new Error('The plant photo could not be synced.');
+                }
+                const container = document.getElementById('journal-icon-container');
+                if (container) container.innerHTML = '<img src="' + escapeHtml(photoUrl) + '" alt="' + escapeHtml(plant.name) + ' plant photo" class="w-full h-full object-cover rounded-xl">';
+                renderPlants();
+                closeJournalPlantIconModal();
+            } catch (error) {
+                console.error('Could not save plant photo crop:', error);
+                alert('The plant photo could not be saved: ' + (error && error.message ? error.message : 'Please try again.'));
+            }
+        }
+
+        async function removeJournalPlantIcon() {
+            const plantId = document.getElementById('log-plant-id').value;
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            if (!plant || !plant.customIconUrl) return;
+            if (!confirm('Remove the plant photo? Journal photos will not be deleted.')) return;
+            try {
+                // Do not delete the Storage object: it may also be referenced by a journal entry.
+                plant.customIconPath = '';
+                plant.customIconUrl = '';
+                saveLocalPlantsForCurrentUser(plants);
+                markFloraSyncPending();
+                if (supabaseClient && currentUser && navigator.onLine) {
+                    const synced = await syncPlantToCloud(plant);
+                    if (!synced) throw new Error('The plant photo removal could not be synced.');
+                }
+                const container = document.getElementById('journal-icon-container');
+                if (container) container.innerHTML = '<div class="w-full h-full flex items-center justify-center text-slate-300"><img src="./Leaf-Stamp-Logo-Dark-Green.png" alt="" aria-hidden="true" class="w-full h-full object-contain" /></div>';
+                renderPlants();
+                closeJournalPlantIconModal();
+            } catch (error) {
+                console.error('Could not remove plant journal photo:', error);
+                alert('The plant photo could not be removed: ' + (error && error.message ? error.message : 'Please try again.'));
+            }
+        }
+
+        async function removeJournalLogPhoto(plantId, logId, photoIndex) {
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            if (!plant || !Array.isArray(plant.logs)) return;
+            const log = plant.logs.find((entry, index) => String(entry.id || index) === String(logId));
+            if (!log || !Array.isArray(log.photos) || !log.photos[photoIndex]) return;
+            if (!confirm('Delete this photo from the journal and cloud storage?')) return;
+
+            const photoPath = Array.isArray(log.photoPaths) ? log.photoPaths[photoIndex] : null;
+            try {
+                if (photoPath && plant.customIconPath === photoPath) {
+                    // Keep this Storage object while it is being used as the plant icon.
+                } else if (photoPath && typeof photoPath === 'string' && !photoPath.startsWith('data:') && !photoPath.startsWith('blob:')) {
+                    if (!supabaseClient || !currentUser || !navigator.onLine) {
+                        alert('Connect to the internet and sign in before deleting a cloud photo.');
+                        return;
+                    }
+                    await deleteJournalPhotoFiles([photoPath]);
+                }
+                log.photos.splice(photoIndex, 1);
+                if (Array.isArray(log.photoPaths)) log.photoPaths.splice(photoIndex, 1);
+                saveLocalPlantsForCurrentUser(plants);
+                markFloraSyncPending();
+                if (log.id && supabaseClient && currentUser && navigator.onLine) {
+                    const synced = await syncLogToCloud(plantId, log);
+                    if (!synced) throw new Error('The updated journal entry could not be synced.');
+                }
+                renderJournalLogs(plant);
+                renderPlants();
+            } catch (error) {
+                console.error('Could not delete journal photo:', error);
+                alert('The photo could not be fully deleted from cloud storage. Please try again.');
+            }
+        }
+
+        // Resolve the timeline entry by its current array index. This avoids fragile
+        // inline-handler arguments when IDs contain punctuation, and remains reliable
+        // after a log has been edited and re-rendered.
+        function editJournalLogByIndex(encodedPlantId, logIndex) {
+            let plantId;
+            try { plantId = decodeURIComponent(String(encodedPlantId)); }
+            catch (_) { plantId = String(encodedPlantId); }
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            const index = Number(logIndex);
+            if (!plant || !Array.isArray(plant.logs) || !Number.isInteger(index) || index < 0) {
+                console.warn('Could not resolve the journal entry selected for editing.');
+                return;
+            }
+            const log = plant.logs[index];
+            if (!log) {
+                alert('This growth log is no longer available. Please refresh the journal and try again.');
+                return;
+            }
+            editJournalLog(plant.id, log.id || String(index));
+        }
+
+        function moveWateringCanLineBeforeNutrients(text) {
+            const lines = String(text || '').split(/\r?\n/);
+            const wateringCanLines = lines.filter(line => /^\s*Watering Can:\s*/i.test(line));
+            if (!wateringCanLines.length) return lines.join('\n').trim();
+            const remaining = lines.filter(line => !/^\s*Watering Can:\s*/i.test(line));
+            const nutrientIndex = remaining.findIndex(line => /^\s*(?:Mixed with:|Fed with:)\s*$/i.test(line));
+            remaining.splice(nutrientIndex < 0 ? 0 : nutrientIndex, 0, ...wateringCanLines);
+            return remaining.join('\n').trim();
+        }
+
+        function updateJournalEditLivePreview() {
+            const editId = document.getElementById('log-edit-id')?.value;
+            const plantId = document.getElementById('log-plant-id')?.value;
+            if (!editId || !plantId) return;
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            if (!plant || !Array.isArray(plant.logs)) return;
+            const logIndex = plant.logs.findIndex((entry, index) => String(entry.id || index) === String(editId));
+            if (logIndex < 0) return;
+
+            const original = plant.logs[logIndex];
+            const previewType = document.getElementById('log-type')?.value || original.type;
+            let previewText = document.getElementById('log-text')?.value ?? original.text;
+            if (previewType === 'Water' || previewType === 'Feed') {
+                // Rebuild all generated water-volume lines from the live controls. These
+                // lines are part of the editable notes textarea as well as the journal card.
+                previewText = String(previewText || '').split(/\r?\n/)
+                    .filter(line => !/^(?:Tank fill volume: [\d.]+ .*\.?|Watering Can: [\d.]+ (?:L|gal|ml) water|Watering can filled with [\d.]+ .* pure water\.|Watered this plant with [\d.]+ .*\.|Each plant fed with: [\d.]+ .*\.)$/i.test(line.trim()))
+                    .join('\n').trim();
+                const details = [];
+                const tankAmount = document.getElementById('tank-volume-amount')?.value.trim() || '';
+                const tankUnit = document.getElementById('tank-volume-unit')?.value || '';
+                const perPlantAmount = document.getElementById('volume-per-plant-amount')?.value.trim() || '';
+                const perPlantUnit = document.getElementById('volume-per-plant-unit')?.value || 'Milliliters';
+                const wateringCanEnabled = previewType === 'Feed' && !!document.getElementById('nutrient-watering-can-enabled')?.checked;
+                if (previewType === 'Feed' && tankAmount) details.push(`Tank fill volume: ${tankAmount} ${tankUnit}.`);
+                if (previewType === 'Water' && tankAmount) details.push(`Watering can filled with ${tankAmount} ${tankUnit} pure water.`);
+                if (previewType === 'Water' && perPlantAmount) details.push(`Watered this plant with ${perPlantAmount} ${perPlantUnit}.`);
+                if (wateringCanEnabled) {
+                    const fill = document.getElementById('watering-can-fill')?.value.trim() || '';
+                    const fillUnit = document.getElementById('watering-can-unit')?.value || 'L';
+                    if (fill) details.push(`Watering Can: ${fill} ${fillUnit} water`);
+                    if (perPlantAmount) details.push(`Each plant fed with: ${perPlantAmount} ${perPlantUnit} (includes runoff).`);
+                }
+                if (details.length) previewText = previewText ? previewText + '\n' + details.join('\n') : details.join('\n');
+                previewText = moveWateringCanLineBeforeNutrients(previewText);
+                const notesField = document.getElementById('log-text');
+                if (notesField && notesField.value !== previewText) {
+                    notesField.value = previewText;
+                    resizeJournalLogTextarea();
+                }
+            }
+            const previewLog = {
+                ...original,
+                date: document.getElementById('log-date')?.value || original.date,
+                type: previewType,
+                growthStage: document.getElementById('log-growth-stage')?.value || original.growthStage,
+                text: previewText,
+                feedReminderDate: document.getElementById('feed-reminder-date')?.value || '',
+                feedReminderMode: document.getElementById('feed-reminder-mode')?.value || 'once',
+                feedReminderInterval: document.getElementById('feed-reminder-interval')?.value || '',
+                feedReminderUnit: document.getElementById('feed-reminder-unit')?.value || 'days'
+            };
+            const previewPlant = { ...plant, logs: plant.logs.slice() };
+            previewPlant.logs[logIndex] = previewLog;
+            renderJournalLogs(previewPlant);
+        }
+
+        function installJournalEditLivePreview() {
+            // Some journal controls (notably water-volume inputs) are moved between
+            // sections dynamically and may sit outside the submit form. Listen at the
+            // document level so every edit control reliably refreshes the preview.
+            if (document.documentElement.dataset.journalLivePreviewBound === 'true') return;
+            document.documentElement.dataset.journalLivePreviewBound = 'true';
+            const refreshEditPreview = (event) => {
+                if (!document.getElementById('log-edit-id')?.value) return;
+                if (event.target?.closest?.('#nutrient-product-list') && window.nutrientEditorActiveBrand) {
+                    syncNutrientBrandToLog(window.nutrientEditorActiveBrand);
+                }
+                const liveVolumeFields = [
+                    'tank-volume-amount', 'tank-volume-unit',
+                    'volume-per-plant-amount', 'volume-per-plant-unit',
+                    'watering-can-fill', 'watering-can-unit',
+                    'nutrient-watering-can-enabled'
+                ];
+                if (liveVolumeFields.includes(event.target?.id) ||
+                    event.target?.closest?.('#nutrient-product-list') ||
+                    event.target?.id === 'log-text') {
+                    updateJournalEditLivePreview();
+                }
+            };
+            document.addEventListener('input', refreshEditPreview, true);
+            document.addEventListener('change', refreshEditPreview, true);
+        }
+
+        function editJournalLog(plantId, logId) {
+            const plant = plants.find(item => String(item.id) === String(plantId));
+            if (!plant || !Array.isArray(plant.logs)) return;
+            const log = plant.logs.find((entry, index) => String(entry.id || index) === String(logId));
+            if (!log) return;
+            // Give legacy entries a stable ID before opening the editor. The submit
+            // handler can then target this exact record even if the log list is rerendered.
+            if (!log.id) {
+                log.id = 'log_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+                saveLocalPlantsForCurrentUser(plants);
+                markFloraSyncPending();
+            }
+            document.getElementById('log-plant-id').value = plant.id;
+            // Refresh the dependent fields first; the refresh can show the growth-stage
+            // section again, so edit-only visibility is applied after all form updates.
+            toggleGerminationSection();
+            document.getElementById('log-edit-id').value = String(log.id);
+            const journalLocationSelect = document.getElementById('journal-plant-location');
+            if (journalLocationSelect) journalLocationSelect.disabled = true;
+            const journalLocationMenu = document.getElementById('journal-plant-location-menu');
+            if (journalLocationMenu) journalLocationMenu.classList.add('hidden');
+            document.getElementById('log-date').value = log.date || '';
+            document.getElementById('log-type').value = log.type || 'Growth';
+            document.getElementById('log-growth-stage').value = log.growthStage || '';
+            if (window.setJournalGrowingValues) {
+                window.setJournalGrowingValues(
+                    Array.isArray(plant.medium) ? plant.medium : String(plant.medium || '').split(/\\s*[·,]\\s*/).filter(Boolean),
+                    Array.isArray(plant.setup) ? plant.setup : (plant.setup ? [plant.setup] : [])
+                );
+            }
+            const heatedTemperatureInput = document.getElementById('heated-propagator-temperature');
+            if (heatedTemperatureInput) heatedTemperatureInput.value = plant.heatedPropagatorTemperatureC ?? '';
+            const heatedTemperatureField = document.getElementById('heated-propagator-temperature-field');
+            heatedTemperatureField?.classList.toggle('hidden', !(Array.isArray(plant.setup) ? plant.setup : [plant.setup]).includes('Heated propagator'));
+            toggleNutrientLibraryView();
+            toggleHarvestFields();
+            const logText = String(log.text || '').replace(/\\n/g, '\n');
+            // Restore values that were previously entered in the journal form.
+            const setInput = (id, value) => { const el = document.getElementById(id); if (el) el.value = value || ''; };
+            setInput('log-germinated-amount', log.germinatedAmount || (logText.match(/Germination recorded: (\d+)/i) || [])[1]);
+            setInput('log-failed-seed-amount', log.failedSeedAmount || (logText.match(/Failed germination recorded: (\d+)/i) || [])[1]);
+            setInput('log-cuttings-rooted-amount', log.rootedCuttingsAmount || (logText.match(/(\d+) cuttings? ha(?:s|ve) rooted/i) || [])[1]);
+            setInput('log-failed-cutting-amount', log.failedCuttingsAmount || (logText.match(/Failed rooting recorded: (\d+)/i) || [])[1]);
+            const mediumMatch = logText.match(/\\(Growing medium changed from .*? to (.*?)\.\\)/i);
+            setInput('log-growth-medium', log.growthMedium || (mediumMatch || [])[1]);
+            const wateringCanMatch = logText.match(/Watering Can: ([0-9.]+) (L|gal|ml) water/i);
+            if (wateringCanMatch) {
+                document.getElementById('nutrient-watering-can-enabled').checked = true;
+                setInput('watering-can-fill', wateringCanMatch[1]);
+                setInput('watering-can-unit', wateringCanMatch[2]);
+            } else {
+                document.getElementById('nutrient-watering-can-enabled').checked = false;
+                setInput('watering-can-fill', '');
+            }
+            const waterFillMatch = logText.match(/Tank fill volume:\s*([0-9.]+)\s*(Liters|Gallons|Milliliters)/i)
+                || logText.match(/Watering can filled with ([0-9.]+) (Liters|Gallons|Milliliters) pure water/i);
+            setInput('tank-volume-amount', waterFillMatch?.[1]);
+            if (waterFillMatch) setInput('tank-volume-unit', waterFillMatch[2]);
+            const perPlantMatch = logText.match(/(?:Each plant fed with:|Watered this plant with) ([0-9.]+) (Milliliters|Liters|Gallons)/i);
+            setInput('volume-per-plant-amount', perPlantMatch?.[1]);
+            if (perPlantMatch) setInput('volume-per-plant-unit', perPlantMatch[2]);
+            toggleWateringCanFields();
+            const harvestDetails = getHarvestLogDetails(log);
+            const harvestChoice = document.querySelector('input[name="harvest-measurement"][value="' + (harvestDetails?.measurement || 'weight') + '"]');
+            if (harvestChoice) harvestChoice.checked = true;
+            document.getElementById('harvest-weight-value').value = harvestDetails?.measurement === 'weight' ? harvestDetails.value : '';
+            document.getElementById('harvest-weight-unit').value = harvestDetails?.measurement === 'weight' ? harvestDetails.unit : 'kg';
+            document.getElementById('harvest-number-value').value = harvestDetails?.measurement === 'number' ? harvestDetails.value : '';
+            document.getElementById('log-text').value = log.type === 'Harvest' ? stripHarvestLogLine(log.text) : (log.text || '');
+            resizeJournalLogTextarea();
+            document.getElementById('feed-reminder-date').value = log.feedReminderDate || '';
+            restoreFeedReminderInterval(log);
+            // Restore the saved schedule values above, but keep the schedule panel
+            // collapsed on opening edit mode. The Feed Schedule toggle remains available
+            // so users can expand it and adjust the retained settings when needed.
+            const feedScheduleSection = document.getElementById('feed-reminder-section');
+            const feedScheduleToggle = document.getElementById('feed-reminder-toggle');
+            if (feedScheduleSection) feedScheduleSection.classList.add('hidden');
+            if (feedScheduleToggle) feedScheduleToggle.setAttribute('aria-expanded', 'false');
+            toggleGerminationSection();
+            document.getElementById('journal-log-form-title').textContent = 'Edit Growth Log Entry';
+            document.getElementById('journal-log-submit-button').textContent = 'Save Changes';
+            document.getElementById('cancel-nutrient-edit-button')?.classList.remove('hidden');
+            document.getElementById('add-selected-nutrients-button')?.classList.add('hidden');
+            window.nutrientEditorActiveBrand = '';
+            toggleNutrientLibraryView();
+            const feedLines = logText.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+            const feedHeaderIndex = feedLines.findIndex(line => /^(?:Mixed with:|Fed with:)$/i.test(line));
+            if (feedHeaderIndex >= 0 && feedHeaderIndex + 1 < feedLines.length) {
+                // Populate every recorded brand/product block, not just the first brand.
+                // The library picker displays one brand at a time, so restore the first
+                // recorded brand in its controls while keeping every brand/product dosage
+                // visible in the journal notes textarea for editing and saving.
+                const librarySection = document.getElementById('nutrient-library-section');
+                if (librarySection) librarySection.classList.remove('hidden');
+                populateNutrientBrandOptions();
+                const knownBrands = new Map(NUTRIENT_BRANDS_LIBRARY.map(brand => [brand.brand.toLowerCase(), brand]));
+                const recordedBlocks = [];
+                let activeBlock = null;
+                feedLines.slice(feedHeaderIndex + 1).forEach(line => {
+                    const headerMatch = line.match(/^(.*?):\s*$/);
+                    const brand = headerMatch ? knownBrands.get(headerMatch[1].toLowerCase()) : null;
+                    if (brand) {
+                        activeBlock = { brand, products: [] };
+                        recordedBlocks.push(activeBlock);
+                        return;
+                    }
+                    if (activeBlock && /^[•*-]\s*/.test(line)) {
+                        const item = line.replace(/^[•*-]\s*/, '').match(/^(.*?)\s*\((.*?)\)\s*$/);
+                        if (item) activeBlock.products.push({ name: item[1].trim(), dosage: item[2].trim() });
+                    } else if (line && !/^(?:Watering Can:|Mixed with:|Fed with:)/i.test(line)) {
+                        activeBlock = null;
+                    }
+                });
+                const productList = document.getElementById('nutrient-product-list');
+                const brandSelect = document.getElementById('nutrient-brand-select');
+                if (productList && brandSelect) {
+                    // Restore the original single-brand dropdown and product picker layout.
+                    // Keep all saved brand/product blocks in the notes text; the original
+                    // picker displays and edits one brand at a time.
+                    brandSelect.value = recordedBlocks[0]?.brand.brand || '';
+                    handleNutrientBrandChange();
+                    const firstBlock = recordedBlocks.find(block => block.brand.brand === brandSelect.value);
+                    if (firstBlock) {
+                        firstBlock.products.forEach(savedProduct => {
+                            const productIndex = firstBlock.brand.products.findIndex(product =>
+                                product.name.trim().toLowerCase() === savedProduct.name.toLowerCase()
+                            );
+                            if (productIndex < 0) return;
+                            const checkbox = Array.from(productList.querySelectorAll('input[name="nutrient-product-check"]'))
+                                .find(input => input.value.trim().toLowerCase() === savedProduct.name.toLowerCase());
+                            if (checkbox) checkbox.checked = true;
+                            const dosage = savedProduct.dosage.match(/^([0-9]*\.?[0-9]+)\s*(ml\s*\/\s*L|ml|tsp)$/i);
+                            if (dosage) {
+                                setInput('dose-val-' + productIndex, dosage[1]);
+                                const unitSelect = document.getElementById('dose-unit-' + productIndex);
+                                if (unitSelect) {
+                                    const unitValue = dosage[2].replace(/\s+/g, '').toLowerCase();
+                                    unitSelect.value = unitValue === 'ml/l' ? 'ml/L' : unitValue;
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+            const hasRecordedNutrients = /(?:Mixed with:|Fed with:)/i.test(logText) &&
+                NUTRIENT_BRANDS_LIBRARY.some(brand => new RegExp('^' + brand.brand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ':\\s*$', 'im').test(logText));
+            if (hasRecordedNutrients) {
+                const restoredNutrientSection = document.getElementById('nutrient-library-section');
+                if (restoredNutrientSection) restoredNutrientSection.classList.remove('hidden');
+            }
+            toggleHarvestFields();
+            // Restore the saved stage after all edit-mode UI refreshes. Older entries may
+            // have the stage recorded in their notes rather than the growthStage property.
+            const stageSelect = document.getElementById('log-growth-stage');
+            const recordedStage = log.growthStage ||
+                (logText.match(/(?:growth\s*stage|stage)\s*:\s*(Cutting|Seedling|Vegetative|Flowering)/i) || [])[1] ||
+                '';
+            if (stageSelect) {
+                const matchingStage = Array.from(stageSelect.options).find(option =>
+                    option.value.toLowerCase() === String(recordedStage).trim().toLowerCase()
+                );
+                stageSelect.value = matchingStage ? matchingStage.value : '';
+            }
+            // Photos can be added to new entries, but are hidden while editing an existing entry.
+            document.getElementById('journal-photo-section')?.classList.add('hidden');
+            // Apply the edit-only hidden fields last because toggleGerminationSection()
+            // can reveal the growth-stage section during its refresh.
+            ['journal-edit-meta-fields', 'journal-edit-location-field', 'growth-stage-section'].forEach(id => {
+                const field = document.getElementById(id);
+                if (field) field.classList.add('hidden');
+            });
+            // Hidden edit-only fields must not participate in native browser validation.
+            // In particular, the hidden growth-stage select is required for new Growth logs
+            // but intentionally unavailable while editing an existing log.
+            const editStageSelect = document.getElementById('log-growth-stage');
+            if (editStageSelect) editStageSelect.required = false;
+            // The date field is intentionally hidden in edit mode; scroll to the visible
+            // form heading instead of trying to scroll to that hidden input.
+            installJournalEditLivePreview();
+            updateJournalEditLivePreview();
+            document.getElementById('journal-log-form-title')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function cancelJournalLogEdit() {
+            document.getElementById('journal-photo-section')?.classList.remove('hidden');
+            ['journal-edit-meta-fields', 'journal-edit-location-field', 'growth-stage-section'].forEach(id => {
+                const field = document.getElementById(id);
+                if (field) field.classList.remove('hidden');
+            });
+            document.getElementById('log-edit-id').value = '';
+            const journalLocationSelect = document.getElementById('journal-plant-location');
+            if (journalLocationSelect) journalLocationSelect.disabled = false;
+            document.getElementById('journal-log-form-title').textContent = 'Add Growth Log Entry';
+            document.getElementById('journal-log-submit-button').textContent = 'Add Log Entry';
+            document.getElementById('cancel-nutrient-edit-button')?.classList.add('hidden');
+            document.getElementById('add-selected-nutrients-button')?.classList.remove('hidden');
+            window.nutrientEditorActiveBrand = '';
+            document.getElementById('log-date').value = new Date().toISOString().slice(0, 10);
+            document.getElementById('log-type').value = 'Growth';
+            document.getElementById('log-growth-stage').value = '';
+            // Restore normal required-field rules when leaving edit mode.
+            toggleGerminationSection();
+            document.getElementById('log-text').value = '';
+            const originalPlant = plants.find(item => String(item.id) === String(document.getElementById('log-plant-id').value));
+            if (originalPlant) renderJournalLogs(originalPlant);
+            document.querySelector('input[name="harvest-measurement"][value="weight"]').checked = true;
+            document.getElementById('harvest-weight-value').value = '';
+            document.getElementById('harvest-weight-unit').value = 'kg';
+            document.getElementById('harvest-number-value').value = '';
+            document.getElementById('feed-reminder-date').value = '';
+            document.getElementById('feed-reminder-interval').value = '';
+            document.getElementById('feed-reminder-unit').value = 'days';
+            document.getElementById('feed-reminder-mode').value = 'once';
+            updateFeedReminderModeUI();
+            const feedScheduleSection = document.getElementById('feed-reminder-section');
+            const feedScheduleToggle = document.getElementById('feed-reminder-toggle');
+            if (feedScheduleSection) feedScheduleSection.classList.add('hidden');
+            if (feedScheduleToggle) feedScheduleToggle.setAttribute('aria-expanded', 'false');
+            document.getElementById('log-growth-medium').value = '';
+            document.getElementById('journal-photo-input').value = '';
+            document.getElementById('journal-camera-input').value = '';
+            journalSelectedFiles = [];
+            renderJournalPhotoPreviews();
+            toggleNutrientLibraryView();
+        }
+
+        async function handleJournalLogSubmit(e) {
+            e.preventDefault();
+            const plantId = document.getElementById('log-plant-id').value;
+            const date = document.getElementById('log-date').value;
+            const type = document.getElementById('log-type').value;
+            const growthStage = document.getElementById('log-growth-stage').value;
+            const editId = document.getElementById('log-edit-id').value;
+            const harvestMeasurement = document.querySelector('input[name="harvest-measurement"]:checked')?.value || 'weight';
+            const harvestValueInput = document.getElementById(harvestMeasurement === 'number' ? 'harvest-number-value' : 'harvest-weight-value');
+            const harvestValue = harvestValueInput ? Number(harvestValueInput.value) : NaN;
+            const harvestUnit = document.getElementById('harvest-weight-unit')?.value || 'kg';
+            if (type === 'Harvest' && (!Number.isFinite(harvestValue) || harvestValue <= 0 || (harvestMeasurement === 'number' && !Number.isSafeInteger(harvestValue)))) {
+                alert(harvestMeasurement === 'number' ? 'Enter a whole number of items harvested (at least 1).' : 'Enter a harvested weight greater than zero.');
+                if (harvestValueInput) harvestValueInput.focus();
+                return;
+            }
+            const enteringSeedOutcome = type === 'Growth' && (
+                document.getElementById('log-germinated-amount').value.trim() !== '' ||
+                document.getElementById('log-failed-seed-amount').value.trim() !== ''
+            );
+            const enteringCuttingOutcome = type === 'Growth' && (
+                document.getElementById('log-cuttings-rooted-amount').value.trim() !== '' ||
+                document.getElementById('log-failed-cutting-amount').value.trim() !== ''
+            );
+            // Existing log edits intentionally hide the growth-stage control; do not block
+            // those saves or overwrite the saved stage with an empty value.
+            if (!editId && !growthStage) {
+                alert('Please select a growth stage before saving this journal entry.');
+                document.getElementById('log-growth-stage').focus();
+                return;
+            }
+            if (editId) {
+                const plant = plants.find(item => String(item.id) === String(plantId));
+                if (!plant || !Array.isArray(plant.logs)) return;
+                const matchingLogs = plant.logs.filter(entry => String(entry.id || '') === String(editId));
+                if (matchingLogs.length !== 1) {
+                    alert('Could not identify the original growth log uniquely. No new entry has been created. Please close and reopen the journal, then try editing again.');
+                    return;
+                }
+                const existingLog = matchingLogs[0];
+                existingLog.date = date;
+                existingLog.type = type;
+                existingLog.growthStage = growthStage || existingLog.growthStage || '';
+                // Commit the brand currently open in the picker. Other brands were
+                // committed as the user switched between them, so Save Changes is enough.
+                if (type === 'Feed' && window.nutrientEditorActiveBrand) {
+                    syncNutrientBrandToLog(window.nutrientEditorActiveBrand);
+                }
+                let journalNotes = document.getElementById('log-text').value;
+                // Update volume details in-place when editing Water/Feed entries. The edit
+                // form loads these values from the saved text, so replace the old summary
+                // lines rather than appending a second set or leaving stale amounts behind.
+                if (type === 'Water' || type === 'Feed') {
+                    const replaceDetailLine = (source, pattern, replacementLine) => {
+                        const lines = String(source || '').split(/\r?\n/);
+                        const matchingIndexes = [];
+                        lines.forEach((line, index) => {
+                            if (pattern.test(line.trim())) matchingIndexes.push(index);
+                        });
+                        if (matchingIndexes.length) {
+                            // Replace the first matching detail and remove any duplicates
+                            // left by earlier saves, so repeated edits stay idempotent.
+                            const firstIndex = matchingIndexes[0];
+                            if (replacementLine) lines[firstIndex] = replacementLine;
+                            for (let i = matchingIndexes.length - 1; i >= (replacementLine ? 1 : 0); i--) {
+                                lines.splice(matchingIndexes[i], 1);
+                            }
+                        } else if (replacementLine) {
+                            lines.push(replacementLine);
+                        }
+                        return lines.filter((line, index) => line.trim() || index < lines.length - 1).join('\n').trim();
+                    };
+                    const tankAmount = document.getElementById('tank-volume-amount')?.value.trim() || '';
+                    const tankUnit = document.getElementById('tank-volume-unit')?.value || 'Liters';
+                    const wateringCanEnabled = type === 'Feed' && !!document.getElementById('nutrient-watering-can-enabled')?.checked;
+                    const perPlantAmount = (type === 'Water' || wateringCanEnabled)
+                        ? (document.getElementById('volume-per-plant-amount')?.value.trim() || '')
+                        : '';
+                    const perPlantUnit = document.getElementById('volume-per-plant-unit')?.value || 'Milliliters';
+                    if (tankAmount && (!Number.isFinite(Number(tankAmount)) || Number(tankAmount) <= 0)) {
+                        alert('Enter a tank or watering-can volume greater than zero.');
+                        document.getElementById('tank-volume-amount')?.focus();
+                        return;
+                    }
+                    if (perPlantAmount && (!Number.isFinite(Number(perPlantAmount)) || Number(perPlantAmount) <= 0)) {
+                        alert('Enter a volume per plant greater than zero.');
+                        document.getElementById('volume-per-plant-amount')?.focus();
+                        return;
+                    }
+                    journalNotes = replaceDetailLine(journalNotes, /^(?:Watering can filled with|Filled tank with)\b/i,
+                        type === 'Water' && tankAmount ? 'Watering can filled with ' + tankAmount + ' ' + tankUnit + ' pure water.' : '');
+                    journalNotes = replaceDetailLine(journalNotes, /^Watered this plant with\b/i,
+                        type === 'Water' && perPlantAmount ? 'Watered this plant with ' + perPlantAmount + ' ' + perPlantUnit + '.' : '');
+                    // Keep the per-plant feed detail as the final line of the log.
+                    // Remove every old copy first so edits cannot leave duplicates.
+                    const eachPlantFedLine = type === 'Feed' && wateringCanEnabled && perPlantAmount
+                        ? 'Each plant fed with: ' + perPlantAmount + ' ' + perPlantUnit + ' (includes runoff).'
+                        : '';
+                    journalNotes = String(journalNotes || '')
+                        .split(/\r?\n/)
+                        .filter(line => !/^\s*Each plant fed with:/i.test(line))
+                        .join('\n')
+                        .trim();
+                    if (eachPlantFedLine) {
+                        journalNotes = journalNotes ? journalNotes + '\n' + eachPlantFedLine : eachPlantFedLine;
+                    }
+
+                    // The feed watering-can fill is stored in its own summary line.
+                    // Replace or remove that line on every edit so the journal reflects
+                    // the current controls instead of retaining the previous fill amount.
+                    if (type === 'Feed') {
+                        journalNotes = replaceDetailLine(
+                            journalNotes,
+                            /^Tank fill volume:\s*/i,
+                            tankAmount ? 'Tank fill volume: ' + tankAmount + ' ' + tankUnit + '.' : ''
+                        );
+                        const wateringCanSummary = getWateringCanSummary();
+                        if (wateringCanSummary === null) return;
+                        journalNotes = replaceDetailLine(
+                            journalNotes,
+                            /^Watering Can:\s*/i,
+                            wateringCanSummary || ''
+                        );
+                    }
+                    journalNotes = moveWateringCanLineBeforeNutrients(journalNotes);
+                }
+                existingLog.harvestMeasurement = type === 'Harvest' ? harvestMeasurement : '';
+                existingLog.harvestValue = type === 'Harvest' ? harvestValue : null;
+                existingLog.harvestUnit = type === 'Harvest' && harvestMeasurement === 'weight' ? harvestUnit : '';
+                existingLog.text = type === 'Harvest'
+                    ? buildHarvestLogText(journalNotes, harvestMeasurement, harvestValue, harvestUnit, plant.name)
+                    : journalNotes;
+                if (type === 'Medium') {
+                    const previousMedium = plant.medium || 'Not specified';
+                    const previousSetup = Array.isArray(plant.setup) ? plant.setup.join(', ') : (plant.setup || 'Not specified');
+                    const mediumValues = window.getJournalMediumValues ? window.getJournalMediumValues() : [];
+                    const setupValues = window.getJournalSetupValues ? window.getJournalSetupValues() : [];
+                    const nextMedium = mediumValues.join(' · ');
+                    const nextSetup = setupValues.join(', ');
+                    plant.medium = nextMedium;
+                    plant.setup = setupValues;
+                    const heatedTemperatureInput = document.getElementById('heated-propagator-temperature');
+                    plant.heatedPropagatorTemperatureC = setupValues.includes('Heated propagator') && heatedTemperatureInput?.value !== ''
+                        ? Number(heatedTemperatureInput.value)
+                        : null;
+                    existingLog.heatedPropagatorTemperatureC = plant.heatedPropagatorTemperatureC;
+                    // Replace a previous generated summary instead of stacking one on every edit.
+                    const cleanNotes = String(existingLog.text || '').replace(/\\s*\\(Growing medium changed from [\\s\\S]*?; setup changed from [\\s\\S]*?\\.\\)\\s*$/i, '').trim();
+                    const temperatureNote = setupValues.includes('Heated propagator') && plant.heatedPropagatorTemperatureC !== null
+                        ? '; Heated propagator set temperature: ' + plant.heatedPropagatorTemperatureC + ' °C'
+                        : '';
+                    existingLog.text = (cleanNotes ? cleanNotes + ' ' : '') +
+                        '(Growing medium changed from ' + previousMedium + ' to ' + (nextMedium || 'Not specified') +
+                        '; setup changed from ' + previousSetup + ' to ' + (nextSetup || 'Not specified') + temperatureNote + '.)';
+                    existingLog.growthMedium = nextMedium;
+                }
+                existingLog.feedReminderDate = type === 'Feed' ? document.getElementById('feed-reminder-date').value : '';
+                existingLog.feedReminderMode = type === 'Feed' ? document.getElementById('feed-reminder-mode').value : 'once';
+                existingLog.feedReminderInterval = type === 'Feed' && document.getElementById('feed-reminder-interval').value ? Number(document.getElementById('feed-reminder-interval').value) : '';
+                existingLog.feedReminderUnit = type === 'Feed' ? document.getElementById('feed-reminder-unit').value : 'days';
+                // Persist the edited log (including its reminder fields) before syncing
+                // the separate email-reminder record. This keeps the journal badge visible
+                // after a reload, even when the reminder table update is delayed.
+                saveLocalPlantsForCurrentUser(plants);
+                markFloraSyncPending();
+                const plantSynced = type === 'Medium' ? await syncPlantToCloud(plant) : true;
+                const synced = await syncLogToCloud(plantId, existingLog);
+                const reminderSaved = await saveFeedReminder(plant, existingLog);
+                saveLocalPlantsForCurrentUser(plants);
+                renderJournalLogs(plant);
+                updateJournalMediumSetupHeader(plant);
+                renderPlants();
+                cancelJournalLogEdit();
+                if (supabaseClient && currentUser && navigator.onLine && (synced === false || plantSynced === false)) {
+                    alert('Your growth log edit was saved on this device, but cloud sync failed. It will retry when sync is available.');
+                } else if (!reminderSaved) {
+                    alert('Your growth log was updated, but the feed reminder could not be fully saved. Please check the reminder date and try again.');
+                } else {
+                    alert('Growth log updated successfully.');
+                }
+                return;
+            }
+            // Germination entries are allowed without a selected growth stage.
+            const tankVol = document.getElementById('tank-volume-amount').value;
+            const tankUnit = document.getElementById('tank-volume-unit').value;
+            const journalMediumValues = window.getJournalMediumValues ? window.getJournalMediumValues() : [];
+            const journalSetupValues = window.getJournalSetupValues ? window.getJournalSetupValues() : [];
+            const newMedium = journalMediumValues.join(' · ');
+            const photoFiles = journalSelectedFiles.slice();
+            if (photoFiles.length > 4) {
+                alert('Please choose up to 4 photos per journal entry.');
+                return;
+            }
+            let photos = [];
+            let photoPaths = [];
+            try {
+                photos = await Promise.all(photoFiles.map(compressJournalPhoto));
+                if (photos.length && supabaseClient && currentUser && navigator.onLine) {
+                    const logId = 'log_' + Date.now();
+                    photoPaths = await Promise.all(photos.map((photo, index) => uploadJournalPhoto(photo, plantId, logId, index)));
+                    photos = await Promise.all(photoPaths.map(createJournalPhotoUrl));
+                    if (photos.some(photo => !photo)) throw new Error('Could not prepare uploaded photo previews.');
+                    window.pendingJournalLogId = logId;
+                } else if (photos.length && supabaseClient && currentUser && !navigator.onLine) {
+                    // Keep compressed data URLs locally; syncPendingFloraChanges uploads them after reconnect.
+                    markFloraSyncPending();
+                } else if (photos.length) {
+                    alert('These photos will be saved on this device only. Sign in to your GROnote account to sync them across devices.');
+                }
+            } catch (error) {
+                console.error('Journal photo upload failed; retaining local photo data for retry:', error);
+                if (!navigator.onLine && supabaseClient && currentUser) {
+                    photoPaths = [];
+                    markFloraSyncPending();
+                } else {
+                    alert('Could not upload journal photos. Check your Supabase connection and photo storage setup, then try again. No journal entry was saved.');
+                    return;
+                }
+            }
+            let text = document.getElementById('log-text').value;
+
+            if (type === 'Feed') {
+                const wateringCanSummary = getWateringCanSummary();
+                if (wateringCanSummary === null) return;
+                // The apply button may already have inserted these details; avoid duplicating them.
+                if (wateringCanSummary && !text.includes(wateringCanSummary)) {
+                    text = `${wateringCanSummary}. ${text}`.trim();
+                }
+            }
+
+            if (type === 'Water' || type === 'Feed') {
+                const wateringCanEnabled = type === 'Feed' && document.getElementById('nutrient-watering-can-enabled').checked;
+                const perPlantAmount = (type === 'Water' || wateringCanEnabled)
+                    ? document.getElementById('volume-per-plant-amount').value.trim()
+                    : '';
+                const perPlantUnit = document.getElementById('volume-per-plant-unit').value;
+                if (perPlantAmount && (!Number.isFinite(Number(perPlantAmount)) || Number(perPlantAmount) <= 0)) {
+                    alert('Enter a volume per plant greater than zero.');
+                    return;
+                }
+                const waterDetails = [];
+                if (type === 'Feed' && tankVol) waterDetails.push(`Tank fill volume: ${tankVol} ${tankUnit}.`);
+                if (type === 'Water' && tankVol) waterDetails.push(`Watering can filled with ${tankVol} ${tankUnit} pure water.`);
+                if (type === 'Feed' && wateringCanEnabled && perPlantAmount && !/Each plant fed with:/i.test(text)) {
+                    waterDetails.push(`Each plant fed with: ${perPlantAmount} ${perPlantUnit} (includes runoff).`);
+                } else if (type === 'Water' && perPlantAmount && !text.includes('Watered this plant with')) {
+                    waterDetails.push(`Watered this plant with ${perPlantAmount} ${perPlantUnit}.`);
+                }
+                if (waterDetails.length) text = text.trim() ? text.trimEnd() + '\n' + waterDetails.join('\n') : waterDetails.join('\n');
+            }
+
+            const p = plants.find(item => item.id === plantId);
+            if (!p) return;
+
+            let germinatedAmount = null;
+            let failedSeedAmount = null;
+            let rootedCuttingsAmount = null;
+            let failedCuttingsAmount = null;
+            const seedsAvailable = p.quantityType === 'seeds'
+                ? Math.max(0, Number(p.quantity) || 0)
+                : Math.max(0, Number(p.remainingSeeds) || 0);
+            const availableCuttings = p.quantityType === 'cuttings'
+                ? Math.max(0, Number(p.quantity) || 0)
+                : Math.max(0, Number(p.remainingCuttings) || 0);
+            const cuttingRootInput = document.getElementById('log-cuttings-rooted-amount');
+            const failedCuttingInput = document.getElementById('log-failed-cutting-amount');
+            const cuttingRootValue = cuttingRootInput ? cuttingRootInput.value.trim() : '';
+            const failedCuttingValue = failedCuttingInput ? failedCuttingInput.value.trim() : '';
+            if (type === 'Growth' && cuttingRootValue !== '' && failedCuttingValue !== '') {
+                alert('Please record rooted cuttings or failed cuttings in separate entries.');
+                cuttingRootInput.focus();
+                return;
+            }
+            if (type === 'Growth' && (cuttingRootValue !== '' || failedCuttingValue !== '')) {
+                const enteredCuttingAmount = Number(cuttingRootValue !== '' ? cuttingRootValue : failedCuttingValue);
+                if (!Number.isSafeInteger(enteredCuttingAmount) || enteredCuttingAmount < 1 || enteredCuttingAmount > availableCuttings) {
+                    alert('Enter a whole number between 1 and ' + availableCuttings + ' cuttings.');
+                    (cuttingRootValue !== '' ? cuttingRootInput : failedCuttingInput).focus();
+                    return;
+                }
+                if (cuttingRootValue !== '') {
+                    rootedCuttingsAmount = enteredCuttingAmount;
+                    const existingPlants = p.quantityType === 'cuttings' ? 0 : Math.max(0, Number(p.quantity) || 0);
+                    const updatedPlantTotal = existingPlants + rootedCuttingsAmount;
+                    p.quantity = updatedPlantTotal;
+                    p.quantityType = 'plants';
+                    p.remainingCuttings = availableCuttings - rootedCuttingsAmount;
+                    text = (text.trim() ? text.trim() + ' ' : '') + rootedCuttingsAmount + ' ' + (rootedCuttingsAmount === 1 ? 'cutting has' : 'cuttings have') + ' rooted and been converted into plants. Plant total is now ' + updatedPlantTotal + ' ' + (updatedPlantTotal === 1 ? 'plant' : 'plants') + '; ' + p.remainingCuttings + ' ' + (p.remainingCuttings === 1 ? 'cutting' : 'cuttings') + ' still rooting.';
+                } else {
+                    failedCuttingsAmount = enteredCuttingAmount;
+                    p.remainingCuttings = availableCuttings - failedCuttingsAmount;
+                    text = (text.trim() ? text.trim() + ' ' : '') + 'Failed rooting recorded: ' + failedCuttingsAmount + ' ' + (failedCuttingsAmount === 1 ? 'cutting' : 'cuttings') + ' did not root and ' + (failedCuttingsAmount === 1 ? 'has' : 'have') + ' been removed from the remaining cutting count. Plant total remains ' + (Number(p.quantity) || 0) + '. ' + p.remainingCuttings + ' cuttings remaining.';
+                }
+            } else if (type === 'Growth' && seedsAvailable > 0 && p.multisow && Number(p.multisowPots) > 0) {
+                const data = getMultisowContainerStates(p);
+                const changes = [];
+                let germinatedTotal = 0, thinnedTotal = 0;
+                for (const state of data.states) {
+                    const germInput = document.querySelector('[data-ms-germ="' + state.index + '"]');
+                    const thinInput = document.querySelector('[data-ms-thin="' + state.index + '"]');
+                    const germ = Number(germInput && germInput.value || 0);
+                    const thin = Number(thinInput && thinInput.value || 0);
+                    if (!Number.isSafeInteger(germ) || germ < 0 || germ > Math.max(0, Number(p.seedsPerPot) - state.germinated)) {
+                        alert('Enter a valid newly germinated seed count for ' + data.label + ' ' + state.index + '.'); germInput && germInput.focus(); return;
+                    }
+                    if (!Number.isSafeInteger(thin) || thin < 0 || thin > state.germinated - state.thinned + germ) {
+                        alert('The thinning count exceeds the plants in ' + data.label + ' ' + state.index + '.'); thinInput && thinInput.focus(); return;
+                    }
+                    if (germ || thin) {
+                        changes.push({index:state.index, germinated:state.germinated + germ, thinned:state.thinned + thin});
+                        germinatedTotal += germ; thinnedTotal += thin;
+                    }
+                }
+                if (germinatedTotal > seedsAvailable) { alert('The germination total exceeds the seeds remaining (' + seedsAvailable + ').'); return; }
+                if (changes.length) {
+                    const currentPlants = p.quantityType === 'seeds' ? 0 : Math.max(0, Number(p.quantity) || 0);
+                    p.quantity = Math.max(0, currentPlants + germinatedTotal - thinnedTotal);
+                    p.quantityType = 'plants';
+                    p.remainingSeeds = Math.max(0, seedsAvailable - germinatedTotal);
+                    changes.forEach(change => { text = (text.trim() ? text.trim() + '\n' : '') + 'Multi-sow container ' + change.index + ' | germinated: ' + change.germinated + ' | thinned: ' + change.thinned; });
+                    text = (text.trim() ? text.trim() + '\n' : '') + 'Multi-sow update: ' + germinatedTotal + ' newly germinated; ' + thinnedTotal + ' thinned out. Plant total: ' + p.quantity + '; seeds remaining: ' + p.remainingSeeds + '.';
+                    germinatedAmount = germinatedTotal || null;
+                }
+            } else if (type === 'Growth' && seedsAvailable > 0) {
+                const germinationInput = document.getElementById('log-germinated-amount');
+                const failedInput = document.getElementById('log-failed-seed-amount');
+                const germinationValue = germinationInput ? germinationInput.value.trim() : '';
+                const failedValue = failedInput ? failedInput.value.trim() : '';
+                if (germinationValue !== '' && failedValue !== '') {
+                    alert('Please record germinated seeds or failed seeds in separate entries.');
+                    germinationInput.focus();
+                    return;
+                }
+                if (germinationValue !== '' || failedValue !== '') {
+                    const enteredAmount = germinationValue !== '' ? Number(germinationValue) : Number(failedValue);
+                    if (!Number.isSafeInteger(enteredAmount) || enteredAmount < 1 || enteredAmount > seedsAvailable) {
+                        alert('Enter a whole number between 1 and ' + seedsAvailable + '.');
+                        (germinationValue !== '' ? germinationInput : failedInput).focus();
+                        return;
+                    }
+                    const previousSeedAmount = seedsAvailable;
+                    if (germinationValue !== '') {
+                        germinatedAmount = enteredAmount;
+                        const currentPlants = p.quantityType === 'seeds' ? 0 : Math.max(0, Number(p.quantity) || 0);
+                        const updatedPlantTotal = currentPlants + germinatedAmount;
+                        p.quantity = updatedPlantTotal;
+                        p.quantityType = 'plants';
+                        p.remainingSeeds = previousSeedAmount - germinatedAmount;
+                        text = (text.trim() ? text.trim() + ' ' : '') + 'Germination recorded: ' + germinatedAmount + ' additional ' + (germinatedAmount === 1 ? 'seed' : 'seeds') + ' germinated. Plant total is now ' + updatedPlantTotal + ' ' + (updatedPlantTotal === 1 ? 'plant' : 'plants') + '; ' + p.remainingSeeds + ' ' + (p.remainingSeeds === 1 ? 'seed' : 'seeds') + ' remaining.';
+                    } else {
+                        failedSeedAmount = enteredAmount;
+                        p.remainingSeeds = previousSeedAmount - failedSeedAmount;
+                        text = (text.trim() ? text.trim() + ' ' : '') + 'Failed germination recorded: ' + failedSeedAmount + ' ' + (failedSeedAmount === 1 ? 'seed' : 'seeds') + ' did not germinate and ' + (failedSeedAmount === 1 ? 'has' : 'have') + ' been removed from the remaining seed count. Plant total remains ' + (Number(p.quantity) || 0) + '. ' + p.remainingSeeds + ' seeds remaining.';
+                    }
+                }
+            }
+
+            if (type === 'Medium') {
+                const previousMedium = p.medium || 'Not specified';
+                const previousSetup = Array.isArray(p.setup) ? p.setup.join(', ') : (p.setup || 'Not specified');
+                p.medium = newMedium;
+                p.setup = journalSetupValues;
+                const heatedTemperatureInput = document.getElementById('heated-propagator-temperature');
+                p.heatedPropagatorTemperatureC = journalSetupValues.includes('Heated propagator') && heatedTemperatureInput?.value !== ''
+                    ? Number(heatedTemperatureInput.value)
+                    : null;
+                const mediumSummary = newMedium || 'Not specified';
+                const setupSummary = journalSetupValues.join(', ') || 'Not specified';
+                const temperatureNote = journalSetupValues.includes('Heated propagator') && p.heatedPropagatorTemperatureC !== null
+                    ? '; Heated propagator set temperature: ' + p.heatedPropagatorTemperatureC + ' °C'
+                    : '';
+                text = (text.trim() ? text.trim() + ' ' : '') + '(Growing medium changed from ' + previousMedium + ' to ' + mediumSummary + '; setup changed from ' + previousSetup + ' to ' + setupSummary + temperatureNote + '.)';
+            }
+
+            if (!p.logs) p.logs = [];
+            const logId = window.pendingJournalLogId || ('log_' + Date.now());
+            window.pendingJournalLogId = null;
+            const feedReminderDate = type === 'Feed' ? document.getElementById('feed-reminder-date').value : '';
+            const feedReminderMode = type === 'Feed' ? document.getElementById('feed-reminder-mode').value : 'once';
+            const feedReminderInterval = type === 'Feed' ? (document.getElementById('feed-reminder-interval').value || '') : '';
+            const feedReminderUnit = type === 'Feed' ? document.getElementById('feed-reminder-unit').value : 'days';
+            const newLog = {
+                id: logId, date, type, growthStage,
+                ...(type === 'Medium' ? { heatedPropagatorTemperatureC: p.heatedPropagatorTemperatureC ?? null } : {}),
+                ...(type === 'Harvest' ? {
+                    harvestMeasurement,
+                    harvestValue,
+                    harvestUnit: harvestMeasurement === 'weight' ? harvestUnit : ''
+                } : {}),
+                text: type === 'Harvest' ? buildHarvestLogText(text, harvestMeasurement, harvestValue, harvestUnit, p.name) : text,
+                ...(feedReminderDate ? { feedReminderDate } : {}),
+                ...(type === 'Feed' ? {
+                    feedReminderMode,
+                    feedReminderInterval: feedReminderInterval !== '' ? Number(feedReminderInterval) : '',
+                    feedReminderUnit
+                } : {}),
+                ...(photos.length ? { photos } : {}), ...(photoPaths.length ? { photoPaths } : {}) };
+            p.logs.unshift(newLog);
+
+            saveLocalPlantsForCurrentUser(plants);
+            markFloraSyncPending();
+            if (type === 'Medium' || germinatedAmount !== null || failedSeedAmount !== null || rootedCuttingsAmount !== null || failedCuttingsAmount !== null) await syncPlantToCloud(p);
+            await syncLogToCloud(plantId, newLog);
+            if (type === 'Feed') await saveFeedReminder(p, newLog);
+
+            renderJournalLogs(p);
+            updateJournalMediumSetupHeader(p);
+            renderPlants();
+            document.getElementById('log-text').value = '';
+            document.getElementById('journal-photo-input').value = '';
+            document.getElementById('journal-camera-input').value = '';
+            journalSelectedFiles = [];
+            renderJournalPhotoPreviews();
+            document.getElementById('log-growth-medium').value = '';
+            document.getElementById('log-type').value = 'Growth';
+            document.getElementById('log-growth-stage').value = '';
+            document.getElementById('log-germinated-amount').value = '';
+            document.getElementById('log-failed-seed-amount').value = '';
+            document.getElementById('log-cuttings-rooted-amount').value = '';
+            document.getElementById('log-failed-cutting-amount').value = '';
+            toggleNutrientLibraryView();
+            toggleGerminationSection();
+            document.getElementById('tank-volume-amount').value = '';
+            document.getElementById('volume-per-plant-amount').value = '';
+            document.getElementById('volume-per-plant-unit').value = 'Milliliters';
+            document.getElementById('nutrient-watering-can-enabled').checked = false;
+            document.getElementById('watering-can-fill').value = '';
+            toggleWateringCanFields();
+            closeJournalModal();
+        }
+
+        async function deleteJournalLog(plantId, logId) {
+            const p = plants.find(item => item.id === plantId);
+            if (!p || !p.logs) return;
+
+            p.logs = p.logs.filter((l, idx) => (l.id ? l.id !== logId : idx.toString() !== logId));
+            saveLocalPlantsForCurrentUser(plants);
+            markFloraSyncPending('log-delete', logId);
+            const cloudDeleteResult = await deleteLogFromCloud(logId);
+            if (cloudDeleteResult === false) {
+                alert("The journal entry was removed on this device, but cloud cleanup failed. The cloud entry and/or photos may still be present. Please try again after checking your connection.");
+            }
+
+            renderJournalLogs(p);
+            renderPlants();
+        }
+
+        function updateDeleteConfirmation() {
+            const input = document.getElementById('delete-confirmation-input');
+            const button = document.getElementById('confirm-delete-btn');
+            if (!input || !button) return;
+            const confirmed = input.value.trim().toLowerCase() === 'delete';
+            button.disabled = !confirmed;
+            button.classList.toggle('opacity-50', !confirmed);
+            button.classList.toggle('cursor-not-allowed', !confirmed);
+            button.classList.toggle('cursor-pointer', confirmed);
+        }
+
+        function setPlantArchiveView(view) {
+            window.groPlantArchiveView = view === 'archived' ? 'archived' : 'active';
+            if (window.groPlantArchiveView === 'active') window.groSelectedCompostYear = '';
+            renderPlants();
+        }
+
+        function setPlantArchiveYear(year) {
+            window.groSelectedCompostYear = String(year || '');
+            renderPlants();
+        }
+
+        function togglePlantArchive(id) {
+            const plant = plants.find(item => String(item.id) === String(id));
+            if (!plant) return;
+            const isBeingComposted = !plant.archivedAt;
+            if (isBeingComposted) {
+                plant.archivedAt = new Date().toISOString();
+            } else {
+                delete plant.archivedAt;
+            }
+            saveLocalPlantsForCurrentUser(plants);
+            markFloraSyncPending('plant-update', id);
+            if (typeof syncPendingFloraChanges === 'function' && navigator.onLine) syncPendingFloraChanges();
+            // Take the user straight to the matching list so the move is visible.
+            window.groPlantArchiveView = isBeingComposted ? 'archived' : 'active';
+            renderPlants();
+            closeJournalModal();
+        }
+
+        function promptDeletePlant(id) {
+            const p = plants.find(item => item.id === id);
+            if (!p) return;
+            pendingDeleteId = id;
+            document.getElementById('delete-plant-name').textContent = p.name + (p.variety ? ` (${p.variety})` : '');
+            const input = document.getElementById('delete-confirmation-input');
+            if (input) input.value = '';
+            const button = document.getElementById('confirm-delete-btn');
+            button.onclick = confirmDeletePlant;
+            updateDeleteConfirmation();
+            document.getElementById('delete-modal').classList.remove('hidden');
+            setTimeout(() => input?.focus(), 0);
+        }
+
+        function closeDeleteModal() {
+            pendingDeleteId = null;
+            const input = document.getElementById('delete-confirmation-input');
+            if (input) input.value = '';
+            updateDeleteConfirmation();
+            document.getElementById('delete-modal').classList.add('hidden');
+        }
+
+        async function confirmDeletePlant() {
+            if (!pendingDeleteId || document.getElementById('delete-confirmation-input')?.value.trim().toLowerCase() !== 'delete') return;
+            const delId = pendingDeleteId;
+            plants = plants.filter(p => p.id !== delId);
+            saveLocalPlantsForCurrentUser(plants);
+            markFloraSyncPending('plant-delete', delId);
+            const cloudDeleteResult = await deletePlantFromCloud(delId);
+            if (cloudDeleteResult === false) {
+                alert("The plant was removed on this device, but cloud cleanup failed. Its cloud records and/or photos may still be present. Please try again after checking your connection.");
+            }
+
+            renderPlants();
+            closeDeleteModal();
+            closeJournalModal();
+        }
+
+// Each location stores its own grid/list preference on this device.
+        const plantLocationViewModes = (() => {
+            try {
+                const saved = JSON.parse(getFloraAccountItem('flora_location_view_modes') || '{}');
+                return saved && typeof saved === 'object' ? saved : {};
+            } catch (_) { return {}; }
+        })();
+
+        function getLocationPlantView(location) {
+            return plantLocationViewModes[location] === 'grid' ? 'grid' : 'list';
+        }
+
+        function setLocationPlantView(location, view) {
+            if (!location || !['grid', 'list'].includes(view)) return;
+            plantLocationViewModes[location] = view;
+            setFloraAccountItem('flora_location_view_modes', JSON.stringify(plantLocationViewModes));
+            renderPlants();
+        }
+;
+      
+
+        
+    
