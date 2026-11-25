@@ -4978,8 +4978,9 @@ textarea {
                     updateSyncBadge('cloud', 'Cloud Connected');
                     // Profile, plants and locations are independent requests. Start them
                     // together instead of serialising three network round-trips.
+                    const restoredUserId = currentUser.id;
                     const profileTask = loadBrandingSettingsFromCloud().then(isValid => {
-                        if (isValid === false) handleInvalidRestoredSession(currentUser?.id);
+                        if (isValid === false) handleInvalidRestoredSession(restoredUserId);
                     }).catch(error => {
                         console.warn('GROnote profile refresh failed:', error);
                     });
