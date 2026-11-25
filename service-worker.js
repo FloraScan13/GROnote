@@ -58,21 +58,20 @@ self.addEventListener('fetch', event => {
     if (!isAppOrigin && !isPublicLibrary) return;
 
     if (request.mode === 'navigate' || (isAppOrigin && (url.pathname.endsWith('/index.html') || url.pathname.endsWith('/')))) {
+        const networkUpdate = fetch(request).then(async response => {
+            if (response && response.ok) {
+                const cache = await caches.open(CACHE_NAME);
+                await cache.put(request, response.clone());
+            }
+            return response;
+        });
+        // Extend the fetch event for the background cache refresh.
+        event.waitUntil(networkUpdate.catch(() => {}));
         event.respondWith((async () => {
             const cached = await caches.match(request) || await caches.match('./index.html');
-            const networkUpdate = fetch(request).then(async response => {
-                if (response && response.ok) {
-                    const cache = await caches.open(CACHE_NAME);
-                    await cache.put(request, response.clone());
-                }
-                return response;
-            });
             // Return the cached app shell immediately on repeat visits, then refresh it
             // in the background. On a first visit, use the network and cache the result.
-            if (cached) {
-                event.waitUntil(networkUpdate.catch(() => {}));
-                return cached;
-            }
+            if (cached) return cached;
             try {
                 return await networkUpdate;
             } catch (error) {
