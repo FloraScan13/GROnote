@@ -4747,12 +4747,12 @@ textarea {
         }
 
         async function loadBrandingSettingsFromCloud() {
-            if (!supabaseClient || !currentUser) return;
+            if (!supabaseClient || !currentUser) return null;
             const requestedUserId = currentUser.id;
             const pending = getFloraSyncQueue();
             const { data, error } = await supabaseClient.auth.getUser();
-            if (error) { console.error('Could not load cloud profile:', error); return; }
-            if (!currentUser || currentUser.id !== requestedUserId) return;
+            if (error) { console.error('Could not load cloud profile:', error); return false; }
+            if (!currentUser || currentUser.id !== requestedUserId) return null;
             currentUser = data.user || currentUser;
             const metadata = currentUser.user_metadata || {};
             if (!pending.profileDirty) {
@@ -4773,13 +4773,26 @@ textarea {
                     try { library = JSON.parse(getFloraAccountItem('flora_personal_plant_library') || '[]'); }
                     catch (_) { library = []; }
                     const { error: librarySaveError } = await supabaseClient.auth.updateUser({ data: { personal_plant_library: library } });
-                    if (!currentUser || currentUser.id !== requestedUserId) return;
+                    if (!currentUser || currentUser.id !== requestedUserId) return null;
                     if (librarySaveError) console.error('Could not initialise personal plant library:', librarySaveError);
                 }
                 setFloraAccountItem('flora_personal_plant_library', JSON.stringify(library));
                 renderMyPlantLibrary();
                 if (typeof setupAutocomplete === 'function') setupAutocomplete();
             }
+            return true;
+        }
+
+        function handleInvalidRestoredSession(userId) {
+            if (!currentUser || currentUser.id !== userId) return;
+            console.warn('The restored GROnote session could not be verified; signing out locally.');
+            void supabaseClient?.auth.signOut({ scope: 'local' }).catch(() => {});
+            currentUser = null;
+            resetFloraAccountStateForSignedOut();
+            plants = [];
+            renderPlants();
+            updateAuthUI(false);
+            updateSyncBadge('local', 'Sign-in service unavailable');
         }
 
         function hideMobileWelcomeScreen() {
@@ -4965,7 +4978,9 @@ textarea {
                     updateSyncBadge('cloud', 'Cloud Connected');
                     // Profile, plants and locations are independent requests. Start them
                     // together instead of serialising three network round-trips.
-                    const profileTask = loadBrandingSettingsFromCloud().catch(error => {
+                    const profileTask = loadBrandingSettingsFromCloud().then(isValid => {
+                        if (isValid === false) handleInvalidRestoredSession(currentUser?.id);
+                    }).catch(error => {
                         console.warn('GROnote profile refresh failed:', error);
                     });
                     const plantsTask = fetchPlantsFromCloudOrLocal();
@@ -5021,7 +5036,9 @@ textarea {
                         // also fire when a browser tab regains focus, so they must never
                         // change the section the gardener is currently viewing.
                         updateSyncBadge('cloud', 'Cloud Connected');
-                        const profileTask = loadBrandingSettingsFromCloud().catch(error => {
+                        const profileTask = loadBrandingSettingsFromCloud().then(isValid => {
+                            if (isValid === false) handleInvalidRestoredSession(restoringUserId);
+                        }).catch(error => {
                             console.warn('GROnote profile refresh failed:', error);
                         });
                         const plantsTask = fetchPlantsFromCloudOrLocal();
