@@ -16,8 +16,8 @@
                 align-items: center;
                 justify-content: center;
                 padding: 28px;
-                background: #F7F6F0;
-                color: #14532d;
+                background: #294b34;
+                color: #ffffff;
                 text-align: center;
                 opacity: 1;
                 visibility: visible;
@@ -35,7 +35,7 @@
                 margin: 0 auto 22px;
                 align-items: center;
                 justify-content: center;
-                color: #14532d;
+                color: #ffffff;
                 font-size: 76px;
             }
             #mobile-refresh-screen .refresh-title {
@@ -57,8 +57,8 @@
                 width: 24px;
                 height: 24px;
                 margin: 28px auto 0;
-                border: 3px solid rgba(196, 85, 124, .28);
-                border-top-color: #C4557C;
+                border: 3px solid rgba(255, 255, 255, .28);
+                border-top-color: #ffffff;
                 border-radius: 50%;
                 animation: flora-refresh-spin .8s linear infinite;
             }
@@ -99,11 +99,11 @@
                 position: fixed;
                 inset: 0;
                 z-index: 2000;
-                display: flex !important;
+                display: none !important;
                 align-items: center;
                 justify-content: center;
                 padding: 28px;
-                background: #294b34;
+                background: #ffffff;
                 color: #ffffff;
                 text-align: center;
                 opacity: 1;
