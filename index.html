@@ -4988,15 +4988,19 @@ textarea {
                     });
                     const plantsTask = fetchPlantsFromCloudOrLocal();
                     const locationsTask = fetchPlantLocationsFromCloudOrLocal();
-                    await Promise.all([plantsTask, locationsTask]);
+                    await plantsTask;
                     if (restoreGeneration !== floraAuthRestoreGeneration) return;
                     localStorage.setItem('flora_last_user_id', currentUser.id);
-                    renderPlantLocationControls();
+                    // Show the garden as soon as its plant query completes. Growing
+                    // locations, profile enrichment and uploads can finish afterwards.
                     renderPlants();
-                    // Profile enrichment and pending uploads must not hold up the first
-                    // usable Plants screen.
                     void profileTask;
-                    void syncPendingFloraChanges().catch(error => console.warn('GROnote background sync failed:', error));
+                    void locationsTask.then(() => {
+                        if (restoreGeneration !== floraAuthRestoreGeneration) return;
+                        renderPlantLocationControls();
+                        renderPlants();
+                        return syncPendingFloraChanges();
+                    }).catch(error => console.warn('GROnote background location refresh failed:', error));
                 } else {
                     currentUser = null;
                     resetFloraAccountStateForSignedOut();
@@ -5046,14 +5050,19 @@ textarea {
                         });
                         const plantsTask = fetchPlantsFromCloudOrLocal();
                         const locationsTask = fetchPlantLocationsFromCloudOrLocal();
-                        await Promise.all([plantsTask, locationsTask]);
+                        await plantsTask;
                         if (restoreGeneration !== floraAuthRestoreGeneration || currentUser?.id !== restoringUserId) return;
                         localStorage.setItem('flora_last_user_id', currentUser.id);
-                        renderPlantLocationControls();
                         renderPlants();
-                        // Keep profile enrichment and offline uploads out of the navigation path.
+                        // Keep location reconciliation, profile enrichment and offline uploads
+                        // out of the first-render and navigation paths.
                         void profileTask;
-                        void syncPendingFloraChanges().catch(error => console.warn('GROnote background sync failed:', error));
+                        void locationsTask.then(() => {
+                            if (restoreGeneration !== floraAuthRestoreGeneration || currentUser?.id !== restoringUserId) return;
+                            renderPlantLocationControls();
+                            renderPlants();
+                            return syncPendingFloraChanges();
+                        }).catch(error => console.warn('GROnote background location refresh failed:', error));
                     } else {
                         currentUser = null;
                         resetFloraAccountStateForSignedOut();
