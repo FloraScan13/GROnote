@@ -9,10 +9,10 @@
   "theme_color": "#294b34",
   "icons": [
     {
-      "src": "./GROnote%20Leaf%20Stamp%20Logo%20white.png",
+      "src": "./Leaf-Stamp-Logo-Dark-Green.png",
       "sizes": "any",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ]
 }
