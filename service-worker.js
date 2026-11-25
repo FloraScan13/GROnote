@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gronote-shell-v63';
+const CACHE_NAME = 'gronote-shell-v64';
 const APP_SHELL = [
     './',
     './index.html',
@@ -6,7 +6,7 @@ const APP_SHELL = [
     './app.css',
     './manifest.webmanifest',
     './leaf-icon-v2.svg',
-    './GROnote%20Leaf%20Stamp%20Logo%20white.png?v=8',
+    './gronote-android-splash-icon.png?v=9',
     './Leaf-Stamp-Logo-Dark-Green.png',
     './Leaf%20Stamp%20Logo%20green.png?v=2',
     './GROnote%20Leaf%20Stamp%20Logo%20white.png?v=8',
