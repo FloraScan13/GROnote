@@ -824,6 +824,40 @@
         }
     </style>
 
+    <style id="gronote-login-input-colours">
+        /* Keep login fields light even when the device or browser is using dark mode. */
+        html.flora-sign-in-only #cloud-auth-screen #auth-email,
+        html.flora-sign-in-only #cloud-auth-screen #auth-password,
+        html.flora-sign-in-only #cloud-auth-screen #auth-signup-email {
+            color-scheme: light !important;
+            background-color: #fffef9 !important;
+            color: #294b34 !important;
+            border-color: #cbd5cc !important;
+            -webkit-text-fill-color: #294b34 !important;
+            opacity: 1 !important;
+        }
+        html.flora-sign-in-only #cloud-auth-screen #auth-email::placeholder,
+        html.flora-sign-in-only #cloud-auth-screen #auth-password::placeholder,
+        html.flora-sign-in-only #cloud-auth-screen #auth-signup-email::placeholder {
+            color: #788579 !important;
+            -webkit-text-fill-color: #788579 !important;
+            opacity: 1 !important;
+        }
+        html.flora-sign-in-only #cloud-auth-screen #auth-email:focus,
+        html.flora-sign-in-only #cloud-auth-screen #auth-password:focus,
+        html.flora-sign-in-only #cloud-auth-screen #auth-signup-email:focus {
+            outline: none !important;
+            border-color: #294b34 !important;
+            box-shadow: 0 0 0 2px rgba(41, 75, 52, 0.14) !important;
+        }
+        html.flora-sign-in-only #cloud-auth-screen #auth-email:-webkit-autofill,
+        html.flora-sign-in-only #cloud-auth-screen #auth-password:-webkit-autofill,
+        html.flora-sign-in-only #cloud-auth-screen #auth-signup-email:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 1000px #fffef9 inset !important;
+            -webkit-text-fill-color: #294b34 !important;
+            caret-color: #294b34 !important;
+        }
+    </style>
     <style id="flora-sign-in-only-screen">
         /* When signed out, show only the sign-in panel and hide the rest of the app. */
         html.flora-sign-in-only,
