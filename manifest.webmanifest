@@ -9,8 +9,8 @@
   "theme_color": "#294b34",
   "icons": [
     {
-      "src": "./gronote-app-icon.svg?v=4",
-      "sizes": "any",
+      "src": "./gronote-app-icon.svg?v=5",
+      "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
