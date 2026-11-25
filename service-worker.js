@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gronote-shell-v53';
+const CACHE_NAME = 'gronote-shell-v54';
 const APP_SHELL = [
     './',
     './index.html',
@@ -59,17 +59,24 @@ self.addEventListener('fetch', event => {
 
     if (request.mode === 'navigate' || (isAppOrigin && (url.pathname.endsWith('/index.html') || url.pathname.endsWith('/')))) {
         event.respondWith((async () => {
-            try {
-                const response = await fetch(request);
+            const cached = await caches.match(request) || await caches.match('./index.html');
+            const networkUpdate = fetch(request).then(async response => {
                 if (response && response.ok) {
                     const cache = await caches.open(CACHE_NAME);
                     await cache.put(request, response.clone());
                 }
                 return response;
+            });
+            // Return the cached app shell immediately on repeat visits, then refresh it
+            // in the background. On a first visit, use the network and cache the result.
+            if (cached) {
+                event.waitUntil(networkUpdate.catch(() => {}));
+                return cached;
+            }
+            try {
+                return await networkUpdate;
             } catch (error) {
-                return (await caches.match(request)) ||
-                    (await caches.match('./index.html')) ||
-                    Response.error();
+                return (await caches.match('./index.html')) || Response.error();
             }
         })());
         return;
