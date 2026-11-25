@@ -1,0 +1,2053 @@
+
+        /* Match the browser's first painted frame and PWA launch surface on mobile. */
+        html, body { background-color: #294b34; }
+        @media (max-width: 768px) {
+            body { min-height: 100%; }
+        }
+
+        /* Mobile refresh screen shown when the app reloads garden data in the background. */
+        #mobile-refresh-screen { display: none; }
+        @media (max-width: 768px) {
+            #mobile-refresh-screen {
+                position: fixed;
+                inset: 0;
+                z-index: 2001;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 28px;
+                background: #F7F6F0;
+                color: #14532d;
+                text-align: center;
+                opacity: 1;
+                visibility: visible;
+                transition: opacity .28s ease, visibility .28s ease;
+            }
+            #mobile-refresh-screen.is-hidden {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
+            #mobile-refresh-screen .refresh-mark {
+                display: flex;
+                width: 112px;
+                height: 112px;
+                margin: 0 auto 22px;
+                align-items: center;
+                justify-content: center;
+                color: #14532d;
+                font-size: 76px;
+            }
+            #mobile-refresh-screen .refresh-title {
+                margin: 12px 0 0;
+                color: #14532d;
+                font-size: clamp(28px, 7.5vw, 36px);
+                font-weight: 650;
+                letter-spacing: -.035em;
+                line-height: 1.2;
+            }
+            #mobile-refresh-screen .refresh-caption {
+                margin: 18px 0 0;
+                color: #C4557C;
+                font-size: 15px;
+                letter-spacing: .12em;
+                text-transform: uppercase;
+            }
+            #mobile-refresh-screen .refresh-spinner {
+                width: 24px;
+                height: 24px;
+                margin: 28px auto 0;
+                border: 3px solid rgba(196, 85, 124, .28);
+                border-top-color: #C4557C;
+                border-radius: 50%;
+                animation: flora-refresh-spin .8s linear infinite;
+            }
+            @keyframes flora-refresh-spin { to { transform: rotate(360deg); } }
+        }
+
+        @media (max-width: 768px) {
+            html.flora-refresh-navigation #mobile-welcome-screen {
+                opacity: 0 !important;
+                visibility: hidden !important;
+                pointer-events: none !important;
+            }
+            html.flora-refresh-navigation #mobile-refresh-screen {
+                opacity: 1 !important;
+                visibility: visible !important;
+                pointer-events: auto !important;
+            }
+        }
+
+        /* Welcome overlay is mobile-only; desktop opens straight into the app. */
+        #mobile-welcome-screen {
+            display: none !important;
+        }
+        #mobile-welcome-screen.is-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        @media (max-width: 768px) {
+            #mobile-welcome-screen {
+                display: none !important;
+            }
+            #mobile-welcome-screen.is-hidden {
+                display: none !important;
+            }
+            /* Skip the introductory welcome overlay on mobile. */
+            #mobile-welcome-screen {
+                position: fixed;
+                inset: 0;
+                z-index: 2000;
+                display: none !important;
+                align-items: center;
+                justify-content: center;
+                padding: 28px;
+                background: #ffffff;
+                color: #14532d;
+                text-align: center;
+                opacity: 1;
+                visibility: visible;
+                transition: opacity .28s ease, visibility .28s ease;
+            }
+            #mobile-welcome-screen.is-hidden {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
+            #mobile-welcome-screen .welcome-mark {
+                display: flex;
+                width: 112px;
+                height: 112px;
+                margin: 0 auto 22px;
+                align-items: center;
+                justify-content: center;
+                border: 0;
+                border-radius: 0;
+                background: transparent;
+                color: #14532d;
+                font-size: 76px;
+            }
+            #mobile-welcome-screen .welcome-title {
+                margin: 12px 0 0;
+                font-size: clamp(28px, 7.5vw, 36px);
+                font-weight: 650;
+                letter-spacing: -.035em;
+                line-height: 1.2;
+                color: #14532d;
+            }
+            #mobile-welcome-screen .welcome-greeting {
+                margin: 0;
+                color: #C4557C;
+                font-size: 15px;
+                letter-spacing: .12em;
+                text-transform: uppercase;
+                line-height: 1.2;
+            }
+            #mobile-welcome-screen .welcome-handle {
+                margin: 12px 0 0;
+                color: #f4c6d5;
+                font-size: 10px;
+                font-weight: 500;
+                letter-spacing: .02em;
+            }
+            #mobile-welcome-screen .welcome-caption {
+                margin: 18px 0 0;
+                color: #C4557C;
+                font-size: 15px;
+                letter-spacing: .12em;
+                text-transform: uppercase;
+            }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.4);
+            border-radius: 9999px;
+        }
+        /* Appearance preferences: theme accents override the app's default emerald utilities. */
+        body[data-accent="green"] { --flora-50:#f0fdf4; --flora-100:#dcfce7; --flora-400:#4ade80; --flora-500:#22c55e; --flora-600:#16a34a; --flora-700:#15803d; --flora-800:#166534; --flora-900:#14532d; }
+        body[data-accent="blue"] { --flora-50:#eff6ff; --flora-100:#dbeafe; --flora-400:#60a5fa; --flora-500:#3b82f6; --flora-600:#2563eb; --flora-700:#1d4ed8; --flora-800:#1e40af; --flora-900:#1e3a8a; }
+        body[data-accent="purple"] { --flora-50:#faf5ff; --flora-100:#f3e8ff; --flora-400:#c084fc; --flora-500:#a855f7; --flora-600:#9333ea; --flora-700:#7e22ce; --flora-800:#6b21a8; --flora-900:#581c87; }
+        body[data-accent="rose"] { --flora-50:#fff1f2; --flora-100:#ffe4e6; --flora-400:#fb7185; --flora-500:#f43f5e; --flora-600:#e11d48; --flora-700:#be123c; --flora-800:#9f1239; --flora-900:#881337; }
+        body[data-accent="amber"] { --flora-50:#fffbeb; --flora-100:#fef3c7; --flora-400:#fbbf24; --flora-500:#f59e0b; --flora-600:#d97706; --flora-700:#b45309; --flora-800:#92400e; --flora-900:#78350f; }
+        body[data-accent] [class~="bg-emerald-600"] { background-color: var(--flora-600) !important; }
+        body[data-accent] [class~=""]:hover { background-color: var(--flora-700) !important; }
+        body[data-accent] [class~="bg-emerald-700"] { background-color: var(--flora-700) !important; }
+        body[data-accent] [class~=""]:hover { background-color: var(--flora-800) !important; }
+        body[data-accent] [class~="text-emerald-600"] { color: var(--flora-600) !important; }
+        body[data-accent] [class~="text-emerald-700"] { color: var(--flora-700) !important; }
+        body[data-accent] [class~="text-emerald-800"] { color: var(--flora-800) !important; }
+        body[data-accent] [class~="text-emerald-400"] { color: var(--flora-400) !important; }
+        body[data-accent] [class~="bg-emerald-50"] { background-color: var(--flora-50) !important; }
+        body[data-accent] [class~="bg-emerald-100"] { background-color: var(--flora-100) !important; }
+        body[data-accent] [class~="border-emerald-500"] { border-color: var(--flora-500) !important; }
+        body[data-accent] [class~="ring-emerald-500"] { --tw-ring-color: var(--flora-500) !important; }
+        body[data-accent] [class~="focus:ring-emerald-500"]:focus { --tw-ring-color: var(--flora-500) !important; }
+
+        /* Keep multisow action labels black regardless of the selected accent theme. */
+        #multisow-container-rows label,
+        #multisow-container-rows .multisow-complete { color: #000000 !important; }
+
+        /* Keep compact location actions aligned with the heading. */
+        .location-group-toolbar { flex-direction: row; align-items: center; justify-content: space-between; }
+        .location-group-actions { margin-left: auto; }
+        .location-icon-button { min-height: 36px; width: 36px; height: 36px; }
+        @media (max-width: 640px) {
+            .location-group-toolbar { flex-direction: row; align-items: center; }
+            .location-group-actions { display: flex; flex-shrink: 0; width: auto; }
+            .location-icon-button { min-height: 34px; width: 34px; height: 34px; }
+        }
+
+        /* Responsive location header: compact but not cramped on phones. */
+        .location-group-toolbar { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 8px; }
+        .location-group-heading { display: flex; align-items: baseline; gap: 7px; min-width: 0; flex: 1 1 auto; }
+        .location-group-heading h3 { min-width: 0; overflow-wrap: anywhere; }
+        .location-group-count { flex-shrink: 0; white-space: nowrap; }
+        .location-group-actions { display: flex; align-items: center; gap: 5px; flex: 0 0 auto; margin-left: auto; }
+        .location-group-details { overflow-wrap: anywhere; }
+        @media (max-width: 420px) {
+            .location-group { padding: 10px; }
+            .location-group-toolbar { gap: 6px; }
+            .location-group-heading { flex-wrap: wrap; gap: 3px 6px; }
+            .location-group-heading h3 { font-size: 14px; line-height: 1.25; }
+            .location-group-count { font-size: 10px; }
+            .location-icon-button { width: 32px; height: 32px; min-height: 32px; }
+            .location-group-actions { gap: 4px; }
+        }
+
+        /* Keep button icons and labels aligned, readable, and touch-friendly on phones. */
+        button {
+            flex-direction: row !important;
+            align-items: center;
+        }
+
+        @media (max-width: 480px) {
+            #main-navigation-tabs {
+                display: flex;
+                gap: 4px;
+                padding: 4px;
+                border-radius: 14px;
+            }
+            #main-navigation-tabs button {
+                display: flex;
+                flex: 1 1 0%;
+                min-width: 0;
+                min-height: 52px;
+                padding: 8px 5px;
+                flex-direction: row !important;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+                border-radius: 10px;
+                font-size: clamp(11px, 3.1vw, 13px);
+                font-weight: 600;
+                line-height: 1.2;
+                text-align: center;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            #main-navigation-tabs button i {
+                flex: 0 0 auto;
+                font-size: clamp(15px, 4.2vw, 18px);
+                line-height: 1;
+            }
+            #main-navigation-tabs button span {
+                display: inline-block;
+                min-width: 0;
+                max-width: 100%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: clip;
+            }
+        }
+
+        @media (max-width: 360px) {
+            #main-navigation-tabs { gap: 3px; padding: 3px; }
+            #main-navigation-tabs button { gap: 4px; padding-left: 3px; padding-right: 3px; font-size: 10px; }
+            #main-navigation-tabs button i { font-size: 14px; }
+        }
+
+        .autocomplete-dropdown {
+            max-height: 220px;
+            overflow-y: auto;
+            z-index: 60;
+        }
+        /* Plant card placeholders show only the Leaf Stamp logo,
+           matching the clean, frameless Plant Journal image placeholder. */
+        .crop-badge-container {
+            border: 0 !important;
+            background: transparent !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+            overflow: visible !important;
+        }
+
+        #plants-grid .plant-card .crop-badge-container > div {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 100% !important;
+            height: 100% !important;
+            min-width: 0 !important;
+            min-height: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: transparent !important;
+            overflow: visible !important;
+        }
+        #plants-grid .plant-card .crop-badge-container > div,
+        #plants-grid .plant-card .crop-badge-container > div > div {
+            width: 52px !important;
+            height: 52px !important;
+            min-width: 52px !important;
+            min-height: 52px !important;
+            max-width: 52px !important;
+            max-height: 52px !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            flex: 0 0 52px !important;
+        }
+        #plants-grid .plant-card .crop-badge-container img {
+             !important;
+            mix-blend-mode: multiply !important;
+            display: block !important;
+            width: 52px !important;
+            height: 52px !important;
+            min-width: 52px !important;
+            min-height: 52px !important;
+            max-width: 52px !important;
+            max-height: 52px !important;
+            object-fit: contain !important;
+            object-position: center !important;
+            overflow: visible !important;
+            flex: 0 0 52px !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+        }
+
+        /* The Plant Journal placeholder shows only the Leaf Stamp logo:
+           no surrounding button border or white tile. */
+        #journal-icon-container {
+            border: 0 !important;
+            background: transparent !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+            overflow: hidden !important;
+        }
+
+        #journal-icon-container > div {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 100% !important;
+            height: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: transparent !important;
+            overflow: hidden !important;
+        }
+        #journal-icon-container > div > img {
+             !important;
+            mix-blend-mode: multiply !important;
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            object-fit: contain !important;
+            flex: 0 0 100% !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+        }
+
+
+        
+/* GROnote mobile usability improvements */
+button,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+button {
+  min-height: 44px;
+}
+
+input,
+select,
+textarea {
+  max-width: 100%;
+  scroll-margin-bottom: 100px;
+}
+
+#app-header {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+#plant-modal {
+  padding-top: max(1rem, env(safe-area-inset-top));
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+@media (max-width: 380px) {
+  #app-header > div {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  main {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  #plantViewToggle button {
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  #view-scanner .flex.justify-center {
+    flex-wrap: wrap;
+  }
+
+  #view-scanner .flex.justify-center button {
+    flex: 1 1 120px;
+  }
+}
+
+
+        
+
+
+        #plants-empty button:hover { background-color: #A63D65 !important; }
+        /* GROnote editorial redesign: calm Garden Organic-inspired palette, no decorative leaf background. */
+        :root { color-scheme: light; }
+        body {
+            background: #f7f6f0 !important;
+            color: #263f2e !important;
+            background-image: none !important;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+        }
+        body.dark { background: #f7f6f0 !important; color: #263f2e !important; }
+        #app-header {
+            position: relative !important;
+            background: #294b34 !important;
+            box-shadow: 0 2px 12px rgba(30, 55, 35, .10) !important;
+        }
+        /* Let the green header flow into a subtle hand-drawn edge in the same green. */
+        #app-header::after {
+            content: "" !important;
+            position: absolute !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: -2px !important;
+            height: 4px !important;
+            pointer-events: none !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            background-size: 100% 4px !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 4' preserveAspectRatio='none'%3E%3Cpath d='M1 2.5 C80 1.1 120 3.1 205 2 S350 1.4 430 2.4 S580 3.1 665 1.9 S820 1.5 999 2.3' fill='none' stroke='%23294b34' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+        }
+        #app-header > div { max-width: 1200px !important; padding-top: 16px !important; padding-bottom: 16px !important; }
+        #header-logo-container { background: rgba(255,255,255,.12) !important; border: 1px solid rgba(244,180,201,.75) !important; border-radius: 14px !important; box-sizing: border-box; }
+        /* Keep the desktop header logo visible and completely inert on pointer rollover.
+           Disable pointer targeting on the image so hover rules cannot hide or restyle it. */
+        @media (min-width: 769px) {
+            #app-header img[alt="GROnote"],
+            #app-header img[alt="GROnote"]:hover,
+            #app-header:hover img[alt="GROnote"],
+            #app-header img[alt="GROnote"]:focus,
+            #app-header img[alt="GROnote"]:active {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+                animation: none !important;
+                filter: brightness(0) invert(1) !important;
+                pointer-events: none !important;
+            }
+        }
+        /* Keep every part of the header cloud-status pill white. */
+        #cloud-sync-badge {
+            background: #294b34 !important;
+            color: #ffffff !important;
+            border-color: rgba(255, 255, 255, .8) !important;
+        }
+        #cloud-sync-badge #header-scanner-mode-icon,
+        #cloud-sync-badge #cloud-sync-icon,
+        #cloud-sync-badge #cloud-sync-text {
+            color: #ffffff !important;
+        }
+        #cloud-sync-badge #header-scanner-mode-icon img {
+            filter: brightness(0) invert(1) !important;
+        }
+        #app-header h1 { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important; font-size: 1.55rem !important; letter-spacing: -.025em; }
+        #app-subtitle-display {
+            color: #e4eadf !important;
+            opacity: 1 !important;
+            font-weight: 500 !important;
+            letter-spacing: .015em;
+        }
+        main { max-width: 1200px !important; padding-top: 0 !important; background-color: #f7f6f0 !important; }
+        /* Match the main content canvas to the Plants / NFC Scan / Add Plant navigation background. */
+        #view-plants, #view-scanner, #view-settings { background-color: #f7f6f0 !important; }
+        /* Keep the navigation and its hand-drawn underline attached to the sticky site header. */
+        #app-header { z-index: 50 !important; }
+        #main-navigation-tabs {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 49 !important;
+            background: #f7f6f0 !important;
+            padding-top: 12px !important;
+            margin-top: 0 !important;
+            box-shadow: none !important;
+            border-bottom: 0 !important;
+            border-radius: 0 !important;
+            padding: 12px 0 22px !important;
+            margin-bottom: 12px !important;
+            gap: 10px !important;
+        }
+        #main-navigation-tabs::before {
+            content: "" !important;
+            position: absolute !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            left: calc(50% - 50vw) !important;
+            width: 100vw !important;
+            background: #f7f6f0 !important;
+            background-color: #f7f6f0 !important;
+            z-index: -1 !important;
+            pointer-events: none !important;
+            box-shadow: none !important;
+        }
+        /* A fine, hand-drawn sage pencil line beneath the main navigation. */
+        #main-navigation-tabs::after {
+            content: "" !important;
+            position: absolute !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            height: 6px !important;
+            pointer-events: none !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            background-size: 100% 6px !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 6' preserveAspectRatio='none'%3E%3Cpath d='M2 3.8 C80 1.8 120 4.6 205 3.1 S350 2.1 430 3.5 S580 4.5 665 2.9 S820 2.2 998 3.4' fill='none' stroke='%23b8c9b9' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+        }
+        #main-navigation-tabs button {
+            border-radius: 12px !important;
+            padding: 12px 18px !important;
+            min-height: 46px;
+        }
+        #main-navigation-tabs button[aria-current="page"] {
+            background: #e4eadf !important;
+            color: #294b34 !important;
+            border: 1px solid #d7dfd0 !important;
+            box-shadow: 0 1px 3px rgba(40,65,43,.08) !important;
+            font-weight: 600 !important;
+        }
+        #main-navigation-tabs button[aria-current="false"] {
+            background: transparent !important;
+            color: #526653 !important;
+            border-color: transparent !important;
+            box-shadow: none !important;
+            font-weight: 500 !important;
+        }
+        #view-plants { gap: 20px !important; }
+        #view-plants > .flex:first-child { margin-top: 6px; }
+        #plant-location-tabs {
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        #plant-location-tabs::-webkit-scrollbar { display: none; }
+        #plant-location-tabs .location-filter-tab {
+            background: #f1f0e8;
+            color: #526653;
+            border: 1px solid #e0e2d6;
+            border-radius: 14px !important;
+            white-space: nowrap;
+        }
+        #plant-location-tabs .location-filter-tab:hover {
+            background: #F1F0E9;
+        }
+        #plant-location-tabs .location-filter-tab.is-active {
+            background: #294b34 !important;
+            border-color: #294b34 !important;
+            color: #ffffff !important;
+            box-shadow: none !important;
+        }
+        #plant-location-tabs .location-filter-tab.is-active:hover,
+        #plant-location-tabs .location-filter-tab.is-active:active {
+            background: #294b34 !important;
+            border-color: #294b34 !important;
+            color: #ffffff !important;
+        }
+        #plant-search, #plant-location-filter {
+            background-color: #fffef9 !important;
+            border-color: #d9ddcf !important;
+            border-radius: 14px !important;
+            min-height: 48px;
+            color: #294b34 !important;
+        }
+        #plant-search:focus, #plant-search:focus-visible {
+            outline: none !important;
+            border-color: #d9ddcf !important;
+            box-shadow: none !important;
+        }
+        #plant-search-toggle {
+            width: 48px;
+            height: 48px;
+            flex: 0 0 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #cbd8c4;
+            border-radius: 14px;
+            color: #31583b;
+            background: #F1F0E9;
+            transition: background-color .18s ease, box-shadow .18s ease, transform .18s ease;
+        }
+        #plant-search-toggle:hover, #plant-search-toggle:active, #plant-search-toggle[aria-expanded="true"] {
+            background: #F1F0E9;
+            box-shadow: none !important;
+            outline: none !important;
+        }
+        #plant-search-toggle:focus, #plant-search-toggle:focus-visible {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        #plant-search-wrap {
+            min-width: 0;
+            flex: 1 1 auto;
+            animation: plantSearchReveal .18s ease-out;
+        }
+        @keyframes plantSearchReveal {
+            from { opacity: 0; transform: translateX(-6px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        #plantViewToggle { background: #e8eade !important; border-radius: 13px !important; }
+        #plantViewToggle button { border-radius: 10px !important; min-height: 40px !important; }
+        #plantViewToggle button[aria-pressed="true"],
+        #plantViewToggle button.is-active,
+        #plantViewToggle button.active {
+            background: #294b34 !important;
+            border-color: #294b34 !important;
+            color: #ffffff !important;
+            box-shadow: none !important;
+        }
+        #plants-grid { gap: 20px !important; }
+        .location-view-toggle { background: transparent; border: 0; padding: 0; }
+        .location-view-button {
+            width: 36px; height: 36px; min-height: 36px;
+            display: inline-flex; align-items: center; justify-content: center;
+            border: 1px solid #e2e8f0; border-radius: 8px;
+            color: #334155; background: transparent; font-size: 13px;
+            transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+        }
+        .location-view-button:hover { background: #f8fafc; }
+        .location-view-button.is-active {
+            background: #294b34 !important; border-color: #294b34 !important;
+            color: #fff !important; box-shadow: none !important;
+        }
+        .location-view-button:focus-visible { outline: 2px solid #C4557C; outline-offset: 2px; }
+        .dark .location-view-button { border-color: #475569; color: #e2e8f0; }
+        .dark .location-view-button:hover { background: #1e293b; }
+        .dark .location-view-button.is-active { background: #294b34 !important; border-color: #294b34 !important; color: #fff !important; }
+        /* Restore the original compact horizontal plant-row appearance in each location's list view. */
+        .location-group-plants.is-list-view { grid-template-columns: minmax(0,1fr) !important; gap: .5rem !important; }
+        .location-group-plants.is-list-view .plant-card {
+            display: flex !important; flex-direction: row !important; align-items: center !important;
+            justify-content: space-between !important; gap: .75rem !important;
+            min-width: 0; padding: .5rem .75rem !important; overflow: visible !important;
+            background: rgb(248,248,242) !important; border: 1px solid #e1e1d5 !important;
+            border-radius: 15px !important; box-shadow: 0 2px 8px rgba(40,65,43,.045) !important;
+        }
+        .location-group-plants.is-list-view .plant-card:has(details[open]) { z-index: 9999 !important; }
+        .location-group-plants.is-list-view .plant-card > div:first-child {
+            order: 2; flex: 1 1 auto; min-width: 0; padding: 0 !important;
+            border: 0 !important; background: transparent !important;
+        }
+        .location-group-plants.is-list-view .plant-card > div:first-child > div:first-child {
+            min-width: 0; padding: 0 !important; background: transparent !important;
+        }
+        .location-group-plants.is-list-view .plant-card > div:first-child h4 {
+            font-size: .9rem !important; line-height: 1.25rem !important;
+        }
+        .location-group-plants.is-list-view .plant-card > div:first-child p {
+            font-size: .72rem !important; line-height: 1rem !important;
+        }
+        .location-group-plants.is-list-view .plant-card > div:first-child details {
+            flex: 0 0 auto; margin-left: .25rem;
+        }
+        .location-group-plants.is-list-view .plant-card > div:nth-child(2) {
+            order: 1; flex: 0 0 auto; min-width: 0; padding: 0 !important;
+            gap: 0 !important; background: transparent !important;
+        }
+        .location-group-plants.is-list-view .plant-card > div:nth-child(2) > div:not(.crop-badge-container):not(.plant-photo-no-frame) { display: none !important; }
+        /* Keep the plant details column visible in compact list cards. */
+        .location-group-plants.is-list-view .plant-card > div:nth-child(2) > div.flex-1 {
+            display: block !important; flex: 1 1 auto !important; min-width: 0 !important;
+        }
+        .location-group-plants.is-list-view .plant-card > div:nth-child(2) > div.flex-1 > p {
+            display: block !important; overflow: visible !important; white-space: normal !important;
+        }
+        /* List rows retain only the explicitly marked Setup line from the grid card. */
+        .location-group-plants.is-list-view .plant-card > div:nth-child(2) > div.flex-1 > p:not(.plant-card-setup-detail),
+        .location-group-plants.is-list-view .plant-card > div:nth-child(2) > div.flex-1 > span {
+            display: none !important;
+        }
+        .location-group-plants.is-list-view .plant-card > div:nth-child(2) > div.flex-1 > .plant-card-setup-detail {
+            display: block !important;
+            margin-top: 0 !important;
+            overflow: visible !important;
+            white-space: normal !important;
+        }
+        .location-group-plants.is-list-view .plant-card .crop-badge-container {
+            width: 2.5rem !important; height: 2.5rem !important; padding: .25rem !important;
+            border-radius: 13px !important; background: #eaf0e4 !important;
+            border: 1px solid #dce5d6 !important; box-shadow: none !important;
+        }
+        .location-group-plants.is-list-view .plant-card .plant-photo-no-frame {
+            display: flex !important;
+            flex: 0 0 2.5rem !important;
+            width: 2.5rem !important;
+            min-width: 2.5rem !important;
+            max-width: 2.5rem !important;
+            height: 2.5rem !important;
+            min-height: 2.5rem !important;
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            overflow: hidden !important;
+        }
+        .location-group-plants.is-list-view .plant-card .plant-photo-no-frame img {
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+        }
+        .location-group-plants.is-list-view .plant-card > div:last-child { display: none !important; }
+        .location-group-plants.is-list-view .plant-card details[open] { position: relative !important; z-index: 10000 !important; }
+        .location-group-plants.is-list-view .plant-card details[open] > div { z-index: 10001 !important; }
+        .dark .location-group-plants.is-list-view .plant-card {
+            background: #1e293b !important; border-color: #334155 !important;
+        }
+        @media (max-width: 420px) {
+            .location-group-plants.is-list-view .plant-card { gap: .55rem !important; padding: .5rem !important; }
+            .location-group-plants.is-list-view .plant-card .crop-badge-container { width: 2.35rem !important; height: 2.35rem !important; }
+            .location-group-plants.is-list-view .plant-card .plant-photo-no-frame {
+                flex-basis: 2.35rem !important; width: 2.35rem !important; min-width: 2.35rem !important;
+                max-width: 2.35rem !important; height: 2.35rem !important; min-height: 2.35rem !important;
+            }
+        }
+        /* Keep plant action menus visible above neighbouring cards in both layouts. */
+        #plants-grid > div { overflow: visible !important; }
+        .plant-card { overflow: visible !important; }
+        .plant-card:has(details[open]) { z-index: 60 !important; }
+        #plants-grid > div:has(.plant-card details[open]) { z-index: 60 !important; }
+        .plant-card > div:first-child { border-top-left-radius: 1rem; border-top-right-radius: 1rem; }
+        .plant-card > div:last-child { border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem; }
+        #plants-grid > div {
+            background: #fffef9 !important;
+            border: 1px solid #e1e1d5 !important;
+            border-radius: 17px !important;
+            box-shadow: 0 3px 12px rgba(40,65,43,.045) !important;
+            overflow: hidden;
+            transition: box-shadow .18s ease, transform .18s ease;
+        }
+        #plants-grid > div:hover {
+            box-shadow: 0 8px 22px rgba(40,65,43,.09) !important;
+            transform: translateY(-2px);
+        }
+        #plants-empty, #view-scanner > div, #view-settings > div,
+        #view-settings .bg-white, #view-settings .dark\:bg-slate-800 {
+            border-color: #e1e1d5 !important;
+            border-radius: 18px !important;
+        }
+        button { transition: background-color .16s ease, box-shadow .16s ease, color .16s ease; }
+        button.bg-emerald-600, button[class~="bg-emerald-600"] {
+            background-color: #31583b !important;
+        }
+        button.hover\:bg-emerald-700:hover, button[class~=""]:hover {
+            background-color: #24462e !important;
+        }
+        input, select, textarea {
+            border-radius: 12px;
+        }
+        /* Avoid any decorative leaf-pattern treatment; retain plant icons in the actual interface. */
+        body::before, body::after, main::before, main::after {
+            content: none !important;
+            background-image: none !important;
+        }
+        @media (min-width: 768px) {
+            #plants-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+        }
+        @media (max-width: 640px) {
+            main { padding-top: 0 !important; }
+            #main-navigation-tabs { gap: 4px !important; }
+            #main-navigation-tabs button { padding: 10px 6px !important; }
+            #plants-grid { gap: 12px !important; }
+
+            /* Keep every location section and plant card inside the phone viewport. */
+            #view-plants, #view-plants > *, #view-plants .max-w-\[1400px\],
+            #plants-grid, #plants-grid > *, #plants-grid .location-group,
+            #plants-grid .location-group-plants, #plants-grid .plant-card {
+                box-sizing: border-box !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+            }
+            #plants-grid .location-group {
+                padding: 10px 0 16px !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+            #plants-grid .location-group-plants {
+                min-width: 0 !important;
+                grid-template-columns: minmax(0, 1fr) !important;
+            }
+            #plants-grid .location-group-plants .plant-card {
+                min-width: 0 !important;
+                max-width: 100% !important;
+            }
+            #plants-grid .location-group-toolbar {
+                width: 100% !important;
+                min-width: 0 !important;
+                gap: 6px !important;
+            }
+            #plants-grid .location-group-heading {
+                min-width: 0 !important;
+                overflow-wrap: anywhere !important;
+            }
+            #plants-grid .location-group-actions {
+                flex: 0 0 auto !important;
+            }
+            #plants-grid .location-group-details {
+                width: 100% !important;
+                min-width: 0 !important;
+                overflow-wrap: anywhere !important;
+            }
+            #plants-grid .location-group-plants.is-list-view .plant-card {
+                width: 100% !important;
+                max-width: 100% !important;
+                overflow-wrap: anywhere !important;
+            }
+            #plants-grid .location-group-plants.is-list-view .plant-card > div:first-child {
+                flex: 1 1 0% !important;
+                width: auto !important;
+            }
+            #plants-grid .location-group-plants.is-list-view .plant-card h4,
+            #plants-grid .location-group-plants.is-list-view .plant-card p {
+                min-width: 0 !important;
+                overflow-wrap: anywhere !important;
+            }
+        }
+
+
+        /* Extend the GROnote visual system across cards, scanner, journal, add-plant and settings. */
+        #main-navigation-tabs button {
+            color: #526653 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            border: 1px solid transparent !important;
+            font-weight: 600 !important;
+        }
+        #main-navigation-tabs button:hover {
+            background: #edf0e7 !important;
+            color: #294b34 !important;
+        }
+        #main-navigation-tabs button[aria-current="page"] {
+            background: #294b34 !important;
+            color: #ffffff !important;
+            border-color: #294b34 !important;
+            box-shadow: none !important;
+            font-weight: 600 !important;
+        }
+        #main-navigation-tabs button[aria-current="page"] i,
+        #main-navigation-tabs button[aria-current="page"] img {
+            color: #ffffff !important;
+            filter: brightness(0) invert(1) !important;
+        }
+        #main-navigation-tabs button[aria-current="page"]:hover,
+        #main-navigation-tabs button[aria-current="page"]:active {
+            background: #294b34 !important;
+            border-color: #294b34 !important;
+            color: #ffffff !important;
+        }
+        #main-navigation-tabs button[aria-current="false"] {
+            background: transparent !important;
+            color: #526653 !important;
+            border-color: transparent !important;
+            box-shadow: none !important;
+            font-weight: 500 !important;
+        }
+
+        /* Active navigation stays dark green on desktop and mobile. */
+
+        /* Plant cards: fully carry through the warm, botanical card treatment. */
+        #plants-grid .location-group {
+            background: #f0f2e9 !important;
+            border: 1px solid #dfe3d5 !important;
+            border-radius: 20px !important;
+            padding: 16px !important;
+            box-shadow: none !important;
+        }
+        #plants-grid .location-group-heading h3 {
+            color: #294b34 !important;
+            letter-spacing: -.015em;
+        }
+        #plants-grid .location-group-count { color: #718071 !important; }
+        #plants-grid .location-icon-button {
+            background: transparent !important;
+            border-color: #e2e8f0 !important;
+            color: #334155 !important;
+            border-radius: 8px !important;
+            transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+        }
+        #plants-grid .location-icon-button:hover {
+            background: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+        }
+        .dark #plants-grid .location-icon-button {
+            border-color: #475569 !important;
+            color: #e2e8f0 !important;
+        }
+        .dark #plants-grid .location-icon-button:hover {
+            background: #1e293b !important;
+        }
+        #plants-grid .location-details {
+            color: #526653 !important;
+        }
+        #plants-grid .location-group .grid > div,
+        #plants-grid .location-group .plant-card,
+        #plants-grid > div, #plants-grid article, .plant-card {
+            background: #fffef9 !important;
+            color: #294333 !important;
+            border: 1px solid #e1e1d5 !important;
+            border-radius: 18px !important;
+            box-shadow: 0 3px 12px rgba(40,65,43,.045) !important;
+            overflow: hidden;
+            transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+        }
+        #plants-grid .location-group .grid > div:hover,
+        #plants-grid > div:hover, #plants-grid article:hover, .plant-card:hover {
+            border-color: #ccd8c6 !important;
+            box-shadow: 0 8px 22px rgba(40,65,43,.09) !important;
+            transform: translateY(-2px);
+        }
+        #plants-grid .location-group .grid > div > div:first-child {
+            background: #f8f8f1 !important;
+            border-color: #e8e9de !important;
+        }
+        #plants-grid .location-group .grid > div > div:last-child {
+            background: #f8f8f1 !important;
+            border-color: #e8e9de !important;
+        }
+        #plants-grid h3, #plants-grid h4, #plants-grid .font-bold {
+            color: #294333;
+        }
+        #plants-grid .crop-badge-container {
+            background: transparent !important;
+            background-color: transparent !important;
+            border: 0 !important;
+            border-color: transparent !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+        #plants-grid .text-emerald-700, #plants-grid .text-emerald-800,
+        #plants-grid .text-emerald-600 {
+            color: #426b47 !important;
+        }
+        #plants-grid .text-slate-500, #plants-grid .text-slate-600 {
+            color: #718071 !important;
+        }
+        #plants-grid .border-slate-100, #plants-grid .border-slate-200 {
+            border-color: #e1e1d5 !important;
+        }
+        #plants-grid .bg-white {
+            background: #fffef9 !important;
+        }
+
+            background: #fffef9 !important;
+            color: #294333 !important;
+            border: 1px solid #e1e1d5 !important;
+            border-radius: 18px !important;
+            box-shadow: 0 3px 12px rgba(40,65,43,.045) !important;
+            overflow: hidden;
+        }
+        #plants-grid h3, #plants-grid h4, #plants-grid .font-bold {
+            color: #294333;
+        }
+        #view-scanner > div, #view-scanner #match-result-card {
+            background: #fffef9 !important;
+            color: #294333 !important;
+            border: 1px solid #e1e1d5 !important;
+            border-radius: 20px !important;
+            box-shadow: 0 4px 16px rgba(40,65,43,.05) !important;
+        }
+        /* Pink palette for visible location details on the Plants screen. */
+        #plants-grid .location-group-details,
+        #plants-grid .location-details {
+            background: #fff0f4 !important;
+            border: 1px solid #e8a7bd !important;
+            border-radius: 12px !important;
+            padding: 10px 12px !important;
+            color: #81334f !important;
+        }
+        #plants-grid .location-group-details *,
+        #plants-grid .location-details * {
+            color: #81334f !important;
+        }
+        #plants-grid .location-group-details button[aria-label="Edit location details"],
+        #plants-grid .location-group-details button[aria-label="Edit location details"] i,
+        #plants-grid .location-group-details button[aria-label="Edit location details"] span {
+            color: #ffffff !important;
+        }
+        /* Pink-tinted scan/tag match results, coordinated with the journal accent. */
+        #view-scanner #match-result-card {
+            background: #fff0f4 !important;
+            border-color: #e8a7bd !important;
+        }
+        #view-scanner #match-result-card .text-slate-700,
+        #view-scanner #match-result-card .text-slate-600,
+        #view-scanner #match-result-card .text-slate-500,
+        #view-scanner #match-result-card p,
+        #view-scanner #match-result-card h3,
+        #view-scanner #match-result-card h4 {
+            color: #81334f !important;
+        }
+        #view-scanner #match-result-card .bg-white,
+        #view-scanner #match-result-card .bg-slate-50 {
+            background: #fff8fa !important;
+            border-color: #f0cad8 !important;
+        }
+        /* Make the recognized tag-colour label and result surface match the rose palette. */
+        #view-scanner #match-result-card > div:first-child {
+            background: #f9dce6 !important;
+            border-color: #e8a7bd !important;
+        }
+        #view-scanner #match-result-card > div:first-child span {
+            background: #f3c4d5 !important;
+            color: #81334f !important;
+        }
+        #view-scanner #match-result-card #match-color-swatch {
+            border-color: #fff8fa !important;
+            box-shadow: 0 0 0 2px #e8a7bd !important;
+        }
+        #view-scanner #match-result-content {
+            background: #fff0f4 !important;
+            color: #81334f !important;
+        }
+        #view-scanner #match-result-content .bg-slate-50,
+        #view-scanner #match-result-content .bg-white {
+            background: #fff8fa !important;
+            border-color: #f0cad8 !important;
+        }
+        #view-scanner #match-result-content .text-emerald-600,
+        #view-scanner #match-result-content .text-emerald-700,
+        #view-scanner #match-result-content .text-emerald-800,
+        #view-scanner #match-result-content .text-slate-800,
+        #view-scanner #match-result-content .text-slate-700,
+        #view-scanner #match-result-content .text-slate-600,
+        #view-scanner #match-result-content .text-slate-500 {
+            color: #81334f !important;
+        }
+        /* Growth Journal watering and nutrient controls share one consistent forest-green palette. */
+        #journal-modal #nutrient-library-section,
+        #journal-modal #tank-volume-section {
+            background: #F4F5EE !important;
+            border-color: #cbd8c5 !important;
+            color: #294333 !important;
+        }
+        #journal-modal #nutrient-library-section label,
+        #journal-modal #nutrient-library-section label span,
+        #journal-modal #nutrient-library-section label i,
+        #journal-modal #nutrient-library-section > div > label,
+        #journal-modal #tank-volume-section label,
+        #journal-modal #tank-volume-section label i {
+            color: #14532d !important;
+        }
+        #journal-modal #nutrient-library-section > div,
+        #journal-modal #nutrient-watering-can-option,
+        #journal-modal #nutrient-product-list > div,
+        #journal-modal #nutrient-product-list label,
+        #journal-modal #tank-volume-section > div {
+            background: #F4F5EE !important;
+            border-color: #cbd8c5 !important;
+            color: #294333 !important;
+        }
+        #journal-modal #nutrient-library-section p,
+        #journal-modal #nutrient-library-section > span {
+            color: #526653 !important;
+        }
+        #journal-modal #nutrient-library-section input:not([type="checkbox"]),
+        #journal-modal #nutrient-library-section select,
+        #journal-modal #nutrient-library-section textarea,
+        #journal-modal #tank-volume-section input,
+        #journal-modal #tank-volume-section select {
+            background: #fffef9 !important;
+            border-color: #cbd8c5 !important;
+            color: #294333 !important;
+        }
+        #journal-modal #nutrient-library-section input:focus,
+        #journal-modal #nutrient-library-section select:focus,
+        #journal-modal #nutrient-library-section textarea:focus,
+        #journal-modal #tank-volume-section input:focus,
+        #journal-modal #tank-volume-section select:focus {
+            border-color: #14532d !important;
+            box-shadow: 0 0 0 3px rgba(20,83,45,.14) !important;
+        }
+        #journal-modal #nutrient-library-section input[type="checkbox"] {
+            accent-color: #14532d !important;
+        }
+        #journal-modal #nutrient-product-list label:has(input[type="checkbox"]:checked),
+        #journal-modal #nutrient-product-list > div:has(input[type="checkbox"]:checked) {
+            background: #e8eee5 !important;
+            border-color: #9caf98 !important;
+        }
+        #journal-modal #nutrient-product-list label:has(input[type="checkbox"]:checked) *,
+        #journal-modal #nutrient-product-list > div:has(input[type="checkbox"]:checked) * {
+            color: #14532d !important;
+        }
+        #journal-modal #nutrient-library-section button {
+            background: #14532d !important;
+            border-color: #14532d !important;
+            color: #fffef9 !important;
+        }
+        #journal-modal #nutrient-library-section button:hover {
+            background: #24462e !important;
+            border-color: #24462e !important;
+        }
+        #journal-modal #nutrient-library-section button:active,
+        #journal-modal #nutrient-library-section button:focus {
+            background: #14532d !important;
+            border-color: #14532d !important;
+            color: #fffef9 !important;
+            box-shadow: none !important;
+        }
+        #journal-modal #nutrient-library-section #add-selected-nutrients-button,
+        #journal-modal #nutrient-library-section #add-selected-nutrients-button span,
+        #journal-modal #nutrient-library-section #add-selected-nutrients-button i {
+            color: #fffef9 !important;
+        }
+        #journal-modal #nutrient-watering-can-enabled + i,
+        #journal-modal #nutrient-library-section .fa-flask,
+        #journal-modal #tank-volume-section .fa-droplet,
+        #journal-modal #nutrient-library-section .fa-jug-detergent {
+            color: #14532d !important;
+        }
+        /* Growth Journal location setup details use the app's soft rose palette. */
+        #journal-modal #journal-location-setup {
+            background: #fff0f4 !important;
+            border-color: #e8a7bd !important;
+            color: #81334f !important;
+        }
+        #journal-modal #journal-location-setup-title {
+            color: #a63d65 !important;
+        }
+        #journal-modal #journal-location-setup-details {
+            color: #81334f !important;
+        }
+        /* Setup Details popup: soft rose surfaces with GROnote pink actions. */
+        #view-scanner h2 .fa-camera {
+            color: #426b47 !important;
+        }
+        /* Complete Settings screen palette: cream surfaces, sage panels, forest-green actions. */
+        #view-settings {
+            color: #294333 !important;
+        }
+        #view-settings > div,
+        #view-settings #supabase-auth-panel,
+        #view-settings #setting-plant-locations-list > div {
+            background: #fffef9 !important;
+            color: #294333 !important;
+            border-color: #e1e1d5 !important;
+            border-radius: 18px !important;
+            box-shadow: 0 3px 12px rgba(40,65,43,.04) !important;
+        }
+        #view-settings h3,
+        #view-settings h4 {
+            color: #294b34 !important;
+        }
+        #view-settings h3 i {
+            color: #c6537b !important;
+        }
+        #view-settings p,
+        #view-settings label {
+            color: #657565 !important;
+        }
+        #view-settings input:not([type="checkbox"]),
+        #view-settings select,
+        #view-settings textarea {
+            background: #f8f8f1 !important;
+            color: #294333 !important;
+            border-color: #d9ddcf !important;
+            border-radius: 12px !important;
+        }
+        #view-settings input::placeholder,
+        #view-settings textarea::placeholder {
+            color: #879386 !important;
+        }
+        #view-settings input:focus,
+        #view-settings select:focus,
+        #view-settings textarea:focus {
+            outline: none !important;
+            border-color: #8da687 !important;
+            box-shadow: 0 0 0 3px rgba(111,138,107,.15) !important;
+        }
+        #view-settings button.bg-emerald-600,
+        #view-settings button.bg-emerald-700,
+        #view-settings button.bg-emerald-800 {
+            background: #31583b !important;
+            color: #fffef9 !important;
+            border-color: #31583b !important;
+            border-radius: 12px !important;
+            box-shadow: none !important;
+        }
+        #view-settings button.bg-emerald-600:hover,
+        #view-settings button.bg-emerald-700:hover,
+        #view-settings button.bg-emerald-800:hover {
+            background: #24462e !important;
+        }
+        #view-settings button.bg-slate-800,
+        #view-settings button.hover\\:bg-slate-900 {
+            background: #e4eadf !important;
+            color: #294b34 !important;
+            border: 1px solid #d7dfd0 !important;
+            border-radius: 12px !important;
+            box-shadow: none !important;
+        }
+        #view-settings button.bg-slate-800:hover,
+        #view-settings button.hover\\:bg-slate-900:hover {
+            background: #d8e4d2 !important;
+        }
+        #view-settings button.bg-slate-200,
+        #view-settings button.dark\\:bg-slate-800 {
+            background: #e4eadf !important;
+            color: #31583b !important;
+            border-color: #d7dfd0 !important;
+        }
+        #view-settings #supabase-connection-status {
+            background: #eaf0e4 !important;
+            color: #31583b !important;
+            border: 1px solid #dce5d6 !important;
+            border-radius: 999px !important;
+        }
+        #view-settings .bg-slate-50,
+        #view-settings .bg-slate-100,
+        #view-settings .bg-emerald-50 {
+            background: #f0f2e8 !important;
+            border-color: #dfe3d5 !important;
+        }
+        #view-settings .text-emerald-600,
+        #view-settings .text-emerald-700,
+        #view-settings .text-emerald-800,
+        #view-settings summary {
+            color: #426b47 !important;
+        }
+        #view-settings .border-slate-100,
+        #view-settings .border-slate-200,
+        #view-settings .border-slate-700,
+        #view-settings .border-emerald-200 {
+            border-color: #e1e1d5 !important;
+        }
+        #view-settings #auth-logged-in .text-emerald-600 {
+            color: #c6537b !important;
+        }
+        #view-settings pre {
+            border-radius: 12px !important;
+        }
+        #view-scanner h2, #view-scanner h3, #view-settings h3 {
+            color: #294b34 !important;
+        }
+        #view-scanner p, #view-settings p {
+            color: #657565 !important;
+        }
+        #view-scanner button.bg-amber-600 {
+            background: #a36a28 !important;
+        }
+        #view-settings > div, #view-settings .bg-white, #view-settings [class~="dark:bg-slate-800"] {
+            background: #fffef9 !important;
+            color: #294333 !important;
+            border-color: #e1e1d5 !important;
+            border-radius: 18px !important;
+            box-shadow: 0 3px 12px rgba(40,65,43,.04) !important;
+        }
+        #view-settings input, #view-settings select, #view-settings textarea,
+        #plant-form input, #plant-form select, #plant-form textarea {
+            background-color: #f8f8f1 !important;
+            color: #294333 !important;
+            border-color: #d9ddcf !important;
+            border-radius: 12px !important;
+        }
+        #plant-modal > div, #journal-modal > div {
+            background: #fffef9 !important;
+            color: #294333 !important;
+            border: 1px solid #e1e1d5 !important;
+            border-radius: 20px !important;
+            box-shadow: 0 18px 55px rgba(28,48,31,.2) !important;
+        }
+        #plant-modal > div > div:first-child, #journal-header {
+            background: #f8f8f1 !important;
+            border-color: #e1e1d5 !important;
+        }
+        #plant-form label { color: #526653 !important; }
+        #journal-modal .bg-slate-50, #journal-modal [class~="dark:bg-slate-900"] {
+            background: #f4f5ed !important;
+            border-color: #e1e1d5 !important;
+        }
+        #journal-modal h4, #journal-modal h5 {
+            color: #294b34 !important;
+        }
+        #journal-modal .text-slate-500, #journal-modal .text-slate-600,
+        #plant-modal .text-slate-500, #plant-modal .text-slate-600 {
+            color: #657565 !important;
+        }
+        #journal-modal button.bg-white, #plant-modal button.bg-white {
+            background: #fffef9 !important;
+            border-color: #d9ddcf !important;
+            color: #405b45 !important;
+            box-shadow: none !important;
+        }
+        /* Garden Organic-inspired pink accent for the plant journal's location setup details. */
+        /* Match Growth Journal entry icon and photo file picker to the GROnote sage/forest palette. */
+        /* Give the New growing medium panel the same sage fill used by selected navigation controls. */
+        #journal-modal #growth-medium-section {
+            background: #e4eadf !important;
+            background-color: #e4eadf !important;
+            border: 1px solid #d7dfd0 !important;
+        }
+        #journal-modal .fa-pen-to-square {
+            color: #c6537b !important;
+        }
+        #journal-photo-input {
+            color: #657565 !important;
+        }
+        #journal-photo-input::file-selector-button {
+            background: #e4eadf !important;
+            color: #31583b !important;
+            border: 1px solid #d4dfce !important;
+            border-radius: 10px !important;
+            padding: 8px 12px !important;
+            margin-right: 12px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+        }
+        #journal-photo-input::file-selector-button:hover {
+            background: #d8e4d2 !important;
+        }
+        #journal-photo-input::-webkit-file-upload-button {
+            background: #e4eadf !important;
+            color: #31583b !important;
+            border: 1px solid #d4dfce !important;
+            border-radius: 10px !important;
+            padding: 8px 12px !important;
+            margin-right: 12px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+        }
+        /* Harmonize the complete Add Plant form with GROnote's cream, sage and forest-green theme. */
+        #plant-modal > div {
+            background: #fffef9 !important;
+            border-color: #e1e1d5 !important;
+        }
+        #plant-modal > div > div:first-child {
+            background: #f8f8f1 !important;
+            border-color: #e1e1d5 !important;
+        }
+        #plant-form {
+            background: #fffef9 !important;
+            color: #294333 !important;
+        }
+        #plant-form label {
+            color: #526653 !important;
+        }
+        #plant-form input:not([type="hidden"]):not([type="checkbox"]),
+        #plant-form select,
+        #plant-form textarea {
+            background: #f8f8f1 !important;
+            color: #294333 !important;
+            border-color: #d9ddcf !important;
+            border-radius: 12px !important;
+        }
+        #plant-form input::placeholder,
+        #plant-form textarea::placeholder {
+            color: #879386 !important;
+        }
+        #plant-form input:focus, #plant-form select:focus, #plant-form textarea:focus {
+            border-color: #8da687 !important;
+            box-shadow: 0 0 0 3px rgba(111,138,107,.15) !important;
+            outline: none !important;
+        }
+        #icon-picker-grid {
+            background: #f0f2e8 !important;
+            border-color: #dfe3d5 !important;
+        }
+        #icon-picker-grid button {
+            background: #fffef9 !important;
+            color: #426047 !important;
+            border-color: #d9ddcf !important;
+            border-width: 1px !important;
+            border-radius: 10px !important;
+        }
+        #icon-picker-grid button:hover,
+        #icon-picker-grid button[aria-pressed="true"],
+        #icon-picker-grid button.selected,
+        #icon-picker-grid button.ring-2.ring-emerald-500,
+        #icon-picker-grid button:has(.crop-badge-container) {
+            background: #e4eadf !important;
+            border-color: #294b34 !important;
+            color: #294b34 !important;
+        }
+        /* Keep the chosen crop clearly selected with a slimmer, more streamlined ring. */
+        #icon-picker-grid button.ring-2,
+        #icon-picker-grid button[aria-pressed="true"] {
+            --tw-ring-color: #294b34 !important;
+            --tw-ring-shadow: 0 0 0 1px #294b34 !important;
+            box-shadow: 0 0 0 1px #294b34 !important;
+        }
+        #selected-icon-name-display,
+        #form-scanned-color-name {
+            color: #426b47 !important;
+        }
+        #plant-form > div:has(#form-video) {
+            background: #f0f2e8 !important;
+            border-color: #dfe3d5 !important;
+            border-radius: 16px !important;
+        }
+        #plant-form #form-cam-toggle {
+            background: #294b34 !important;
+            color: #fffef9 !important;
+            border-radius: 10px !important;
+        }
+        #plant-form #form-cam-toggle:hover {
+            background: #203e2a !important;
+        }
+        #plant-form button[onclick="captureFormColor()"],
+        #plant-form button[type="submit"] {
+            background: #31583b !important;
+            color: #fff !important;
+            border-radius: 12px !important;
+            box-shadow: none !important;
+        }
+        #plant-form button[onclick="captureFormColor()"]:hover,
+        #plant-form button[type="submit"]:hover {
+            background: #24462e !important;
+        }
+        #plant-form button[onclick="closePlantModal()"] {
+            background: #fffef9 !important;
+            border: 1px solid #d9ddcf !important;
+            border-radius: 0.5rem !important;
+            color: #426b47 !important;
+        }
+        #plant-form button[onclick="closePlantModal()"]:hover {
+            background: #f4f5ee !important;
+            border-color: #d9ddcf !important;
+            color: #426b47 !important;
+        }
+        #plant-modal .autocomplete-dropdown {
+            background: #fffef9 !important;
+            border-color: #d9ddcf !important;
+            color: #294333 !important;
+        }
+        #plant-modal .autocomplete-dropdown > *:hover {
+            background: #eaf0e4 !important;
+        }
+        #plant-modal .text-emerald-600,
+        #plant-modal .text-emerald-700,
+        #plant-modal .text-emerald-800 {
+            color: #426b47 !important;
+        }
+        #plant-modal .border-slate-200,
+        #plant-modal .border-slate-700 {
+            border-color: #e1e1d5 !important;
+        }
+        #plant-modal .bg-slate-50,
+        #plant-modal .bg-slate-100 {
+            background: #f0f2e8 !important;
+        }
+        #plant-modal .bg-amber-400 {
+            border-color: #8da687 !important;
+        }
+        #journal-location-setup {
+            background: #fff0f4 !important;
+            border-color: #e8a7bd !important;
+        }
+        #journal-location-setup-title {
+            color: #a63d65 !important;
+        }
+        #journal-location-setup-title i {
+            color: #c6537b !important;
+        }
+        #journal-location-setup-details {
+            color: #81334f !important;
+        }
+        #journal-variety {
+            background: #e4eadf !important;
+            color: #31583b !important;
+        }
+        #view-settings button.bg-emerald-600, #plant-modal button.bg-emerald-600,
+        #journal-modal button.bg-emerald-600, #view-scanner button.bg-emerald-600 {
+            background: #31583b !important;
+            border-radius: 12px !important;
+            box-shadow: none !important;
+        }
+        #view-settings button.bg-emerald-600:hover, #plant-modal button.bg-emerald-600:hover,
+        #journal-modal button.bg-emerald-600:hover, #view-scanner button.bg-emerald-600:hover {
+            background: #24462e !important;
+        }
+        #view-settings [class*="border-slate-200"], #journal-modal [class*="border-slate-200"],
+        #plant-modal [class*="border-slate-200"] {
+            border-color: #e1e1d5 !important;
+        }
+        @media (max-width: 640px) {
+            #view-scanner > div, #view-settings > div { padding: 18px !important; }
+            #plant-modal > div, #journal-modal > div { border-radius: 18px !important; }
+        }
+
+
+
+
+
+        /* Match the Plant Journal top strip to Add Plant: overlay the X and wavy line at the modal's top edge. */
+        #journal-modal > div {
+            position: relative !important;
+        }
+        #journal-modal #journal-header {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 5 !important;
+            min-height: 0 !important;
+            height: 28px !important;
+            padding: 0 10px !important;
+            border: 0 !important;
+            background: #fffef9 !important;
+        }
+        #journal-modal #journal-header::after {
+            content: "" !important;
+            position: absolute !important;
+            left: 14px !important;
+            right: 14px !important;
+            bottom: 0 !important;
+            height: 6px !important;
+            pointer-events: none !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            background-size: 100% 6px !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 6' preserveAspectRatio='none'%3E%3Cpath d='M2 3.8 C80 1.8 120 4.6 205 3.1 S350 2.1 430 3.5 S580 4.5 665 2.9 S820 2.2 998 3.4' fill='none' stroke='%23b8c9b9' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+            z-index: 1 !important;
+        }
+        #journal-modal #journal-header + div {
+            padding-top: 36px !important;
+        }
+        /* Use the same fine sage pencil divider for the two sections in the Growth Journal. */
+        #journal-modal #journal-header ~ div > div.border-t.border-slate-200,
+        #journal-modal #journal-header ~ div > div[class*="border-t"][class*="border-slate-200"] {
+            position: relative !important;
+            border-top: 0 !important;
+            padding-top: 20px !important;
+        }
+        #journal-modal #journal-header ~ div > div.border-t.border-slate-200::before,
+        #journal-modal #journal-header ~ div > div[class*="border-t"][class*="border-slate-200"]::before {
+            content: "" !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            height: 6px !important;
+            pointer-events: none !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            background-size: 100% 6px !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 6' preserveAspectRatio='none'%3E%3Cpath d='M2 3.8 C80 1.8 120 4.6 205 3.1 S350 2.1 430 3.5 S580 4.5 665 2.9 S820 2.2 998 3.4' fill='none' stroke='%23b8c9b9' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+        }
+        #plant-modal > div::before {
+            content: none !important;
+        }
+        #journal-modal #journal-header button {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 24px !important;
+            height: 24px !important;
+            padding: 0 !important;
+            line-height: 1 !important;
+            border-radius: 9999px !important;
+        }
+
+
+        /* Match the Plant Journal's compact close-button strip in Add Plant. */
+        #plant-modal > div {
+            position: relative !important;
+        }
+        #plant-modal > div > .absolute.top-3.right-3 {
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            height: 28px !important;
+            padding: 0 10px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            border-bottom: 0 !important;
+            background: #fffef9 !important;
+            position: absolute !important;
+        }
+        #plant-modal > div > .absolute.top-3.right-3::after {
+            content: "" !important;
+            position: absolute !important;
+            left: 14px !important;
+            right: 14px !important;
+            bottom: 0 !important;
+            height: 6px !important;
+            pointer-events: none !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            background-size: 100% 6px !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 6' preserveAspectRatio='none'%3E%3Cpath d='M2 3.8 C80 1.8 120 4.6 205 3.1 S350 2.1 430 3.5 S580 4.5 665 2.9 S820 2.2 998 3.4' fill='none' stroke='%23b8c9b9' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+        }
+        #plant-modal > div > .absolute.top-3.right-3 button,
+        #journal-modal #journal-header button {
+            position: relative !important;
+            z-index: 2 !important;
+            background: rgb(196, 85, 124) !important;
+            color: #ffffff !important;
+            border: 0 !important;
+            box-shadow: 0 0 0 5px #fffef9 !important;
+            transition: background-color .2s ease !important;
+        }
+        #plant-modal > div > .absolute.top-3.right-3 button[aria-label="Close plant form"],
+        #journal-modal #journal-header button {
+            width: 24px !important;
+            height: 24px !important;
+            min-width: 24px !important;
+            max-width: 24px !important;
+            min-height: 24px !important;
+            max-height: 24px !important;
+            flex: 0 0 24px !important;
+            flex-grow: 0 !important;
+            flex-shrink: 0 !important;
+            box-sizing: border-box !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            line-height: 1 !important;
+            border-radius: 0 0 8px 8px !important;
+            background-clip: padding-box !important;
+            appearance: none !important;
+            position: relative !important;
+            z-index: 2 !important;
+            align-self: flex-start !important;
+            background-color: rgb(196, 85, 124) !important;
+            color: #ffffff !important;
+            border: 0 !important;
+            box-shadow: 0 0 0 5px #fffef9 !important;
+        }
+        #plant-modal > div > .absolute.top-3.right-3 button[aria-label="Close plant form"]:hover,
+        #journal-modal #journal-header button:hover {
+            background: #B0466C !important;
+            background-color: #B0466C !important;
+            color: #ffffff !important;
+        }
+        #plant-modal > div > .absolute.top-3.right-3::after {
+            z-index: 1 !important;
+        }
+        #plant-modal #plant-form {
+            padding-top: 36px !important;
+        }
+
+
+        /* Match the Plant Journal close button exactly to Add Plant's compact control. */
+        #journal-modal #journal-header button {
+            width: 24px !important;
+            height: 24px !important;
+            min-width: 24px !important;
+            max-width: 24px !important;
+            min-height: 24px !important;
+            max-height: 24px !important;
+            flex: 0 0 24px !important;
+            flex-grow: 0 !important;
+            flex-shrink: 0 !important;
+            box-sizing: border-box !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            line-height: 1 !important;
+            border-radius: 0 0 8px 8px !important;
+            background-clip: padding-box !important;
+            appearance: none !important;
+            position: relative !important;
+            z-index: 2 !important;
+            align-self: flex-start !important;
+            background-color: rgb(196, 85, 124) !important;
+            color: #ffffff !important;
+            border: 0 !important;
+            box-shadow: 0 0 0 5px #fffef9 !important;
+            transition: background-color .2s ease !important;
+        }
+        #journal-modal #journal-header button:hover,
+        #journal-modal #journal-header button:active,
+        #journal-modal #journal-header button:focus,
+        #journal-modal #journal-header button:focus-visible {
+            background: #B0466C !important;
+            background-color: #B0466C !important;
+            color: #ffffff !important;
+            box-shadow: none !important;
+            outline: none !important;
+        }
+
+    
+        /* Extend both blue close tabs below the sage wavy divider. */
+        #plant-modal > div > .absolute.top-3.right-3 button[aria-label="Close plant form"],
+        #journal-modal #journal-header button {
+            height: 34px !important;
+            min-height: 34px !important;
+            max-height: 34px !important;
+            align-self: flex-start !important;
+            border-radius: 0 0 8px 8px !important;
+        }
+
+    
+        /* Match the page canvas to the pale background behind the Plants / NFC Scan / Add Plant buttons. */
+        html, body {
+            background-color: #f7f6f0 !important;
+            background: #f7f6f0 !important;
+        }
+        body, main, #main-navigation-tabs, #main-navigation-tabs::before,
+        #view-plants, #view-scanner, #view-settings {
+            background-color: #f7f6f0 !important;
+            background: #f7f6f0 !important;
+        }
+
+    
+        /* Apply the requested cream to the actual page canvas, not to plant cards. */
+        html:root,
+        html:root body,
+        html:root body > main,
+        html:root body > main > #view-plants,
+        html:root body > main > #view-scanner,
+        html:root body > main > #view-settings {
+            background-color: #f7f6f0 !important;
+            background-image: none !important;
+        }
+        html:root body { min-height: 100%; }
+        html:root body > main { min-height: calc(100vh - 90px); }
+
+
+        html:root body > main > #view-plants,
+        html:root body > main > #view-scanner,
+        html:root body > main > #view-settings {
+            background-color: transparent !important;
+            background-image: none !important;
+        }
+    
+        /* Touch navigation: dock the existing three primary actions within thumb reach. */
+        @media (max-width: 768px) {
+            main {
+                padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px)) !important;
+            }
+            /* Keep modal cards comfortably clear of the fixed bottom navigation. */
+            #plant-modal,
+            #journal-modal {
+                align-items: center !important;
+                /* Keep the modal's breathing room balanced while reducing it by half. */
+                padding: 7px 12px calc(48px + env(safe-area-inset-bottom, 0px)) !important;
+                scroll-padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+            }
+            #plant-modal > div,
+            #journal-modal > div {
+                margin-top: 4px !important;
+                margin-bottom: 4px !important;
+                max-height: calc(100dvh - 63px - env(safe-area-inset-bottom, 0px)) !important;
+            }
+            #main-navigation-tabs {
+                position: fixed !important;
+                top: auto !important;
+                bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
+                left: 12px !important;
+                right: 12px !important;
+                width: auto !important;
+                z-index: 1000 !important;
+                display: flex !important;
+                align-items: stretch !important;
+                gap: 6px !important;
+                margin: 0 !important;
+                padding: 7px !important;
+                border: 1px solid rgba(218, 211, 195, .85) !important;
+                border-radius: 20px !important;
+                background: rgba(247, 246, 240, .94) !important;
+                box-shadow: 0 5px 22px rgba(48, 55, 42, .18) !important;
+                -webkit-backdrop-filter: blur(14px);
+                backdrop-filter: blur(14px);
+            }
+            #main-navigation-tabs::before,
+            #main-navigation-tabs::after {
+                display: none !important;
+                content: none !important;
+            }
+            #main-navigation-tabs button {
+                flex: 1 1 0% !important;
+                min-width: 0 !important;
+                min-height: 58px !important;
+                padding: 8px 5px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 5px !important;
+                border: 1px solid transparent !important;
+                border-radius: 14px !important;
+                background: transparent !important;
+                color: #526653 !important;
+                font-size: 11px !important;
+                line-height: 1.15 !important;
+                box-shadow: none !important;
+                white-space: nowrap !important;
+            }
+            #main-navigation-tabs button i,
+            #main-navigation-tabs button img {
+                display: block !important;
+                width: 20px !important;
+                height: 20px !important;
+                flex: 0 0 20px !important;
+                font-size: 19px !important;
+                object-fit: contain !important;
+            }
+            #main-navigation-tabs button[aria-current="page"] {
+                background: #c6537b !important;
+                border-color: #c6537b !important;
+                color: #fff !important;
+                box-shadow: 0 2px 7px rgba(198, 83, 123, .25) !important;
+            }
+            #main-navigation-tabs button[aria-current="page"] img {
+                filter: brightness(0) invert(1) !important;
+            }
+            /* Touch browsers can retain :hover after tapping NFC; never tint an inactive tab. */
+            #main-navigation-tabs button[aria-current="false"]:hover {
+                background: transparent !important;
+                color: #526653 !important;
+            }
+            #main-navigation-tabs button:hover {
+                background: rgba(198, 83, 123, .09) !important;
+            }
+            #main-navigation-tabs button[aria-current="page"]:hover {
+                background: #a63d65 !important;
+            }
+        }
+
+
+        /* Hide plant creation and scanner actions on every screen size while viewing Compost. */
+        #main-navigation-tabs[data-compost-view="true"] #tab-plants,
+        #main-navigation-tabs[data-compost-view="true"] #tab-add-plant,
+        #main-navigation-tabs[data-compost-view="true"] #tab-scanner {
+            display: none !important;
+        }
+        #main-navigation-tabs[data-compost-view="true"] #tab-settings {
+            flex: 0 0 auto !important;
+            width: auto !important;
+            min-width: 104px;
+            margin-left: auto !important;
+        }
+        @media (max-width: 767px) {
+            #main-navigation-tabs[data-compost-view="true"] {
+                justify-content: center !important;
+            }
+            #main-navigation-tabs[data-compost-view="true"] #tab-settings {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+        }
+
+        /* NFC tag linking is available on desktop and mobile. */
+
+        /* Desktop: hide scanning interfaces, but keep scanner preferences available in Settings. */
+        @media (min-width: 768px) {
+            #tab-scanner,
+            #view-scanner,
+            #scan-options-overlay,
+            #qr-scan-overlay,
+            #nfc-tap-overlay,
+            #plant-qr-link-section,
+            #plant-nfc-section,
+            #journal-nfc-tag-actions,
+            #journal-qr-tag-actions {
+                display: none !important;
+            }
+        }
+
+        /* NFC Scan is a mobile-only navigation option. */
+        @media (min-width: 768px) {
+            #tab-scanner { display: none !important; }
+        }
+
+        /* Full-screen NFC tap experience. */
+        #nfc-tap-overlay {
+            position: fixed; inset: 0; z-index: 3000; display: flex;
+            align-items: center; justify-content: center;
+            padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom));
+            background: rgba(247, 246, 240, .98); color: #294333;
+        }
+        #nfc-tap-overlay.hidden { display: none !important; }
+        #tab-scanner[hidden],
+        #tab-scanner[data-scanner-disabled="true"] { display: none !important; }
+        .nfc-overlay-content { width: 100%; max-width: 440px; text-align: center; }
+        .nfc-overlay-brand { color: #294b34; font-size: 12px; font-weight: 800; letter-spacing: .22em; margin-bottom: 48px; }
+        .nfc-tap-animation { width: 220px; height: 220px; margin: 0 auto 38px; position: relative; display: grid; place-items: center; }
+        .nfc-wave { position: absolute; inset: 20px 38px; border: 2px solid rgba(31, 77, 45, .42); border-radius: 50% / 38%; animation: nfc-pulse 2.4s ease-out infinite; }
+        .nfc-wave-two { animation-delay: .8s; }
+        .nfc-wave-three { animation-delay: 1.6s; }
+        .nfc-tap-icon { width: 104px; height: 132px; display: grid; place-items: center; grid-area: 1 / 1; place-self: center; position: relative; z-index: 2; border-radius: 0; background: transparent; color: #1f4d2d; box-shadow: none; }
+        .nfc-tap-icon img { display: block; width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; ; }\n        .nfc-tap-icon i { display: block; font-size: 76px; color: #1f4d2d; filter: drop-shadow(0 3px 5px rgba(31, 77, 45, .2)); }
+        #nfc-overlay-title { color: #294b34; font-size: 27px; font-weight: 750; margin-bottom: 10px; }
+        .nfc-overlay-instruction { max-width: 320px; margin: 0 auto; color: #294b34; font-size: 16px; line-height: 1.6; }
+        .nfc-overlay-hint { margin: 26px 0 34px; color: #294b34; font-size: 13px; font-weight: 650; }
+        .nfc-overlay-hint i { margin-right: 7px; animation: nfc-blink 1.4s ease-in-out infinite; }
+        .nfc-overlay-stop { min-height: 50px; padding: 0 30px; border: 1px solid #294b34; border-radius: 14px; background: transparent; color: #294b34; font-size: 14px; font-weight: 700; }
+        .nfc-overlay-stop:hover { background: #294b34; border-color: #294b34; color: #ffffff; }
+        @keyframes nfc-pulse { 0% { transform: scale(.82); opacity: .85; } 100% { transform: scale(1.28); opacity: 0; } }
+        @keyframes nfc-blink { 50% { opacity: .3; } }
+        @media (prefers-reduced-motion: reduce) { .nfc-wave, .nfc-overlay-hint i { animation: none; } }
+
+
+    /* The Add Plant multisow checkbox should have no pale native border or focus halo when selected. */
+    #plant-modal #plant-multisow,
+    #plant-modal #plant-multisow:checked,
+    #plant-modal #plant-multisow:focus,
+    #plant-modal #plant-multisow:focus-visible,
+    #plant-modal #plant-multisow:active {
+        accent-color: #C4557C !important;
+        border: 1px solid #C4557C !important;
+        outline: 0 !important;
+        box-shadow: none !important;
+        -webkit-appearance: none !important;
+        appearance: none !important;
+        width: 16px !important;
+        height: 16px !important;
+        min-width: 16px !important;
+        min-height: 16px !important;
+        border-radius: 4px !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+        vertical-align: middle !important;
+        position: relative !important;
+    }
+    #plant-modal #plant-multisow:checked {
+        background-color: #C4557C !important;
+        border: 1px solid #C4557C !important;
+    }
+    #plant-modal #plant-multisow:checked::after {
+        content: "" !important;
+        position: absolute !important;
+        left: 5px !important;
+        top: 1px !important;
+        width: 4px !important;
+        height: 9px !important;
+        border: solid #ffffff !important;
+        border-width: 0 2px 2px 0 !important;
+        transform: rotate(45deg) !important;
+    }
+    #plant-modal #plant-multisow:focus,
+    #plant-modal #plant-multisow:focus-visible,
+    #plant-modal #plant-multisow:active {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+        /* Give the opened Growing Medium menu the same soft surface and readable palette as Growing Setup. */
+        #plant-medium {
+            color-scheme: light;
+        }
+        #plant-medium option,
+        #plant-medium optgroup {
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        #plant-medium option {
+            padding: 8px 12px;
+        }
+        #plant-medium option:checked {
+            background: #e2e8f0 linear-gradient(0deg, #e2e8f0 0%, #e2e8f0 100%);
+            color: #1e293b;
+        }
+        #plant-medium:focus,
+        #plant-medium:focus-visible {
+            outline: none;
+            border-color: #cbd5e1;
+            box-shadow: 0 0 0 2px rgba(148, 163, 184, .16);
+        }
+
+        /* Plant picker panels: compact Plant Journal-style header with pink close tab and sage wave. */
+        #plant-medium-options.plant-picker-panel,
+        #plant-setup-options.plant-picker-panel {
+            position: relative !important;
+            padding-top: 42px !important;
+        }
+        #plant-medium-options.plant-picker-panel::before,
+        #plant-setup-options.plant-picker-panel::before {
+            content: "" !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            height: 28px !important;
+            background: #fffef9 !important;
+            pointer-events: none !important;
+            z-index: 1 !important;
+        }
+        #plant-medium-options.plant-picker-panel::after,
+        #plant-setup-options.plant-picker-panel::after {
+            content: "" !important;
+            position: absolute !important;
+            top: 22px !important;
+            left: 14px !important;
+            right: 14px !important;
+            height: 6px !important;
+            pointer-events: none !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            background-size: 100% 6px !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 6' preserveAspectRatio='none'%3E%3Cpath d='M2 3.8 C80 1.8 120 4.6 205 3.1 S350 2.1 430 3.5 S580 4.5 665 2.9 S820 2.2 998 3.4' fill='none' stroke='%23b8c9b9' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+            z-index: 2 !important;
+        }
+        #plant-medium-options .plant-picker-close,
+        #plant-setup-options .plant-picker-close {
+            position: absolute !important;
+            top: 2px !important;
+            right: 10px !important;
+            z-index: 5 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 24px !important;
+            height: 24px !important;
+            min-width: 24px !important;
+            max-width: 24px !important;
+            min-height: 24px !important;
+            max-height: 24px !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: 0 !important;
+            border-radius: 0 0 8px 8px !important;
+            background: rgb(196, 85, 124) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 0 5px #fffef9 !important;
+            line-height: 1 !important;
+        }
+
+        
