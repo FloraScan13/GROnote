@@ -2863,8 +2863,15 @@
         }
 
         function getDesktopStartupTab() {
-            // Restore the last selected main app page on every screen size.
+            // On mobile, a remembered sign-in should always reopen on the Plants page.
+            // Desktop continues to restore the last selected main app page.
             try {
+                const isMobileLayout = window.matchMedia('(max-width: 768px)').matches;
+                const savedRememberChoice = window.sessionStorage.getItem('flora_remember_me');
+                const rememberMe = savedRememberChoice === null
+                    ? document.getElementById('auth-remember-me')?.checked !== false
+                    : savedRememberChoice !== 'false';
+                if (isMobileLayout && rememberMe) return 'plants';
                 return localStorage.getItem('gronote_desktop_last_tab') === 'settings'
                     ? 'settings'
                     : 'plants';
