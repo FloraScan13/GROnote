@@ -999,23 +999,31 @@
     </style>
 
     <style id="gronote-mobile-login-label-contrast">
-        /* Lock the same 12px regular labels on mobile, including Android text autosizing. */
-        #cloud-auth-screen #auth-logged-out label[for="auth-email"],
-        #cloud-auth-screen #auth-logged-out label[for="auth-password"] {
+        /* Force the two login labels to render as normal-weight 12px text in every layout. */
+        html body #cloud-auth-screen #auth-logged-out label[for="auth-email"],
+        html body #cloud-auth-screen #auth-logged-out label[for="auth-password"],
+        html body #cloud-auth-screen #auth-logged-out label[for="auth-email"] *,
+        html body #cloud-auth-screen #auth-logged-out label[for="auth-password"] * {
             display: block !important;
             color: #173b25 !important;
             -webkit-text-fill-color: #173b25 !important;
             opacity: 1 !important;
-            font-family: inherit !important;
+            font-family: Arial, Helvetica, sans-serif !important;
             font-size: 12px !important;
             line-height: 16px !important;
             font-weight: 400 !important;
             font-style: normal !important;
+            font-variation-settings: "wght" 400 !important;
             -webkit-text-size-adjust: none !important;
             text-size-adjust: none !important;
             transform: none !important;
             text-shadow: none !important;
             filter: none !important;
+        }
+        html body #cloud-auth-screen #auth-logged-out label[for="auth-email"],
+        html body #cloud-auth-screen #auth-logged-out label[for="auth-password"] {
+            font: 400 12px/16px Arial, Helvetica, sans-serif !important;
+            letter-spacing: normal !important;
         }
     </style>
 
