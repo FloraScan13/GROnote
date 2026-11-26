@@ -3245,6 +3245,41 @@
             }
         }
 
+        function showPlantLocationAddedPopup(locationName) {
+            // Use a focused, accessible confirmation styled to match GROnote's green theme.
+            document.getElementById('plant-location-added-popup')?.remove();
+            const overlay = document.createElement('div');
+            overlay.id = 'plant-location-added-popup';
+            overlay.className = 'fixed inset-0 z-[10000] flex items-center justify-center p-4';
+            overlay.style.cssText = 'background:rgba(20,35,25,.48);';
+            overlay.innerHTML = `
+                <div role="dialog" aria-modal="true" aria-labelledby="plant-location-added-title"
+                     class="w-full max-w-sm rounded-2xl border border-[#294b34]/20 bg-[#fffef9] p-6 text-center shadow-2xl">
+                    <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#e8efe5] text-[#294b34]">
+                        <i class="fa-solid fa-check text-xl" aria-hidden="true"></i>
+                    </div>
+                    <h3 id="plant-location-added-title" class="text-lg font-semibold text-[#294b34]">Location added</h3>
+                    <p class="mt-2 text-sm text-slate-600">“${escapeHtml(locationName)}” has been added to your growing locations.</p>
+                    <button type="button" data-location-popup-close
+                            class="mt-5 w-full rounded-xl bg-[#294b34] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#203d2a] focus:outline-none focus:ring-2 focus:ring-[#294b34] focus:ring-offset-2">
+                        Done
+                    </button>
+                </div>`;
+            const close = () => {
+                overlay.remove();
+                document.removeEventListener('keydown', onKeyDown);
+            };
+            const onKeyDown = event => {
+                if (event.key === 'Escape') close();
+            };
+            overlay.addEventListener('click', event => {
+                if (event.target === overlay || event.target.closest('[data-location-popup-close]')) close();
+            });
+            document.addEventListener('keydown', onKeyDown);
+            document.body.appendChild(overlay);
+            overlay.querySelector('[data-location-popup-close]')?.focus();
+        }
+
         async function addPlantLocation() {
             const input = document.getElementById('new-plant-location');
             const name = (input.value || '').trim();
@@ -3262,6 +3297,7 @@
             locationTypes[name] = typeSelect && typeSelect.value === 'outdoor' ? 'outdoor' : 'indoor';
             input.value = '';
             await persistPlantLocations();
+            showPlantLocationAddedPopup(name);
             input.focus();
         }
 
